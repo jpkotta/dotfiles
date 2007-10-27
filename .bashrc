@@ -1,0 +1,444 @@
+# .bashrc
+
+################################################################################
+# NOTES
+
+# Never start a program from here that will output text.  It screws up things
+#   like ssh.  Put those in ~/.bash_profile instead.
+
+
+################################################################################
+# Source global definitions
+# bashrc sources /etc/profile.d/msec.sh, which in turn sources /etc/sysconfig/msec
+# this just sets some read only vars that output an annoying error message
+if [[ -f /etc/bashrc && $TMOUT != 0 ]] ; then
+	. /etc/bashrc
+fi
+
+if [[ -f /etc/bash_completion ]] ; then
+    . /etc/bash_completion
+fi
+
+# this causes output from background processes to be output right away,
+# rather than waiting for the next primary prompt
+set -b
+
+# set the default file permissions
+# the default permissions are 777 for dirs, 666 for files
+# the actual permission is given by (default & ~umask)
+# e.g. for umask = 0022, file = 644, dir = 755
+umask 0022
+
+# this stops crtl-s from freezing the terminal
+stty stop ""
+
+################################################################################
+# PATH VARIABLES 
+
+# append PATHs idempotently
+[ -z "$PATH" ] && PATH=/bin:/usr/bin
+[ -z ${PATH##*/sbin*} ] || PATH=$PATH:/sbin
+[ -z ${PATH##*/usr/sbin*} ] || PATH=$PATH:/usr/sbin
+[ -z ${PATH##*/usr/local/bin*} ] || PATH=$PATH:/usr/local/bin
+[ -z ${PATH##*/usr/local/sbin*} ] || PATH=$PATH:/usr/local/sbin
+[ -z ${PATH##*.*} ] || PATH=$PATH:.
+[ -z ${PATH##*$HOME/bin*} ] || PATH=$PATH:$HOME/bin
+[ -z ${PATH##*$HOME/usr/local/bin*} ] || PATH=$PATH:$HOME/usr/local/bin
+[ -z ${PATH##*/usr/X11R6/bin*} ] || PATH=$PATH:/usr/X11R6/bin
+[ -z ${PATH##*/usr/games*} ] || PATH=$PATH:/usr/games
+[ -z ${PATH##*/usr/local/games*} ] || PATH=$PATH:/usr/local/games
+[ -z ${PATH##*/usr/share/games/bin*} ] || PATH=$PATH:/usr/share/games/bin
+#PATH="$PATH:.:$HOME/bin:$HOME/usr/local/bin:/usr/X11R6/bin"
+#PATH="$PATH:/usr/games:/usr/local/games:/usr/share/games/bin"
+
+#append_var 'LD_LIBRARY_PATH' ':/usr/local/lib'
+C_INCLUDE_PATH="$C_INCLUDE_PATH:/usr/local/include"
+CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:/usr/local/include"
+LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
+PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib/pkgconfig"
+
+
+################################################################################
+# IMPORTANT VARIABLES
+
+export EDITOR=/usr/bin/xemacs
+export BROWSER=/usr/bin/opera
+export PAGER=/usr/bin/less
+
+################################################################################
+# OTHER VARIABLES 
+
+# optimizations
+#CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse'
+# more dangerous flags
+#CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse,387'
+
+# boldify the prompt
+# \033[1m turns bold on, \033[0m turns it off
+# the \[ and \] tells readline that the ANSI escape sequences take up no space on the line
+# liberal use of \033[0m makes it more stable
+export PS1='[\u@\h \W](\j)\$ '
+if [[ $TERM == 'rxvt-unicode' ]] ; then
+    TERM=rxvt
+fi
+if [[ $TERM == 'rxvt' || $TERM == 'xterm' || $TERM == 'linux' ]] ; then
+    export PS1='\n\[\033[0m\]\[\033[1m\]'$PS1'\[\033[0m\]\[\033[0m\]'
+fi
+# monstrous 3 line prompt example by Robert
+#export PS1='\[\033[0m\]\[\033[0;31m\].:\[\033[0m\]\[\033[1;30m\][\[\033[0m\]\[\033[0;28m\]Managing \033[1;31m\]\j\[\033[0m\]\[\033[1;30m\]/\[\033[0m\]\[\033[1;31m\]$(ps ax | wc -l | tr -d '\'' '\'')\[\033[0m\]\[\033[1;30m\] \[\033[0m\]\[\033[0;28m\]jobs.\[\033[0m\]\[\033[1;30m\]] [\[\033[0m\]\[\033[0;28m\]CPU Load: \[\033[0m\]\[\033[1;31m\]$(temp=$(cat /proc/loadavg) && echo ${temp%% *}) \[\033[0m\]\[\033[0;28m\]Uptime: \[\033[0m\]\[\033[1;31m\]$(temp=$(cat /proc/uptime) && upSec=${temp%%.*} ; let secs=$((${upSec}%60)) ; let mins=$((${upSec}/60%60)) ; let hours=$((${upSec}/3600%24)) ; let days=$((${upSec}/86400)) ; if [ ${days} -ne 0 ]; then echo -n ${days}d; fi ; echo -n ${hours}h${mins}m)\[\033[0m\]\[\033[1;30m\]]\[\033[0m\]\[\033[0;31m\]:.\n\[\033[0m\]\[\033[0;31m\].:\[\033[0m\]\[\033[1;30m\][\[\033[0m\]\[\033[1;31m\]$(ls -l | grep "^-" | wc -l | tr -d " ") \[\033[0m\]\[\033[0;28m\]files using \[\033[0m\]\[\033[1;31m\]$(ls --si -s | head -1 | awk '\''{print $2}'\'')\[\033[0m\]\[\033[1;30m\]] [\[\033[0m\]\[\033[1;31m\]\u\[\033[0m\]\[\033[0;31m\]@\[\033[0m\]\[\033[1;31m\]\h \[\033[0m\]\[\033[1;34m\]\w\[\033[0m\]\[\033[1;30m\]]\[\033[0m\]\[\033[0;31m\]:.\n\[\033[0m\]\[\033[0;31m\].:\[\033[0m\]\[\033[1;30m\][\[\033[0m\]\[\033[1;31m\]\t\[\033[0m\]\[\033[1;30m\]]\[\033[0m\]\[\033[0;31m\]:. \[\033[0m\]\[\033[1;37m\]\$ \[\033[0m\]'
+
+# this sets the title of the terminal window:
+# 'user@host: /present/working/directory/ [ previous_command args ]'
+# see the Eterm technical docs, "Set X Terminal Parameters"
+# 'ESC ] 0 ; string BEL' sets icon name and title to string
+# seems to not work when there is a space before \007
+if [[ "$TERM" == "xterm" || $TERM == "rxvt" ]] ; then
+    #PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+    PROMPT_COMMAND='echo -ne "\033]0;[`whoami`@`hostname` `pwd`]$ `history 1 | cut -d\  -f 4-`\007"'
+fi
+
+# prevent CTRL-D from immediately logging out
+export IGNOREEOF=1
+
+# some programs' startup scipts need to know the screen res
+if [[ -n $DISPLAY && -z $SCREEN_RES && -z $SSH_TTY ]] ; then
+    #export SCREEN_RES=1024x768
+    #export SCREEN_RES=1280x960
+    #export SCREEN_RES=`xdpyinfo | grep dimensions | grep -o '[0-9]*x[0-9]*[[:space:]]*pixels' | sed -e 's/pixels//' -e 's/[[:space:]]//'`
+    true
+fi
+
+# set up colors for ls
+if [ ! -r ~/.dircolors ] ; then
+    dircolors --print-database > ~/.dircolors
+fi
+eval `dircolors --sh ~/.dircolors`
+
+# grep colors
+# color syntax is the same as for ls
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='01;32'
+
+
+################################################################################
+# COMMAND LINE ALIASES 
+
+# appends a '&' to a command so it will run in the background
+# useful for aliases
+function bg_wrapper
+{
+    "$@" &
+}
+
+# super stealth background launch
+# disconnects from launching shell, keeps running until killed
+function daemon
+{
+    (exec "$@" >&/dev/null &)
+}
+
+# default editor
+alias edit="bg_wrapper $EDITOR"
+alias E="bg_wrapper $EDITOR"
+
+# source this file
+alias jpk='source ~jpkotta/.bashrc'
+# edit this file
+alias aka='edit ~/.bashrc'
+# handy notes file
+alias note='edit ~/doc/notes.txt'
+
+# common typo, easier to type
+alias cd..='cd ..'
+alias ..='cd ..'
+# go to the previous pwd
+alias prev='cd -'
+# cd to w, the work dir
+alias cdw='cd /home/jpkotta/w'
+# mkdir and cd to it
+function cdmk() { mkdir -p "$1" ; cd "$1" ; } 
+
+# list of processes matching a regex
+# ps[kK] should be modified to use pkill/pgrep
+alias psg='ps -e -o pid,ppid,user,start_time,cmd | grep -vE "grep|ps[gkK]" | grep -E'
+function psk() { kill `psg "$@" | awk '{print $1}'` ; }
+function psK() { kill -KILL `psg "$@" | awk '{print $1}'` ; }
+# like psg, but shows different info
+alias psgaux='ps auxw | grep -vE "grep|psg" | grep -E'
+
+# grep
+alias srcgrp="grep -RE --include='*.[ch]'"
+
+# ls aliases
+alias ls='/bin/ls -F --color=auto'
+alias l='ls'
+# long listing
+alias ll='ls -l'
+# list all files
+alias la='ls -A'
+# list only hidden files
+#alias lh='ls -A | egrep "^\.[^./]" | column'
+alias lh='ls -Ad .[^.]*'
+# long listing, sort by mod date
+alias lt='ls -lt'
+# long list of all files
+alias lla='ls -lA'
+# display only directories
+alias lsd='ls -d `find . -mindepth 1 -maxdepth 1 -type d | sed "s/\.\///g"`'
+# display 'canonical' name (guaranteed to be unique and not a symlink)
+alias lc='readlink -f'
+
+
+# clear the screen, Ctrl-L also works
+alias cls='clear'
+alias clc='clear'
+# use symlinks only, treat links to dirs as normal files, interactive
+alias ln='/bin/ln -sni'
+# a kinder, safer rm
+alias rm='/bin/rm -i'
+# deletes backup files
+alias rmbck='/bin/rm -f ./*.bck ./.*.bck ./*?~ ./.*?~'
+# remove all data from file, or create an empty file
+alias empty='/bin/cp /dev/null'
+# safer mv
+alias mv='mv -i'
+# safer cp
+alias cp='cp -i'
+# creates parent dirs if they do not exist
+alias mkdir='mkdir -p'
+# deletes empty directory tree
+alias rmdir='rmdir -p'
+# rsync for updating usb drives
+alias rsync='rsync -auv'
+
+# 'less' is so hard to type ..., -N means display line numbers
+# turn off line numbers with -n
+alias v='zless -N'
+# unicode problems with man pages
+alias man='LC_CTYPE=en_US man'
+# sdiff the way it was at IBM
+alias sdiff='/usr/bin/sdiff --expand-tabs --ignore-all-space --strip-trailing-cr --width=160'
+# displays global disk usage by partition, excluding supermounted devices
+alias df='df -h -x supermount'
+# displays disk usage by directory, in human readable format
+alias du='du -h'
+# display the processes that are using the most CPU time and memory
+alias hogc="ps -e -o %cpu,pid,ppid,user,cmd | sort -nr | head"
+alias hogm="ps -e -o %mem,pid,ppid,user,cmd | sort -nr | head"
+# ping the way it was at IBM, but better
+# -c 5 means send five packets, time out after 5 sec
+# -A means adapt interval so as to be fast as possible with only one packet in transit at a time
+alias ping='ping -c 5 -A'
+# sounds a gong
+alias gong='esdplay /home/jpkotta/.fvwm/data/sounds/gong.wav'
+# sounds a gong at the specified time, time format is the same as for 'at'
+alias gongat='echo esdplay /home/jpkotta/.fvwm/data/sounds/gong.wav | at -v'
+# screenshot
+alias screenshot="xwd -root -silent | xwdtopnm | pnmtopng > $HOME/screenshot.png"
+# remake /dev/dsp
+alias mkdsp='sudo mknod /dev/dsp c 14 3 && sudo chmod 777 /dev/dsp'
+# open gqview
+alias gq='bg_wrapper gqview'
+alias rldnew='edit ~jpkotta/.rld/new.txt &'
+# start a new opera window
+alias opera='bg_wrapper opera -newwindow'
+# start a new firefox window
+alias ffox='bg_wrapper firefox'
+# by default, nautilus manages the desktop (icons and such)
+alias nautilus='bg_wrapper nautilus --no-desktop --browser'
+# start a separate acroread for every document
+alias acroread='bg_wrapper acroread -openInNewWindow'
+# kpdf is better
+alias kpdf='daemon kpdf'
+# open office
+alias oocalc='bg_wrapper oocalc'
+alias oowriter='bg_wrapper oowriter'
+# open my checking account spreadsheets
+alias finances="oocalc ~/doc/finances.sxc"
+# open the perl reference in acroread
+alias perlref="acroread ~/doc/perlref-5.004.1.pdf"
+# open the bash reference in opera
+alias bashref="opera ~/doc/bashref.html"
+# latex reference
+alias latexref="acroread ~/doc/latex/lshort.pdf"
+# python reference
+alias pythonref="acroread ~/doc/python_ref.pdf"
+alias pythondoc="opera ~/doc/python/Python-Docs-2.4.2/html/index.html"
+# start up ssh with X11 forwarding and compression
+alias ssh='ssh -XC'
+# xine media player
+alias xine="bg_wrapper xine --enqueue"
+# xsnow
+alias xsnow="(killall xsnow ; sleep 3 ; exec xsnow -nosanta -notrees -norudolf -nokeepsnow >& /dev/null &)"
+# view Folding@Home progress
+alias fah_log='less /opt/foldingathome/1/FAHlog.txt'
+alias fah_tail='tail -f /opt/foldingathome/1/FAHlog.txt'
+# bit torrent client
+#alias bt='bg_wrapper btdownloadgui'
+# tremulous
+alias tremulous='if [[ -z $DISPLAY ]] ; then startx /usr/local/bin/tremulous -- :1 ; else /usr/local/bin/tremulous ; fi &'
+# azureus
+alias azureus='daemon azureus'
+# ntpdate
+alias ntpdate='sudo ntpdate -u -v ntp.ubuntu.com'
+# du on files and dirs in pwd, sorted by size
+alias dusrt='du --max-depth=1 -a -k | sort -n'
+# mathematica needs this env var when using Composite extension on X.org
+alias mathematica='(export XLIB_SKIP_ARGB_VISUALS=1 ; mathematica &)'
+# Gaim instant messenger
+alias gaim='daemon gaim'
+# xmms
+#alias m=xmms
+alias m=cmus-remote
+# cross compiler
+ARM=/usr/local/arm/gcc-4.1.2-uclibc/bin
+alias arm_gcc=/usr/local/arm/gcc-4.1.2-uclibc/bin/arm-linux-uclibc-gcc
+
+################################################################################
+# FUNCTIONS 
+
+# rsync with delete and confirmation
+function synchronize()
+{
+    local resp
+    /usr/bin/rsync --archive --update --verbose --delete --dry-run $@
+    select resp in {yes,no} ; do
+        if [[ x$resp == xyes ]] ; then
+            /usr/bin/rsync --archive --update --verbose --delete $@
+            break
+        elif [[ x$resp == xno ]] ; then
+            break
+        fi
+    done
+}
+
+# backup a small number of important configuration files
+function bckupconf()
+{
+    pushd $HOME
+    tar -jcvf config`date +%m%d%y`.tar.bz2 \
+        --exclude=.fvwm/cache/* \
+        --exclude=.fvwm/archive/* \
+        --exclude=.emacs.d/backup/* \
+        --exclude=.opera/cache4/* \
+        --exclude=.opera/images/* \
+        bin/ .fvwm/ .gnupg/ \
+        .emacs.d/ .emacs \
+        .xinitrc .Xresources .xsession \
+        .inputrc .bashrc .dircolors \
+        .opera
+    popd
+}
+
+
+# often used form of rename
+function rename_d()
+{
+    local str
+    str=$1
+    shift 1
+    rename "s/$str//" $@
+}
+
+# creates a dated tarball
+function tarball()
+{
+    name=$1
+    shift
+    tar zcvf $name-`date +%Y%m%d`.tar.gz "$@"
+}
+
+# editor startup, should be transparent for different versions
+function ned()
+{   if [[ -n `which nedit-nc` ]] ; then
+        XLIB_SKIP_ARGB_VISUALS=1 nedit-nc $@
+    elif [[ -n `which nedit` ]] ; then
+        XLIB_SKIP_ARGB_VISUALS=1 nedit $@ >&/dev/null &
+    else
+        echo NEdit does not appear to be on this computer.
+    fi
+}
+
+# # symlinks all hidden files in a directory to the same names without the dot
+# function dot_ln()
+# {
+#     for file in `/bin/ls -a | /bin/egrep "^\.[^./]"` ; do
+#         if [[ "$1" == "-f" ]] ; then
+#             /bin/ln -svif $file ${file:1}
+#         else
+#             /bin/ln -svi $file ${file:1}
+#         fi
+#     done
+# }
+
+# moves specified files to ~/.Trash
+# will not overwrite files that have the same name
+function trash()
+{   local trash_dir=$HOME/.Trash
+    for file in "$@" ; do 
+        if [[ -d $file ]] ; then
+            local already_trashed=$trash_dir/`basename $file`
+            if [[ -n `/bin/ls -d $already_trashed*` ]] ; then
+                local count=`/bin/ls -d $already_trashed* | /usr/bin/wc -l`
+                count=$((++count))
+                /bin/mv --verbose "$file" "$trash_dir/$file$count"
+                continue
+            fi
+        fi
+        
+        /bin/mv --verbose --backup=numbered "$file" $HOME/.Trash
+    done
+}
+
+# these functions are not mine
+
+#Shows the colors in a kewl way...party stolen from HH :)
+#function colors()
+#{
+#       # Display ANSI colours.
+#       #
+#    esc="\033["
+#    echo -e "\t  40\t   41\t   42\t    43\t      44       45\t46\t 47"
+#    for fore in 30 31 32 33 34 35 36 37; do
+#        line1="$fore  "
+#        line2="    "
+#        for back in 40 41 42 43 44 45 46 47; do
+#            line1="${line1}${esc}${back};${fore}m Normal  ${esc}0m"
+#            line2="${line2}${esc}${back};${fore};1m Bold    ${esc}0m"
+#        done
+#        echo -e "$line1\n$line2"
+#    done
+#
+#    echo ""
+#    echo "# Example:"
+#    echo "#"
+#    echo "# Type a Blinkin TJEENARE in Swedens colours (Yellow on Blue)"
+#    echo "#"
+#    echo "#           ESC"
+#    echo "#            |  CD"
+#    echo "#            |  | CD2"
+#    echo "#            |  | | FG"
+#    echo "#            |  | | |  BG + m"
+#    echo "#            |  | | |  |         END-CD"
+#    echo "#            |  | | |  |            |"
+#    echo "# echo -e '\033[1;5;33;44mTJEENARE\033[0m'"
+#    echo "#"
+#    echo "# Sedika Signing off for now ;->"
+#}
+
+# I-Spell @ work: ENGLISH
+function spell()
+{
+    local CHATTO
+
+    if [ $# -ne 1 ]; then
+        echo -e "\033[1;32mUSAGE: \033[33mis word_to_check\033[0m"
+    else
+        CHATTO=$( echo $* | awk '{print $1}' )
+        shift 
+
+        echo -e "----------------------------------------------------->\n"
+        echo $CHATTO | ispell -a -m -B |grep -v "@"
+        echo -e "----------------------------------------------------->"
+    fi
+}

@@ -1,0 +1,189 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! run 'xrdb -merge <this_file>' to update settings
+! settings for all computers go in ~/.Xresources
+! system specific settings go in ~/.Xresources.local
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Nedit window settings - for a cleaner, more modern look
+
+! make the 3D-shading of widgets "flatter" if True
+nedit*enableThinThickness:      False
+nedit*enableToggleVisual:       False
+
+! keep menus' 3D attributes "deeper"
+nedit*enableEtchedInMenu:       True
+nedit*XmMenuShell*XmTearOffButton*ShadowThickness:  2
+
+! colors for the text portion of the window
+nedit*text.background:          white
+! periwinkle
+nedit*text.selectBackground:    #D0D0FF
+! deep blue 
+!nedit*text.selectBackground:    #6000FF
+nedit*text.lineNumForeground:   #A0A0D0
+
+! colors for the rest of the window
+nedit*background:               gray85
+nedit*statsForm.background:     gray85
+nedit*statsLine.background:     gray85
+nedit*bottomShadowColor:        gray65
+nedit*topShadowColor:           #fefefe
+
+! colors for dialogs, etc.
+nedit*XmText.background:        white
+nedit*XmTextField.background:   white
+nedit*XmList.background:        white
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! xclock settings
+XClock*majorColor:              lavender
+XClock*minorColor:              deep sky blue
+XClock*secondColor:             red3
+XClock*minuteColor:             deep sky blue
+XClock*hourColor:               lavender
+XClock*background:              black
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! XMathematica settings
+! system resources set in:
+! /usr/local/Wolfram/Mathematica/5.1/SystemFiles/FrontEnd/SystemResources/X/XMathematica
+
+! This is works the same as the -singleLaunch option on the command line.
+*singleLaunch: TRUE
+
+! Make editable text places a lighter gray.
+*XmTextField.background: gray85
+*XmText.background: gray85
+*XmList.background: gray85
+
+! Other example settings.
+*labelEnterColor: blue
+
+! Set the edge thickness of various types of widgets.
+*Xm*.shadowThickness: 1
+
+! Browser to use for opening remote files.
+*wwwBrowser: opera -newwindow %s
+
+! Set these if you need to change what the FE uses for Primary (Command)
+! and Secondary (Option) modifier keys.
+! this is an alternative to using xmodmap to redefine Mod3 (default NumLock)
+!*primaryModifierMask: Mod2Mask
+*secondaryModifierMask: Mod3Mask
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! urxvt settings
+!transparency: -tr -tint white -sh 50 
+URxvt.geometry:     80x25
+URxvt.fading:       25
+URxvt.background:   black
+URxvt.foreground:   white
+Urxvt.colorBD:      green
+URxvt.cursorColor:  yellow
+URxvt.visualBell:   1
+URxvt.scrollTtyOutput:      0
+URxvt.scrollTtyKeypress:    1
+URxvt.scrollWithBuffer:     1
+URxvt.saveLines:    8192
+URxvt.tripleclickwords:     1
+
+! default
+!URxvt.font:             7x13
+URxvt.font:             9x15
+
+! #if HEIGHT == 1024
+! URxvt.font:             9x15
+! #endif
+
+! #if HEIGHT == 960
+! URxvt.font:             9x15
+! #endif
+
+! #if HEIGHT == 768
+! URxvt.font:             7x13
+! #endif
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! mrxvt settings
+!transparency: -tr -tint white -sh 50 
+mrxvt.geometry:         80x25
+mrxvt.fading:           25
+mrxvt.background:       black
+mrxvt.foreground:       white
+!mrxvt.colorBD:          green
+mrxvt.cursorColor:      yellow
+                        
+mrxvt.visualBell:       1
+mrxvt.scrollTtyOutputInhibit:    1
+mrxvt.scrollTtyKeypress: 1
+mrxvt.scrollWithBuffer: 0
+mrxvt.saveLines:        8192
+mrxvt.tripleclickwords: 1
+mrxvt.hideTabbar:       1
+
+! default
+mrxvt.font:             9x15
+
+! #if HEIGHT == 1024
+! mrxvt.font:             9x15
+! #endif
+
+! #if HEIGHT == 960
+! mrxvt.font:             9x15
+! #endif
+
+! #if HEIGHT == 768
+! mrxvt.font:             7x13
+! #endif
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! mrxvt settings
+!transparency: -tr -tint white -sh 50 
+XTerm.geometry:         80x25
+XTerm.fading:           25
+XTerm.background:       black
+XTerm.foreground:       white
+!XTerm.colorBD:          green
+XTerm.cursorColor:      yellow
+                        
+XTerm.visualBell:       1
+XTerm.scrollTtyOutputInhibit:    1
+XTerm.scrollTtyKeypress: 1
+XTerm.scrollWithBuffer: 0
+XTerm.saveLines:        8192
+XTerm.tripleclickwords: 1
+XTerm.hideTabbar:       1
+
+! default
+XTerm.font:             9x15
+
+! #if HEIGHT == 1024
+! XTerm.font:             9x15
+! #endif
+
+! #if HEIGHT == 960
+! XTerm.font:             9x15
+! #endif
+
+! #if HEIGHT == 768
+! XTerm.font:             7x13
+! #endif
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! gnuplot
+gnuplot*background: lavender
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! machine-specific resources
+
+#include "/home/jpkotta/.Xresources.local"
