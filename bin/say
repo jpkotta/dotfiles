@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [[ ! -x `which festival` ]] ; then
+    echo "festival must be installed.";
+    exit 1;
+fi
+
+# handle the quotes
+# '"' = 042, '`' = 140, ''' = 047 (octal)
+input=`echo "$@" | tr "\\042\\140" "\\047\\047"`
+
+festival -b "(SayText \"${input}\")"

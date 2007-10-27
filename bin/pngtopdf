@@ -1,0 +1,66 @@
+#!/bin/bash
+
+tmp_dir=/tmp/`date +%M%S%N`
+
+if [[ -z "$2" ]] ; then
+    echo "Usage: $0 <out pdf> <in png 1> <in png 2> ..."
+fi
+
+pdf_file="$1"
+if [[ -z `echo "$pdf_file" | grep -i '\.pdf$'` ]] ; then
+    pdf_file="$pdf_file.pdf"
+fi
+shift
+
+# check that the pdf file doesn't exist yet
+if [[ -f $pdf_file ]] ; then
+    echo "$pdf_file exists.  Please specify a different output file name."
+    exit 1
+fi
+
+# check all input files for validity
+count=1
+for i in "$@" ; do
+    if [[ -z `identify -format %m $i | grep PNG` ]] ; then
+        echo "$i is not a valid PNG file."
+        exit 1;    
+    fi
+done
+
+# convert to tiff
+/bin/mkdir $tmp_dir 
+j=1
+for i in "$@" ; do
+    pngtopnm $i | pnmtotiff -adobeflat > $tmp_dir/$j.tiff
+    j=$((++j))
+done
+
+# combine tiffs into single tiff
+prev_dir="$PWD"
+cd $tmp_dir
+tiffcp `/bin/ls | sort -n` $pdf_file.tiff
+
+# convert to pdf
+cd $prev_dir    
+tiff2pdf $tmp_dir/$pdf_file.tiff >$pdf_file
+
+# cleanup
+/bin/rm -rf $tmp_dir
+
+exit 0
+
+#One more note: If it's for black/white (or blue/white (of a pen)) pages, 
+#the best I can recommend (takes some work, but is very good) is the 
+#following: 
+#1. Scan in very high quality (600dpi or more, 8bit grayscale or 24bit). 
+#2. Convert to pgm however you like (e.g. with convert). 
+#3. Smooth with potrace. It's a very nice little program. Use '-g' to 
+#output pgm. 
+#4. Convert to pbm with pgmtopbm -threshold -value 0.5 (or change 0.5 
+#if it's too light or too dark). 
+#5. Convert to g4 tiff (very efficient black/white lossless compression) 
+#with pnmtotiff -g4. 
+#6. Collect to a single tiff with tiffcp. 
+#7. Convert to pdf with tiff2pdf. Since pdf knows about g4, it won't take 
+#time, be very small, and hopefully (depending on source) of very high 
+#quality.

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+usage="Usage: $0 <start> <stop> <URL>
+start = start index
+stop  = stop index
+URL   = address template, where ${i} is substituted for the index.
+
+Example: $0 1 10 http://www.foo.com/images/pic${i}.jpg
+will download pic01.jpg, pic02.jpg, ..., pic10.jpg
+Notice that the indices are of equal width (zero padded)."
+
+if [[ -z "$3" ]] ; then 
+    echo $usage
+    exit 1
+fi
+
+ua='--user-agent="Opera/8.52 (X11; Linux i686; U; en)"'
+
+unset i
+url1=`echo "$3" | sed -e 's/IDX.*//'`
+url2=`echo "$3" | sed -e 's/.*IDX//'`
+
+for i in `seq -w $1 $2` ; do 
+    wget "$ua" "$url1"${i}"$url2"
+done

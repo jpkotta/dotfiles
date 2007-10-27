@@ -1,0 +1,128 @@
+#!/usr/bin/perl -w
+
+# This program was written by Jonathan Kotta <sqrt_-1@ezrs.com>
+# Please credit me if you use parts of it.
+
+# CHANGE LOG ###########################################################################################################
+# 
+# rename_seq
+#   this script will take all files in a directory and rename them to a sequence of consecutive integers
+#   the files will be in the same ascii order as before
+#
+#   name        date        change
+#   jpkotta     11/25/04    created
+#   jpkotta     08/28/05    changed system call to use new rename syntax
+########################################################################################################################
+
+if ($#ARGV == -1 || $ARGV[0] eq '-h')
+{
+    my $usage = 
+"Usage: $0 <files...>
+Renames files to a sequence of consecutive integers, with an appended underscore.
+Filenames will remain in the same ASCII order as before.
+Example: bar.txt -> 01_, baz.txt -> 02_, foo.txt -> 03_, foo2.txt -> 04_
+The underscore gives a consistent ending string so it's easy to use the rename command.\n";
+
+    print STDOUT $usage;
+    exit(0);
+}
+
+# COMMENTS AND NOTES ###################################################################################################
+# recipe for renaming pictures
+# '$0 *.[jJ][pP][gG] && rename _ .jpg *'
+
+# GLOBALS AND REQUIRES #################################################################################################
+# none
+
+# PARSE PARAMETERS #####################################################################################################
+# nothing
+
+# MAIN PROGRAM #########################################################################################################
+my @files = ();
+my $file = "";
+my $max_filename_len = 0;
+my $confirm = 0;
+
+# do not work with sub directories
+foreach $file (@ARGV)
+{   if ($file !~ '/' && -w "./$file")
+    {   push(@files, $file);
+        if (length($file) > $max_filename_len)
+        {   $max_filename_len = length($file);
+        }
+    }
+}
+
+if ($#files == -1)
+{   print STDOUT "No files to rename.  Any file with a '/' in the name is omitted.\n";
+    exit(1);
+}
+
+my $num_files = $#ARGV + 1;
+my $digits = length($num_files); # number of digits required for the files (=ceiling(log10($num_files)))
+my $first_num = ('0' x $digits); # if $num_files < 100, then this is '01'
+$first_num++;
+my $num = $first_num;
+
+# check for files already named [0-9][0-9]_
+$num = $first_num;
+for ($i = 1; $i <= $num_files; $i++)
+{   if ( -e "./${num}_")
+    {   print STDOUT "There is already a file named ${num}_\n";
+        exit(1);
+    }
+    $num++;
+}
+
+@files = sort(@files);
+
+# show what the new names will be
+$num = $first_num;
+my $spaces = "";
+foreach $file (@files)
+{   $spaces = (' ' x ($max_filename_len - length($file)));
+    if ($confirm)
+    {   print STDOUT "$file$spaces  ->  ${num}_\n";
+    }
+    $num++;
+}
+
+if ($confirm)
+{   # ask if it's ok
+    print STDOUT "\n Is this OK? ";
+    $renaming = <STDIN>;
+    chomp($renaming);
+    $renaming = lc($renaming);
+}
+
+if (!$confirm || $renaming eq 'y' || $renaming eq 'yes')
+{   # rename to [0-9][0-9]_
+    print STDOUT "Renaming files...";
+    $num = $first_num;
+    foreach $file (@files)
+    {   # rename is faster than mv
+        system("rename 's/$file/${num}_/' $file");
+        $num++;
+    }
+    print STDOUT "Done.\n";
+}
+else
+{   print STDOUT "Leaving names unchanged.\n";
+    exit(1);
+}
+   
+exit(0);
+
+
+# SUBROUTINES ##########################################################################################################
+
+########################################################################################################################
+# description
+# input:
+#       
+# output:
+#       
+########################################################################################################################
+
+#        10        20        30        40        50        60        70        80        90        100       110
+#23456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890

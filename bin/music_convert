@@ -1,0 +1,102 @@
+#!/bin/bash
+# music_convert, converts a couple music formats keeping tags
+# Needs vorbis-tools, lame and flac installed
+E_BADARGS=63
+E_MISSING_PROGRAM=64
+if [ ! -e /usr/bin/flac ] || [ ! -e /usr/bin/oggenc ] || [ ! -e /usr/bin/lame ]
+then
+        if [ $LANG == nb_NO.UTF-8 ]
+        then
+                echo "Du trenger vorbis-tools, lame og flac installert"
+        else
+                echo "You need vorbis-tools, lame and flac installed"
+        fi
+        exit $E_MISSING_PROGRAM
+fi
+print_usage() {
+if [ $LANG == nb_NO.UTF-8 ]
+then
+        echo -e "$(basename $0) konverterer flac ogg og mp3 filer, beholder \
+taggger\n"
+        echo "Bruk: $(basename $0) fra til kvalitet [dir]"
+        echo "der 'fra' kan være flac og ogg"
+        echo "'til' kan være ogg og mp3"
+        echo "'kvalitet' er standard, extreme eller insane for mp3 utputt"
+        echo -e "og mellom -1 og 10 for ogg-vorbis\n"
+        echo "eks: $(basename $0) flac ogg 7, $(basename $0) ogg mp3 extreme"
+else
+        echo -e "$(basename $0) converts flac ogg and mp3 files in a directory, keeping tags\n"
+        echo "Usage: $(basename $0) from to quality [dir]"
+        echo "where 'from' can be flac and ogg"
+        echo "'to' can be ogg and mp3"
+        echo "'quality' is standard, extreme or insane for mp3 output"
+        echo -e "and between -1 and 10 for ogg-vorbis output\n"
+        echo "'dir' is an optional argument that specifies a directory to operate on"
+        echo -e "The default is to use the current directory."
+        echo "ex: $(basename $0) flac ogg 7, $(basename $0) ogg mp3 extreme"
+fi
+}
+if [ -z $3 ] ; then
+    print_usage
+    exit $E_BADARGS
+fi
+
+from=$1
+to=$2
+quality=$3
+
+if [ -z "$4" ] ; then
+    dir=$PWD
+else
+    dir=$4
+fi
+
+get_tag() 
+{
+    if [ $from == flac ] ; then
+        metaflac --show-tag=$1 "$i" | sed "s/$1=//"
+    elif [ $from == ogg  ] ; then
+        ogginfo "$i" | sed -n "s/^.*$1=//p"
+    fi
+}
+
+wav_file() {
+    echo "$i" | sed "s/\.$from/\.wav/"
+}
+
+cd "$dir"
+if [ ! ls *.$from >&/dev/null ] ; then
+    echo "No files of type $from found in $dir."
+    exit 1
+fi
+
+for i in *.$from ; do
+    if [ $from == flac ] ; then
+        flac -d "$i"
+    elif [ $from == ogg ] ; then
+        oggdec "$i"
+    else
+        print_usage
+        exit $E_BADARGS
+    fi
+
+    if [ $to == ogg ] ; then
+        oggenc -q $quality -t "$(get_tag TITLE)" -a "$(get_tag ARTIST)" \
+            -l "$(get_tag ALBUM)" -d "$(get_tag DATE)" -N \
+            "$(get_tag TRACKNUMBER)" -G "$(get_tag GENRE)" "$(wav_file)"
+        rm "$(wav_file)"
+    elif [ $to == mp3 ] ; then
+        # note: lame complains about some genre tags, so I just left them out
+        # to make them work, simply add --tg "$(get_tag GENRE)"
+        lame --preset $quality --tt "$(get_tag TITLE)" --ta "$(get_tag ARTIST)" \
+            --tl "$(get_tag ALBUM)" --ty "$(get_tag DATE)" --tn \
+            "$(get_tag TRACKNUMBER)" "$(wav_file)" \
+            "$(echo "$i" | sed "s/\.$from/\.mp3/")"
+        rm "$(wav_file)"
+    else
+        print_usage
+        exit $E_BADARGS
+    fi
+done
+
+exit 0

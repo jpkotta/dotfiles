@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# start up Xfractint just how i like it
+
+# some fonts
+# -misc-fixed-medium-r-semicondensed--13-100-100-100-c-60-iso8859-1
+# -adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1
+
+if [[ -z "$SCREEN_RES" ]] ; then
+    SCREEN_RES=1280x960
+fi
+
+prog_dir="$HOME/fractint/src/cur"
+working_dir="$HOME/fractint"
+
+cd $working_dir
+
+# fractint wants the help file to be in the pwd
+if [[ ! -f $working_dir/fractint.hlp ]] ; then
+    /bin/ln -sf $prog_dir/fractint.hlp $working_dir
+fi
+
+# regular mode
+exec urxvt -geometry 80x25 -n Fractint \
+    -e $prog_dir/xfractint -geometry $SCREEN_RES+0+0 "$@" &

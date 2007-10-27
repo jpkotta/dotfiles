@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# width of contact sheet
+width=1024
+# number of columns of contact sheet
+# number of rows is dependent on number of files
+num_cols=4
+# border between thumbnails
+spacing=2
+# color between thumbnails
+bg_color=black
+# output filename
+output_filename=contact_sheet.jpg
+
+# fail if no files given
+if [ -z "$1" ] ; then
+    echo "Usage: $0 <files>"
+    echo "This script will use montage to create a contact sheet with all of the image files in the file list."
+    exit
+fi
+
+# fail if any
+for i in "$@" ; do
+    if [ ! identify "$i" >&/dev/null ] ; then
+        echo "$i" is not an image file.
+        exit
+    fi
+done
+
+# find aspect ratio
+# assume it is constant for all files
+thumb_width=`identify -format %w $1`
+thumb_height=`identify -format %h $1`
+
+montage \
+    -background $bg_color \
+    -geometry $(( $width/$num_cols - 2*$spacing ))x$(($thumb_height*$width/$thumb_width/$num_cols - 2*$spacing))+$spacing+$spacing \
+    -tile ${num_cols}x \
+    "$@" $output_filename

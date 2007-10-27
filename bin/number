@@ -1,0 +1,26 @@
+#!/bin/bash
+
+PATH=/bin:/usr/bin
+
+if [[ -z $1 ]] ; then
+    ext="jpg"
+else
+    ext=$1
+fi
+
+total=`ls *.$ext | wc -l`
+
+declare -a numbers
+idx=0
+for i in `seq -w 1 $total` ; do
+    numbers[$idx]=$i
+    idx=$((++idx))
+done
+
+idx=0
+for i in `ls *.$ext | sed -e "s/\.$ext//" | sort | sed -e "s/$/.$ext/"` ; do
+    mv -i "$i" "${numbers[$idx]}_"
+    idx=$((++idx))
+done
+
+rename "s/_$/.$ext/" *_

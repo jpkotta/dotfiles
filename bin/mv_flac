@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [[ ! -d $1 ]] ; then
+    echo "Usage: $0 <directory>"
+    echo "Finds all FLAC audio files, recreates the file tree that contains them\
+    in ./flac, and moves the FLAC files from the original tree to the same place\
+    in the new tree."
+    exit 1
+fi
+
+this_dir="$PWD"
+
+cd "$1"
+find . -type f -iname '*.flac' -print |
+while read old_file ; do
+  new_file=`echo "$old_file" | sed 's/^[.]/flac/'`;
+  new_dir=`dirname "$new_file"`
+  mkdir -p "$this_dir/$new_dir"
+  mv -f "$old_file" "$this_dir/$new_file"
+done

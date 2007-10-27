@@ -1,0 +1,33 @@
+#!/usr/bin/perl -w
+
+my $rotation = 13;
+
+if ($#ARGV < 0)
+{	print STDOUT "Please supply a string to encrypt.\n";
+	exit 1;
+}
+
+#if ($ARGV[0] eq "-r")
+#{	$rotation = $ARGV[1];
+#	$rotation %= 26;
+#	shift(@ARGV);
+#	shift(@ARGV);
+#}
+
+print STDOUT "Rotation cipher using $rotation offset value.\n";
+
+my @alphabet = ("a" .. "z");
+
+my $lower1 = $alphabet[$rotation];
+my $lower2 = $alphabet[$rotation - 1];
+my $upper1 = uc($lower1);
+my $upper2 = uc($lower2);
+
+my $text = join('', @ARGV);
+
+$text =~ tr/[a-zA-Z]/[n-za-mN-ZA-M]/;
+#$text =~ tr/[a-zA-Z]/[\$lower2-za-\$lower1N-ZA-M]/;
+
+print STDOUT $text;
+
+exit 0;

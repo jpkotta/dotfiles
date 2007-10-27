@@ -1,0 +1,11 @@
+#!/bin/bash
+
+font='-*-helvetica-bold-o-*-*-34-*-*-*-*-*-*-*'
+ontime=1
+offtime=1
+iterations=10
+
+for i in `seq 1 $iterations` ; do
+    echo "$1" | osd_cat --pos=middle --align=center --font="$font" --delay=$ontime
+    sleep $offtime
+done

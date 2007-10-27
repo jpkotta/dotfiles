@@ -1,0 +1,112 @@
+#!/usr/bin/perl -w
+
+# This program was written by Jonathan Kotta <sqrt_-1@ezrs.com>
+# Please credit me if you use parts of it.
+
+# CHANGE LOG ###################################################################
+#
+# cipher
+# simple Caesar cipher (rotate the alphabet)
+#
+#   name        date        change
+#   jpkotta     12/08/05    created
+################################################################################
+
+
+
+# COMMENTS AND NOTES ###########################################################
+
+
+
+
+
+# GLOBALS AND REQUIRES #########################################################
+
+# see the man page with 'man Getopt::Long'
+use Getopt::Long;
+
+my @upper = ('A' .. 'Z');
+my @lower = ('a' .. 'z');
+my $rotate = 13;
+my $decrypt_flag = 0;
+
+# PARSE PARAMETERS #############################################################
+
+# automatically shifts parameters off of @ARGV and parses them
+GetOptions(
+           "help|h|?"    =>  \&show_help,
+           "r|rotate=i"  =>  \$rotate,
+           "d|decrypt"   =>  \$decrypt_flag)
+    or &show_help();
+
+# if there are any leftover params
+if (@ARGV < 1)
+{
+    &show_help();
+}
+
+sub show_help
+{
+    $usage =
+        "Usage: $0 [-r <number> -d] <text>
+Does a simple Caesar cipher on the text.  By default, it will do rot13.
+\
+Options:
+  -r <number>
+    Rotate by number, instead of 13.
+  -d
+    Decrypt instead of encrypt.  Note that decryption is the same as encryption
+    for rot13.  This really just does -r 26-<number>.
+\n";
+
+    print STDERR $usage;
+    exit(1);
+}
+
+
+
+# MAIN PROGRAM #################################################################
+
+my $input_str = join(' ', @ARGV);
+
+# $test = join('', ('a' .. 'z'));
+# $test .= uc($test);
+# $test .= "0123456789";
+# $input_str = $test;
+
+if ($decrypt_flag)
+{
+    $rotate = 26 - $rotate;
+}
+$rotate = $rotate % 26;
+
+# build a command to translate the alphabet
+# for rot13, $trans == "$input_str =~ tr/[a-zA-Z]/[n-za-mN-ZA-M]/"
+my $tl1 = $lower[$rotate - 1];
+my $tl2 = $lower[$rotate];
+my $tu1 = $upper[$rotate - 1];
+my $tu2 = $upper[$rotate];
+$trans = "\$input_str =~ tr/[a-zA-Z]/[$tl2-za-$tl1$tu2-ZA-$tu1]/";
+
+unless (eval($trans))
+{
+    print STDERR "Error evaluating '$trans'\n";
+}
+
+print STDOUT "$input_str\n";
+
+exit(0);
+
+
+# SUBROUTINES ##################################################################
+
+################################################################################
+# description
+# input:
+#       
+# output:
+#       
+################################################################################
+
+#        10        20        30        40        50        60        70       80
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890

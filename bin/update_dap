@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+mount /media/removable
+if [[ -d /media/removable/Firmware ]] ; then
+    rsync -av --ignore-existing /home/jpkotta/music/ /media/removable/music/
+else
+    echo "DAP failed to mount."
+fi
+umount /media/removable
