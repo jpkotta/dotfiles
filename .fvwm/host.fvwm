@@ -1,0 +1,58 @@
+################################################################################
+#
+# HOST-SPECIFIC OPTIONS
+#
+################################################################################
+
+# set the hostname, since for some reason it isn't set already
+PipeRead 'echo SetEnv HOSTNAME `hostname`'
+
+DestroyFunc IfHost
+AddToFunc IfHost
++ I Test (EnvMatch HOSTNAME $[0]) $[1-100]
+
+DestroyFunc IfNotHost
+AddToFunc IfNotHost
++ I Test (!EnvMatch HOSTNAME $[0]) $[1-100]
+
+################################################################################
+# XINERAMA
+UnSetEnv USE_XINERAMA
+
+IfHost gauss    SetEnv LEFT_SCREEN 0
+IfHost gauss    SetEnv RIGHT_SCREEN 1
+IfHost gauss    SetEnv USE_XINERAMA 
+
+IfHost shannon  SetEnv LEFT_SCREEN 1
+IfHost shannon  SetEnv RIGHT_SCREEN 0
+IfHost shannon  SetEnv USE_XINERAMA
+
+
+################################################################################
+# COMPOSITING
+UnSetEnv USE_COMPOSITE
+
+IfHost shannon  SetEnv USE_COMPOSITE
+IfHost gauss    SetEnv USE_COMPOSITE
+
+
+################################################################################
+# DEVICES
+SetEnv CDROM_DEVICE     cdrom0
+SetEnv DVD_DEVICE       cdrom0
+
+
+################################################################################
+# MEDIA KEYS (volume, etc.)
+UnSetEnv USE_MEDIA_KEYS
+
+IfHost goedel   SetEnv USE_MEDIA_KEYS
+
+
+################################################################################
+# MISCELLANEOUS
+IfHost goedel   AddToFunc InitFunction \ 
+    + I Exec exec xsnow -nosanta -notrees -norudolf -nokeepsnow
+
+UnSetEnv USE_SCREENSHOT_THUMBS
+IfNotHost shannon SetEnv USE_SCREENSHOT_THUMBS

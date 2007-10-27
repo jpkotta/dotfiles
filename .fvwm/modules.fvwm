@@ -1,0 +1,103 @@
+################################################################################
+#
+# MODULE CONFIGURATION
+#
+################################################################################
+
+################################################################################
+# FvwmEventSound
+################################################################################
+
+DestroyFunc PlaySound
+AddToFunc PlaySound
++ I     Exec exec esdplay $* >/dev/null 2>&1 
+#+ I     Exec exec artsplay $* >/dev/null 2>&1 
+
+# play sounds for various events
+DestroyModuleConfig FvwmEventSound
+*FvwmEventSound: Cmd PlaySound
+*FvwmEventSound: StartDelay 3
+*FvwmEventSound: Delay 1
+
+*FvwmEventSound: startup        "$[FVWM_SOUNDDIR]/gong.wav"
+#*FvwmEventSound: add_window     "$[FVWM_SOUNDDIR]/wipe.wav"
+#*FvwmEventSound: destroy_window "$[FVWM_SOUNDDIR]/pook.wav"
+*FvwmEventSound: iconify        "$[FVWM_SOUNDDIR]/clong.wav"
+*FvwmEventSound: deiconify      "$[FVWM_SOUNDDIR]/clong.wav"
+*FvwmEventSound: windowshade    "$[FVWM_SOUNDDIR]/slide.wav"
+*FvwmEventSound: dewindowshade  "$[FVWM_SOUNDDIR]/slide.wav"
+*FvwmEventSound: new_page       "$[FVWM_SOUNDDIR]/slide.wav"
+*FvwmEventSound: new_desk       "$[FVWM_SOUNDDIR]/slide.wav"
+#*FvwmEventSound: error          "$[FVWM_SOUNDDIR]/hal.wav"
+#*FvwmEventSound: unknown        "$[FVWM_SOUNDDIR]/hal.wav"
+
+
+################################################################################
+# FvwmAnimate
+################################################################################
+
+DestroyModuleConfig FvwmAnimate
+#*FvwmAnimate: Save
+#Currently the effects are: Frame, Lines, Flip, Turn, Zoom3D, Twist, Random, and None.
+*FvwmAnimate: Effect Twist
+*FvwmAnimate: Iterations 25
+*FvwmAnimate: Width 0
+*FvwmAnimate: Twist 0.5
+*FvwmAnimate: Delay 0
+
+
+################################################################################
+# FvwmIdent
+################################################################################
+
+DestroyModuleConfig FvwmIdent
+#*FvwmIdent: Back Blue4
+#*FvwmIdent: Fore Yellow
+*FvwmIdent: Colorset $[MENU_COLORSET]
+*FvwmIdent: Font 'xft:Times:Medium:Regular:pixelsize=16; \
+    -adobe-times-medium-r-*-*-16-*-*-*-*-*-*-*'
+
+
+################################################################################
+# FvwmScript
+################################################################################
+
+DestroyModuleConfig FvwmScript
+*FvwmScript: DefaultFont 'xft:Helvetica:Bold:Regular:pixelsize=12; \
+    -adobe-helvetica-bold-r-*-*-12-*-*-*-*-*-*-*'
+*FvwmScript: DefaultFore black
+*FvwmScript: DefaultBack grey85
+*FvwmScript: DefaultHilight grey100
+*FvwmScript: DefaultShadow grey55
+
+
+################################################################################
+# FvwmBanner
+################################################################################
+
+DestroyModuleConfig FvwmBanner
+*FvwmBanner: NoDecor
+*FvwmBanner: Timeout 3
+*FvwmBanner: Pixmap banner.big_bracket.png
+
+
+################################################################################
+# FvwmTabs
+################################################################################
+
+# DestroyModuleConfig FvwmTabs
+# *FvwmTabs: 
+# *FvwmTabs: 
+
+
+################################################################################
+# STARTUP
+################################################################################
+
+KillModule FvwmEvent FvwmEventSound
+KillModule FvwmAnimate
+KillModule FvwmCommandS
+
+Module FvwmEvent FvwmEventSound
+Module FvwmAnimate
+Module FvwmCommandS

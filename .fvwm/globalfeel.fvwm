@@ -1,0 +1,248 @@
+################################################################################
+#
+# GLOBAL FEEL
+#
+################################################################################
+
+################################################################################
+# PATHS AND DIRECTORIES
+################################################################################
+
+# ModulePath is builtin, you may add some directories here
+ModulePath $[FVWM_USERDIR]/modules:+
+
+SetEnv FVWM_IMAGEDIR $[FVWM_USERDIR]/data/icons
+SetEnv FVWM_SOUNDDIR $[FVWM_USERDIR]/data/sounds
+SetEnv FVWM_SCRIPTDIR $[FVWM_USERDIR]/scripts
+
+SetEnv SCREEN_RES $[vp.width]x$[vp.height]
+SetEnv SCREEN_RES_X $[vp.width]
+SetEnv SCREEN_RES_Y $[vp.height]
+
+# The default image path is:
+#         /usr/include/X11/bitmaps:/usr/include/X11/pixmaps
+# a plus in the path definition expands to the current value of the path
+ImagePath $[FVWM_IMAGEDIR]:+
+#K_M 1 for KDE Styles and menus
+ImagePath +:/usr/share/icons
+#G_M_G 1 for FvwmGtk menus
+ImagePath +:/usr/share/pixmaps
+# icon path from icewm
+ImagePath +:/usr/share/icons/mini:\
+/usr/share/icons/locolr/16x16/apps/:\
+/usr/share/icons/hicolor/16x16/apps/:\
+/usr/X11R6/lib/X11/icewm/icons
+
+
+################################################################################
+# DESKTOP NAMES
+################################################################################
+
+# name the desktops globally
+DesktopName 0 zero
+DesktopName 1 one
+DesktopName 2 two
+DesktopName 3 three
+
+# the secret desk
+DesktopName -1 hidden
+
+# the number of the last desktop
+# numbering starts at 0, so the number of desktops is one more than this
+SetEnv LAST_DESKTOP 3
+
+
+################################################################################
+# COLORSETS 
+################################################################################
+
+CleanupColorsets
+
+# easy way to uniquely number colorsets
+#   fvwm allocates enough memory for all colorsets between 0 and N, 
+#   where N is the highest number used to name a colorset
+#   using this function guarantees that the lowest possible number is used
+# note that FvwmForm uses colorset 0 for its widgets
+Test (Init) SetEnv NextColorset 1
+DestroyFunc AddColorset
+AddToFunc AddColorset
++ I PipeRead 'if [ -n "\$\$0" ] ; then echo Break ; fi'
++ I UnSetEnv $0
++ I PipeRead 'echo SetEnv $0 $[NextColorset]'
++ I PipeRead 'echo SetEnv NextColorset $(( $[NextColorset] + 1 ))'
+
+
+################################################################################
+# SCHEDULE IDS
+################################################################################
+
+# easy way to number unique schedule ids
+Test (Init) SetEnv NextSchedId 1
+DestroyFunc AddSchedId
+AddToFunc AddSchedId
++ I PipeRead 'if [ -n "\$\$0" ] ; then echo Break ; fi'
++ I UnSetEnv $0
++ I PipeRead 'echo SetEnv $0 $[NextSchedId]'
++ I PipeRead 'echo SetEnv NextSchedId $(( $[NextSchedId] + 1 ))'
+
+
+################################################################################
+# STATES
+################################################################################
+
+# easy way to number unique states
+Test (Init) SetEnv NextState 1
+DestroyFunc AddState
+AddToFunc AddState
++ I PipeRead 'if [ -n "\$\$0" ] ; then echo Break ; fi'
++ I UnSetEnv $0
++ I PipeRead 'echo SetEnv $0 $[NextState]'
++ I PipeRead 'echo SetEnv NextState $(( $[NextState] + 1 ))'
+
+
+################################################################################
+# KEY BINDING STUFF
+################################################################################
+
+# ~/.xmodmaprc
+#map the right window key to Super
+#   add mod4 = Multi_key
+#
+#try to map right alt to alt, doesn't really work
+#   clear mod3
+#   add mod1 = Mode_switch
+#
+#Mathematica has trouble when mod2 is on.  
+#It goes into "global select mode" or something like that.
+#basically, you can't enter any input
+#in mandrake, Num_Lock is automatically mapped to mod2.
+#I like to use the number pad in mathematical software...this is why Unix isn't popular
+#   clear mod2
+#   add mod3 = Num_Lock
+
+# ignore the lock keys (caps, scroll, num)
+# default is 'L'
+IgnoreModifiers
+#IgnoreModifiers L35
+IgnoreModifiers L25
+
+
+################################################################################
+# MOVEMENT AND RESIZING
+################################################################################
+
+# do not flip pages, but allow dragging windows across pages
+EdgeResistance 500 100
+EdgeScroll 0 0
+# a very interesting thing about edges: they're technically the root window
+# this means there is always a thin strip of root window around the edges, 
+# so you can access root window bindings even with a maximized window
+EdgeThickness 1
+
+# these variables are always used to set the edge commands,
+# because some functions change them for a brief time
+SetEnv EDGE_COMMAND_N Nop
+SetEnv EDGE_COMMAND_S Nop
+SetEnv EDGE_COMMAND_E Nop
+SetEnv EDGE_COMMAND_W Nop
+
+# sets the edge commands to the variables EDGE_COMMAND_{N,S,E,W}
+DestroyFunc RestoreEdgeCommands
+AddToFunc RestoreEdgeCommands
++ I EdgeCommand North   $[EDGE_COMMAND_N]
++ I EdgeCommand South   $[EDGE_COMMAND_S]
++ I EdgeCommand East    $[EDGE_COMMAND_E]
++ I EdgeCommand West    $[EDGE_COMMAND_W]
+
+
+DeskTopSize 2x2
+
+# put the geometry in the NW corner during move or resize
+Emulate win
+HideGeometryWindow Never
+
+OpaqueMoveSize unlimited
+
+MoveThreshold 3
+
+SnapAttraction 10 All Screen
+
+Style * ResizeOpaque
+
+Style * UsePPosition
+
+# attempt to tile windows, otherwise cascade
+Style * TileCascadePlacement
+
+# start on screen with pointer
+Style * StartsOnScreen c
+
+
+################################################################################
+# ICONS
+################################################################################
+
+Style * IconBox screen w 0 0 -0 -0, IconFill Left Bottom, IconGrid 10 10
+Style * MiniIcon mini.x.xpm, Icon jx.xpm
+
+
+################################################################################
+# FOCUS
+################################################################################
+
+# widows are focused by clicking on them
+# the focusing click is passed to the window
+Style * ClickToFocus, FPClickDecorToFocus
+Style * !FPClickRaisesFocused, !FPClickRaisesUnfocused, \
+    FPClickDecorRaisesFocused, FPClickDecorRaisesUnfocused
+
+# programs can focus themselves
+Style * FPFocusByProgram
+
+# new windows/transients grab the focus when created
+# closing a window/transient releases focus to the previously focused window
+Style * FPGrabFocus, FPGrabFocusTransient, FPReleaseFocus, FPReleaseFocusTransient
+
+# these basically make a parent and its transients get raised and lowered as a group
+#Style * RaiseTransient, LowerTransient, StackTransientParent
+
+
+################################################################################
+# MENU STYLES
+################################################################################
+
+MenuStyle * Fvwm
+MenuStyle * VerticalItemSpacing 2 4, VerticalTitleSpacing 2 4
+MenuStyle * PopupDelayed, PopupDelay 250
+MenuStyle * TitleWarpOff
+MenuStyle * TitleUnderlines2
+MenuStyle * PopupOffset 0 90
+MenuStyle * PopupActiveArea 100
+
+# new in 2.5.15
+MenuStyle * MouseWheel ScrollsPointer
+
+CopyMenuStyle * small_menu_style
+MenuStyle small_menu_style VerticalItemSpacing 1 2, VerticalTitleSpacing 1 2
+
+
+################################################################################
+# MISCELLANEOUS SETTINGS
+################################################################################
+
+Style * WindowShadeSteps 0, WindowShadeShrinks
+
+# it seems like HintOverride negates this
+#Style * MWMFunctions
+
+# Eterm has trouble with this when it is borderless
+#Style !DesktopTerminal* MWMDecor
+Style * MWMDecor
+
+Style * HintOverride
+Style * OLDecor
+Style * DecorateTransient
+
+# GNOME panel sets EWMH working area, preventing anything from maximizing fully
+# the GNOMEIgnoreHints style is supposed to prevent this, but it doesn't work
+Style * EWMHMaximizeIgnoreWorkingArea

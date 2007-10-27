@@ -1,0 +1,10 @@
+DestroyModuleConfig FvwmWindowMenu
+
+*FvwmWindowMenu: AllDesks on
+*FvwmWindowMenu: AllPages on
+*FvwmWindowMenu: MaxLen 48
+#*FvwmWindowMenu: MenuStyle menu_style
+*FvwmWindowMenu: ItemFormat "%m%i%t%d"
+
+KillModule FvwmWindowMenu
+Module FvwmWindowMenu

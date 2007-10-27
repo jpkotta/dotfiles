@@ -1,0 +1,225 @@
+################################################################################
+#
+# BINDINGS
+#
+################################################################################
+
+################################################################################
+# NOTES
+################################################################################
+# keysyms defined in /usr/include/X11/keysymdef.h
+
+################################################################################
+# Functions
+################################################################################
+
+DestroyFunc RootWindowBinding
+AddToFunc RootWindowBinding
++ C Menu RootMenu mouse -5p -5p
++ M Menu RootMenu mouse -5p -5p
+
+DestroyFunc Button1Binding
+AddToFunc Button1Binding
++ I WindowMenuOrClose
++ M Move
+
+DestroyFunc TitleBinding3
+AddToFunc TitleBinding3
++ I WindowMenuOrClose
++ M ResizeWarpSE
+
+
+################################################################################
+# MOUSE BINDINGS
+################################################################################
+
+########################################
+# ROOT WINDOW
+Mouse   1       R       A       RootWindowBinding
+Mouse   2       R       A       WindowList mouse -5p -5p
+Mouse   3       R       A       Menu WindowOps mouse -5p -5p
+Mouse   4       R       A       NextWindowOnScreen
+Mouse   5       R       A       PrevWindowOnScreen
+
+########################################
+# ICONS
+Mouse   1       I       N       MoveOrMaximize
+Mouse   2       I       N       Iconify
+Mouse   3       I       N       WindowMenuOrCloseIcon
+Mouse   4       I       A       Nop
+Mouse   5       I       A       Nop
+Mouse   0       I       4M      Close
+
+########################################
+# TITLE BAR
+# only two buttons
+# WinOps menu on click, close on double
+Mouse   1       1       A       Button1Binding
+# close on any click
+Mouse   0       2       A       Close
+# 3 mouse buttons can do the same job as the common titlebar buttons (close, maximize, iconify)
+Mouse   1       T       N       MoveOrMaximize
+Mouse   2       T       N       IconifyOrResize
+Mouse   3       T       N       TitleBinding3
+# these resize the window by moving the SW corner by 5 "units" at a time
+Mouse   4       T       N       Resize br w+5c w+5c
+Mouse   5       T       N       Resize br w-5c w-5c
+
+########################################
+# SIDES AND FRAME
+# default binding on the frame: 
+#   button 1,2 click:   raise
+#   button 1,2 double:  lower
+#   button 1 drag:      resize
+#   button 2 drag:      move
+#   button 3:           nop
+
+# window shade in the direction of the side if doubleclicked
+Mouse   1       -       A       ResizeRaiseShadeDirection N  
+Mouse   1       [       A       ResizeRaiseShadeDirection W  
+Mouse   1       ]       A       ResizeRaiseShadeDirection E  
+Mouse   1       _       A       ResizeRaiseShadeDirection S  
+
+########################################
+# CLIENT AREA
+# alt closes windows
+Mouse   0       SWFT   4M      Close
+
+# same actions as title bar, now with super modifier
+Mouse   1       SWFT   4       MoveOrMaximize
+Mouse   2       SWFT   4       IconifyOrResize
+Mouse   3       SWFT   4       TitleBinding3
+# these fade the window in and out
+# not ready for primetime
+Mouse   4       SWTF   4       IncTranslucency
+Mouse   5       SWTF   4       DecTranslucency
+
+########################################
+# ANY CONTEXT 
+Mouse   1       A       4C      GotoDesk -1 0 $[LAST_DESKTOP]
+#Mouse   2       A       4C      All ($c) Iconify On
+Mouse   3       A       4C      GotoDesk +1 0 $[LAST_DESKTOP]
+Mouse   4       A       4C      CyclePages down
+Mouse   5       A       4C      CyclePages up
+
+
+
+################################################################################
+# KEY BINDINGS
+################################################################################
+
+########################################
+# NAVIGATION
+Key     Left    A       4       CyclePages down
+Key     Right   A       4       CyclePages up
+
+Key     D       A       4       Menu Goto root c c
+Key     M       A       4       Menu WindowMove root c c 
+Key     G       A       4       Menu GroupMove root c c
+
+########################################
+# WINDOW SELECTION
+Key     Down    A       4       PrevWindow
+Key     Up      A       4       NextWindow
+Key     Down    A       4S      FocusPrevWindow
+Key     Up      A       4S      FocusNextWindow
+Key     Tab     A       4       WindowList Root c c SelectOnRelease Super_L
+
+########################################
+# WINDOW ACTIONS 
+# essentially the same as icewm
+Key     F1      A       4       Raise
+Key     F2      A       4       Stick
+Key     F3      A       4       Lower
+Key     F4      A       4       Close
+Key     F5      A       4       Maximize 100 0
+Key     F6      A       4       Maximize 0 100
+Key     F7      A       4       Move
+Key     F8      A       4       Resize
+Key     F9      A       4       Iconify
+Key     F10     A       4       Maximize
+Key     F11     A       4       FullScreenToggle
+Key     F12     A       4       WindowShade
+
+# move windows between pages
+Key     Left    A       4S      MoveAndGotoPage down
+Key     Right   A       4S      MoveAndGotoPage up
+# Key     1       A       4S      MoveToDesk 0 0
+# Key     2       A       4S      MoveToDesk 0 1
+# Key     3       A       4S      MoveToDesk 0 2
+# Key     4       A       4S      MoveToDesk 0 3
+
+# move windows between screens
+Key     Left    A       4C      MoveToScreen $[LEFT_SCREEN]
+Key     Right   A       4C      MoveToScreen $[RIGHT_SCREEN]
+
+DestroyMenu LaunchApps
+AddToMenu LaunchApps
++ "&Terminal"           StartTerminal
++ "&Root Terminal"      StartRootTerminal
++ "&Web Browser"        StartBrowser
++ "FVWM &Console"       StartConsole
++ "&X Error Log"        StartXErrorViewer
++ "Text &Editor"        StartEditor
++ "&Image Editor"       StartImageEditor
++ "Image &Viewer"       StartImageViewer
++ "&File Manager"       StartFileManager
++ "&Package Manager"    StartPackageManager
++ "&Game"               StartPysol
++ "System &Monitor"     StartTop
++ "Calculator (&#)"     StartCalculator
+
+Key     S       A       4       Menu LaunchApps root c c
+
+########################################
+# OTHER STUFF
+Key     space   A       4       PrevDesktopTerminal
+Key     space   A       4M      HideDesktopTerminal
+Key     B       A       4       ToggleDesktopButtons
+Key     slash   A       4       Pick FvwmIdent
+Key     G       A       4       GotoDesk 0 -1 # the secret desk
+Key     G       A       4S      MoveToDesk 0 -1 # the secret desk
+Key     C       A       4       Menu RootMenu root c c
+Key     X       A       4       Menu WindowOps root c c
+Key     bracketleft  A  4       DecTranslucency
+Key     bracketright A  4       IncTranslucency
+Key     equal   A       4       Resize br w+5 w+5
+Key     minus   A       4       Resize br w-5 w-5
+Key     Print   A       4       ScreenShotRoot
+Key     Print   A       4S      ScreenShotWindow
+
+########################################
+# NON-SUPER BINDINGS
+# these are the only key bindings without super
+
+# these two are distruptive, thus they should be harder to type
+Key     Delete  A       CM      Menu FvwmQuitMenu root c c
+
+# this is surprisingly easier to type than Super-F4
+Key     F4      A       M       Close
+
+# this just doesn't need a modifier, i never use the menu key
+Key     Menu    A       N       ShowHideDesktop
+
+# for extra special keys
+Test (EnvIsSet USE_MEDIA_KEYS) \
+    Key     XF86AudioMute           A   N \
+    Exec $[FVWM_SCRIPTDIR]/mixer.sh toggle 
+Test (EnvIsSet USE_MEDIA_KEYS) \
+    Key     XF86AudioRaiseVolume    A   N \
+    Exec $[FVWM_SCRIPTDIR]/mixer.sh incr
+Test (EnvIsSet USE_MEDIA_KEYS) \
+    Key     XF86AudioLowerVolume    A   N \
+    Exec $[FVWM_SCRIPTDIR]/mixer.sh decr
+
+Test (EnvIsSet USE_MEDIA_KEYS) \
+    Key     XF86Calculator          A   N \
+    StartCalculator
+    
+# X also has some builtin bindings:
+#   Ctrl-Alt-Backspace quits immediately
+#   Ctrl-Alt-KP_Plus/KP_Minus decreases/increases resolution
+
+# default FVWM bindings:
+#   Ctrl-Alt-Escape escapes from a Wait
+#   Alt-Tab brings up a WindowList

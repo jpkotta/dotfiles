@@ -1,0 +1,72 @@
+################################################################################
+#
+# SCROLL MODE
+#
+################################################################################
+
+################################################################################
+# NOTES
+################################################################################
+
+# this file assumes that the EdgeCommands are saved in environment variables:
+#   EDGE_COMMAND_{N,S,E,W}
+# these variables are set in desktop_utils.fvwm
+
+# this file assumes that there is a root window mouse binding to the function
+#   RootWindowBinding.  it adds a double click action.
+
+# Scroll mode is the default fvwm edge behavior                     
+# When the pointer hits an edge, it will scroll into the next page  
+# When in scroll mode, and click will go back to non-scroll mode    
+# There should be a better way to reactivate the edge commands      
+
+
+################################################################################
+# ENVIRONMENT VARIABLES
+################################################################################
+
+SetEnv ANIMATED_SCROLL_STEPS 4
+
+################################################################################
+# FUNCTIONS
+################################################################################
+
+# defined in bindings.fvwm
+AddToFunc RootWindowBinding
++ D StartScrollMode
+
+# this is pretty slick, doesn't scroll instantly, flips pages smoothly
+# arg0: % of screen to scroll right
+# arg1: % of screen to scroll down
+# negative args reverse sense
+DestroyFunc AnimatedScroll
+AddToFunc AnimatedScroll 
++ I PipeRead '\
+    for i in `seq 1 $[ANIMATED_SCROLL_STEPS]` ; do \
+        echo Scroll $(( $0 / $[ANIMATED_SCROLL_STEPS] )) $(( $1 / $[ANIMATED_SCROLL_STEPS] )) ; \
+    done' 
+
+DestroyFunc StartScrollMode
+AddToFunc StartScrollMode
+# stop scrolling with any mouse click
++ I Mouse 0 A A StopScrollMode
+# normal edge scrolling
+#+ I EdgeScroll 100 100
+#+ I EdgeCommand
+# animated edge scrolling
++ I EdgeCommand North AnimatedScroll 0 -100
++ I EdgeCommand South AnimatedScroll 0 +100
++ I EdgeCommand East AnimatedScroll +100 0
++ I EdgeCommand West AnimatedScroll -100 0
+ 
+DestroyFunc StopScrollMode
+AddToFunc StopScrollMode
++ I Mouse 0 A A -
++ I EdgeScroll 0 0
++ I RestoreEdgeCommands
+#+ I EdgeCommand North Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager
+#+ I EdgeCommand South Schedule 250 $[SHOW_DESKTOP_ICONMAN_SCHED_ID] ShowDesktopIconMan
+##+ I EdgeCommand East Schedule 500 $[SHOW_DESKTOP_TERMINAL_SCHED_ID] StartScrollMode
+##+ I EdgeCommand East Schedule 500 $[SHOW_DESKTOP_TERMINAL_SCHED_ID] ShowDesktopTerminal
+#+ I EdgeCommand East Nop
+#+ I EdgeCommand West Schedule 500 $[SHOW_DESKTOP_BUTTONS_SCHED_ID] ShowDesktopButtons

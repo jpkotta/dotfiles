@@ -1,0 +1,106 @@
+################################################################################
+#
+# DECORATIONS
+#
+################################################################################
+
+################################################################################
+# ENVIRONMENT VARIBLES
+################################################################################
+
+AddColorset DEFAULT_COLORSET
+AddColorset ACTIVE_TITLE_COLORSET
+AddColorset INACTIVE_TITLE_COLORSET
+AddColorset MENU_COLORSET
+AddColorset MENU_HILIGHT_COLORSET
+AddColorset ICON_TITLE_COLORSET
+
+
+################################################################################
+# CURSORS
+################################################################################
+
+CursorStyle ROOT         left_ptr
+CursorStyle TITLE        left_ptr
+CursorStyle DEFAULT      left_ptr
+CursorStyle SYS          left_ptr
+CursorStyle MENU         left_ptr
+
+#BusyCursor DynamicMenu True, Read True
+BusyCursor DynamicMenu True
+
+
+################################################################################
+# BORDER, TITLE, AND BUTTON STYLES
+################################################################################
+
+# Text and background color for the title bar and the border of the inactive window 
+# (also used by icon title, and "hilight" and "shadow" colors).
+# Focused window has the same color text, borders, etc.
+# focused windows have different titlebars, that's the only visual difference
+Colorset $[DEFAULT_COLORSET] fg white, bg grey75, fgsh grey25
+
+# this font is used for title bars
+# as stated in the manual, you can list an xft font and an XLFD font together
+Style * Font 'Shadow=2:xft:Century Schoolbook L:Medium:Italic:pixelsize=17; \
+    -adobe-new century schoolbook-medium-r-normal-*-17-*-*-*-*-*-*-*'
+
+# these colors are used for the text of the title bar, not the title bar itself
+Style * Colorset $[DEFAULT_COLORSET], HilightColorset $[DEFAULT_COLORSET]
+
+Style * BorderWidth 0, HandleWidth 4, Handles, FvwmBorder
+
+#Colorset $[ACTIVE_TITLE_COLORSET] HGradient 64 blue2 black
+# my theme of choice in win xp has titles like this (magenta to blue)
+Colorset $[ACTIVE_TITLE_COLORSET]   HGradient 64 #800080 #3989AF 
+ColorSet $[INACTIVE_TITLE_COLORSET] HGradient 64 grey51 black
+
+BorderStyle Colorset $[DEFAULT_COLORSET] -- !HiddenHandles !NoInset
+
+TitleStyle Active Colorset $[ACTIVE_TITLE_COLORSET] -- Flat
+TitleStyle Inactive Colorset $[INACTIVE_TITLE_COLORSET] -- Flat
+TitleStyle LeftJustified 
+TitleStyle Height 27
+
+#ButtonStyle all Active (Solid blue2 -- Flat)
+ButtonStyle Left Active (Solid #800080 -- Flat)
+ButtonStyle Left Inactive (Solid grey51 -- Flat)
+AddButtonStyle 1 MiniIcon -- Flat
+
+ButtonStyle Right Active (Solid #3989AF -- Flat)
+ButtonStyle Right Inactive (Solid black -- Flat)
+AddButtonStyle 2 Pixmap mini.cross.xpm -- Flat
+
+# icon styles
+Colorset $[ICON_TITLE_COLORSET] fg white, RootTransparent, Tint grey25 25
+
+Style * IconFont 'Shadow=2:xft:Century Schoolbook L:Medium:Italic:pixelsize=17; \
+    -adobe-new century schoolbook-medium-r-normal-*-17-*-*-*-*-*-*-*'
+Style * IconTitleRelief 0
+Style * IconTitleColorset $[ICON_TITLE_COLORSET], HilightIconTitleColorset $[ICON_TITLE_COLORSET]
+
+
+################################################################################
+# MENUS
+################################################################################
+
+Colorset $[MENU_COLORSET]           fg black, bg white, fgsh grey75, sh grey25, hi white, DGradient 64 grey90 grey70
+# unfortunately, this can't have gradients and such
+Colorset $[MENU_HILIGHT_COLORSET]   fg red, bg lavender, fgsh grey75
+  
+MenuStyle * MenuColorset $[MENU_COLORSET]                                    
+MenuStyle * HilightBack, ActiveFore, ActiveColorset $[MENU_HILIGHT_COLORSET] 
+MenuStyle * GreyedColorset $[MENU_HILIGHT_COLORSET]      
+MenuStyle * BorderWidth 1
+MenuStyle * Animation
+
+MenuStyle * font 'Shadow=2:xft:Century Schoolbook L:Medium:Regular:pixelsize=16; \
+    -adobe-new century schoolbook-medium-r-normal-*-16-*-*-*-*-*-*-*'
+# MenuStyle * font 'Shadow=2:xft:Times:Medium:Regular:pixelsize=16; \
+#     -*-times-medium-r-*-*-16-*-*-*-*-*-*-*'
+
+CopyMenuStyle * small_menu_style
+MenuStyle small_menu_style font 'xft:Century Schoolbook L:Medium:Regular:pixelsize=13; \
+    -adobe-new century schoolbook-medium-r-normal-*-13-*-*-*-*-*-*-*'
+# MenuStyle small_menu_style font 'xft:Times:Medium:Regular:pixelsize=14; \
+#     -*-times-medium-r-*-*-14-*-*-*-*-*-*-*'

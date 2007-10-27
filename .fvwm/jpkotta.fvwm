@@ -1,0 +1,191 @@
+################################################################################
+#
+# jpkotta's .fvwm2rc
+#
+################################################################################
+
+################################################################################
+# NOTES
+################################################################################
+
+# this setup uses the following external programs:
+# none of these are strictly required; this is just an exhaustive list for reference
+#
+# should be compiled with png support, i.e. ./configure --with-png
+# readline is also nice: --with-readline
+
+# used to launch Opera:
+#   aoss - alsa wrapper for oss applications
+
+# used by the FvwmEventSound module:
+#   artsplay - a sound player
+#   OR
+#   esdplay - a sound player
+
+# used by DesktopButtons module:
+#   xclock - analog clock 
+#   dclock - digital clock
+#   python - interpreted programming language used by some of these programs
+#   PySol - solitaire card game written in python (requires python)
+#   gdeskcal - very customizable (appearance-wise) calendar for your desktop (requires python)
+#   xmms - mp3/CD/media player
+#   gkrellm2 - system monitor for your desktop
+
+# used by the menus:
+#   Xine - DVD/media player
+#   Esetroot - utility to set the root background
+#   ImageMagick - toolbox for image manipulation, used to generate thumbnails
+#   update-menus - debian menu utility, in the menu package
+
+# easily changed via a single function:
+#   Opera - web browser with an excellent UI and standards compliance
+#   urxvt - very customizable terminal emulator
+#   Emacs - the one true editor
+#   Thunar - file manager from XFCE
+#   GQview - image viewer
+
+# screen size is assumed to be given in the environment variable SCREEN_RES
+#   currently supported sizes are 1280x960 and 1024x768
+
+
+# OVERALL IDEAS / PHILOSOPHY / EXPLANATIONS
+#
+# The main reason why I use FVWM: I like to fiddle, experiment, play, etc.  And I
+# like to do things myself.
+#
+# Background
+#  
+#  Before FVWM I had used KDE, IceWM, and to a limited extent, Enlightenment and
+#  MWM.  My favorite was IceWM, simply because it was easy to configure and
+#  fast.  FVWM is relatively hard to  configure, or at least there is a steep
+#  learning curve, but you can do so much more.  All of this started when I had
+#  to use a CLI extensively at work.  This precipitated a sort of culture shock,
+#  since I had been using GUIs essentially all my life, and got me interested in
+#  user interfaces in general.  I decided to see how comfortable I could make an
+#  interface.  FVWM is so configurable that I wouldn't be limited by it.  Plus it
+#  has a lot of history behide it. Finally, I was inspired by Piotr Zielinski's
+#  ideas on user interfaces
+#  (http://www.cl.cam.ac.uk/~pz215/editing/windows.html).  I decided to use a
+#  few of his principles and see what I could come up with.  My other
+#  inspiration was the Opera browser, which I think has one of the best UIs out
+#  there.   The way in which I generally work is to have one window taking up
+#  most of the screen, and be able easily switch between windows, pages, and
+#  desktops.
+#  
+# Clever Ideas
+# 
+#  Some of my favorite ideas that were original in the sense that I didn't see
+#  them anywhere else first, though I did eventually see most in other places,
+#  are as follows.
+#
+#  Zielinski says to use the root window for bindings since it is large and 
+#  available.  But what about windows that take up the whole screen?  My
+#  solution is to have pan edges (which I have found no where except FVWM) and
+#  use those as a root window when the root window isn't visible.  The edge of
+#  the screen is exceedingly large in the sense that you don't have to be
+#  precise in going to the edge with the pointer.
+#  
+#  I used to have no title bar buttons, which is not original, but needs to be
+#  available more often, in my opinion.  I now have a Close button on the right
+#  and a window ops menu on the left.  One thing that is original is my
+#  mouse wheel resize function, which resizes a window when the mouse wheel is
+#  rolled while the pointer is on the title bar.  It's very efficient and
+#  fun.  With xcompmgr, I can do the same with translucency too.
+#  
+#  PickAgain is a generalized Pick.   One can select as many windows as
+#  necessary and click the root window or hit Esc to stop.  It's a bit buggy
+#  as it won't work on FvwmIdent or Close properly, but is very handy for
+#  moving groups of windows.
+#  
+#  Scroll mode temporarily enables edge scrolling.  Windows can always be
+#  moved across page boundaries, but it's not desirable, in my opinion, to
+#  have edge scrolling on most of the time.  It is, however, the most
+#  efficient way to switch pages with a mouse.  Therefore I have bound scroll
+#  mode to a double click of the root window.  Scroll mode turns off when any
+#  mouse button is clicked.
+#  
+#  Using the scroll wheel on the root window focuses and raises the
+#  next/previous window.  This makes it exceedingly easy to switch between two
+#  windows on the same page (using previous).  
+#  
+#  A thumbnail window list adds a bit of eye candy and utility.  What better
+#  way to find the window you're looking for than to see a menu of all windows
+#  in miniature?  
+#
+#  Since I started using Emacs, I've been enamored with bindings to multiple
+#  keypresses.  The FVWM FAQ has a question on this topic.  I have menus bound to
+#  certain keys (like super-s for a launcher menu), and each entry is bound to a
+#  hotkey (another keypress).  It's very effective because it's easier to remember
+#  what the bindings are.
+
+
+################################################################################
+# GENERAL CONFIGURATION FILES
+################################################################################
+
+# these define the base configuration, global options, general functions, etc.
+# there may be dependencies, but they're confined to this group, and generally follow this order
+
+# host-specific settings
+Read host.fvwm
+
+# this sets environment variables, desktop names, focus policy, global styles (Style * ...), etc.
+Read globalfeel.fvwm
+
+# global visual settings: titles, buttons, fonts, etc.
+Read decorations.fvwm
+
+# individual window styles
+Read styles.fvwm
+
+# sets icons and miniicons for individual windows
+Read iconstyles.fvwm
+
+# general complex function definitions
+Read functions.fvwm
+
+# menu definitions
+Read menus.fvwm
+
+# key and mouse bindings
+Read bindings.fvwm
+
+# definitions for InitFunction and StartFunction
+Read startup.fvwm
+
+# general module configuration
+Read modules.fvwm
+
+
+################################################################################
+# AUXILARY CONFIGURATION FILES
+################################################################################
+
+# these are add ons, and may have dependencies (or assumptions) on the general config files
+# however, each is fairly independent, and designed to load like a module
+
+# there are 4 "desktop utilities": DesktopPager*, DesktopButtons*, DesktopTerminal*, and DesktopIconMan
+# these utilities are designed to work together and improve the fvwm experience
+# since there's a lot of stuff devoted specifially to these, all of the configuration and setup goes into this file
+# it includes styles, startup, configuration, functions, etc.
+Read desktop_utils.fvwm
+
+# this is a collection of functions and modules that force fvwm to return to the previous page of a desktop,
+# e.g. you are working in page 2 of desktop 1, and switch to page 3 desktop 2.  
+# if you return to desktop 1, you will be warped to page 2
+Read remember_pages.fvwm
+
+# remembers which window has focus on each page, 
+# and flips focus to the appropriate window on page and desk changes
+Read remember_focus.fvwm
+
+# has a function to turn on edge scrolling
+# turns off with the next click anywhere with any mouse button
+Read scroll_mode.fvwm
+
+# makes a screenshot thumbnail of a window whenever it's raised
+# and provides a winlist-like menu using the thumbnails
+Test (EnvIsSet USE_SCREENSHOT_THUMBS) Read screenshot_thumbnail.fvwm
+
+# xcompgr functions
+Test (EnvIsSet USE_COMPOSITE)   Read xcompmgr.fvwm

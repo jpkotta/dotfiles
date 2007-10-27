@@ -1,0 +1,47 @@
+################################################################################
+#
+# REMEMBER FOCUS
+#
+################################################################################
+
+################################################################################
+# NOTES
+################################################################################
+
+# The idea is to have an FvwmEvent that runs a function everytime a the current
+# window needs to lose focus (e.g. it is iconified).  The function should always
+# focus the correct window (basically the previous one that is focusable).
+
+
+################################################################################
+# FUNCTIONS
+################################################################################
+
+DestroyFunc FocusPrev
+AddToFunc FocusPrev
+#+ I Echo func.context = $[func.context]
++ I None (CurrentPage, Focused, AnyScreen) \
+    Prev (CurrentPage, !Iconic, !Shaded, Visible, AnyScreen) \
+    FlipFocus NoWarp
+
+
+################################################################################
+# MODULES
+################################################################################
+
+DestroyModuleConfig FvwmEventFocus
+*FvwmEventFocus: Cmd Function
+*FvwmEventFocus: new_page       FocusPrev
+*FvwmEventFocus: new_desk       FocusPrev
+*FvwmEventFocus: destroy_window FocusPrev
+*FvwmEventFocus: windowshade    FocusPrev
+*FvwmEventFocus: iconify        FocusPrev
+
+
+################################################################################
+# STARTUP
+################################################################################
+
+KillModule FvwmEvent FvwmEventFocus
+FvwmEvent FvwmEventFocus
+

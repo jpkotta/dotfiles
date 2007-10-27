@@ -1,0 +1,95 @@
+################################################################################
+# DesktopIconMan
+################################################################################
+
+# Notes:
+# we have 2 FvwmIconMans swallowed by an FvwmButtons
+
+DestroyFunc ButtonBinding1
+AddToFunc ButtonBinding1
++ I Iconify off
++ I FlipFocus
++ I Raise
+#+ D ThisWindow (Iconic) Maximize True
+#+ D TestRc (NoMatch) Maximize 100 100
+#+ D Iconify False
+
+DestroyModuleConfig DesktopIconMan: *
+
+*DesktopIconMan: NumManagers 2
+
+# the windows that show up in one manager seem to be ignored by the other
+*DesktopIconMan: 1 Resolution page
+*DesktopIconMan: 2 Resolution desk
+
+*DesktopIconMan: Colorset $[MENU_COLORSET]
+*DesktopIconMan: IconColorset $[MENU_COLORSET]
+*DesktopIconMan: SelectColorset $[MENU_HILIGHT_COLORSET]
+*DesktopIconMan: FocusColorset $[MENU_HILIGHT_COLORSET]
+*DesktopIconMan: FocusAndSelectColorset $[MENU_HILIGHT_COLORSET]
+*DesktopIconMan: TipsColorset $[ICON_TITLE_COLORSET]
+
+*DesktopIconMan: 1 ManagerGeometry 1x1
+*DesktopIconMan: 2 ManagerGeometry 1x1
+*DesktopIconMan: MaxButtonWidthByColumns 4
+
+*DesktopIconMan: Font 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
+    -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
+*DesktopIconMan: TipsFont 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
+    -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
+
+*DesktopIconMan: PlainButton flat
+*DesktopIconMan: SelectButton flat
+*DesktopIconMan: IconButton down
+
+*DesktopIconMan: Sort id
+*DesktopIconMan: 1 Title "This Page"
+*DesktopIconMan: 2 Title "Other Pages"
+*DesktopIconMan: DrawIcons always
+*DesktopIconMan: UseWinList true
+*DesktopIconMan: FollowFocus true
+
+*DesktopIconMan: Tips always
+*DesktopIconMan: TipsDelays 0 0
+
+*DesktopIconMan: Action Mouse 1 N sendcommand ButtonBinding1
+*DesktopIconMan: Action Mouse 2 N sendcommand Iconify
+*DesktopIconMan: Action Mouse 3 N sendcommand WindowMenuOrCloseIcon
+*DesktopIconMan: NoIconAction SendToModule FvwmAnimate animate
+
+
+################################################################################
+# swallowing buttons
+
+DestroyModuleConfig DesktopIconButtons: *
+
+SetEnv __height__ 27
+PipeRead 'echo SetEnv __window_height__ $(($__height__ * 4))'
+
+*DesktopIconButtons: ButtonGeometry $[vp.width]x$[__height__]
+*DesktopIconButtons: BoxSize smart
+*DesktopIconButtons: Columns 1
+*DesktopIconButtons: Rows 4
+*DesktopIconButtons: Colorset $[BUTTONS_COLORSET]
+
+*DesktopIconButtons: Geometry $[vp.width]x$[__window_height__]+0-0
+
+*DesktopIconButtons: (1x3, Frame 1, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
+    "Other Pages" "Nop")
+
+*DesktopIconButtons: (1x1, Frame 0, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
+    "This Page" "Nop")
+
+UnSetEnv __height__
+UnSetEnv __window_height__
+
+
+################################################################################
+# startup
+################################################################################
+
+KillModule FvwmIconMan DesktopIconMan
+KillModule FvwmButtons DesktopIconButtons
+
+Module FvwmIconMan DesktopIconMan
+Module FvwmButtons DesktopIconButtons 

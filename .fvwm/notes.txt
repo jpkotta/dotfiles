@@ -1,0 +1,38 @@
+cron job to clean out the menu thumbs
+try to get functionality like opera's left-right and right-left clicks
+help menus
+clean up
+
+it would be nice to be able to click on the swallowed xclock in DesktopButtons
+    and toggle the button bar. however, there is a known bug with binding actions
+    to swallowed buttons, it just doesn't work.  this true as of v2.5.16.
+
+arrange post it notes automatically (someone has most likely done this already)
+    Here's a solution, but it doesn't work well, and isn't really necessary
+    Style XPostit !UsePPlacement
+    DestroyFunc RearrangePostitNotes
+    AddToFunc RearrangePostitNotes
+    + I    All (XPostit) PlaceAgain
+    + I    All (XPostit) PlaceAgain
+
+fix PickAgain (gets called twice sometimes on FvwmIdent)
+
+nedit's find dialog generates a "string not found" popup that's not focused, so
+it's annoying to manually focus and close it.  it is an fvwm setting because in
+enlightenment, it is focused
+    ClickToFocus style seems to be the culprit
+
+many things would be much easier with a third icon for each window.  this would
+    make it easy to do the screenshot winlist, the big pager, and to write an
+    expose extension.
+
+
+
+################################################################################
+
+bugs to report
+    iconman geometry (ManagerGeometry is unclear in docs)
+    iconman manpage has a typo
+    buttons geometry is order-dependent in config file
+    StickAcrossPages is broken, doesn't act like StickyAcrossPages style
+    

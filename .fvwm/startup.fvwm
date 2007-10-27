@@ -1,0 +1,46 @@
+################################################################################
+#
+# STARTUP
+#
+################################################################################
+
+################################################################################
+# NOTES
+################################################################################
+
+# most of the startup code is with the configuration code, 
+# e.g. startup code for modules is in modules.fvwm with the module configurations
+# this is so you can change a configuration and just Read the file to make 
+# it take effect instead of restarting
+
+# note that this destroys the StartFunction and InitFunction
+
+
+################################################################################
+# INITIAL STARTUP
+################################################################################
+
+# do this only at initial startup, i.e. when X starts
+DestroyFunc InitFunction
+AddToFunc InitFunction
+# sometimes fvwm-menu-directory has problems when this file exists,
+# which is weird because it creates it
++ I Exec exec rm -f $[FVWM_USERDIR]/.fvwm-menu-directory.dir
++ I StartScreensaver
++ I Exec artswrapper -s 1 ; sleep 3 ; artsdsp esd -nobeeps -as 1
+#+ I Exec exec gnome-panel
+#+ I Exec exec gnome-settings-daemon
++ I Test (EnvIsSet USE_COMPOSITE) RestartXcompmgr
+#+ I Exec exec $[FVWM_SCRIPTDIR]/rotate_wallpaper
+#+ I Exec exec gaim
+
+
+################################################################################
+# ALL STARTUPS
+################################################################################
+
+# do this everytime FVWM is restarted, i.e. when the Restart command is issued
+DestroyFunc StartFunction
+AddToFunc StartFunction
++ I Nop
+

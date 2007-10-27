@@ -1,0 +1,56 @@
+################################################################################
+#
+# XCOMPMGR STUFF
+#
+################################################################################
+
+################################################################################
+# NOTES
+################################################################################
+
+
+################################################################################
+# STYLES
+################################################################################
+
+# there is a horrible bug that locks up the X server and FVWM 
+# when both xcompmgr and icon titles are enabled
+Style * NoIconTitle
+
+################################################################################
+# FUNCTIONS
+################################################################################
+
+# xcompmgr is finally pretty stable, but occasionally it gets screwy or dies
+# FVWM must be restarted after xcompmgr, otherwise edges don't work
+# with newer nVidia drivers, the problem seems to have been fixed
+DestroyFunc RestartXcompmgr
+AddToFunc RestartXcompmgr
++ I Exec killall xcompmgr || killall -KILL xcompmgr ; exec xcompmgr -n &
+#+ I Restart
+
+# increases or decreases translucency
+# function works fine, but xcompmrg isn't ready for primetime
+DestroyFunc DecTranslucency
+AddToFunc DecTranslucency
++ I Exec $HOME/bin/transset-df --min 0.2 --dec 0.2 --id $[w.id] >/dev/null
+
+DestroyFunc IncTranslucency
+AddToFunc IncTranslucency
++ I Exec $HOME/bin/transset-df --min 0.2 --inc 0.2 --id $[w.id] >/dev/null
+
+
+################################################################################
+# MENUS
+################################################################################
+
+AddToMenu RootMisc "%mini.ray.xpm%Restart xcompmgr" RestartXcompmgr
+
+
+################################################################################
+# STARTUP
+################################################################################
+
+AddToFunc StartFunction
++ I Schedule 5000 All (DesktopTerminal*) DecTranslucency
++ I Schedule 5000 All (DesktopPager) DecTranslucency

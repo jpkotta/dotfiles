@@ -61,7 +61,7 @@ PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib/pkgconfig"
 ################################################################################
 # IMPORTANT VARIABLES
 
-export EDITOR=/usr/bin/xemacs
+export EDITOR=$HOME/bin/editor
 export BROWSER=/usr/bin/opera
 export PAGER=/usr/bin/less
 
@@ -170,7 +170,7 @@ alias psgaux='ps auxw | grep -vE "grep|psg" | grep -E'
 alias srcgrp="grep -RE --include='*.[ch]'"
 
 # ls aliases
-alias ls='/bin/ls -F --color=auto'
+alias ls='/bin/ls -vF --color=auto'
 alias l='ls'
 # long listing
 alias ll='ls -l'
@@ -229,17 +229,12 @@ alias hogm="ps -e -o %mem,pid,ppid,user,cmd | sort -nr | head"
 # -c 5 means send five packets, time out after 5 sec
 # -A means adapt interval so as to be fast as possible with only one packet in transit at a time
 alias ping='ping -c 5 -A'
-# sounds a gong
-alias gong='esdplay /home/jpkotta/.fvwm/data/sounds/gong.wav'
-# sounds a gong at the specified time, time format is the same as for 'at'
-alias gongat='echo esdplay /home/jpkotta/.fvwm/data/sounds/gong.wav | at -v'
 # screenshot
 alias screenshot="xwd -root -silent | xwdtopnm | pnmtopng > $HOME/screenshot.png"
 # remake /dev/dsp
 alias mkdsp='sudo mknod /dev/dsp c 14 3 && sudo chmod 777 /dev/dsp'
 # open gqview
 alias gq='bg_wrapper gqview'
-alias rldnew='edit ~jpkotta/.rld/new.txt &'
 # start a new opera window
 alias opera='bg_wrapper opera -newwindow'
 # start a new firefox window
@@ -250,20 +245,22 @@ alias nautilus='bg_wrapper nautilus --no-desktop --browser'
 alias acroread='bg_wrapper acroread -openInNewWindow'
 # kpdf is better
 alias kpdf='daemon kpdf'
+# pdf reader
+export PDF_READER=/usr/bin/kpdf
 # open office
 alias oocalc='bg_wrapper oocalc'
 alias oowriter='bg_wrapper oowriter'
 # open my checking account spreadsheets
 alias finances="oocalc ~/doc/finances.sxc"
-# open the perl reference in acroread
-alias perlref="acroread ~/doc/perlref-5.004.1.pdf"
-# open the bash reference in opera
-alias bashref="opera ~/doc/bashref.html"
+# open the perl reference
+alias perlref="$PDF_READER ~/doc/perlref-5.004.1.pdf"
+# open the bash reference
+alias bashref="$BROWSER ~/doc/bashref.html"
 # latex reference
-alias latexref="acroread ~/doc/latex/lshort.pdf"
+alias latexref="$PDF_READER ~/doc/latex/lshort.pdf"
 # python reference
-alias pythonref="acroread ~/doc/python_ref.pdf"
-alias pythondoc="opera ~/doc/python/Python-Docs-2.4.2/html/index.html"
+alias pythonref="$PDF_READER ~/doc/python_ref.pdf"
+alias pythondoc="$BROWSER ~/doc/python/Python-Docs-2.4.2/html/index.html"
 # start up ssh with X11 forwarding and compression
 alias ssh='ssh -XC'
 # xine media player
@@ -276,7 +273,7 @@ alias fah_tail='tail -f /opt/foldingathome/1/FAHlog.txt'
 # bit torrent client
 #alias bt='bg_wrapper btdownloadgui'
 # tremulous
-alias tremulous='if [[ -z $DISPLAY ]] ; then startx /usr/local/bin/tremulous -- :1 ; else /usr/local/bin/tremulous ; fi &'
+alias tremulous='if [[ -z $DISPLAY ]] ; then startx $(which tremulous) -- :1 -config xorg.conf.single ; else echo "Must be run from the console." ; fi &'
 # azureus
 alias azureus='daemon azureus'
 # ntpdate
@@ -287,7 +284,7 @@ alias dusrt='du --max-depth=1 -a -k | sort -n'
 alias mathematica='(export XLIB_SKIP_ARGB_VISUALS=1 ; mathematica &)'
 # Gaim instant messenger
 alias gaim='daemon gaim'
-# xmms
+# music player
 #alias m=xmms
 alias m=cmus-remote
 # cross compiler
@@ -347,29 +344,6 @@ function tarball()
     shift
     tar zcvf $name-`date +%Y%m%d`.tar.gz "$@"
 }
-
-# editor startup, should be transparent for different versions
-function ned()
-{   if [[ -n `which nedit-nc` ]] ; then
-        XLIB_SKIP_ARGB_VISUALS=1 nedit-nc $@
-    elif [[ -n `which nedit` ]] ; then
-        XLIB_SKIP_ARGB_VISUALS=1 nedit $@ >&/dev/null &
-    else
-        echo NEdit does not appear to be on this computer.
-    fi
-}
-
-# # symlinks all hidden files in a directory to the same names without the dot
-# function dot_ln()
-# {
-#     for file in `/bin/ls -a | /bin/egrep "^\.[^./]"` ; do
-#         if [[ "$1" == "-f" ]] ; then
-#             /bin/ln -svif $file ${file:1}
-#         else
-#             /bin/ln -svi $file ${file:1}
-#         fi
-#     done
-# }
 
 # moves specified files to ~/.Trash
 # will not overwrite files that have the same name

@@ -1,0 +1,209 @@
+################################################################################
+#
+# REMEMBER PAGES
+#
+################################################################################
+
+################################################################################
+# NOTES
+################################################################################
+
+# this code will remember the current page of a desk and 
+# flip back to that page if you leave the desk and come back
+
+# updated for nested variable expansion (needs fvwm >= 2.5.15)
+
+# This file uses the global LAST_DESKTOP (= number of desks - 1)
+
+
+################################################################################
+# FUNCTIONS
+################################################################################
+
+# initialize all stored page numbers to zero (page 0,0)
+DestroyFunc SetupPageRecall
+AddToFunc SetupPageRecall
++ I PipeRead \
+    'for desk in `seq 0 $[LAST_DESKTOP]` ; do \
+         echo SetEnv x_prev_page_of_desk${desk} 0 ; \
+         echo SetEnv y_prev_page_of_desk${desk} 0 ; \
+     done'
+
+# store the current page to prev_page_of_deskN, N = desk.n
+DestroyFunc RememberPage
+AddToFunc RememberPage
++ I SetEnv x_prev_page_of_desk$[desk.n] $[page.nx]
++ I SetEnv y_prev_page_of_desk$[desk.n] $[page.ny]
+#+ I Echo x_prev_page_of_desk$[desk.n] = $[x_prev_page_of_desk$[desk.n]]
+#+ I Echo y_prev_page_of_desk$[desk.n] = $[y_prev_page_of_desk$[desk.n]]
+
+
+# store the value of prev_page_deskN (N = desk.n) to prev_page_desk
+DestroyFunc RecallPage
+AddToFunc RecallPage
++ I SetEnv x_prev_page_of_desk $[x_prev_page_of_desk$[desk.n]]
++ I SetEnv y_prev_page_of_desk $[y_prev_page_of_desk$[desk.n]]
+#+ I Echo x_prev_page_of_desk = $[x_prev_page_of_desk]
+#+ I Echo y_prev_page_of_desk = $[y_prev_page_of_desk]
+
+# goes to Nth page
+# arg0: N
+# page N == desk.pagesx + (desk.pagesy)*(pages.nx)
+# page
+# e.g., for a 2x2 desktop:
+# 0 1
+# 2 3
+DestroyFunc GotoNthPage
+AddToFunc GotoNthPage
++ I PipeRead 'echo GotoPage $$(( $0 % $[desk.pagesx] )) $$(( $0 / $[desk.pagesx] ))'
+
+# works like GotoDesk, but remembers what page you were on
+DestroyFunc GotoDeskAndRecallPage
+AddToFunc GotoDeskAndRecallPage
++ I GotoDesk $0 $1 $2 $3
++ I RecallPage
++ I GotoPage $[x_prev_page_of_desk] $[y_prev_page_of_desk]
+
+
+################################################################################
+# MODULES
+################################################################################
+
+DestroyModuleConfig FvwmEventRecallPage
+*FvwmEventRecallPage: Cmd 
+*FvwmEventRecallPage: new_desk       RememberPage
+*FvwmEventRecallPage: new_page       RememberPage
+
+
+################################################################################
+# BINDINGS
+################################################################################
+
+#Key     Down    A       4       GotoDeskAndRecallPage -1 0 $[LAST_DESKTOP]
+#Key     Up      A       4       GotoDeskAndRecallPage +1 0 $[LAST_DESKTOP]
+#Key     1       A       4       GotoDeskAndRecallPage 0 0
+#Key     2       A       4       GotoDeskAndRecallPage 0 1
+#Key     3       A       4       GotoDeskAndRecallPage 0 2
+#Key     4       A       4       GotoDeskAndRecallPage 0 3
+
+DestroyMenu "Goto"
+AddToMenu   "Goto" 
++ "Go to ..."                           Title
++ 'Page 0 0 [&Q] %mini.move1.xpm%'      GotoPage 0 0
++ 'Page 1 0 [&W] %mini.move1.xpm%'      GotoPage 1 0
++ 'Page 0 1 [&E] %mini.move1.xpm%'      GotoPage 0 1
++ 'Page 1 1 [&R] %mini.move1.xpm%'      GotoPage 1 1
++ '' Nop
++ '$[desk.name0] [&1] %mini.move1.xpm%' GotoDeskAndRecallPage 0 0
++ '$[desk.name1] [&2] %mini.move1.xpm%' GotoDeskAndRecallPage 0 1
++ '$[desk.name2] [&3] %mini.move1.xpm%' GotoDeskAndRecallPage 0 2
++ '$[desk.name3] [&4] %mini.move1.xpm%' GotoDeskAndRecallPage 0 3
+
+
+################################################################################
+# STARTUP
+################################################################################
+
+SetupPageRecall
+KillModule FvwmEvent FvwmEventRecallPage
+Module FvwmEvent FvwmEventRecallPage
+
+
+
+
+
+################################################################################
+# OLD VERSION, USE WITH FVWM <= 2.5.14
+################################################################################
+
+# ################################################################################
+# # FUNCTIONS
+# ################################################################################
+
+# # initialize all stored page numbers to zero (page 0,0)
+# DestroyFunc SetupPageRecall
+# AddToFunc SetupPageRecall
+# + I     PipeRead \
+#      'for desk in `seq 0 $[LAST_DESKTOP]` ; do \
+#          echo SetEnv x_prev_page_of_desk${desk} 0 ; \
+#          echo SetEnv y_prev_page_of_desk${desk} 0 ; \
+#      done'
+
+# # store the current page to prev_page_of_deskN, N = desk.n
+# DestroyFunc RememberPage
+# AddToFunc RememberPage
+# + I     PipeRead 'echo SetEnv x_prev_page_of_desk$[desk.n] $[page.nx]'
+# + I     PipeRead 'echo SetEnv y_prev_page_of_desk$[desk.n] $[page.ny]'
+# #+ I     PipeRead 'echo Echo x_prev_page_of_desk$[desk.n] = $$\[x_prev_page_of_desk$[desk.n]\]'
+# #+ I     PipeRead 'echo Echo y_prev_page_of_desk$[desk.n] = $$\[y_prev_page_of_desk$[desk.n]\]'
+
+
+# # store the value of prev_page_deskN (N = desk.n) to prev_page_desk
+# DestroyFunc RecallPage
+# AddToFunc RecallPage
+# + I     PipeRead 'echo SetEnv x_prev_page_of_desk $$\[x_prev_page_of_desk$[desk.n]\]'
+# + I     PipeRead 'echo SetEnv y_prev_page_of_desk $$\[y_prev_page_of_desk$[desk.n]\]'
+# #+ I     Echo x_prev_page_of_desk = $[x_prev_page_of_desk]
+# #+ I     Echo y_prev_page_of_desk = $[y_prev_page_of_desk]
+
+# # goes to Nth page
+# # arg0: N
+# # page N == desk.pagesx + (desk.pagesy)*(pages.nx)
+# # page
+# # e.g., for a 2x2 desktop:
+# # 0 1
+# # 2 3
+# DestroyFunc GotoNthPage
+# AddToFunc GotoNthPage
+# + I     PipeRead 'echo GotoPage $$(( $0 % $[desk.pagesx] )) $$(( $0 / $[desk.pagesx] ))'
+
+# # works like GotoDesk, but remembers what page you were on
+# DestroyFunc GotoDeskAndRecallPage
+# AddToFunc GotoDeskAndRecallPage
+# + I     GotoDesk $0 $1 $2 $3
+# + I     RecallPage
+# + I     GotoPage $[x_prev_page_of_desk] $[y_prev_page_of_desk]
+
+
+# ################################################################################
+# # MODULES
+# ################################################################################
+
+# DestroyModuleConfig FvwmEventRecallPage
+# *FvwmEventRecallPage: Cmd 
+# *FvwmEventRecallPage: new_desk       RememberPage
+# *FvwmEventRecallPage: new_page       RememberPage
+
+
+# ################################################################################
+# # BINDINGS
+# ################################################################################
+
+# #Key     Down    A       4       GotoDeskAndRecallPage -1 0 $[LAST_DESKTOP]
+# #Key     Up      A       4       GotoDeskAndRecallPage +1 0 $[LAST_DESKTOP]
+# #Key     1       A       4       GotoDeskAndRecallPage 0 0
+# #Key     2       A       4       GotoDeskAndRecallPage 0 1
+# #Key     3       A       4       GotoDeskAndRecallPage 0 2
+# #Key     4       A       4       GotoDeskAndRecallPage 0 3
+
+# DestroyMenu "Goto"
+# AddToMenu   "Goto" 
+# + "Go to ..."                           Title
+# + 'Page 0 0 [&Q] %mini.move1.xpm%'      GotoPage 0 0
+# + 'Page 1 0 [&W] %mini.move1.xpm%'      GotoPage 1 0
+# + 'Page 0 1 [&E] %mini.move1.xpm%'      GotoPage 0 1
+# + 'Page 1 1 [&R] %mini.move1.xpm%'      GotoPage 1 1
+# + '' Nop
+# + '$[desk.name0] [&1] %mini.move1.xpm%' GotoDeskAndRecallPage 0 0
+# + '$[desk.name1] [&2] %mini.move1.xpm%' GotoDeskAndRecallPage 0 1
+# + '$[desk.name2] [&3] %mini.move1.xpm%' GotoDeskAndRecallPage 0 2
+# + '$[desk.name3] [&4] %mini.move1.xpm%' GotoDeskAndRecallPage 0 3
+
+
+# ################################################################################
+# # STARTUP
+# ################################################################################
+
+# SetupPageRecall
+# KillModule FvwmEvent FvwmEventRecallPage
+# Module FvwmEvent FvwmEventRecallPage

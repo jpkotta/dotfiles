@@ -7,7 +7,8 @@ echo
 
 # set the wallpaper
 # do this first because it can take a while
-Esetroot -fit -center $HOME/tmp/current_wallpaper &
+#Esetroot -fit -center $HOME/tmp/current_wallpaper &
+hsetroot -full $HOME/tmp/current_wallpaper &
 
 # setup xmodmap, because certain programs (e.g. Mathematica and fvwm) require
 # certain settings
@@ -42,6 +43,7 @@ if [ -r "$HOME/.Xresources" ] ; then
     true
     #xrdb -merge $HOME/.Xresources
     xrdb -load $HOME/.Xresources
+    #echo loaded Xresources
 fi
 
 # turn on numlock
@@ -53,12 +55,14 @@ numlockx
 # start the sound server(s)
 #( artswrapper -s 2 & sleep 3 ; artsdsp esd -nobeeps -as 2 & )
 
-# start composite manager
-if [ x`hostname` = x"shannon" ] ; then 
-    true
-    (sleep 5 ; exec nvidia-settings -l )
-    exec xcompmgr -n &
-fi    
+# # start composite manager
+# if [ x`hostname` = x"euler" \
+#     || x`hostname` = x"shannon" \
+#     || x`hostname` = x"gauss" ] ; then 
+#     true
+#     (sleep 5 ; exec nvidia-settings -l )
+#     exec xcompmgr -n &
+# fi    
 
 # I use this in various scripts
 # it's the screen resolution in WxH format, e.g. 1280x960

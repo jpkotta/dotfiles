@@ -1,0 +1,592 @@
+################################################################################
+#
+# DESKTOP UTILITIES
+#
+################################################################################
+
+################################################################################
+# NOTES
+################################################################################
+
+# this is a set of windows named Desktop* that I use all the time
+# nearly everything specific to them is defined in this file
+
+# this file uses the following globals:
+#   LAST_DESKTOP
+
+# this file sets EdgeCommands and EdgeLeaveCommands
+
+
+################################################################################
+# ENVIRONMENT VARIBLES
+################################################################################
+
+AddSchedId SHOW_DESKTOP_PAGER_SCHED_ID
+AddSchedId SHOW_DESKTOP_ICONS_SCHED_ID
+AddSchedId SHOW_DESKTOP_TERMINAL_SCHED_ID
+AddSchedId SHOW_DESKTOP_BUTTONS_SCHED_ID
+AddSchedId SHOW_DESKTOP_TASKBAR_SCHED_ID
+
+AddColorset BUTTONS_COLORSET
+AddColorset PAGER_COLORSET
+AddColorset PAGER_HILIGHT_COLORSET
+AddColorset PAGER_BALLOON_COLORSET
+AddColorset PAGER_WINDOW_COLORSET
+AddColorset PAGER_HILIGHT_WINDOW_COLORSET
+
+AddState DESKTOP_UTIL_UNHIDEABLE_STATE
+
+# EDGE_COMMAND_? are set later
+
+
+################################################################################
+# STYLES
+################################################################################
+
+# COMMON STYLES
+Style Desktop* !Borders, NoIcon, NoTitle, \
+    WindowListSkip, CirculateSkip, FixedPosition, FixedSize, \
+    !Closable, !Iconifiable, Sticky, !Maximizable
+
+# INDIVIDUAL STYLES
+
+Style DesktopTerminal*  TitleAtRight, SloppyFocus, FPLeaveToUnfocus, Layer 6, \
+                        StartsOnScreen $[RIGHT_SCREEN]
+
+Style DesktopButtons*   NeverFocus, TitleAtLeft, Layer 6, \
+                        !State $[DESKTOP_UTIL_UNHIDEABLE_STATE]
+Style DesktopButtonsMediaPlayer TitleAtTop
+
+# DesktopMiniPager must be on top so it's always visible
+# DesktopPager must be on top so it's on the same layer as DesktopMiniPager
+Style DesktopPager 	    NeverFocus, TitleAtTop, Layer 6
+Style DesktopMiniPager 	NeverFocus, TitleAtTop, Layer 5
+
+Style DesktopTaskbar    NeverFocus, TitleAtBottom, Layer 6
+
+# SWALLOWED BY FVWMBUTTONS
+
+# SkipMapping doesn't map the windows when the apps are launched
+# it appears they become visible as soon as they're swallowed
+Style xclock    SkipMapping
+Style dclock    BorderWidth 0, SkipMapping
+Style gdeskcal  SkipMapping
+Style gkrellm   SkipMapping
+#Style XPostit   Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, SkipMapping
+Style xpad      Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, SkipMapping
+Style xmms*     NoTitle, SkipMapping, StickyAcrossDesks
+Style beep-media-player NoTitle, SkipMapping, StickyAcrossDesks
+Style cmus*     NoTitle, !Borders, StickyAcrossDesks
+
+
+################################################################################
+#
+# FUNCTIONS
+#
+################################################################################
+
+################################################################################
+# SHOW/HIDE FUNCTIONS
+################################################################################
+
+# the utilities are unhidden with EdgeCommand
+# they are hidden with FvwmAuto
+# you move the pointer into an edge, and it schedules a command to show the relevant window
+# if you move the pointer out of the edge before the command executes, it is descheduled
+# similar functionality can be achieved with FvwmAuto, but I ran into problems with that
+# (I think it was related to the fact that none of these have borders)
+# Anyway, I think this is easier to understand and more robust, although more limiting
+SetEnv EDGE_COMMAND_N "Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager"
+#SetEnv EDGE_COMMAND_S "Schedule 250 $[SHOW_DESKTOP_ICONS_SCHED_ID] ShowDesktopIcons"
+SetEnv EDGE_COMMAND_S "Schedule 250 $[SHOW_DESKTOP_TASKBAR_SCHED_ID] ShowDesktopTaskbar"
+SetEnv EDGE_COMMAND_E Nop
+SetEnv EDGE_COMMAND_W "Schedule 500 $[SHOW_DESKTOP_BUTTONS_SCHED_ID] ShowDesktopButtons"
+RestoreEdgeCommands
+# some older commands that i'm not quite ready to throw away:
+#East: Schedule 500 $[SHOW_DESKTOP_TERMINAL_SCHED_ID] StartScrollMode
+#East: Schedule 500 $[SHOW_DESKTOP_TERMINAL_SCHED_ID] ShowDesktopTerminal
+
+# version >= 2.5.12 is needed for EdgeLeaveCommand 
+EdgeLeaveCommand North Deschedule $[SHOW_DESKTOP_PAGER_SCHED_ID]
+#EdgeLeaveCommand South Deschedule $[SHOW_DESKTOP_ICONS_SCHED_ID]
+EdgeLeaveCommand South Deschedule $[SHOW_DESKTOP_TASKBAR_SCHED_ID]
+EdgeLeaveCommand East Deschedule $[SHOW_DESKTOP_TERMINAL_SCHED_ID]
+EdgeLeaveCommand West Deschedule $[SHOW_DESKTOP_BUTTONS_SCHED_ID]
+
+# $0 should be $[w.id]
+DestroyFunc EnterWindowHandler
+AddToFunc EnterWindowHandler
+#+ I Echo EnterWindowHandler: w.name = $[w.name], w.iconname = $[w.iconname], w.class = $[w.class], w.resource = $[w.resource]
+#+ I WindowId $0 (Desktop*) HideDesktopUtils 
++ I Nop
+
+# $0 should be $[w.id]
+# WindowId acts as a very fast prefilter 
+# because the Hide* functions have All searches that don't scale when there are many windows
+DestroyFunc LeaveWindowHandler
+AddToFunc LeaveWindowHandler
+#+ I Echo LeaveWindowHandler: w.name = $[w.name], w.iconname = $[w.iconname], w.class = $[w.class], w.resource = $[w.resource]
++ I WindowId $0 (Desktop*) HideDesktopUtils 
++ I Nop
+
+DestroyFunc HideDesktopUtilsFilter
+AddToFunc HideDesktopUtilsFilter
+# do nothing if pointer window is a DesktopUtil
++ I PointerWindow (Desktop*) Break
+# do nothing if pointer window is not root
++ I TestRc (Error) $[0-100]
++ I $[0-100]
+
+# note that DesktopButtons has a state variable 
+# that controls if it's affected by this function
+DestroyFunc HideDesktopUtils
+AddToFunc HideDesktopUtils
++ I Schedule 500 HideDesktopUtilsFilter HideDesktopPager
+#+ I Schedule 1000 HideDesktopUtilsFilter HideDesktopIcons
+#+ I Schedule 250 HideDesktopUtilsFilter HideDesktopTerminal
++ I Schedule 1500 HideDesktopUtilsFilter HideDesktopTaskbar
++ I Schedule 750 HideDesktopUtilsFilter \
+    Any (CirculateHit, DesktopButtons*, !State $[DESKTOP_UTIL_UNHIDEABLE_STATE]) \
+    HideDesktopButtons
+
+DestroyFunc ShowDesktopPager
+AddToFunc ShowDesktopPager
++ I All (DesktopPager) WindowShade False
++ I All (DesktopPager) Raise
+
+DestroyFunc ShowDesktopIcons
+AddToFunc ShowDesktopIcons
++ I All (Iconic) Raise
+
+DestroyFunc ShowDesktopTaskbar
+AddToFunc ShowDesktopTaskbar
++ I All (DesktopTaskbar) WindowShade False
++ I All (DesktopTaskbar) Raise
+
+DestroyFunc ShowDesktopTerminal
+AddToFunc ShowDesktopTerminal
++ I All (DesktopTerminal*) WindowShade False
++ I All (DesktopTerminal*) Raise
++ I All (DesktopTerminal*) WindowStyle SloppyFocus
+
+DestroyFunc ShowDesktopButtons
+AddToFunc ShowDesktopButtons
++ I All (DesktopButtons*) WindowShade False
++ I All (DesktopButtons*) Raise
++ I All (DesktopButtonsMediaPlayer) WindowStyle SloppyFocus
++ I All (DesktopButtonsMediaPlayer) FlipFocus
++ I All (DesktopButtonsMediaPlayer) WarpToWindow 50 50
+
+DestroyFunc HideDesktopPager
+AddToFunc HideDesktopPager
++ I All (DesktopPager) WindowShade True N
++ I All (DesktopPager) Lower
+
+DestroyFunc HideDesktopIcons
+AddToFunc HideDesktopIcons
++ I All (Iconic) Lower
+
+DestroyFunc HideDesktopTaskbar
+AddToFunc HideDesktopTaskbar
++ I All (DesktopTaskbar) WindowShade True
++ I All (DesktopTaskbar) Lower
+
+DestroyFunc HideDesktopTerminal
+AddToFunc HideDesktopTerminal 
+# fixes remember_focus.fvwm
++ I All (DesktopTerminal*) WindowStyle NeverFocus
++ I All (DesktopTerminal*) WindowShade True E
++ I All (DesktopTerminal*) Lower
+# sometimes the pager gets shown (e.g. pointer gets pushed up there)
+# this seems like an intuitive place to get rid of it
++ I HideDesktopPager
++ I WindowId root WarpToWindow 50 50
+
+DestroyFunc HideDesktopButtons
+AddToFunc HideDesktopButtons
++ I All (DesktopButtons*) WindowShade True W
++ I All (DesktopButtons*) Lower
++ I All (DesktopButtons*) WindowStyle NeverFocus
+
+
+################################################################################
+# OTHER FUNCTIONS
+################################################################################
+
+# raise and warp pointer to previous DesktopTerminal
+# toggles between them when called more than once
+DestroyFunc PrevDesktopTerminal
+AddToFunc PrevDesktopTerminal
++ I ShowDesktopTerminal
++ I Prev (DesktopTerminal*, CirculateHit) WarpToWindow 50 50
++ I Current (!DesktopTerminal*, CirculateHit) \
+    Prev (DesktopTerminal*, CirculateHit) FlipFocus
+
+# toggles the DesktopButtons* on and off
+DestroyFunc ToggleDesktopButtons
+AddToFunc ToggleDesktopButtons
++ I Any (DesktopButtons*, CirculateHit, State $[DESKTOP_UTIL_UNHIDEABLE_STATE]) \
+    HideAndNegateStateDesktopButtons
++ I TestRc (NoMatch) \
+    ShowAndAssertStateDesktopButtons
+
+DestroyFunc HideAndNegateStateDesktopButtons
+AddToFunc HideAndNegateStateDesktopButtons
++ I All (DesktopButtons*, CirculateHit) State $[DESKTOP_UTIL_UNHIDEABLE_STATE] False
++ I HideDesktopButtons
+
+DestroyFunc ShowAndAssertStateDesktopButtons
+AddToFunc ShowAndAssertStateDesktopButtons
++ I All (DesktopButtons*, CirculateHit) State $[DESKTOP_UTIL_UNHIDEABLE_STATE] True
++ I ShowDesktopButtons
+
+
+
+
+
+################################################################################
+#
+# MODULE CONFIGURATION
+#
+################################################################################
+
+################################################################################
+# DesktopButtons
+################################################################################
+
+# the main idea here is information display, 
+# secondary is an easily accessible place (xpostit and media player)
+
+DestroyModuleConfig DesktopButtons: *
+
+#Colorset $[BUTTONS_COLORSET]    fg blue4, bg black, hi grey25, sh grey12
+Colorset $[BUTTONS_COLORSET]    fg blue4, bg black, hi black, sh black
+
+#*DesktopButtons: Font 'xft:New Century Schoolbook:Medium:Italic:pixelsize=14; \
+#    -adobe-new century schoolbook-medium-i-normal-*-14-*-*-*-*-*-*-*'
+*DesktopButtons: Geometry +-2+0@$[LEFT_SCREEN]
+#*DesktopButtons: Geometry +0+116
+*DesktopButtons: ButtonGeometry 16x16
+*DesktopButtons: BoxSize smart
+*DesktopButtons: Columns 8
+*DesktopButtons: Colorset $[BUTTONS_COLORSET]
+
+# a nice analog clock
+# xclock resources are set in ~/.Xresources
+Test (x xclock) \
+    *DesktopButtons: (8x8, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+    "xclock" "Exec exec xclock -update 1 -geometry +1500+1500")
+# rclock can also be used:
+#    "rclock" "Exec exec rclock -update 1 -nodate -fg lavender -bg black -geometry +1500+1500" \
+
+# a nice digital clock
+Test (x dclock) \
+    *DesktopButtons: (8x4, Frame 0, Swallow (NoClose, SwallowNew, UseOld) "dclock" "Exec exec \
+    dclock -fg lavender -bg black -led_off grey15 -miltime -seconds -noblink -fade -date '%a %b %d, %Y' \
+    -font '-adobe-new century schoolbook-medium-i-normal-*-14-*-*-*-*-*-*-*' -geometry 128x64+1500+1500")
+# the alarm in dclock is buggy, don't use it
+#    -audioPlay /usr/bin/esdplay -alarmFile $FVWM_USERDIR/sounds/gong.au")
+# xclock can be used here instead
+#xclock -digital -update 1 -face 'New Century Schoolbook:italic:size=17' -strftime "%a, %b %d, %Y\n%T"
+
+# a nice calendar
+Test (x gdeskcal) \
+    *DesktopButtons: (8x6, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+    "gdeskcal" "Exec exec gdeskcal --first-day=7 -x 1500 -y 1500")
+
+# a nice monitor
+Test (x gkrellm) \
+    *DesktopButtons: (4x28, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+    "gkrellm" "Exec exec gkrellm -geometry +1500+1500")
+
+# app launch buttons
+*DesktopButtons: (4x4, Frame 0, Icon gnome-xterm.png, Action (Mouse 1) 'StartTerminal')
+*DesktopButtons: (4x4, Frame 0, Icon nautilus.png,  Action (Mouse 1) 'StartFileManager')
+*DesktopButtons: (4x4, Frame 0, Icon emacs.png,     Action (Mouse 1) 'StartEditor')
+*DesktopButtons: (4x4, Frame 0, Icon opera.png,     Action (Mouse 1) 'StartBrowser')
+*DesktopButtons: (4x4, Frame 0, Icon gqview.png,    Action (Mouse 1) 'StartImageViewer')
+#*DesktopButtons: (4x4, Frame 0, Icon pysol.png,     Action (Mouse 1) 'StartPySol')
+*DesktopButtons: (4x4, Frame 0, Icon fvwm.xpm,      Action (Mouse 1) 'StartConsole')
+#*DesktopButtons: (4x4, Frame 0, Icon xpad.png,      Action (Mouse 1) "Exec exec xpad")
+*DesktopButtons: (4x4, Frame 0, Icon Jlock.xpm,     Action (Mouse 1) 'ToggleScreensaver')
+
+# postit notes, just drag the mouse over it to generate a new note
+#Test (x xpostit) \
+#    *DesktopButtons: (4x4, Frame 8, Swallow (NoClose, SwallowNew, UseOld) "xpostit" \
+#    "Exec exec xpostit -geometry 48x48+1500+1500")
+
+    
+
+################################################################################
+# DesktopButtonsMediaPlayer
+################################################################################
+
+# swallows media player
+# works like other desktop modules, so it hides/unhides with an EdgeCommand
+DestroyModuleConfig DesktopButtonsMediaPlayer: *
+
+#*DesktopButtonsMediaPlayer: Font 'xft:New Century Schoolbook:Medium:Italic:pixelsize=14; \
+#    -adobe-new century schoolbook-medium-i-normal-*-14-*-*-*-*-*-*-*'
+#*DesktopButtonsMediaPlayer: Geometry +0+0
+*DesktopButtonsMediaPlayer: Geometry +128+-1@$[LEFT_SCREEN]
+*DesktopButtonsMediaPlayer: Columns 1
+*DesktopButtonsMediaPlayer: BoxSize smart
+*DesktopButtonsMediaPlayer: Colorset $[BUTTONS_COLORSET]
+
+# xmms set up
+
+# xmms is a mean app, it wants to control itself
+# StaysOnBottom is useless because it goes to default layer as soon as you 
+#   open the playlist or eq (although those stay on the bottom...)
+# NeverFocus because I keep accidentally hitting keys, 
+#   and I always use the mouse anyway
+#Style xmms NoTitle, WindowListSkip, CirculateSkip, Sticky, \
+#    !Iconifiable, FixedPosition, !Closable, NeverFocus
+
+
+#*DesktopButtonsMediaPlayer: (Size 275 116, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+#    "XMMS" "Exec exec xmms >/dev/null 2>&1")
+#*DesktopButtonsMediaPlayer: (Size 300 232, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+#    "XMMS Playlist" "Nop")
+#*DesktopButtonsMediaPlayer: (Size 275 116, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+#    "XMMS Equalizer" "Nop")
+
+# BMP set up 
+
+#*DesktopButtonsMediaPlayer: (Size 275 116, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+#    "BMP" "Exec exec beep-media-player >/dev/null 2>&1")
+
+# cmus setup
+*DesktopButtonsMediaPlayer: (Size 844 134, Frame 0, \
+    Swallow (NoClose, SwallowNew, UseOld) \
+        "cmus*" "StartTerminal -geometry 120x10 -T cmus -n cmus +sb -fn 7x13 -e cmus")
+
+DestroyFunc RestartMediaPlayer
+AddToFunc RestartMediaPlayer
++ I Exec cmus-remote -C quit
++ I KillModule FvwmButtons DesktopButtonsMediaPlayer
++ I Module FvwmButtons DesktopButtonsMediaPlayer
+
+AddToMenu RootMisc "%mini.ray.xpm%Restart Media Player" RestartMediaPlayer
+AddToFunc StartFunction I RestartMediaPlayer
+
+
+################################################################################
+# DesktopPager
+################################################################################
+
+DestroyModuleConfig DesktopPager: *
+
+# subtle gradients go a long way
+#Colorset $[PAGER_COLORSET]                  fg lavender, bg black, VGradient 32 #000020 black
+#Colorset $[PAGER_HILIGHT_COLORSET]          fg black, bg white, VGradient 32 white lavender
+#Colorset $[PAGER_BALLOON_COLORSET]          fg black, bg bisque
+#Colorset $[PAGER_WINDOW_COLORSET]           fg white, bg grey51, DGradient 32 grey60 grey40
+#Colorset $[PAGER_HILIGHT_WINDOW_COLORSET]   fg white, bg blue4, DGradient 32 blue2 blue4
+
+Colorset $[PAGER_COLORSET]                  fg white, bg black, VGradient 32 #020020 black
+Colorset $[PAGER_HILIGHT_COLORSET]          fg black, bg white, VGradient 32 white lavender
+Colorset $[PAGER_BALLOON_COLORSET]          fg black, bg bisque
+#Colorset $[PAGER_WINDOW_COLORSET]           fg white, bg grey51, DGradient 64 #A090A0 #666676
+Colorset $[PAGER_WINDOW_COLORSET]           fg white, bg grey51, DGradient 64 #7f757f #9fa9ad
+Colorset $[PAGER_HILIGHT_WINDOW_COLORSET]   fg white, bg blue4, DGradient 64 #800080 #3989AF
+
+*DesktopPager: Cols 4
+*DesktopPager: Geometry +0+-1@$[LEFT_SCREEN]
+*DesktopPager: DesktopScale 8
+*DesktopPager: Font 'xft:Century Schoolbook L:Bold:Italic:pixelsize=14; \
+    -adobe-new century schoolbook-medium-i-normal-*-14-*-*-*-*-*-*-*'
+*DesktopPager: SmallFont 5x8
+*DesktopPager: Colorset * $[PAGER_COLORSET]
+*DesktopPager: HilightColorset * $[PAGER_HILIGHT_COLORSET]
+*DesktopPager: BalloonColorset * $[PAGER_BALLOON_COLORSET]
+*DesktopPager: WindowColorsets $[PAGER_WINDOW_COLORSET] $[PAGER_HILIGHT_WINDOW_COLORSET]
+*DesktopPager: MiniIcons
+*DesktopPager: Balloons
+*DesktopPager: BalloonStringFormat "%c: %i"
+*DesktopPager: UseSkipList
+
+# here's some code to generate a thumbnail of the wallpaper and make it the background of DesktopPager
+# all "*DesktopPager: Colorset" statements must be commented out
+#
+##!/bin/bash
+#cd $HOME/tmp
+#ext=`sed 's/.*\.\([a-zA-Z0-9]*\)$/\1/g' ./current_wallpaper`
+#cp -f `cat ./current_wallpaper` ./wallpaper.$ext
+#convert ./wallpaper.$ext -thumbnail 160x120 ./wallpaper_thumb.png
+#rm -f ./wallpaper.$ext
+#
+#*DesktopPager: Fore white
+#*DesktopPager: Back black
+#*DesktopPager: Pixmap $[HOME]/tmp/wallpaper_thumb.png
+
+
+################################################################################
+# DesktopMiniPager
+################################################################################
+
+# a much smaller version of the pager, mainly for showing where you are
+DestroyModuleConfig DesktopMiniPager: *
+
+*DesktopMiniPager: Cols 4
+*DesktopMiniPager: Geometry -0+0@$[RIGHT_SCREEN]
+*DesktopMiniPager: DesktopScale 64
+*DesktopMiniPager: Font none
+*DesktopMiniPager: SmallFont none
+*DesktopMiniPager: Colorset * $[PAGER_COLORSET]
+*DesktopMiniPager: HilightColorset * $[PAGER_HILIGHT_COLORSET]
+*DesktopMiniPager: BalloonColorset * $[PAGER_BALLOON_COLORSET]
+*DesktopMiniPager: WindowColorsets $[PAGER_WINDOW_COLORSET] $[PAGER_HILIGHT_WINDOW_COLORSET]
+*DesktopMiniPager: UseSkipList
+*DesktopMiniPager: NoNames
+
+
+
+################################################################################
+# DesktopIconMan
+################################################################################
+
+# Notes:
+# we have 2 FvwmIconMans swallowed by an FvwmButtons
+
+DestroyFunc ButtonBinding1
+AddToFunc ButtonBinding1
++ I Iconify off
++ I FlipFocus
++ I Raise
+#+ D ThisWindow (Iconic) Maximize True
+#+ D TestRc (NoMatch) Maximize 100 100
+#+ D Iconify False
+
+XineramaPrimaryScreen $[LEFT_SCREEN]
+
+Style "Left Screen" StartsOnScreen $[LEFT_SCREEN]
+Style "Right Screen" StartsOnScreen $[RIGHT_SCREEN]
+
+DestroyModuleConfig DesktopIconMan: *
+
+*DesktopIconMan: NumManagers 2
+
+*DesktopIconMan: 1 Resolution screen
+*DesktopIconMan: 2 Resolution page
+
+*DesktopIconMan: Colorset $[MENU_COLORSET]
+*DesktopIconMan: IconColorset $[MENU_COLORSET]
+*DesktopIconMan: SelectColorset $[MENU_HILIGHT_COLORSET]
+*DesktopIconMan: FocusColorset $[MENU_HILIGHT_COLORSET]
+*DesktopIconMan: FocusAndSelectColorset $[MENU_HILIGHT_COLORSET]
+*DesktopIconMan: TipsColorset $[ICON_TITLE_COLORSET]
+
+*DesktopIconMan: 1 ManagerGeometry 1x1
+*DesktopIconMan: 2 ManagerGeometry 1x1
+*DesktopIconMan: MaxButtonWidthByColumns 4
+
+*DesktopIconMan: Font 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
+    -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
+*DesktopIconMan: TipsFont 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
+    -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
+
+*DesktopIconMan: PlainButton flat
+*DesktopIconMan: SelectButton flat
+*DesktopIconMan: IconButton down
+
+*DesktopIconMan: Sort id
+*DesktopIconMan: 1 Title "Left Screen"
+*DesktopIconMan: 2 Title "Right Screen"
+*DesktopIconMan: DrawIcons always
+*DesktopIconMan: UseWinList true
+*DesktopIconMan: FollowFocus true
+
+*DesktopIconMan: Tips always
+*DesktopIconMan: TipsDelays 0 0
+
+*DesktopIconMan: Action Mouse 0 N sendcommand Nop
+*DesktopIconMan: Action Mouse 1 N sendcommand ButtonBinding1
+*DesktopIconMan: Action Mouse 2 N sendcommand Iconify
+*DesktopIconMan: Action Mouse 3 N sendcommand WindowMenuOrCloseIcon
+#*DesktopIconMan: NoIconAction SendToModule FvwmAnimate animate
+
+
+################################################################################
+# swallowing buttons
+
+DestroyModuleConfig DesktopTaskbar: *
+
+SetEnv __height__ 27
+#SetEnv __window_height__ 81
+SetEnv __window_height__ 27
+
+*DesktopTaskbar: ButtonGeometry $[vp.width]x$[__height__]
+*DesktopTaskbar: BoxSize smart
+*DesktopTaskbar: Columns 2
+#*DesktopTaskbar: Rows 3
+*DesktopTaskbar: Rows 1
+*DesktopTaskbar: Colorset $[BUTTONS_COLORSET]
+
+*DesktopTaskbar: Geometry $[vp.width]x$[__window_height__]+0--1@$[LEFT_SCREEN]
+
+*DesktopTaskbar: (1x1, Frame 1, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
+    "Left Screen" "Nop")
+
+*DesktopTaskbar: (1x1, Frame 0, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
+    "Right Screen" "Nop")
+
+UnSetEnv __height__
+UnSetEnv __window_height__
+
+
+
+################################################################################
+# DesktopTerminals
+################################################################################
+
+# terminals with/without transparency
+#SetEnv DESKTOP_TERMINAL_OPTS "-tr -sh 50 -tint white +sb"
+SetEnv DESKTOP_TERMINAL_OPTS "+sb"
+
+PipeRead "echo SetEnv SCREEN_MID_Y $(( $SCREEN_RES_Y / 2))"
+
+# during a restart, sometimes fvwm reads this file before finding old DesktopTerminals,
+# and it creates new ones when it shouldn't.  Schedules prevent that by giving it
+# a chance to find them
+DestroyFunc StartDesktopTerminals
+AddToFunc StartDesktopTerminals
++ I Schedule 500 None (DesktopTerminal, CirculateHit) \
+    StartTerminal --geometry 120x25-0-$[SCREEN_MID_Y] $[DESKTOP_TERMINAL_OPTS] \
+        -name DesktopTerminal &
++ I Schedule 500 None (DesktopTerminal2, CirculateHit) \
+    StartTerminal --geometry 120x25-0+$[SCREEN_MID_Y] $[DESKTOP_TERMINAL_OPTS] \
+        -name DesktopTerminal2 &
+
+
+################################################################################
+#
+# STARTUP
+#
+################################################################################
+
+KillModule FvwmButtons DesktopButtons
+KillModule FvwmButtons DesktopButtonsMediaPlayer
+KillModule FvwmPager DesktopPager
+KillModule FvwmPager DesktopMiniPager 
+KillModule FvwmAuto 
+KillModule FvwmButtons DesktopTaskbar
+KillModule FvwmIconMan DesktopIconMan
+
+
+Module FvwmButtons DesktopButtons
+Module FvwmButtons DesktopButtonsMediaPlayer
+Module FvwmPager DesktopPager 0 $[LAST_DESKTOP]
+Module FvwmPager DesktopMiniPager 0 $[LAST_DESKTOP]
+Module FvwmAuto 0 -passid -menter EnterWindowHandler LeaveWindowHandler
+Module FvwmIconMan DesktopIconMan
+Module FvwmButtons DesktopTaskbar
+
+StartDesktopTerminals
+
+Schedule 3000 HideDesktopPager
+Schedule 3000 HideDesktopIcons
+Schedule 3000 HideDesktopTaskbar
+Schedule 5000 HideDesktopTerminal
+Schedule 3000 HideDesktopButtons
+
