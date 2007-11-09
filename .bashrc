@@ -261,8 +261,8 @@ alias latexref="$PDF_READER ~/doc/latex/lshort.pdf"
 # python reference
 alias pythonref="$PDF_READER ~/doc/python_ref.pdf"
 alias pythondoc="$BROWSER ~/doc/python/Python-Docs-2.4.2/html/index.html"
-# start up ssh with X11 forwarding and compression
-alias ssh='ssh -XC'
+# start up ssh with compression
+alias ssh='ssh -C'
 # xine media player
 alias xine="bg_wrapper xine --enqueue"
 # xsnow

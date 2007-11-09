@@ -10,7 +10,7 @@
  '(column-number-mode t)
  '(cperl-indent-level 4)
  '(dired-find-subdir t)
- '(dired-no-confirm (quote (create-top-dir)))
+ '(dired-no-confirm (quote (load create-top-dir)))
  '(drag-divider-event-lag 50)
  '(ecb-options-version "2.31")
  '(font-lock-mode t nil (font-lock))

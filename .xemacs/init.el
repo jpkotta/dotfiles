@@ -40,7 +40,7 @@
 (setq sound-alist nil)
 
 ; start server
-(gnuserv-start)
+;(gnuserv-start)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; comint-mode

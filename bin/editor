@@ -3,11 +3,13 @@
 EMACS=$(which xemacs)
 EMACS_CLIENT=gnuclient
 
-# Start an emacs client
-# It will fail unless an emacs server is running, 
-#    in which case start the server.
+$EMACS "$@" 2>/dev/null
 
-if [ -x "$EMACS" ] ; then
-    $EMACS_CLIENT "$@" 2>/dev/null \
-	|| $EMACS "$@" 2>/dev/null
-fi
+# # Start an emacs client
+# # It will fail unless an emacs server is running, 
+# #    in which case start the server.
+
+# if [ -x "$EMACS" ] ; then
+#     $EMACS_CLIENT "$@" 2>/dev/null \
+# 	|| $EMACS "$@" 2>/dev/null
+# fi
