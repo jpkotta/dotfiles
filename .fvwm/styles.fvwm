@@ -96,3 +96,5 @@ Style sun-awt-X11-* Lenience
 
 Style "Buddy List" WindowListSkip
 Style Gaim Sticky
+
+Style Tremulous !Title, !Borders

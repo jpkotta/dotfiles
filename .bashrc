@@ -273,7 +273,9 @@ alias fah_tail='tail -f /opt/foldingathome/1/FAHlog.txt'
 # bit torrent client
 #alias bt='bg_wrapper btdownloadgui'
 # tremulous
-alias tremulous='if [[ -z $DISPLAY ]] ; then startx $(which tremulous) -- :1 -config xorg.conf.single ; else echo "Must be run from the console." ; fi &'
+alias tremulous='if [[ -z $DISPLAY ]] ; then startx $(which tremulous) -- :1 -config xorg.conf.single ; else $(which tremulous) +set r_fullScreen 0 ; fi &'
+# descent
+alias descent="d1x-rebirth-gl -window -grabmouse"
 # azureus
 alias azureus='daemon azureus'
 # ntpdate
