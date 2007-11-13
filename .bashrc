@@ -6,18 +6,13 @@
 # Never start a program from here that will output text.  It screws up things
 #   like ssh.  Put those in ~/.bash_profile instead.
 
-
 ################################################################################
 # Source global definitions
-# bashrc sources /etc/profile.d/msec.sh, which in turn sources /etc/sysconfig/msec
-# this just sets some read only vars that output an annoying error message
-if [[ -f /etc/bashrc && $TMOUT != 0 ]] ; then
-	. /etc/bashrc
-fi
 
-if [[ -f /etc/bash_completion ]] ; then
-    . /etc/bash_completion
-fi
+# if [[ -f /etc/bash_completion && -n "$COMPLETION_ENABLED" ]] ; then
+#     COMPLETION_ENABLED=1
+#     . /etc/bash_completion
+# fi
 
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
