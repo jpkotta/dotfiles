@@ -13,7 +13,7 @@ DestroyMenu RootMenu
 AddToMenu RootMenu
 + "FVWM Root Menu"                          Title
 + "%mini.lock.xpm%Blank Screen"             BlankScreen
-+ "%mini.term.xpm%Terminal"                 StartTerminal
++ "%mini.term.xpm%Terminal"                 StartTerminal -pe tabbed
 #+ "%mini.term.xpm%Root Terminal"            StartRootTerminal
 + "%mini.filemgr.xpm%File Manager"          StartFileManager
 + "%mini.edit.xpm%Editor"                   StartEditor
