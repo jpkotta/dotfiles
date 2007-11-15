@@ -78,11 +78,6 @@ Mouse (XMathematica) 5 W N FakeKeyPress modifiers 8 press Down wait 50
 
 Style Pysol CenterPlacement
 
-# these are persistent windows that only occupy the first desk
-Style "Buddy List" \
-    FixedPosition, FixedSize, CirculateSkip, StickyAcrossPages, \
-    !Iconifiable, StartsOnDesk 0
-
 Style "RadarMap <unregistered>" \
     NoTitle, !Borders, NeverFocus, StickyAcrossPages, \
     CirculateSkip, WindowListSkip, StartsOnDesk 0, \
@@ -94,5 +89,8 @@ Style gnome-panel   StaysOnBottom, GNOMEIgnoreHints
 # this lets FVWM control focusing
 Style sun-awt-X11-* Lenience
 
-Style "Buddy List" WindowListSkip
+# IM client
+Style "Buddy List" WindowListSkip, CirculateSkip, \
+	FixedPosition, FixedSize, !Iconifiable
 Style Gaim Sticky
+Style Pidgin Sticky

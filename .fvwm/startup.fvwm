@@ -32,7 +32,8 @@ AddToFunc InitFunction
 #+ I Exec exec gnome-settings-daemon
 + I Test (EnvIsSet USE_COMPOSITE) RestartXcompmgr
 #+ I Exec exec $[FVWM_SCRIPTDIR]/rotate_wallpaper
-+ I Exec exec gaim
+#+ I Exec exec gaim
++ I Exec exec pidgin
 
 
 ################################################################################

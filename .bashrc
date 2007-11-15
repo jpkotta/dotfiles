@@ -11,12 +11,8 @@
 # Source global definitions
 # bashrc sources /etc/profile.d/msec.sh, which in turn sources /etc/sysconfig/msec
 # this just sets some read only vars that output an annoying error message
-if [[ -f /etc/bashrc && $TMOUT != 0 ]] ; then
-	. /etc/bashrc
-fi
-
 if [[ -f /etc/bash_completion ]] ; then
-    . /etc/bash_completion
+    TERM=linux . /etc/bash_completion
 fi
 
 # this causes output from background processes to be output right away,
@@ -284,6 +280,7 @@ alias dusrt='du --max-depth=1 -a -k | sort -n'
 alias mathematica='(export XLIB_SKIP_ARGB_VISUALS=1 ; mathematica &)'
 # Gaim instant messenger
 alias gaim='daemon gaim'
+alias pidgin='daemon pidgin'
 # music player
 #alias m=xmms
 alias m=cmus-remote
