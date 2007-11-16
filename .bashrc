@@ -8,11 +8,12 @@
 
 
 ################################################################################
-# Source global definitions
-# bashrc sources /etc/profile.d/msec.sh, which in turn sources /etc/sysconfig/msec
-# this just sets some read only vars that output an annoying error message
-if [[ -f /etc/bash_completion ]] ; then
-    TERM=linux . /etc/bash_completion
+
+# bash_completion has an error, that causes it to fail if you source
+# it more than once, thus we make it idempotent
+if [[ -f /etc/bash_completion && -z "$COMPLETION_ENABLED" ]] ; then
+    COMPLETION_ENABLED=1
+    . /etc/bash_completion
 fi
 
 # this causes output from background processes to be output right away,
@@ -57,9 +58,14 @@ PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib/pkgconfig"
 ################################################################################
 # IMPORTANT VARIABLES
 
+# configure less to page just about anything in a rational way
+if [ -e $(which lessfile) ] ; then
+    eval $(lessfile)
+fi
+
 export EDITOR=$HOME/bin/editor
 export BROWSER=/usr/bin/opera
-export PAGER=/usr/bin/less
+export PAGER="/usr/bin/less --LONG-PROMPT"
 
 ################################################################################
 # OTHER VARIABLES 
@@ -184,7 +190,6 @@ alias lsd='ls -d `find . -mindepth 1 -maxdepth 1 -type d | sed "s/\.\///g"`'
 # display 'canonical' name (guaranteed to be unique and not a symlink)
 alias lc='readlink -f'
 
-
 # clear the screen, Ctrl-L also works
 alias cls='clear'
 alias clc='clear'
@@ -207,11 +212,8 @@ alias rmdir='rmdir -p'
 # rsync for updating usb drives
 alias rsync='rsync -auv'
 
-# 'less' is so hard to type ..., -N means display line numbers
-# turn off line numbers with -n
-alias v='zless -N'
-# unicode problems with man pages
-alias man='LC_CTYPE=en_US man'
+# less (_v_iewer)
+alias v='less --LONG-PROMPT'
 # sdiff the way it was at IBM
 alias sdiff='/usr/bin/sdiff --expand-tabs --ignore-all-space --strip-trailing-cr --width=160'
 # displays global disk usage by partition, excluding supermounted devices
