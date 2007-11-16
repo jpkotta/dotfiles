@@ -9,10 +9,10 @@
 ################################################################################
 # Source global definitions
 
-# if [[ -f /etc/bash_completion && -n "$COMPLETION_ENABLED" ]] ; then
-#     COMPLETION_ENABLED=1
-#     . /etc/bash_completion
-# fi
+if [[ -f /etc/bash_completion && -z "$COMPLETION_ENABLED" ]] ; then
+    COMPLETION_ENABLED=1
+    . /etc/bash_completion
+fi
 
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
@@ -413,3 +413,4 @@ function spell()
         echo -e "----------------------------------------------------->"
     fi
 }
+
