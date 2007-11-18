@@ -1,62 +1,31 @@
-<<<<<<< variant A
 #!/bin/sh
 
 set -e # bail out quickly on failure
+
+# choose your emacs executable
+# e.g. EMACS=emacsclient or EMACS=xemacs
+EMACS=xemacs
+
+# choose your emacs options
+# e.g. EMACS_OPTIONS="-q"
+# note there will be an --eval option to invoke ediff mode
+EMACS_OPTIONS=""
 
 LOCAL="$1"
 BASE="$2"
 OTHER="$3"
 
-BACKUP="$LOCAL.orig"
-
-Rm ()
-{
-    rm  -f "$BACKUP"
-}
-
-Restore ()
-{
-    cp "$BACKUP" "$LOCAL" 
-}
-
-ExitOK ()
-{
-    Rm 
-    exit $?
-}
-
-   # Back up our file
-cp "$LOCAL" "$BACKUP"
-
-   # Attempt to do a non-interactive merge
-if which merge > /dev/null 2>&1 ; then
-    if merge "$LOCAL" "$BASE" "$OTHER" 2> /dev/null; then
-           # success!
-	ExitOK 
-    fi
-    Restore
-elif which diff3 > /dev/null 2>&1 ; then
-    if diff3 -m "$BACKUP" "$BASE" "$OTHER" > "$LOCAL" ; then
-           # success
-	ExitOK
-    fi
-    Restore
+if [ ! -f "$LOCAL" \
+    -o ! -f "$BASE" \
+    -o ! -f "$OTHER" ] ; then
+    bin_name=$(basename $0)
+    echo "Usage: $bin_name LOCAL BASE OTHER"
+    echo "Does a 3-way merge on the specified files."
+    echo "    BASE is considered as a common ancestor, the others are modified versions of it."
+    echo "    LOCAL is the version you have changed."
+    echo "    OTHER is the version someone else has changed."
+    exit 1
 fi
-
-if xemacs -q --no-site-file --eval "(ediff-merge-with-ancestor \"$BACKUP\" \"$OTHER\" \"$BASE\" nil \"$LOCAL\")" 
-    then       
-    ExitOK
-fi
-
-echo "emacs-merge: failed to merge files"
-exit 1>>>>>>> variant B
-#!/bin/sh
-
-set -e # bail out quickly on failure
-
-LOCAL="$1"
-BASE="$2"
-OTHER="$3"
 
 BACKUP="$LOCAL.orig"
 
@@ -94,7 +63,7 @@ elif which diff3 > /dev/null 2>&1 ; then
     Restore
 fi
 
-if xemacs -q --eval "(ediff-merge-with-ancestor \"$BACKUP\" \"$OTHER\" \"$BASE\" nil \"$LOCAL\")" 
+if $EMACS $EMACS_OPTIONS --eval "(ediff-merge-with-ancestor \"$BACKUP\" \"$OTHER\" \"$BASE\" nil \"$LOCAL\")" 
     then       
     ExitOK
 fi
@@ -102,5 +71,5 @@ fi
 echo "emacs-merge: failed to merge files"
 exit 1
 
-# End of file####### Ancestor
-======= end
+# End of file
+
