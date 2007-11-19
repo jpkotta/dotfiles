@@ -52,15 +52,15 @@ Style xine !DecorateTransient
 Style "xine Video Fullscreen Window" StaysOnTop
 Style "xine Panel" StaysOnTop
 
-Style Xfractint NoTitle, !Borders, ClickToFocusRaises, CenterPlacement
+Style Xfractint NoTitle, !Borders, ClickToFocusRaises, PositionPlacement Center
 
 Style "GQview full screen" NoTitle, !Borders, StaysOnTop
 Style "Find duplicates - GQview" StaysOnTop
-Style gqview CenterPlacement
+Style gqview PositionPlacement Center
 
 # needed for fullscreen mode to lose the titlebar
 #Style opera MWMDecor
-Style opera CenterPlacement
+Style opera PositionPlacement Center
 
 # scroll wheel doesn't work in mathematica (doesn't work in windows version either)
 Mouse (XMathematica) 4 W N --
@@ -76,7 +76,7 @@ Mouse (XMathematica) 5 W N FakeKeyPress modifiers 8 press Down wait 50
 #Mouse (AcroRead) 4 W N FakeKeyPress press Page_Up
 #Mouse (AcroRead) 5 W N FakeKeyPress press Page_Down
 
-Style Pysol CenterPlacement
+Style Pysol PositionPlacement Center
 
 # these are persistent windows that only occupy the first desk
 Style "Buddy List" \
@@ -94,7 +94,8 @@ Style gnome-panel   StaysOnBottom, GNOMEIgnoreHints
 # this lets FVWM control focusing
 Style sun-awt-X11-* Lenience
 
-Style "Buddy List" WindowListSkip
+Style "Buddy List" WindowListSkip, Sticky
 Style Gaim Sticky
+Style Pidgin Sticky
 
 Style Tremulous !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
