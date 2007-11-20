@@ -74,8 +74,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; OCTAVE
 
-; open .m files in octave mode (i can't believe there isn't a matlab mode)
-(setq auto-mode-alist (cons '("\\.m\\'" . octave-mode) auto-mode-alist))
+; open .m files in octave mode (i can't believe there isn't a matlab mode in emacs)
+;(setq auto-mode-alist (cons '("\\.m\\'" . octave-mode) auto-mode-alist))
+
+; open .m files in matlab mode (i can't believe there isn't an octave mode in xemacs)
+(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; FVWM
