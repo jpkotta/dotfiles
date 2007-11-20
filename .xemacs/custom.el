@@ -13,6 +13,7 @@
  '(dired-no-confirm (quote (load create-top-dir)))
  '(drag-divider-event-lag 50)
  '(ecb-options-version "2.31")
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(font-lock-mode t nil (font-lock))
  '(get-frame-for-buffer-default-instance-limit 4)
  '(gutter-buffers-tab-visible-p t)
