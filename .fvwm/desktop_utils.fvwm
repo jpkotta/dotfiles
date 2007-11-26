@@ -472,7 +472,7 @@ DestroyModuleConfig DesktopIconMan: *
 
 *DesktopIconMan: Colorset $[MENU_COLORSET]
 *DesktopIconMan: IconColorset $[MENU_COLORSET]
-*DesktopIconMan: SelectColorset $[MENU_HILIGHT_COLORSET]
+*DesktopIconMan: SelectColorset $[MENU_COLORSET]
 *DesktopIconMan: FocusColorset $[MENU_HILIGHT_COLORSET]
 *DesktopIconMan: FocusAndSelectColorset $[MENU_HILIGHT_COLORSET]
 *DesktopIconMan: TipsColorset $[ICON_TITLE_COLORSET]
