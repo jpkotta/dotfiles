@@ -325,7 +325,7 @@ AddToMenu "WindowOpsSmall"
 + "" Nop
 + "&Identify%mini.question.xpm%"                Module FvwmIdent
 + "" Nop
-+ "&Close%mini.delete.xpm"                      Close
++ "&Close%mini.delete.xpm%"                     Close
 
 
 ################################################################################

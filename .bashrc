@@ -248,7 +248,7 @@ export PDF_READER=/usr/bin/kpdf
 alias oocalc='bg_wrapper oocalc'
 alias oowriter='bg_wrapper oowriter'
 # open my checking account spreadsheets
-alias finances="oocalc ~/doc/finances.sxc"
+alias finances="oocalc ~/doc/finances.ods"
 # open the perl reference
 alias perlref="$PDF_READER ~/doc/perlref-5.004.1.pdf"
 # open the bash reference
