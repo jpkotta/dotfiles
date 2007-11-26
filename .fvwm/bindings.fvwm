@@ -54,7 +54,7 @@ Mouse   0       I       4M      Close
 # TITLE BAR
 # only two buttons
 # WinOps menu on click, close on double
-Mouse   1       1       A       Button1Binding
+Mouse   0       1       A       Button1Binding
 # close on any click
 Mouse   0       2       A       Close
 # 3 mouse buttons can do the same job as the common titlebar buttons (close, maximize, iconify)
