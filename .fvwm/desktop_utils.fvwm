@@ -333,42 +333,53 @@ DestroyModuleConfig DesktopButtonsMediaPlayer: *
 *DesktopButtonsMediaPlayer: BoxSize smart
 *DesktopButtonsMediaPlayer: Colorset $[BUTTONS_COLORSET]
 
-# xmms set up
+################################################
+# xmms setup
 
 # xmms is a mean app, it wants to control itself
 # StaysOnBottom is useless because it goes to default layer as soon as you 
 #   open the playlist or eq (although those stay on the bottom...)
 # NeverFocus because I keep accidentally hitting keys, 
 #   and I always use the mouse anyway
-#Style xmms NoTitle, WindowListSkip, CirculateSkip, Sticky, \
-#    !Iconifiable, FixedPosition, !Closable, NeverFocus
 
+# Style xmms NoTitle, WindowListSkip, CirculateSkip, Sticky, \
+#     !Iconifiable, FixedPosition, !Closable, NeverFocus
 
-#*DesktopButtonsMediaPlayer: (Size 275 116, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
-#    "XMMS" "Exec exec xmms >/dev/null 2>&1")
-#*DesktopButtonsMediaPlayer: (Size 300 232, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
-#    "XMMS Playlist" "Nop")
-#*DesktopButtonsMediaPlayer: (Size 275 116, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
-#    "XMMS Equalizer" "Nop")
+# *DesktopButtonsMediaPlayer: (Size 275 116, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+#     "XMMS" "Exec exec xmms >/dev/null 2>&1")
+# *DesktopButtonsMediaPlayer: (Size 300 232, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+#     "XMMS Playlist" "Nop")
+# *DesktopButtonsMediaPlayer: (Size 275 116, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+#     "XMMS Equalizer" "Nop")
 
-# BMP set up 
+################################################
+# BMP setup 
 
-#*DesktopButtonsMediaPlayer: (Size 275 116, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
-#    "BMP" "Exec exec beep-media-player >/dev/null 2>&1")
+# *DesktopButtonsMediaPlayer: (Size 275 116, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+#     "BMP" "Exec exec beep-media-player >/dev/null 2>&1")
 
+################################################
 # cmus setup
-*DesktopButtonsMediaPlayer: (Size 844 134, Frame 0, \
+
+# *DesktopButtonsMediaPlayer: (Size 844 134, Frame 0, \
+#     Swallow (NoClose, SwallowNew, UseOld) \
+#         "cmus*" "StartTerminal -geometry 120x10 -T cmus -n cmus +sb -fn 7x13 -e cmus")
+
+# DestroyFunc RestartMediaPlayer
+# AddToFunc RestartMediaPlayer
+# + I Exec cmus-remote -C quit
+# + I KillModule FvwmButtons DesktopButtonsMediaPlayer
+# + I Module FvwmButtons DesktopButtonsMediaPlayer
+
+# AddToMenu RootMisc "%mini.ray.xpm%Restart Media Player" RestartMediaPlayer
+# AddToFunc StartFunction I RestartMediaPlayer
+
+################################################
+# ncmpc setup
+
+*DesktopButtonsMediaPlayer: (Size 844 147, Frame 0, \
     Swallow (NoClose, SwallowNew, UseOld) \
-        "cmus*" "StartTerminal -geometry 120x10 -T cmus -n cmus +sb -fn 7x13 -e cmus")
-
-DestroyFunc RestartMediaPlayer
-AddToFunc RestartMediaPlayer
-+ I Exec cmus-remote -C quit
-+ I KillModule FvwmButtons DesktopButtonsMediaPlayer
-+ I Module FvwmButtons DesktopButtonsMediaPlayer
-
-AddToMenu RootMisc "%mini.ray.xpm%Restart Media Player" RestartMediaPlayer
-AddToFunc StartFunction I RestartMediaPlayer
+        "ncmpc*" "StartTerminal -geometry 120x11 -T ncmpc -n ncmpc +sb -fn 7x13 -e ncmpc")
 
 
 ################################################################################
