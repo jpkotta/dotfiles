@@ -492,7 +492,7 @@ DestroyModuleConfig DesktopIconMan: *
 *DesktopIconMan: 2 ManagerGeometry 1x1
 *DesktopIconMan: MaxButtonWidthByColumns 4
 
-*DesktopIconMan: Font 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
+*DesktopIconMan: Font 'Shadow=0:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
     -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
 *DesktopIconMan: TipsFont 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
     -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'

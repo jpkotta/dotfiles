@@ -34,7 +34,8 @@ AddToFunc InitFunction
 #+ I Exec exec $[FVWM_SCRIPTDIR]/rotate_wallpaper
 #+ I Exec exec gaim
 + I Exec exec pidgin
-
++ I Exec exec mpd
++ I Exec exec ralbumd
 
 ################################################################################
 # ALL STARTUPS

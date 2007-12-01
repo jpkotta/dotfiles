@@ -42,7 +42,7 @@ Colorset $[DEFAULT_COLORSET] fg white, bg grey75, fgsh grey25
 
 # this font is used for title bars
 # as stated in the manual, you can list an xft font and an XLFD font together
-Style * Font 'Shadow=2:xft:Century Schoolbook L:Medium:Italic:pixelsize=17; \
+Style * Font 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=17; \
     -adobe-new century schoolbook-medium-r-normal-*-17-*-*-*-*-*-*-*'
 
 # these colors are used for the text of the title bar, not the title bar itself
@@ -74,7 +74,7 @@ AddButtonStyle 2 Pixmap mini.cross.xpm -- Flat
 # icon styles
 Colorset $[ICON_TITLE_COLORSET] fg white, RootTransparent, Tint grey25 25
 
-Style * IconFont 'Shadow=2:xft:Century Schoolbook L:Medium:Italic:pixelsize=17; \
+Style * IconFont 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=17; \
     -adobe-new century schoolbook-medium-r-normal-*-17-*-*-*-*-*-*-*'
 Style * IconTitleRelief 0
 Style * IconTitleColorset $[ICON_TITLE_COLORSET], HilightIconTitleColorset $[ICON_TITLE_COLORSET]
@@ -94,7 +94,7 @@ MenuStyle * GreyedColorset $[MENU_HILIGHT_COLORSET]
 MenuStyle * BorderWidth 1
 MenuStyle * Animation
 
-MenuStyle * font 'Shadow=2:xft:Century Schoolbook L:Medium:Regular:pixelsize=16; \
+MenuStyle * font 'Shadow=1:xft:Century Schoolbook L:Medium:Regular:pixelsize=16; \
     -adobe-new century schoolbook-medium-r-normal-*-16-*-*-*-*-*-*-*'
 # MenuStyle * font 'Shadow=2:xft:Times:Medium:Regular:pixelsize=16; \
 #     -*-times-medium-r-*-*-16-*-*-*-*-*-*-*'
