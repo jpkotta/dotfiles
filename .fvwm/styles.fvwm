@@ -60,7 +60,7 @@ Style gqview PositionPlacement Center
 
 # needed for fullscreen mode to lose the titlebar
 #Style opera MWMDecor
-Style opera PositionPlacement Center
+#Style opera PositionPlacement Center
 
 # scroll wheel doesn't work in mathematica (doesn't work in windows version either)
 Mouse (XMathematica) 4 W N --

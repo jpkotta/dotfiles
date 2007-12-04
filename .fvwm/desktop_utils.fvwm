@@ -175,7 +175,7 @@ AddToFunc ShowDesktopButtons
 + I All (DesktopButtons*) Raise
 + I All (DesktopButtonsMediaPlayer) WindowStyle SloppyFocus
 + I All (DesktopButtonsMediaPlayer) FlipFocus
-+ I All (DesktopButtonsMediaPlayer) WarpToWindow 50 50
+#+ I All (DesktopButtonsMediaPlayer) WarpToWindow 50 50
 
 DestroyFunc HideDesktopPager
 AddToFunc HideDesktopPager
@@ -239,6 +239,7 @@ DestroyFunc ShowAndAssertStateDesktopButtons
 AddToFunc ShowAndAssertStateDesktopButtons
 + I All (DesktopButtons*, CirculateHit) State $[DESKTOP_UTIL_UNHIDEABLE_STATE] True
 + I ShowDesktopButtons
++ I All (DesktopButtonsMediaPlayer) WarpToWindow 50 50
 
 
 

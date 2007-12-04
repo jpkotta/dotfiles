@@ -154,20 +154,20 @@ AddToFunc LockScreen
 
 DestroyFunc SleepSystem
 AddToFunc SleepSystem
-+ I Exec gdm-signal --suspend
++ I Exec exec gdm-signal --suspend
 
 DestroyFunc HibernateSystem
 AddToFunc HibernateSystem
-+ I Exec gdm-signal --hibernate
++ I Exec exec gdm-signal --hibernate
 
 DestroyFunc RebootSystem
 AddToFunc RebootSystem
-+ I Exec gdm-signal --reboot
++ I Exec exec gdm-signal --reboot
 + I Quit
 
 DestroyFunc ShutDownSystem
 AddToFunc ShutDownSystem
-+ I Exec gdm-signal --halt
++ I Exec exec gdm-signal --halt
 + I Quit
 
 ################################################################################
