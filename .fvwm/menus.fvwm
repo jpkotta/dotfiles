@@ -386,6 +386,7 @@ AddToMenu   WindowStyle
 + "%mini.window.xpm%TitleAt&Bottom"     PickAgain WindowStyle TitleAtBottom
 + "%mini.window.xpm%TitleAt&Left"       PickAgain WindowStyle TitleAtLeft
 + "%mini.window.xpm%TitleAt&Right"      PickAgain WindowStyle TitleAtRight
++ "" Nop
 + "%mini.window.xpm%&Handles"           PickAgain WindowStyle Handles
 + "%mini.window.xpm%&NoHandles"         PickAgain WindowStyle NoHandles
 + "" Nop
@@ -393,6 +394,9 @@ AddToMenu   WindowStyle
 + "%mini.mouse.xpm%&ClickToFocus"       PickAgain WindowStyle ClickToFocus  
 + "%mini.mouse.xpm%&MouseFocus"         PickAgain WindowStyle MouseFocus    
 + "%mini.mouse.xpm%&NeverFocus"         PickAgain WindowStyle NeverFocus    
++ "" Nop
++ "%mini.delete.xpm%&Closeable"         PickAgain WindowStyle Closable
++ "%mini.delete.xpm%&Not Closeable"     PickAgain WindowStyle !Closable
 + "" Nop
 + "%mini.ray.xpm%&Recapture"            PickAgain RecaptureWindow
 
