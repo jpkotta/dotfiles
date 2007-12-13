@@ -37,7 +37,8 @@ AddToFunc StartRootTerminal
 
 DestroyFunc StartFileManager
 AddToFunc StartFileManager
-+ I Exec exec /usr/bin/thunar
++ I Exec exec /usr/bin/krusader
+#+ I Exec exec /usr/bin/thunar
 #+ I Exec exec /usr/bin/nautilus --no-desktop --browser
 #+ I Exec exec xwc
 
