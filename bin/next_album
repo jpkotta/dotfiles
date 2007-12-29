@@ -5,4 +5,4 @@ if [ ! -x "$(which mpc)" ] ; then
     exit 1
 fi
 
-mpc crop && mpc seek 99% > /dev/null
+mpc play && mpc crop && mpc seek 99% > /dev/null
