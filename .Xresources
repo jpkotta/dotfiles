@@ -10,7 +10,7 @@
 nedit*enableThinThickness:      False
 nedit*enableToggleVisual:       False
 
-! keep menus' 3D attributes "deeper"
+! keep menu 3D attributes "deeper"
 nedit*enableEtchedInMenu:       True
 nedit*XmMenuShell*XmTearOffButton*ShadowThickness:  2
 

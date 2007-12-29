@@ -477,7 +477,8 @@ Style "Right Screen" StartsOnScreen $[RIGHT_SCREEN]
 
 DestroyModuleConfig DesktopIconMan: *
 
-*DesktopIconMan: NumManagers 2
+Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: NumManagers 2
+Test (!EnvIsSet USE_XINERAMA) *DesktopIconMan: NumManagers 1
 
 *DesktopIconMan: 1 Resolution screen
 *DesktopIconMan: 2 Resolution page
@@ -503,8 +504,9 @@ DestroyModuleConfig DesktopIconMan: *
 *DesktopIconMan: IconButton down
 
 *DesktopIconMan: Sort id
-*DesktopIconMan: 1 Title "Left Screen"
-*DesktopIconMan: 2 Title "Right Screen"
+Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: 1 Title "Left Screen"
+Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: 2 Title "Right Screen"
+Test (!EnvIsSet USE_XINERAMA) *DesktopIconMan: 1 Title "Taskbar"
 *DesktopIconMan: DrawIcons always
 *DesktopIconMan: UseWinList true
 *DesktopIconMan: FollowFocus true
@@ -530,18 +532,25 @@ SetEnv __window_height__ 27
 
 *DesktopTaskbar: ButtonGeometry $[vp.width]x$[__height__]
 *DesktopTaskbar: BoxSize smart
-*DesktopTaskbar: Columns 2
+Test (EnvIsSet USE_XINERAMA) *DesktopTaskbar: Columns 2
+Test (!EnvIsSet USE_XINERAMA) *DesktopTaskbar: Columns 1
 #*DesktopTaskbar: Rows 3
 *DesktopTaskbar: Rows 1
 *DesktopTaskbar: Colorset $[BUTTONS_COLORSET]
 
 *DesktopTaskbar: Geometry $[vp.width]x$[__window_height__]+0--1@$[LEFT_SCREEN]
 
+Test (EnvIsSet USE_XINERAMA) \
 *DesktopTaskbar: (1x1, Frame 1, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
     "Left Screen" "Nop")
-
+Test (EnvIsSet USE_XINERAMA) \
 *DesktopTaskbar: (1x1, Frame 0, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
     "Right Screen" "Nop")
+
+Test (!EnvIsSet USE_XINERAMA) \
+*DesktopTaskbar: (1x1, Frame 0, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
+    "Taskbar" "Nop")
+
 
 UnSetEnv __height__
 UnSetEnv __window_height__
