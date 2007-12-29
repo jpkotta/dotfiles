@@ -63,8 +63,10 @@ if [ -e $(which lessfile) ] ; then
 fi
 
 export EDITOR=$HOME/bin/editor
-export BROWSER=/usr/bin/opera
+export BROWSER="/usr/bin/opera -newwindow"
 export PAGER="/usr/bin/less --LONG-PROMPT"
+
+export PDF_READER=/usr/bin/kpdf
 
 ################################################################################
 # OTHER VARIABLES 
@@ -185,7 +187,18 @@ alias lt='ls -lt'
 # long list of all files
 alias lla='ls -lA'
 # display only directories
-alias lsd='ls -d `find . -mindepth 1 -maxdepth 1 -type d | sed "s/\.\///g"`'
+function lsdir()
+{
+    for i in "$@" ; do
+	if [ -d "$i" ] ; then
+	    (
+		cd "$i" 
+		/bin/ls --color=auto -v -d */
+	    )
+	fi
+    done
+}
+alias lsd='lsdir'
 # display 'canonical' name (guaranteed to be unique and not a symlink)
 alias lc='readlink -f'
 
@@ -242,22 +255,20 @@ alias nautilus='bg_wrapper nautilus --no-desktop --browser'
 alias acroread='bg_wrapper acroread -openInNewWindow'
 # kpdf is better
 alias kpdf='daemon kpdf'
-# pdf reader
-export PDF_READER=/usr/bin/kpdf
 # open office
 alias oocalc='bg_wrapper oocalc'
 alias oowriter='bg_wrapper oowriter'
 # open my checking account spreadsheets
 alias finances="oocalc ~/doc/finances.ods"
 # open the perl reference
-alias perlref="$PDF_READER ~/doc/perlref-5.004.1.pdf"
+alias perlref="bg_wrapper $PDF_READER ~/doc/perlref-5.004.1.pdf"
 # open the bash reference
-alias bashref="$BROWSER ~/doc/bashref.html"
+alias bashref="bg_wrapper $BROWSER ~/doc/bashref.html"
 # latex reference
-alias latexref="$PDF_READER ~/doc/latex/lshort.pdf"
+alias latexref="bg_wrapper $PDF_READER ~/doc/latex/lshort.pdf"
 # python reference
-alias pythonref="$PDF_READER ~/doc/python_ref.pdf"
-alias pythondoc="$BROWSER ~/doc/python/Python-Docs-2.4.2/html/index.html"
+alias pythonref="bg_wrapper $PDF_READER ~/doc/python_ref.pdf"
+alias pythondoc="bg_wrapper $BROWSER ~/doc/python/Python-Docs-2.4.2/html/index.html"
 # start up ssh with compression
 alias ssh='ssh -C'
 # xine media player
@@ -283,9 +294,11 @@ alias dusrt='du --max-depth=1 -a -k | sort -n'
 alias mathematica='(export XLIB_SKIP_ARGB_VISUALS=1 ; mathematica &)'
 # Gaim instant messenger
 alias gaim='daemon gaim'
+alias pidgin='daemon pidgin'
+# gkrellm system monitor
+alias gkrellm='daemon gkrellm'
 # music player
-#alias m=xmms
-alias m=cmus-remote
+alias m=xmms
 # cross compiler
 ARM=/usr/local/arm/gcc-4.1.2-uclibc/bin
 alias arm_gcc=/usr/local/arm/gcc-4.1.2-uclibc/bin/arm-linux-uclibc-gcc

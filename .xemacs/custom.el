@@ -32,6 +32,8 @@
  '(truncate-lines t))
 (custom-set-faces
  '(default ((t (:size "11pt" :family "Dejavu Sans Mono" :stipple nil :background "gray12" :foreground "green" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal))))
+ '(cperl-array-face ((((class color) (background light)) (:foreground "Blue" :bold t))))
+ '(cperl-hash-face ((((class color) (background light)) (:foreground "Red" :bold t :italic t))))
  '(highlight-current-line-face ((t (:background "black"))))
  '(hyper-apropos-hyperlink ((((class color) (background light)) (:underline t))))
  '(region ((t (:inverse-video nil))))
