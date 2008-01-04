@@ -130,14 +130,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; LaTeX (AUCTeX) MODE
 
-(add-hook 'LaTeX-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-S-<Enter>") 'TeX-complete)
-            (reftex-mode)
-            (setq reftex-plugin-to-auctex t)
-            (auto-fill-mode)
-            )
-          )
+;(add-hook 'LaTeX-mode-hook
+;          (lambda ()
+;            (local-set-key (kbd "C-S-<Enter>") 'TeX-complete)
+;            (reftex-mode)
+;            (setq reftex-plugin-to-auctex t)
+;            (auto-fill-mode)
+;            )
+;          )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; GNUGO

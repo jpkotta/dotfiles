@@ -1,4 +1,6 @@
 (custom-set-variables
+ '(LaTeX-indent-level 4)
+ '(TeX-brace-indent-level 4)
  '(bar-cursor 2)
  '(bkup-backup-directory-info (quote ((".*" "~/.xemacs/backup" ok-create full-path))) nil (backup-dir))
  '(buffers-tab-face (quote buffers-tab))
