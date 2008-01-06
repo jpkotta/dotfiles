@@ -9,4 +9,5 @@ fi
 
 #ssh -L 5900:localhost:5900 $1 'x11vnc -localhost -display :0 -scale 4/5 -bg' 
 ssh $1 'x11vnc -localhost -display :0 -scale 4/5 -bg' 
-vncviewer -via $1 -encodings 'copyrect tight zrle hextile' localhost:0
+#vncviewer -via $1 -encodings 'copyrect tight zrle hextile' localhost:0
+vncviewer -via $1 localhost:0
