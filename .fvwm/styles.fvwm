@@ -52,6 +52,8 @@ Style xine !DecorateTransient
 Style "xine Video Fullscreen Window" StaysOnTop
 Style "xine Panel" StaysOnTop
 
+Style xmms*     NoTitle, SkipMapping, Sticky
+
 Style Xfractint NoTitle, !Borders, ClickToFocusRaises, PositionPlacement Center
 
 Style "GQview full screen" NoTitle, !Borders, StaysOnTop
