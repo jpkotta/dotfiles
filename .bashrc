@@ -260,15 +260,19 @@ alias oocalc='bg_wrapper oocalc'
 alias oowriter='bg_wrapper oowriter'
 # open my checking account spreadsheets
 alias finances="oocalc ~/doc/finances.ods"
+
 # open the perl reference
 alias perlref="bg_wrapper $PDF_READER ~/doc/perlref-5.004.1.pdf"
 # open the bash reference
 alias bashref="bg_wrapper $BROWSER ~/doc/bashref.html"
+# Linux kernel reference
+alias kernelref="bg_wrapper $BROWSER ~/doc/LinuxDocBook/index.html"
 # latex reference
 alias latexref="bg_wrapper $PDF_READER ~/doc/latex/lshort.pdf"
 # python reference
 alias pythonref="bg_wrapper $PDF_READER ~/doc/python_ref.pdf"
 alias pythondoc="bg_wrapper $BROWSER ~/doc/python/Python-Docs-2.4.2/html/index.html"
+
 # start up ssh with compression
 alias ssh='ssh -C'
 # xine media player
