@@ -74,9 +74,9 @@ Style gdeskcal  SkipMapping
 Style gkrellm   SkipMapping
 #Style XPostit   Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, SkipMapping
 Style xpad      Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, SkipMapping
-Style xmms*     NoTitle, SkipMapping, StickyAcrossDesks
-Style beep-media-player NoTitle, SkipMapping, StickyAcrossDesks
-Style cmus*     NoTitle, !Borders, StickyAcrossDesks
+#Style xmms*     NoTitle, SkipMapping, StickyAcrossDesks
+#Style beep-media-player NoTitle, SkipMapping, StickyAcrossDesks
+#Style cmus*     NoTitle, !Borders, StickyAcrossDesks
 
 
 ################################################################################
