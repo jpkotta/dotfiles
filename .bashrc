@@ -10,10 +10,7 @@
 
 # bash_completion has an error, that causes it to fail if you source
 # it more than once, thus we make it idempotent
-if [[ -f /etc/bash_completion && -z "$COMPLETION_ENABLED" ]] ; then
-    COMPLETION_ENABLED=1
-    . /etc/bash_completion
-fi
+[ -n "$BASH_COMPLETION" ] || . /etc/bash_completion
 
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
@@ -62,7 +59,7 @@ if [ -e $(which lessfile) ] ; then
     eval $(lessfile)
 fi
 
-export EDITOR=$HOME/bin/editor
+export EDITOR="xemacs"
 export BROWSER="/usr/bin/opera -newwindow"
 export PAGER="/usr/bin/less --LONG-PROMPT"
 
