@@ -25,7 +25,7 @@
  '(mail-user-agent (quote sendmail-user-agent))
  '(modeline-3d-p t)
  '(modeline-scrolling-method (quote scrollbar))
- '(paren-mode (quote paren) nil (paren))
+ '(paren-mode nil nil (paren))
  '(pending-delete-mode t nil (pending-del))
  '(pending-delete-modeline-string "")
  '(ps-print-color-p nil)

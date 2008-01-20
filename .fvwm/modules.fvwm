@@ -81,13 +81,55 @@ DestroyModuleConfig FvwmBanner
 *FvwmBanner: Pixmap banner.big_bracket.png
 
 
+
 ################################################################################
-# FvwmTabs
+# FvwmProxy
 ################################################################################
 
-# DestroyModuleConfig FvwmTabs
-# *FvwmTabs: 
-# *FvwmTabs: 
+DestroyFunc ProxyBinding1
+AddToFunc ProxyBinding1
++ I DeiconifyFocusAndRaise
++ I SendToModule FvwmProxy Hide
+
+AddSchedId FVWMPROXY_SCHED_ID
+
+DestroyModuleConfig FvwmProxy: *
+
+*FvwmProxy: Colorset $[MENU_COLORSET]
+*FvwmProxy: SelectColorset $[MENU_HILIGHT_COLORSET]
+*FvwmProxy: Iconified $[MENU_COLORSET]
+
+*FvwmProxy: Font 'Shadow=0:xft:Century Schoolbook L:Medium:Italic:pixelsize=16; \
+    -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
+*FvwmProxy: SmallFont'Shadow=0:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
+    -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
+
+*FvwmProxy: Width 252
+#*FvwmProxy: Height 32
+
+*FvwmProxy: ShowMiniIcons true
+*FvwmProxy: ProxyMove false
+*FvwmProxy: ProxyIconified true
+
+*FvwmProxy: GroupCount 8
+*FvwmProxy: GroupSlot 3
+*FvwmProxy: SlotStyle 1 MiniIcon
+*FvwmProxy: SlotAction 1 Click1 WindowMenuOrClose
+*FvwmProxy: SlotStyle 12 Pixmap "mini.cross.xpm"
+*FvwmProxy: SlotAction 12 Click1 SendToModule FvwmProxy Hide
+
+*FvwmProxy: Action Click1 ProxyBinding1
+*FvwmProxy: Action Click2 Iconify
+#*FvwmProxy: Action Click3 WindowMenuOrClose
+#*FvwmProxy: Action Click3 WindowMenuOrCloseIcon
+*FvwmProxy: Action Click3 Deschedule $[FVWMPROXY_SCHED_ID]
+
+Key Escape A 4 SendToModule FvwmProxy ShowToggle
+
+SetEnv EDGE_COMMAND_S "SendToModule FvwmProxy Show"
+RestoreEdgeCommands
+EdgeLeaveCommand South Schedule 1000 $[FVWMPROXY_SCHED_ID] SendToModule FvwmProxy Hide
+
 
 
 ################################################################################
@@ -97,7 +139,9 @@ DestroyModuleConfig FvwmBanner
 KillModule FvwmEvent FvwmEventSound
 KillModule FvwmAnimate
 KillModule FvwmCommandS
+KillModule FvwmProxy
 
 Module FvwmEvent FvwmEventSound
 Module FvwmAnimate
 Module FvwmCommandS
+Module FvwmProxy

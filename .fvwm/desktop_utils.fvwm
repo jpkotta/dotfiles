@@ -98,7 +98,7 @@ Style xpad      Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, S
 # Anyway, I think this is easier to understand and more robust, although more limiting
 SetEnv EDGE_COMMAND_N "Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager"
 #SetEnv EDGE_COMMAND_S "Schedule 250 $[SHOW_DESKTOP_ICONS_SCHED_ID] ShowDesktopIcons"
-SetEnv EDGE_COMMAND_S "Schedule 250 $[SHOW_DESKTOP_TASKBAR_SCHED_ID] ShowDesktopTaskbar"
+#SetEnv EDGE_COMMAND_S "Schedule 250 $[SHOW_DESKTOP_TASKBAR_SCHED_ID] ShowDesktopTaskbar"
 SetEnv EDGE_COMMAND_E Nop
 SetEnv EDGE_COMMAND_W "Schedule 500 $[SHOW_DESKTOP_BUTTONS_SCHED_ID] ShowDesktopButtons"
 RestoreEdgeCommands
@@ -109,7 +109,7 @@ RestoreEdgeCommands
 # version >= 2.5.12 is needed for EdgeLeaveCommand 
 EdgeLeaveCommand North Deschedule $[SHOW_DESKTOP_PAGER_SCHED_ID]
 #EdgeLeaveCommand South Deschedule $[SHOW_DESKTOP_ICONS_SCHED_ID]
-EdgeLeaveCommand South Deschedule $[SHOW_DESKTOP_TASKBAR_SCHED_ID]
+#EdgeLeaveCommand South Deschedule $[SHOW_DESKTOP_TASKBAR_SCHED_ID]
 EdgeLeaveCommand East Deschedule $[SHOW_DESKTOP_TERMINAL_SCHED_ID]
 EdgeLeaveCommand West Deschedule $[SHOW_DESKTOP_BUTTONS_SCHED_ID]
 
@@ -480,8 +480,8 @@ DestroyModuleConfig DesktopIconMan: *
 Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: NumManagers 2
 Test (!EnvIsSet USE_XINERAMA) *DesktopIconMan: NumManagers 1
 
-*DesktopIconMan: 1 Resolution screen
-*DesktopIconMan: 2 Resolution page
+*DesktopIconMan: 1 Resolution any_desk, page, screen
+*DesktopIconMan: 2 Resolution any_desk, page, screen
 
 *DesktopIconMan: Colorset $[MENU_COLORSET]
 *DesktopIconMan: IconColorset $[MENU_COLORSET]
@@ -591,8 +591,8 @@ KillModule FvwmButtons DesktopButtonsMediaPlayer
 KillModule FvwmPager DesktopPager
 KillModule FvwmPager DesktopMiniPager 
 KillModule FvwmAuto 
-KillModule FvwmButtons DesktopTaskbar
-KillModule FvwmIconMan DesktopIconMan
+#KillModule FvwmButtons DesktopTaskbar
+#KillModule FvwmIconMan DesktopIconMan
 
 
 Module FvwmButtons DesktopButtons
@@ -600,14 +600,14 @@ Module FvwmButtons DesktopButtonsMediaPlayer
 Module FvwmPager DesktopPager 0 $[LAST_DESKTOP]
 Module FvwmPager DesktopMiniPager 0 $[LAST_DESKTOP]
 Module FvwmAuto 0 -passid -menter EnterWindowHandler LeaveWindowHandler
-Module FvwmIconMan DesktopIconMan
-Module FvwmButtons DesktopTaskbar
+#Module FvwmIconMan DesktopIconMan
+#Module FvwmButtons DesktopTaskbar
 
 StartDesktopTerminals
 
 Schedule 3000 HideDesktopPager
-Schedule 3000 HideDesktopIcons
-Schedule 3000 HideDesktopTaskbar
+#Schedule 3000 HideDesktopIcons
+#Schedule 3000 HideDesktopTaskbar
 Schedule 5000 HideDesktopTerminal
 Schedule 3000 HideDesktopButtons
 
