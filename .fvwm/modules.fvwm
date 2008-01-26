@@ -93,7 +93,7 @@ AddToFunc ProxyBinding1
 
 DestroyFunc ProxyShowDelayed
 AddToFunc ProxyShowDelayed
-+ I Schedule 100 $[FVWMPROXY_SCHED_ID] \
++ I Schedule 250 $[FVWMPROXY_SCHED_ID] \
 	SendToModule FvwmProxy Show
 
 DestroyFunc ProxyHideDelayed
