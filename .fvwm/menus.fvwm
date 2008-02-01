@@ -209,28 +209,33 @@ AddToMenu   FvwmManPage "FVWM Man Pages" Title
 + "%mini.book1.xpm%FvwmDragWell"        ViewManPage FvwmDragWell
 + "%mini.book1.xpm%FvwmEvent"           ViewManPage FvwmEvent
 + "%mini.book1.xpm%FvwmForm"            ViewManPage FvwmForm
-+ "%mini.book1.xpm%FvwmGtk"             ViewManPage FvwmGtk
++ "%mini.book1.xpm%FvwmGtkDebug"        ViewManPage FvwmGtkDebug
 + "%mini.book1.xpm%FvwmIconBox"         ViewManPage FvwmIconBox
-+ "%mini.book1.xpm%DesktopIconMan"      ViewManPage DesktopIconMan
++ "%mini.book1.xpm%FvwmIconMan"         ViewManPage FvwmIconMan
 + "%mini.book1.xpm%FvwmIdent"           ViewManPage FvwmIdent
 + "%mini.book1.xpm%FvwmM4"              ViewManPage FvwmM4
 + "%mini.book1.xpm%FvwmPager"           ViewManPage FvwmPager
++ "%mini.book1.xpm%FvwmPerl"            ViewManPage FvwmPerl
++ "%mini.book1.xpm%FvwmProxy"           ViewManPage FvwmProxy
 + "%mini.book1.xpm%FvwmRearrange"       ViewManPage FvwmRearrange
 + "%mini.book1.xpm%FvwmSave"            ViewManPage FvwmSave
 + "%mini.book1.xpm%FvwmSaveDesk"        ViewManPage FvwmSaveDesk
 + "%mini.book1.xpm%FvwmScript"          ViewManPage FvwmScript
 + "%mini.book1.xpm%FvwmScroll"          ViewManPage FvwmScroll
++ "%mini.book1.xpm%FvwmTabs"            ViewManPage FvwmTabs
 + "%mini.book1.xpm%FvwmTaskBar"         ViewManPage FvwmTaskBar
 + "%mini.book1.xpm%FvwmTheme"           ViewManPage FvwmTheme
 + "%mini.book1.xpm%FvwmWharf"           ViewManPage FvwmWharf
++ "%mini.book1.xpm%FvwmWindowMenu"      ViewManPage FvwmWindowMenu
 + "%mini.book1.xpm%FvwmWinList"         ViewManPage FvwmWinList
 + "" Nop
 + "%mini.book1.xpm%fvwm-config"         ViewManPage fvwm-config
-+ "%mini.book1.xpm%fvwmbug"             ViewManPage fvwmbug
-+ "%mini.book1.xpm%fvwm-convert-2.2"    ViewManPage fvwm-convert-2.2
++ "%mini.book1.xpm%fvwm-bug"            ViewManPage fvwm-bug
 + "%mini.book1.xpm%fvwm-convert-2.4"    ViewManPage fvwm-convert-2.4
 + "%mini.book1.xpm%fvwm-convert-2.6"    ViewManPage fvwm-convert-2.6
 + "%mini.book1.xpm%fvwm-root"           ViewManPage fvwm-root
++ "%mini.book1.xpm%xpmroot"             ViewManPage xpmroot
++ "%mini.book1.xpm%fvwm-perllib"        ViewManPage fvwm-perllib
 + "" Nop
 + "%mini.book1.xpm%fvwm-menu-desktop"   ViewManPage fvwm-menu-desktop
 + "%mini.book1.xpm%fvwm-menu-directory" ViewManPage fvwm-menu-directory
