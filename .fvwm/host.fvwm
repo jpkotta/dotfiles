@@ -54,5 +54,6 @@ IfHost goedel   SetEnv USE_MEDIA_KEYS
 IfHost goedel   AddToFunc InitFunction \ 
     + I Exec exec xsnow -nosanta -notrees -norudolf -nokeepsnow
 
-UnSetEnv USE_SCREENSHOT_THUMBS
-IfNotHost shannon SetEnv USE_SCREENSHOT_THUMBS
+#UnSetEnv USE_SCREENSHOT_THUMBS
+#IfNotHost shannon SetEnv USE_SCREENSHOT_THUMBS
+SetEnv USE_SCREENSHOT_THUMBS
