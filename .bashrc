@@ -151,6 +151,9 @@ alias note='edit ~/doc/notes.txt'
 # common typo, easier to type
 alias cd..='cd ..'
 alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 # go to the previous pwd
 alias prev='cd -'
 # cd to w, the work dir
