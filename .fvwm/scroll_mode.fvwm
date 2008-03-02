@@ -33,7 +33,7 @@ SetEnv ANIMATED_SCROLL_STEPS 4
 
 # defined in bindings.fvwm
 AddToFunc RootWindowBinding
-+ D StartScrollMode
++ M StartScrollMode
 
 # this is pretty slick, doesn't scroll instantly, flips pages smoothly
 # arg0: % of screen to scroll right
