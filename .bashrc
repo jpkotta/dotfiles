@@ -277,7 +277,8 @@ alias xine="bg_wrapper xine --enqueue"
 # xsnow
 alias xsnow="(killall xsnow ; sleep 3 ; exec xsnow -nosanta -notrees -norudolf -nokeepsnow >& /dev/null &)"
 # view Folding@Home progress
-export fah_log_file=/var/lib/folding/foldingathome/CPU1/FAHlog.txt
+#export fah_log_file=/var/lib/folding/foldingathome/CPU1/FAHlog.txt
+export fah_log_file=/opt/foldingathome/1/FAHlog.txt
 alias fah_log="less $fah_log_file"
 alias fah_tail="tail -f $fah_log_file"
 # bit torrent client
