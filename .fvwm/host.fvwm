@@ -47,6 +47,7 @@ SetEnv DVD_DEVICE       cdrom0
 UnSetEnv USE_MEDIA_KEYS
 
 IfHost goedel   SetEnv USE_MEDIA_KEYS
+IfHost shannon  SetEnv USE_MEDIA_KEYS
 
 
 ################################################################################

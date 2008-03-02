@@ -91,16 +91,19 @@ AddToFunc ProxyBinding1
 + I DeiconifyFocusAndRaise
 + I SendToModule FvwmProxy Hide
 
-DestroyFunc ProxyShowDelayed
-AddToFunc ProxyShowDelayed
-+ I Schedule 250 $[FVWMPROXY_SCHED_ID] \
-	SendToModule FvwmProxy Show
+AddToFunc RootWindowBinding
++ C SendToModule FvwmProxy ShowToggle
 
-DestroyFunc ProxyHideDelayed
-AddToFunc ProxyHideDelayed
-+ I Deschedule $[FVWMPROXY_SCHED_ID]
-+ I Schedule 1500 $[FVWMPROXY_SCHED_ID] \
-	SendToModule FvwmProxy Hide
+#DestroyFunc ProxyShowDelayed
+#AddToFunc ProxyShowDelayed
+#+ I Schedule 250 $[FVWMPROXY_SCHED_ID] \
+#	SendToModule FvwmProxy Show
+
+#DestroyFunc ProxyHideDelayed
+#AddToFunc ProxyHideDelayed
+#+ I Deschedule $[FVWMPROXY_SCHED_ID]
+#+ I Schedule 1500 $[FVWMPROXY_SCHED_ID] \
+#	SendToModule FvwmProxy Hide
 
 AddSchedId FVWMPROXY_SCHED_ID
 
@@ -135,9 +138,9 @@ DestroyModuleConfig FvwmProxy: *
 
 Key Escape A 4 SendToModule FvwmProxy ShowToggle
 
-SetEnv EDGE_COMMAND_S "ProxyShowDelayed"
-RestoreEdgeCommands
-EdgeLeaveCommand South ProxyHideDelayed
+#SetEnv EDGE_COMMAND_S "ProxyShowDelayed"
+#RestoreEdgeCommands
+#EdgeLeaveCommand South ProxyHideDelayed
 
 
 

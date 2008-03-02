@@ -15,8 +15,10 @@
 
 DestroyFunc RootWindowBinding
 AddToFunc RootWindowBinding
-+ C Menu RootMenu mouse -5p -5p
-+ M Menu RootMenu mouse -5p -5p
++ D Menu RootMenu mouse -5p -5p
++ H Menu RootMenu mouse -5p -5p
+# + C SendToModule FvwmProxy ShowToggle # defined elswhere
+# + M StartScrollMode # defined elsewhere
 
 DestroyFunc Button1Binding
 AddToFunc Button1Binding
