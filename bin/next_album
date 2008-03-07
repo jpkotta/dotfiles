@@ -5,4 +5,19 @@ if [ ! -x "$(which mpc)" ] ; then
     exit 1
 fi
 
+if [ ! -x "$(which ralbumd)" ] ; then
+    echo "ralbumd not installed"
+    exit 1
+fi
+
+if [ -z "$(ps -ef | grep -v grep | grep $USER | grep ralbumd)" ] ; then
+    echo "Restarting ralbumd."
+    ralbumd
+fi
+
+# add a song if the playlist is empty
+if [ -z "$(mpc playlist)" ] ; then
+    mpc add "$(mpc listall | head -n 1)"
+fi
+
 mpc play && mpc crop && mpc seek 99% > /dev/null
