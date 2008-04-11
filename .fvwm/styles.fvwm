@@ -92,6 +92,10 @@ Style "RadarMap <unregistered>" \
 
 Style gnome-panel   StaysOnBottom, GNOMEIgnoreHints
 
+Style Firefox-bin SkipMapping, FPOverrideGrabFocus, \
+	!UsePPosition, !UseTransientPPosition, \
+	!FPGrabFocus, !FPGrabFocusTransient
+
 # java think they should handle focusing, but do a terrible job
 # this lets FVWM control focusing
 Style sun-awt-X11-* Lenience

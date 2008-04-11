@@ -31,6 +31,8 @@
 (put 'upcase-region 'disabled nil)
 
 (require 'color-theme)
+(load "color-theme-calm-forest-jpk.el")
+(color-theme-calm-forest-jpk)
 
 (load "cua-mode-1.3-xemacs.el")
 (CUA-mode t)
@@ -75,7 +77,7 @@
 ; OCTAVE
 
 ; open .m files in octave mode (i can't believe there isn't a matlab mode in emacs)
-;(setq auto-mode-alist (cons '("\\.m\\'" . octave-mode) auto-mode-alist))
+;(setq auto-mode-alist (cons '("\\.m\\'" . octave-mode-alist))
 
 ; open .m files in matlab mode (i can't believe there isn't an octave mode in xemacs)
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
@@ -158,6 +160,12 @@
 (global-set-key (kbd "C-c l") 'setnu-mode)
 
 ; you can warp to a line with M-x goto-line RET
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; UNDO/REDO
+(require 'redo)
+(global-set-key (kbd "C-z") 'undo)
+(global-set-key (kbd "C-Z") 'redo)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; MISCELLANEOUS KEYBINDINGS
@@ -266,7 +274,7 @@ the line."
   (if jpk-tab-mode
       (jpk-turn-on-indent)
     (jpk-turn-off-indent)))
-(global-set-key (kbd "C-<tab>") 'jpk-toggle-indent)
+;(global-set-key (kbd "C-<tab>") 'jpk-toggle-indent)
 
 ; rigidly indent
 ; see EmacsWiki://MovingRegionHorizontally

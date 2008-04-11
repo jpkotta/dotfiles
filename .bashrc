@@ -225,7 +225,16 @@ alias rmdir='rmdir -p'
 alias rsync='rsync -auv'
 
 # less (_v_iewer)
-alias v='less --LONG-PROMPT'
+#alias v='less --LONG-PROMPT'
+function v()
+{
+    if [ -d "$1" ] ; then
+	tree -C "$@" | less -r --LONG-PROMPT
+    else
+	less --LONG-PROMPT "$@"
+    fi
+}
+
 # sdiff the way it was at IBM
 alias sdiff='/usr/bin/sdiff --expand-tabs --ignore-all-space --strip-trailing-cr --width=160'
 # displays global disk usage by partition, excluding supermounted devices
