@@ -6,6 +6,9 @@ key quit = 'Q',  3
 ## Pause
 key pause = 'P',  32
 
+## Stop
+key stop = 's'
+
 ## Seek forward
 key seek-forward = 'f',  261
 
@@ -19,5 +22,8 @@ key volume-up = 43,  61
 key volume-down = 45,  95
 
 ## Select/deselect song in playlist
-key select = 'A'
+key select = 'a'
+
+## Add url/file to playlist
+key add = 'A'
 

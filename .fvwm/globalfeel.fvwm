@@ -172,7 +172,8 @@ Style * ResizeOpaque
 Style * UsePPosition
 
 # attempt to tile windows, otherwise cascade
-Style * TileCascadePlacement
+#Style * TileCascadePlacement
+Style * MinOverlapPlacement
 
 # start on screen with pointer
 Style * StartsOnScreen c

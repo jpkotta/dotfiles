@@ -274,7 +274,7 @@ AddToFunc WallpaperBrowser
 DestroyMenu "WindowOps"
 AddToMenu "WindowOps" 
 + "Window Operations"                               Title
-+ "&Move (F7)           %mini.move1.xpm%"           PickAgain WarpAndMove
++ "&Move (F7)           %mini.move1.xpm%"           WarpAndMove
 + "&Resize (F8)         %mini.resize3.xpm%"         PickAgain Resize    
 + "(De)&Iconify (F9)    %mini.iconify1.xpm%"        PickAgain Iconify        
 + "(Un)Ma&ximize (F10)  %mini.maximize1.xpm%"       PickAgain Maximize 100 100
