@@ -26,6 +26,23 @@ umask 0022
 stty stop ""
 
 ################################################################################
+# source other rc files
+declare -a source_these_files
+source_these_files=(\
+    $HOME/open_embedded/setup_env.sh\ 
+    $HOME/bfin/bfin.sh\ 
+)
+
+for i in ${source_these_files[@]}; do
+    if [ -e $i ] ; then
+	#echo sourcing $i
+	source $i
+    #else
+	#echo not sourcing $i, does not exist
+    fi
+done
+
+################################################################################
 # PATH VARIABLES 
 
 # append PATHs idempotently
@@ -66,24 +83,61 @@ export PAGER="/usr/bin/less --LONG-PROMPT"
 export PDF_READER=/usr/bin/kpdf
 
 ################################################################################
-# OTHER VARIABLES 
+# PROMPT
 
-# optimizations
-#CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse'
-# more dangerous flags
-#CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse,387'
+# color escape codes
+normal="\[\e[0m\]"
+nobg="m\]"
+blackbg=";40m\]"
+redbg=";41m\]"
+greenbg=";42m\]"
+brownbg=";43m\]"
+bluebg=";44m\]"
+magentabg=";45m\]"
+cyanbg=";46m\]"
+greybg=";47m\]"
+black="\[\e[0;30$nobg"
+redfaint="\[\e[0;31$nobg"
+greenfaint="\[\e[0;32$nobg"
+brownfaint="\[\e[0;33$nobg"
+bluefaint="\[\e[0;34$nobg"
+magentafaint="\[\e[0;35$nobg"
+cyanfaint="\[\e[0;36$nobg"
+greyfaint="\[\e[0;37$nobg"
+grey="\[\e[1;30$nobg"
+red="\[\e[1;31$nobg"
+green="\[\e[1;32$nobg"
+yellow="\[\e[1;33$nobg"
+blue="\[\e[1;34$nobg"
+magenta="\[\e[1;35$nobg"
+cyan="\[\e[1;36$nobg"
+white="\[\e[1;37$nobg"
+bold="\[\e[1$nobg"
 
-# boldify the prompt
-# \033[1m turns bold on, \033[0m turns it off
-# the \[ and \] tells readline that the ANSI escape sequences take up no space on the line
-# liberal use of \033[0m makes it more stable
-export PS1='[\u@\h \W](\j)\$ '
+# prompt pieces
+prompt_open="$blue[$normal"
+prompt_close="$blue]$normal"
+prompt_username="$cyan\u$normal"
+prompt_at="$blue@$normal"
+prompt_hostname="$cyan\h$normal"
+prompt_jobs="$cyan\j$normal"
+prompt_time="$cyan\t$normal"
+prompt_pwd="$magenta\w$normal"
+prompt_cmd_num="$blue\#$normal"
+prompt_err_stat="$bold$?$normal"
+prompt_prompt="$blue\$$normal"
+
+PLAIN_PROMPT='[\u@\h][\w](\j)\n\$ '
+FANCY_PROMPT="$prompt_open$prompt_username$prompt_at$prompt_hostname$prompt_close$prompt_open$prompt_pwd$prompt_close$prompt_open$prompt_jobs$prompt_close\n$prompt_prompt "
+
+export PS1=$PLAIN_PROMPT
 if [[ $TERM == 'rxvt-unicode' ]] ; then
     TERM=rxvt
 fi
 if [[ $TERM == 'rxvt' || $TERM == 'xterm' || $TERM == 'linux' ]] ; then
-    export PS1='\n\[\033[0m\]\[\033[1m\]'$PS1'\[\033[0m\]\[\033[0m\]'
+    export PS1=$FANCY_PROMPT
 fi
+
 # monstrous 3 line prompt example by Robert
 #export PS1='\[\033[0m\]\[\033[0;31m\].:\[\033[0m\]\[\033[1;30m\][\[\033[0m\]\[\033[0;28m\]Managing \033[1;31m\]\j\[\033[0m\]\[\033[1;30m\]/\[\033[0m\]\[\033[1;31m\]$(ps ax | wc -l | tr -d '\'' '\'')\[\033[0m\]\[\033[1;30m\] \[\033[0m\]\[\033[0;28m\]jobs.\[\033[0m\]\[\033[1;30m\]] [\[\033[0m\]\[\033[0;28m\]CPU Load: \[\033[0m\]\[\033[1;31m\]$(temp=$(cat /proc/loadavg) && echo ${temp%% *}) \[\033[0m\]\[\033[0;28m\]Uptime: \[\033[0m\]\[\033[1;31m\]$(temp=$(cat /proc/uptime) && upSec=${temp%%.*} ; let secs=$((${upSec}%60)) ; let mins=$((${upSec}/60%60)) ; let hours=$((${upSec}/3600%24)) ; let days=$((${upSec}/86400)) ; if [ ${days} -ne 0 ]; then echo -n ${days}d; fi ; echo -n ${hours}h${mins}m)\[\033[0m\]\[\033[1;30m\]]\[\033[0m\]\[\033[0;31m\]:.\n\[\033[0m\]\[\033[0;31m\].:\[\033[0m\]\[\033[1;30m\][\[\033[0m\]\[\033[1;31m\]$(ls -l | grep "^-" | wc -l | tr -d " ") \[\033[0m\]\[\033[0;28m\]files using \[\033[0m\]\[\033[1;31m\]$(ls --si -s | head -1 | awk '\''{print $2}'\'')\[\033[0m\]\[\033[1;30m\]] [\[\033[0m\]\[\033[1;31m\]\u\[\033[0m\]\[\033[0;31m\]@\[\033[0m\]\[\033[1;31m\]\h \[\033[0m\]\[\033[1;34m\]\w\[\033[0m\]\[\033[1;30m\]]\[\033[0m\]\[\033[0;31m\]:.\n\[\033[0m\]\[\033[0;31m\].:\[\033[0m\]\[\033[1;30m\][\[\033[0m\]\[\033[1;31m\]\t\[\033[0m\]\[\033[1;30m\]]\[\033[0m\]\[\033[0;31m\]:. \[\033[0m\]\[\033[1;37m\]\$ \[\033[0m\]'
 
@@ -93,9 +147,16 @@ fi
 # 'ESC ] 0 ; string BEL' sets icon name and title to string
 # seems to not work when there is a space before \007
 if [[ "$TERM" == "xterm" || $TERM == "rxvt" ]] ; then
-    #PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
     PROMPT_COMMAND='echo -ne "\033]0;[`whoami`@`hostname` `pwd`]$ `history 1 | cut -d\  -f 4-`\007"'
 fi
+
+################################################################################
+# OTHER VARIABLES 
+
+# optimizations
+#CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse'
+# more dangerous flags
+#CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse,387'
 
 # prevent CTRL-D from immediately logging out
 export IGNOREEOF=1
