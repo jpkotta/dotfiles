@@ -73,6 +73,13 @@
 ;  (local-set-key (kbd "<down>") 'comint-next-matching-input-from-input)
 ;  )
 
+; Linux kernel has bad ideas about tabs, but I'll conform
+(defun set-c-style-linux ()
+  (interactive)
+  (setq indent-tabs-mode t)
+  (setq tab-width 4)
+)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; OCTAVE
 
