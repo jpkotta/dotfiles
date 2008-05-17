@@ -200,8 +200,8 @@ Key     Delete  A       CM      Menu FvwmQuitMenu root c c
 # this is surprisingly easier to type than Super-F4
 Key     F4      A       M       Close
 
-# this just doesn't need a modifier, i never use the menu key
-Key     Menu    A       N       ShowHideDesktop
+Key     Menu    A       N       HideDesktop
+Key	Menu	A	S	ShowDesktop
 
 # for extra special keys
 Test (EnvIsSet USE_MEDIA_KEYS) \

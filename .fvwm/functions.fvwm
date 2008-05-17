@@ -528,12 +528,29 @@ AddToFunc MountKeyDrive
 # show/hide the desktop (iconify all windows on the current page)
 DestroyFunc ShowHideDesktop
 AddToFunc ShowHideDesktop
-+ I KillModule FvwmAnimate
+# faster with this off
++ I KillModule FvwmAnimate 
 + I Schedule 500 Module FvwmAnimate
 + I All (CurrentPage, !Iconic, !CirculateHit, !CirculateHitIcon, !CirculateHitShaded, AnyScreen) \
     Iconify on
 + I TestRC (!Match) All (CurrentPage, AnyScreen) \
     Iconify off
+
+DestroyFunc ShowDesktop
+AddToFunc ShowDesktop
+# faster with this off
++ I KillModule FvwmAnimate 
++ I Schedule 500 Module FvwmAnimate
++ I All (CurrentPage, Iconic, !CirculateHit, !CirculateHitIcon, !CirculateHitShaded, AnyScreen) \
+    Iconify off
+
+DestroyFunc HideDesktop
+AddToFunc HideDesktop
+# faster with this off
++ I KillModule FvwmAnimate 
++ I Schedule 500 Module FvwmAnimate
++ I All (CurrentPage, !Iconic, !CirculateHit, !CirculateHitIcon, !CirculateHitShaded, AnyScreen) \
+    Iconify on
 
 # this will let you keep picking windows until you click on root or hit ESC
 # sometimes it gets run twice, e.g. 'PickAgain FvwmIdent'
