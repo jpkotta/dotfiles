@@ -301,15 +301,20 @@ Test (x gkrellm) \
     "gkrellm" "Exec exec gkrellm -geometry +1500+1500")
 
 # app launch buttons
-*DesktopButtons: (4x4, Frame 0, Icon gnome-xterm.png, Action (Mouse 1) 'StartTerminal')
-*DesktopButtons: (4x4, Frame 0, Icon nautilus.png,  Action (Mouse 1) 'StartFileManager')
-*DesktopButtons: (4x4, Frame 0, Icon emacs.png,     Action (Mouse 1) 'StartEditor')
-*DesktopButtons: (4x4, Frame 0, Icon opera.png,     Action (Mouse 1) 'StartBrowser')
-*DesktopButtons: (4x4, Frame 0, Icon gqview.png,    Action (Mouse 1) 'StartImageViewer')
-#*DesktopButtons: (4x4, Frame 0, Icon pysol.png,     Action (Mouse 1) 'StartPySol')
-*DesktopButtons: (4x4, Frame 0, Icon fvwm.xpm,      Action (Mouse 1) 'StartConsole')
-#*DesktopButtons: (4x4, Frame 0, Icon xpad.png,      Action (Mouse 1) "Exec exec xpad")
-*DesktopButtons: (4x4, Frame 0, Icon Jlock.xpm,     Action (Mouse 1) 'ToggleScreensaver')
+*DesktopButtons: (4x4, Frame 0, Icon arrows2.xpm, \
+	Action (Mouse 1) 'ToggleDesktopButtons')
+*DesktopButtons: (4x4, Frame 0, Icon pidgin.png, \
+	Action (Mouse 1) 'All (Pidgin) Raise')
+*DesktopButtons: (4x4, Frame 0, Icon sonata_play.png, \
+	Action (Mouse 1) 'exec next_album')
+*DesktopButtons: (4x4, Frame 0, Icon sonata.png, \
+	Action (Mouse 1) 'exec sonata')
+*DesktopButtons: (4x4, Frame 0, Icon fvwm.xpm, \
+	Action (Mouse 1) 'StartConsole')
+*DesktopButtons: (4x4, Frame 0, Icon Jlock.xpm, \
+	Action (Mouse 1) 'LockScreen')
+*DesktopButtons: (4x4, Frame 0, Icon Monitor.xpm, \
+	Action (Mouse 1) 'ToggleScreensaver')
 
 # postit notes, just drag the mouse over it to generate a new note
 #Test (x xpostit) \
