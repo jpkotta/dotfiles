@@ -64,9 +64,4 @@ AddToFunc StopScrollMode
 + I Mouse 0 A A -
 + I EdgeScroll 0 0
 + I RestoreEdgeCommands
-#+ I EdgeCommand North Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager
-#+ I EdgeCommand South Schedule 250 $[SHOW_DESKTOP_ICONMAN_SCHED_ID] ShowDesktopIconMan
-##+ I EdgeCommand East Schedule 500 $[SHOW_DESKTOP_TERMINAL_SCHED_ID] StartScrollMode
-##+ I EdgeCommand East Schedule 500 $[SHOW_DESKTOP_TERMINAL_SCHED_ID] ShowDesktopTerminal
-#+ I EdgeCommand East Nop
-#+ I EdgeCommand West Schedule 500 $[SHOW_DESKTOP_BUTTONS_SCHED_ID] ShowDesktopButtons
+

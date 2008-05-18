@@ -96,22 +96,32 @@ Style xpad      Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, S
 # similar functionality can be achieved with FvwmAuto, but I ran into problems with that
 # (I think it was related to the fact that none of these have borders)
 # Anyway, I think this is easier to understand and more robust, although more limiting
-SetEnv EDGE_COMMAND_N "Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager"
-#SetEnv EDGE_COMMAND_S "Schedule 250 $[SHOW_DESKTOP_ICONS_SCHED_ID] ShowDesktopIcons"
-#SetEnv EDGE_COMMAND_S "Schedule 250 $[SHOW_DESKTOP_TASKBAR_SCHED_ID] ShowDesktopTaskbar"
-SetEnv EDGE_COMMAND_E Nop
-SetEnv EDGE_COMMAND_W "Schedule 500 $[SHOW_DESKTOP_BUTTONS_SCHED_ID] ShowDesktopButtons"
-RestoreEdgeCommands
-# some older commands that i'm not quite ready to throw away:
-#East: Schedule 500 $[SHOW_DESKTOP_TERMINAL_SCHED_ID] StartScrollMode
-#East: Schedule 500 $[SHOW_DESKTOP_TERMINAL_SCHED_ID] ShowDesktopTerminal
+#SetEnv EDGE_COMMAND_N "Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager"
+#SetEnv EDGE_COMMAND_W "Schedule 500 $[SHOW_DESKTOP_BUTTONS_SCHED_ID] ShowDesktopButtons"
+#RestoreEdgeCommands
 
 # version >= 2.5.12 is needed for EdgeLeaveCommand 
-EdgeLeaveCommand North Deschedule $[SHOW_DESKTOP_PAGER_SCHED_ID]
-#EdgeLeaveCommand South Deschedule $[SHOW_DESKTOP_ICONS_SCHED_ID]
-#EdgeLeaveCommand South Deschedule $[SHOW_DESKTOP_TASKBAR_SCHED_ID]
-EdgeLeaveCommand East Deschedule $[SHOW_DESKTOP_TERMINAL_SCHED_ID]
-EdgeLeaveCommand West Deschedule $[SHOW_DESKTOP_BUTTONS_SCHED_ID]
+#EdgeLeaveCommand North Deschedule $[SHOW_DESKTOP_PAGER_SCHED_ID]
+#EdgeLeaveCommand West Deschedule $[SHOW_DESKTOP_BUTTONS_SCHED_ID]
+
+# Experiment: Click the appropriate edge instead of holding the
+# pointer there.  This cuts down on accidental showing.
+SetEnv EDGE_COMMAND_N "Schedule 250 Mouse 1 R A ShowDesktopPager"
+#SetEnv EDGE_COMMAND_S "Schedule 250 Mouse 1 R A ShowDesktopIcons"
+SetEnv EDGE_COMMAND_S "Nop"
+SetEnv EDGE_COMMAND_E "Nop"
+SetEnv EDGE_COMMAND_W "Schedule 250 Mouse 1 R A ShowDesktopButtons"
+RestoreEdgeCommands
+
+DestroyFunc RestoreRootBindingDelayed
+AddToFunc RestoreRootBindingDelayed
++ I Schedule 500 \
+	Mouse 1 R A RootWindowBinding
+
+EdgeLeaveCommand North RestoreRootBindingDelayed
+EdgeLeaveCommand South RestoreRootBindingDelayed
+EdgeLeaveCommand East  RestoreRootBindingDelayed
+EdgeLeaveCommand West  RestoreRootBindingDelayed
 
 # $0 should be $[w.id]
 DestroyFunc EnterWindowHandler
