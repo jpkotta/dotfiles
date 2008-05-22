@@ -145,6 +145,10 @@ SetEnv EDGE_COMMAND_N Nop
 SetEnv EDGE_COMMAND_S Nop
 SetEnv EDGE_COMMAND_E Nop
 SetEnv EDGE_COMMAND_W Nop
+SetEnv EDGE_LEAVE_COMMAND_N Nop
+SetEnv EDGE_LEAVE_COMMAND_S Nop
+SetEnv EDGE_LEAVE_COMMAND_E Nop
+SetEnv EDGE_LEAVE_COMMAND_W Nop
 
 # sets the edge commands to the variables EDGE_COMMAND_{N,S,E,W}
 DestroyFunc RestoreEdgeCommands
@@ -153,7 +157,10 @@ AddToFunc RestoreEdgeCommands
 + I EdgeCommand South   $[EDGE_COMMAND_S]
 + I EdgeCommand East    $[EDGE_COMMAND_E]
 + I EdgeCommand West    $[EDGE_COMMAND_W]
-
++ I EdgeLeaveCommand North   $[EDGE_LEAVE_COMMAND_N]
++ I EdgeLeaveCommand South   $[EDGE_LEAVE_COMMAND_S]
++ I EdgeLeaveCommand East    $[EDGE_LEAVE_COMMAND_E]
++ I EdgeLeaveCommand West    $[EDGE_LEAVE_COMMAND_W]
 
 DeskTopSize 2x2
 

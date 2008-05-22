@@ -58,10 +58,13 @@ AddToFunc StartScrollMode
 + I EdgeCommand South AnimatedScroll 0 +100
 + I EdgeCommand East AnimatedScroll +100 0
 + I EdgeCommand West AnimatedScroll -100 0
++ I EdgeLeaveCommand North   Nop
++ I EdgeLeaveCommand South   Nop
++ I EdgeLeaveCommand East    Nop
++ I EdgeLeaveCommand West    Nop
  
 DestroyFunc StopScrollMode
 AddToFunc StopScrollMode
 + I Mouse 0 A A -
 + I EdgeScroll 0 0
 + I RestoreEdgeCommands
-

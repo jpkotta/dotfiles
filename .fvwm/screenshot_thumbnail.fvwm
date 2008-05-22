@@ -27,7 +27,7 @@
 SetEnv SCREENSHOT_ICONDIR /dev/shm
 
 # in seconds
-SetEnv PERIODIC_THUMBNAIL_DELAY 30
+SetEnv PERIODIC_THUMBNAIL_DELAY 15
 
 AddSchedId PERIODIC_THUMBNAIL_SCHED_ID
 
@@ -48,13 +48,15 @@ MenuStyle screenshot_menu_style SelectOnRelease Super_L
 DestroyFunc ScreenShotThumbnail
 AddToFunc ScreenShotThumbnail
 + I ThisWindow (Visible, !Iconic, Closable) \
-    WindowStyle IconOverride, Icon $[SCREENSHOT_ICONDIR]/$[w.id].png
+    WindowStyle IconOverride, Icon $[SCREENSHOT_ICONDIR]/$[w.id]_big.png
 + I TestRc (Match) Exec \
     nice -n 19 xwd -silent -id $[w.id] | \
-    convert -size 128x96 -thumbnail '126x94>' \
-        -bordercolor transparent -border 64 \
-        -gravity center -crop 128x96+0+0 \
-        xwd:- png:$[SCREENSHOT_ICONDIR]/$[w.id].png >/dev/null 2>&1 &
+    convert -size 256x192 -thumbnail '252x188>' \
+        -bordercolor transparent -border 128 \
+        -gravity center -crop 256x192+0+0 \
+        xwd:- png:$[SCREENSHOT_ICONDIR]/$[w.id]_big.png >/dev/null 2>&1 & \
+    nice -n 19 convert -filter sinc -resize '128x96!' \
+        png:$[SCREENSHOT_ICONDIR]/$[w.id]_big.png png:$[SCREENSHOT_ICONDIR]/$[w.id].png >/dev/null 2>&1 &
 #+ I Echo debug: ScreenShotThumbnail $[w.id]
 
 # rearranges iconified windows, called when an icon is added or removed
@@ -63,7 +65,7 @@ AddToFunc RearrangeIcons
 + I All (CurrentPage, Iconic) PlaceAgain Icon
 
 
-# same as above, but truncates the window name if it's too long
+# truncates the window name if it's too long
 # stripped down version of taviso's FvwmExpose function
 # generates a windowlist-like menu of all windows on the current desk,
 # using screenshot thumbnails as icons
@@ -103,9 +105,9 @@ AddToFunc PeriodicThumbnail
     Current ScreenShotThumbnail
 
 # this tries to cleanup thumbnail pngs after the window is closed
-DestroyFunc SSTOnClose
-AddToFunc SSTOnClose
-+ I Schedule 5000 Exec exec /bin/rm -f $[SCREENSHOT_ICONDIR]/$[w.id].png
+DestroyFunc SSTNOnClose
+AddToFunc SSTNOnClose
++ I Schedule 5000 Exec exec /bin/rm -f $[SCREENSHOT_ICONDIR]/$[w.id].png $[SCREENSHOT_ICONDIR]/$[w.id]_big.png
 + I RearrangeIcons
 
 
@@ -122,7 +124,7 @@ DestroyModuleConfig FvwmEvent FvwmEventThumbnail
 *FvwmEventThumbnail: focus_change   ScreenShotThumbnail
 #*FvwmEventThumbnail: map            ScreenShotThumbnail
 *FvwmEventThumbnail: deiconify      RearrangeIcons
-*FvwmEventThumbnail: destroy_window SSTOnClose
+*FvwmEventThumbnail: destroy_window SSTNOnClose
 
 
 ################################################################################

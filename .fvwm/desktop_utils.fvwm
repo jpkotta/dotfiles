@@ -96,32 +96,16 @@ Style xpad      Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, S
 # similar functionality can be achieved with FvwmAuto, but I ran into problems with that
 # (I think it was related to the fact that none of these have borders)
 # Anyway, I think this is easier to understand and more robust, although more limiting
-#SetEnv EDGE_COMMAND_N "Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager"
+
+SetEnv EDGE_COMMAND_N "Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager"
+SetEnv EDGE_LEAVE_COMMAND_N "Deschedule $[SHOW_DESKTOP_PAGER_SCHED_ID]"
+
+SetEnv EDGE_COMMAND_W "Mouse 1 R A ToggleDesktopButtonsNoWarp"
+SetEnv EDGE_LEAVE_COMMAND_W "Mouse 1 R A RootWindowBinding"
 #SetEnv EDGE_COMMAND_W "Schedule 500 $[SHOW_DESKTOP_BUTTONS_SCHED_ID] ShowDesktopButtons"
-#RestoreEdgeCommands
+#SetEnv EDGE_LEAVE_COMMAND_W "Deschedule $[SHOW_DESKTOP_BUTTONS_SCHED_ID]"
 
-# version >= 2.5.12 is needed for EdgeLeaveCommand 
-#EdgeLeaveCommand North Deschedule $[SHOW_DESKTOP_PAGER_SCHED_ID]
-#EdgeLeaveCommand West Deschedule $[SHOW_DESKTOP_BUTTONS_SCHED_ID]
-
-# Experiment: Click the appropriate edge instead of holding the
-# pointer there.  This cuts down on accidental showing.
-SetEnv EDGE_COMMAND_N "Schedule 250 Mouse 1 R A ShowDesktopPager"
-#SetEnv EDGE_COMMAND_S "Schedule 250 Mouse 1 R A ShowDesktopIcons"
-SetEnv EDGE_COMMAND_S "Nop"
-SetEnv EDGE_COMMAND_E "Nop"
-SetEnv EDGE_COMMAND_W "Schedule 250 Mouse 1 R A ShowDesktopButtons"
 RestoreEdgeCommands
-
-DestroyFunc RestoreRootBindingDelayed
-AddToFunc RestoreRootBindingDelayed
-+ I Schedule 500 \
-	Mouse 1 R A RootWindowBinding
-
-EdgeLeaveCommand North RestoreRootBindingDelayed
-EdgeLeaveCommand South RestoreRootBindingDelayed
-EdgeLeaveCommand East  RestoreRootBindingDelayed
-EdgeLeaveCommand West  RestoreRootBindingDelayed
 
 # $0 should be $[w.id]
 DestroyFunc EnterWindowHandler
@@ -251,7 +235,18 @@ AddToFunc ShowAndAssertStateDesktopButtons
 + I ShowDesktopButtons
 + I All (DesktopButtonsMediaPlayer) WarpToWindow 50 50
 
+# toggles the DesktopButtons* on and off, without warping (for use with Mouse bindings)
+DestroyFunc ToggleDesktopButtonsNoWarp
+AddToFunc ToggleDesktopButtonsNoWarp
++ I Any (DesktopButtons*, CirculateHit, State $[DESKTOP_UTIL_UNHIDEABLE_STATE]) \
+    HideAndNegateStateDesktopButtons
++ I TestRc (NoMatch) \
+    ShowAndAssertStateDesktopButtonsNoWarp
 
+DestroyFunc ShowAndAssertStateDesktopButtonsNoWarp
+AddToFunc ShowAndAssertStateDesktopButtonsNoWarp
++ I All (DesktopButtons*, CirculateHit) State $[DESKTOP_UTIL_UNHIDEABLE_STATE] True
++ I ShowDesktopButtons
 
 
 
