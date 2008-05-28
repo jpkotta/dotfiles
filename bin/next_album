@@ -10,7 +10,14 @@ if [ ! -x "$(which ralbumd)" ] ; then
     exit 1
 fi
 
-if [ -z "$(ps -ef | grep -v grep | grep $USER | grep ralbumd)" ] ; then
+num_ralbumd_instances=$(ps -ef | grep -v grep | grep jpkotta | grep -c ralbumd)
+if [[ "$num_ralbumd_instances" -gt 1 ]] ; then
+    echo "Killing extra ralbumd instances."
+    killall --user $USER ralbumd
+fi
+
+num_ralbumd_instances=$(ps -ef | grep -v grep | grep jpkotta | grep -c ralbumd)
+if [[ "$num_ralbumd_instances" -le 0 ]] ; then
     echo "Restarting ralbumd."
     ralbumd
 fi
