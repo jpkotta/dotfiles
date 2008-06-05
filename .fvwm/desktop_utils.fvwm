@@ -332,6 +332,20 @@ Test (x gkrellm) \
 # DesktopButtonsMediaPlayer
 ################################################################################
 
+DestroyFunc MediaPlayerDecrVol
+AddToFunc MediaPlayerDecrVol
++ I Exec mpc --no-status volume -2
+
+DestroyFunc MediaPlayerIncrVol
+AddToFunc MediaPlayerIncrVol
++ I Exec mpc --no-status volume +2
+
+# w.t. fuck?!
+#Mouse (DesktopButtonsMediaPlayer) 5 A A MediaPlayerDecrVol
+#Mouse (DesktopButtonsMediaPlayer) 4 A A MediaPlayerIncrVol
+#Mouse (FvwmButtons) 5 A A MediaPlayerDecrVol
+#Mouse (FvwmButtons) 4 A A MediaPlayerIncrVol
+
 # swallows media player
 # works like other desktop modules, so it hides/unhides with an EdgeCommand
 DestroyModuleConfig DesktopButtonsMediaPlayer: *
