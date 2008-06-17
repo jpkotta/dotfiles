@@ -285,7 +285,8 @@ AddToMenu "WindowOps"
 + "(Un)Desk&Stick (F2)  %mini.stick1.xpm%"          PickAgain StickAcrossPages
 + "(Un)Stick            %mini.stick1.xpm%"          PickAgain Stick
 + "R&aise (F1)          %mini.raise2.xpm%"          PickAgain Raise           
-+ "&Lower (F3)          %mini.lower2.xpm%"          PickAgain Lower           
++ "&Lower (F3)          %mini.lower2.xpm%"          PickAgain Lower
++ "(Un)&Persistence	%mini.lock.xpm%"	    PickAgain PersistenceToggle
 + "" Nop
 + "Top Layer            %mini.raise2.xpm%"          PickAgain Layer 0 6
 + "Default Layer        %mini.window.xpm%"          PickAgain Layer default
