@@ -383,6 +383,12 @@ AddToFunc MoveOrMaximize
 + D TestRc (NoMatch) Maximize 100 100
 + D Iconify False
 
+# maximize across dual screens
+DestroyFunc MaximumMaximize
+AddToFunc MaximumMaximize
++ I MoveToScreen $[LEFT_SCREEN]
++ I Maximize 200 100
+
 DestroyFunc IconifyOrResize
 AddToFunc IconifyOrResize
 + C Iconify

@@ -281,6 +281,7 @@ AddToMenu "WindowOps"
 + "(Un)Max&wide (F5)    %mini.maximize-horiz1.xpm%" PickAgain Maximize 100 0
 + "(Un)Max&tall (F6)    %mini.maximize-vert1.xpm%"  PickAgain Maximize   0 100
 + "(Un)&Fullscreen (F11)%mini.maximize.xpm%"        PickAgain FullScreenToggle
++ "(Un)Maximum Maximize %mini.maximize1.xpm%"       PickAgain MaximumMaximize
 + "(Un)Shade (F12)      %mini.shade1.xpm%"          PickAgain WindowShade
 + "(Un)Desk&Stick (F2)  %mini.stick1.xpm%"          PickAgain StickAcrossPages
 + "(Un)Stick            %mini.stick1.xpm%"          PickAgain Stick
@@ -320,7 +321,7 @@ AddToMenu "WindowOps"
 DestroyMenu "WindowOpsSmall"
 AddToMenu "WindowOpsSmall"
 + "More&...%mini.window.xpm%"                   Menu WindowOps menu 0 0
-+ "&Move to ...%mini.move1.xpm%"                 Popup WindowMove
++ "&Move to ...%mini.move1.xpm%"                Popup WindowMove
 + "&Group Move%mini.move1.xpm%"                 Popup GroupMove
 + "" Nop
 + "(Un)S&tick%mini.stick1.xpm%"                 Stick
