@@ -281,11 +281,13 @@ AddToMenu "WindowOps"
 + "(Un)Max&wide (F5)    %mini.maximize-horiz1.xpm%" PickAgain Maximize 100 0
 + "(Un)Max&tall (F6)    %mini.maximize-vert1.xpm%"  PickAgain Maximize   0 100
 + "(Un)&Fullscreen (F11)%mini.maximize.xpm%"        PickAgain FullScreenToggle
++ "(Un)Maximum Maximize %mini.maximize1.xpm%"       PickAgain MaximumMaximize
 + "(Un)Shade (F12)      %mini.shade1.xpm%"          PickAgain WindowShade
 + "(Un)Desk&Stick (F2)  %mini.stick1.xpm%"          PickAgain StickAcrossPages
 + "(Un)Stick            %mini.stick1.xpm%"          PickAgain Stick
 + "R&aise (F1)          %mini.raise2.xpm%"          PickAgain Raise           
-+ "&Lower (F3)          %mini.lower2.xpm%"          PickAgain Lower           
++ "&Lower (F3)          %mini.lower2.xpm%"          PickAgain Lower
++ "(Un)&Persistence	%mini.lock.xpm%"	    PickAgain PersistenceToggle
 + "" Nop
 + "Top Layer            %mini.raise2.xpm%"          PickAgain Layer 0 6
 + "Default Layer        %mini.window.xpm%"          PickAgain Layer default
@@ -319,7 +321,7 @@ AddToMenu "WindowOps"
 DestroyMenu "WindowOpsSmall"
 AddToMenu "WindowOpsSmall"
 + "More&...%mini.window.xpm%"                   Menu WindowOps menu 0 0
-+ "&Move to ...%mini.move1.xpm%"                 Popup WindowMove
++ "&Move to ...%mini.move1.xpm%"                Popup WindowMove
 + "&Group Move%mini.move1.xpm%"                 Popup GroupMove
 + "" Nop
 + "(Un)S&tick%mini.stick1.xpm%"                 Stick

@@ -383,6 +383,12 @@ AddToFunc MoveOrMaximize
 + D TestRc (NoMatch) Maximize 100 100
 + D Iconify False
 
+# maximize across dual screens
+DestroyFunc MaximumMaximize
+AddToFunc MaximumMaximize
++ I MoveToScreen $[LEFT_SCREEN]
++ I Maximize 200 100
+
 DestroyFunc IconifyOrResize
 AddToFunc IconifyOrResize
 + C Iconify
@@ -404,7 +410,6 @@ AddToFunc WindowMenuOrCloseIcon
 
 # fullscreen mode - fully maximized, no decorations, borders, etc.
 # simutaneously toggles title bar, border, and maximize
-# maybe add a no resize/no move to fullscreen mode
 AddState FULLSCREEN_STATE
 
 DestroyFunc FullScreenToggle
@@ -435,6 +440,29 @@ DestroyFunc ToggleResizable
 AddToFunc ToggleResizable
 + I ThisWindow (FixedSize) WindowStyle VariableSize
 + I TestRc (NoMatch) WindowStyle FixedSize
+
+# make windows "persistent" (because they're going to be around for a while)
+# toggles DeskStick, Layer 6, and !Closable
+AddState PERSISTENCE_STATE
+
+DestroyFunc PersistenceOn
+AddToFunc PersistenceOn
++ I StickAcrossPages true
++ I Layer 0 6
++ I WindowStyle !Closable
++ I State $[PERSISTENCE_STATE] on
+
+DestroyFunc PersistenceOff
+AddToFunc PersistenceOff
++ I StickAcrossPages false
++ I Layer default
++ I WindowStyle Closable
++ I State $[PERSISTENCE_STATE] off
+
+DestroyFunc PersistenceToggle
+AddToFunc PersistenceToggle
++ I ThisWindow (State $[PERSISTENCE_STATE]) PersistenceOff
++ I TestRc (!Match) PersistenceOn
 
 
 ################################################################################
