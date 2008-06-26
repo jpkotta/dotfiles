@@ -100,8 +100,8 @@ Style Firefox*-bin SkipMapping, FPOverrideGrabFocus, \
 # this lets FVWM control focusing
 Style sun-awt-X11-* Lenience
 
-Style "Buddy List" WindowListSkip, Sticky
-Style Gaim Sticky
-Style Pidgin Sticky
+Style "Buddy List" WindowListSkip, Sticky, !FPGrabFocus
+Style Gaim Sticky, !FPGrabFocus
+Style Pidgin Sticky, !FPGrabFocus
 
 Style Tremulous !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
