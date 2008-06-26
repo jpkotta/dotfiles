@@ -5,6 +5,9 @@ echo "$@"
 echo "END OF PARAMETERS TO .xinitrc"
 echo 
 
+# turn monitors off after 10 min
+xset dpms 0 0 300
+
 # set the wallpaper
 # do this first because it can take a while
 #Esetroot -fit -center $HOME/tmp/current_wallpaper &
