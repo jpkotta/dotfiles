@@ -147,7 +147,8 @@ fi
 # 'ESC ] 0 ; string BEL' sets icon name and title to string
 # seems to not work when there is a space before \007
 if [[ "$TERM" == "xterm" || $TERM == "rxvt" ]] ; then
-    PROMPT_COMMAND='echo -ne "\033]0;[`whoami`@`hostname` `pwd`]$ `history 1 | cut -d\  -f 4-`\007"'
+    #PROMPT_COMMAND='echo -ne "\033]0;[`whoami`@`hostname` `pwd`]$ `history 1 | cut -d\  -f 4-`\007"'
+    PROMPT_COMMAND='echo -ne "\033]0;[${USER}@${HOSTNAME}][${PWD/$HOME/~}]\007"'
 fi
 
 ################################################################################
@@ -199,15 +200,16 @@ function daemon
 }
 
 # default editor
-alias edit="bg_wrapper $EDITOR"
-alias E="bg_wrapper $EDITOR"
+alias edit="$EDITOR"
+alias E="$EDITOR"
 
 # source this file
-alias jpk='source ~jpkotta/.bashrc'
+THIS_FILE=`readlink -f $BASH_SOURCE`
+alias jpk="source $THIS_FILE"
 # edit this file
-alias aka='edit ~/.bashrc'
+alias aka='$EDITOR $THIS_FILE'
 # handy notes file
-alias note='edit ~/doc/notes.txt'
+alias note='$EDITOR ~/doc/notes.txt'
 
 # common typo, easier to type
 alias cd..='cd ..'
