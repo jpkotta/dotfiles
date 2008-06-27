@@ -448,14 +448,14 @@ AddState PERSISTENCE_STATE
 DestroyFunc PersistenceOn
 AddToFunc PersistenceOn
 + I StickAcrossPages true
-+ I Layer 0 6
+#+ I Layer 0 6
 + I WindowStyle !Closable
 + I State $[PERSISTENCE_STATE] on
 
 DestroyFunc PersistenceOff
 AddToFunc PersistenceOff
 + I StickAcrossPages false
-+ I Layer default
+#+ I Layer default
 + I WindowStyle Closable
 + I State $[PERSISTENCE_STATE] off
 
