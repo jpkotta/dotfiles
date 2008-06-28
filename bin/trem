@@ -1,0 +1,14 @@
+#!/bin/sh
+
+trem=/usr/games/tremulous
+
+nvclock -f -F 100
+
+if [ -z $DISPLAY ] ; then 
+    startx $trem -- :1 -config xorg.conf.single
+else 
+    echo "Starting windowed Tremulous"
+    $trem +set r_fullScreen 0 
+fi
+
+nvclock -f -F 20

@@ -312,7 +312,7 @@ alias hogm="ps -e -o %mem,pid,ppid,user,cmd | sort -nr | head"
 # -A means adapt interval so as to be fast as possible with only one packet in transit at a time
 alias ping='ping -c 5 -A'
 # screenshot
-alias screenshot="xwd -root -silent | xwdtopnm | pnmtopng > $HOME/screenshot.png"
+alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
 # remake /dev/dsp
 alias mkdsp='sudo mknod /dev/dsp c 14 3 && sudo chmod 777 /dev/dsp'
 # open gqview
@@ -356,10 +356,6 @@ alias xsnow="(killall xsnow ; sleep 3 ; exec xsnow -nosanta -notrees -norudolf -
 export fah_log_file=/opt/foldingathome/1/FAHlog.txt
 alias fah_log="less $fah_log_file"
 alias fah_tail="tail -f $fah_log_file"
-# bit torrent client
-#alias bt='bg_wrapper btdownloadgui'
-# tremulous
-alias tremulous='if [[ -z $DISPLAY ]] ; then startx $(which tremulous) -- :1 -config xorg.conf.single ; else $(which tremulous) +set r_fullScreen 0 ; fi &'
 # descent
 alias descent="d1x-rebirth-gl -window -grabmouse"
 # azureus
@@ -377,9 +373,6 @@ alias pidgin='daemon pidgin'
 alias gkrellm='daemon gkrellm'
 # music player
 alias m=xmms
-# cross compiler
-ARM=/usr/local/arm/gcc-4.1.2-uclibc/bin
-alias arm_gcc=/usr/local/arm/gcc-4.1.2-uclibc/bin/arm-linux-uclibc-gcc
 
 ################################################################################
 # FUNCTIONS 
