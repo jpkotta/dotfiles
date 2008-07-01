@@ -1,41 +1,20 @@
-#!/usr/bin/perl -w
- 
-# created 04-12-04 by jpkotta
-# hex - converts decimal to hex and hex to decimal
+#!/bin/sh
 
-my $usage = 
-"Convert decimal numbers to hex and vice versa.
-Usage: $0 <number>
-If <number> is a string of only the numerical digits 0-9,
-then it will be interpreted as a decimal number and converted to hex.
-If <number> begins with '0x' and is a string of only the digits 0-9 and the letters A-F,
-then it will be interpreted as a hex number and converted to decimal.\n\n"; 
+THIS_SCRIPT=`basename $0`
 
-if ($#ARGV == -1)
-{
-    print STDOUT $usage;
-    exit(1);
-}
- 
-my $num = uc($ARGV[0]);
- 
-# if $num begins "0X" and contains only 0-9 or A-F after that
-if ($num =~ m/^0X[\dA-F]+$/)
-{
-    # convert hex to decimal
-    $num = substr($num, 2);
-    printf STDOUT ("%d\n", hex($num));
-}
-# if $num contains only digits 0-9
-elsif ($num =~ m/^\d+$/)
-{
-    # convert decimal to hex
-    printf STDOUT ("0x%X\n", $num);
-}
+if [ -z "$1" ] ; then
+    echo "Usage: $THIS_SCRIPT <number>"
+    echo "If <number> starts with '0x', interpret it as a hexadecimal number and return the decimal form."
+    echo "If <number> does not start with '0x', interpret it as a decimal number and return the hexadecimal form."
+    exit 1
+fi
+
+if [ `echo "$1" | grep ^0x` ] ; then
+    # is hex
+    echo "$1" | wcalc | sed "s/ = //"
+    exit $?
 else
-{
-    print STDOUT $usage;
-    exit(1);
-}
- 
-exit(0);
+    # is dec
+    echo "$1" | wcalc --hex | sed "s/ = //"
+    exit $?
+fi
