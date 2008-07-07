@@ -219,8 +219,10 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 # go to the previous pwd
 alias prev='cd -'
-# cd to w, the work dir
-alias cdw='cd /home/jpkotta/w'
+# cd to the "work directory"
+work_dir=$HOME/w
+alias cdw="cd $work_dir"
+unset work_dir
 # mkdir and cd to it
 function cdmk() { mkdir -p "$1" ; cd "$1" ; } 
 
