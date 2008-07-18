@@ -589,6 +589,10 @@ UnSetEnv __window_height__
 #SetEnv DESKTOP_TERMINAL_OPTS "-tr -sh 50 -tint white +sb"
 SetEnv DESKTOP_TERMINAL_OPTS "+sb"
 
+DestroyFunc StartDesktopTerminal
+AddToFunc StartDesktopTerminal
++ I Exec exec urxvt $*
+
 PipeRead "echo SetEnv SCREEN_MID_Y $(( $SCREEN_RES_Y / 2))"
 
 # during a restart, sometimes fvwm reads this file before finding old DesktopTerminals,
@@ -597,10 +601,10 @@ PipeRead "echo SetEnv SCREEN_MID_Y $(( $SCREEN_RES_Y / 2))"
 DestroyFunc StartDesktopTerminals
 AddToFunc StartDesktopTerminals
 + I Schedule 500 None (DesktopTerminal, CirculateHit) \
-    StartTerminal --geometry 120x25-0-$[SCREEN_MID_Y] $[DESKTOP_TERMINAL_OPTS] \
+    StartDesktopTerminal --geometry 120x25-0-$[SCREEN_MID_Y] $[DESKTOP_TERMINAL_OPTS] \
         -name DesktopTerminal &
 + I Schedule 500 None (DesktopTerminal2, CirculateHit) \
-    StartTerminal --geometry 120x25-0+$[SCREEN_MID_Y] $[DESKTOP_TERMINAL_OPTS] \
+    StartDesktopTerminal --geometry 120x25-0+$[SCREEN_MID_Y] $[DESKTOP_TERMINAL_OPTS] \
         -name DesktopTerminal2 &
 
 

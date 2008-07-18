@@ -33,7 +33,7 @@ AddToFunc StartTerminal
 
 DestroyFunc StartRootTerminal
 AddToFunc StartRootTerminal
-+ I StartTerminal $* -e su
++ I StartTerminal $* -e sudo -i
 
 DestroyFunc StartFileManager
 AddToFunc StartFileManager
