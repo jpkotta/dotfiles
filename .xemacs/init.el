@@ -323,3 +323,14 @@ the line."
 
 ; turn long lines mode on and off
 (global-set-key (kbd "C-c w") 'longlines-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; workarounds
+
+(defun fix-xemacs-stupidity ()
+  (interactive)
+  (setq paren-mode nil)
+  (pending-delete-mode nil)
+  (pending-delete-mode t)
+)
+(fix-xemacs-stupidity)
