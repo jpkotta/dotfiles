@@ -153,6 +153,7 @@ AddToFunc LockScreen
 # 3 sec wait so it doesn't recieve any key presses or mouse movements
 + I Schedule 3000 Exec exec xscreensaver-command -lock
 
+# try both kdm and gdm
 DestroyFunc SleepSystem
 AddToFunc SleepSystem
 + I Exec exec gdm-signal --suspend
@@ -164,12 +165,14 @@ AddToFunc HibernateSystem
 DestroyFunc RebootSystem
 AddToFunc RebootSystem
 + I Exec exec gdm-signal --reboot
-+ I Quit
++ I Exec exec kdmctl shutdown reboot trynow
++ I Schedule 1000 Quit
 
 DestroyFunc ShutDownSystem
 AddToFunc ShutDownSystem
 + I Exec exec gdm-signal --halt
-+ I Quit
++ I Exec exec kdmctl shutdown halt trynow
++ I Schedule 1000 Quit
 
 ################################################################################
 # WINDOWSHADE + CHANGE TITLE DIRECTION
