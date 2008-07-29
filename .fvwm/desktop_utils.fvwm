@@ -340,8 +340,27 @@ DestroyFunc MediaPlayerIncrVol
 AddToFunc MediaPlayerIncrVol
 + I Exec mpc --no-status volume +2
 
+DestroyFunc MediaPlayerPlayPause
+AddToFunc MediaPlayerPlayPause
++ I Exec mpc --no-status toggle
+
+DestroyFunc MediaPlayerNext
+AddToFunc MediaPlayerNext
++ I Exec mpc --no-status next
+
+DestroyFunc MediaPlayerPrev
+AddToFunc MediaPlayerPrev
++ I Exec mpc --no-status prev
+
+DestroyFunc MediaPlayerButton1
+AddToFunc MediaPlayerButton1
++ C MediaPlayerPrev
++ D MediaPlayerPlayPause
+
 Mouse (DesktopButtonsMediaPlayer) 5 W N MediaPlayerDecrVol
 Mouse (DesktopButtonsMediaPlayer) 4 W N MediaPlayerIncrVol
+Mouse (DesktopButtonsMediaPlayer) 1 W N MediaPlayerButton1
+Mouse (DesktopButtonsMediaPlayer) 3 W N MediaPlayerNext
 
 # swallows media player
 # works like other desktop modules, so it hides/unhides with an EdgeCommand
