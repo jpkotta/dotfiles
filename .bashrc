@@ -80,7 +80,10 @@ export EDITOR="xemacs"
 export BROWSER="/usr/bin/opera -newwindow"
 export PAGER="/usr/bin/less --LONG-PROMPT"
 
-export PDF_READER=/usr/bin/kpdf
+export PDF_READER=/usr/lib/kde4/bin/okular
+if [ ! -x "$PDF_READER" ] ; then
+    export PDF_READER=/usr/bin/kpdf
+fi
 
 ################################################################################
 # PROMPT
