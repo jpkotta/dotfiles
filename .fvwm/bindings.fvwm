@@ -221,6 +221,7 @@ Test (EnvIsSet USE_MEDIA_KEYS) \
 # X also has some builtin bindings:
 #   Ctrl-Alt-Backspace quits immediately
 #   Ctrl-Alt-KP_Plus/KP_Minus decreases/increases resolution
+#   Ctrl-Alt-Shift-Num_Lock toggle keypad mouse
 
 # default FVWM bindings:
 #   Ctrl-Alt-Escape escapes from a Wait

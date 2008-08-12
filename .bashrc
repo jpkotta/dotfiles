@@ -120,6 +120,7 @@ bold="\[\e[1$nobg"
 # prompt pieces
 prompt_open="$blue[$normal"
 prompt_close="$blue]$normal"
+prompt_close_open="$prompt_close$prompt_open"
 prompt_username="$cyan\u$normal"
 prompt_at="$blue@$normal"
 prompt_hostname="$cyan\h$normal"
@@ -131,7 +132,7 @@ prompt_err_stat="$bold$?$normal"
 prompt_prompt="$blue\$$normal"
 
 PLAIN_PROMPT='[\u@\h][\w](\j)\n\$ '
-FANCY_PROMPT="$prompt_open$prompt_username$prompt_at$prompt_hostname$prompt_close$prompt_open$prompt_pwd$prompt_close$prompt_open$prompt_jobs$prompt_close\n$prompt_prompt "
+FANCY_PROMPT="$prompt_open$prompt_time$prompt_close_open$prompt_username$prompt_at$prompt_hostname$prompt_close_open$prompt_pwd$prompt_close_open$prompt_jobs$prompt_close\n$prompt_prompt "
 
 export PS1=$PLAIN_PROMPT
 if [[ $TERM == 'rxvt-unicode' ]] ; then
@@ -238,7 +239,7 @@ function psK() { kill -KILL `psg "$@" | awk '{print $1}'` ; }
 alias psgaux='ps auxw | grep -vE "grep|psg" | grep -E'
 
 # grep
-alias srcgrp="grep -RE --include='*.[ch]'"
+alias srcgrp="grep -RE --include='*.[ch]' -n"
 
 # ls aliases
 alias ls='/bin/ls -vF --color=auto'

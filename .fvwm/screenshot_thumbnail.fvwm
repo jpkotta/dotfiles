@@ -57,7 +57,7 @@ AddToFunc ScreenShotThumbnail
         xwd:- png:$[SCREENSHOT_ICONDIR]/$[w.id]_big.png >/dev/null 2>&1 & \
     nice -n 19 convert -filter sinc -resize '128x96!' \
         png:$[SCREENSHOT_ICONDIR]/$[w.id]_big.png png:$[SCREENSHOT_ICONDIR]/$[w.id].png >/dev/null 2>&1 &
-#+ I Echo debug: ScreenShotThumbnail $[w.id]
+#+ I Echo debug: ScreenShotThumbnail $[w.name]:$[w.id]
 
 # rearranges iconified windows, called when an icon is added or removed
 DestroyFunc RearrangeIcons
