@@ -106,3 +106,4 @@ Style Pidgin Sticky, !FPGrabFocus
 
 Style Tremulous !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
 Style OpenArena !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
+Style doomsday* !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
