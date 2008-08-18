@@ -91,8 +91,9 @@ AddToFunc ProxyBinding1
 + I DeiconifyFocusAndRaise
 + I SendToModule FvwmProxy Hide
 
-AddToFunc RootWindowBinding
-+ C SendToModule FvwmProxy ShowToggle
+SetEnv EDGE_COMMAND_S "Mouse 1 R A SendToModule FvwmProxy ShowToggle"
+SetEnv EDGE_LEAVE_COMMAND_S "Mouse 1 R A RootWindowBinding"
+RestoreEdgeCommands
 
 #DestroyFunc ProxyShowDelayed
 #AddToFunc ProxyShowDelayed
@@ -111,11 +112,11 @@ DestroyModuleConfig FvwmProxy: *
 
 *FvwmProxy: Colorset $[MENU_COLORSET]
 *FvwmProxy: SelectColorset $[MENU_HILIGHT_COLORSET]
-*FvwmProxy: Iconified $[MENU_COLORSET]
+*FvwmProxy: IconifiedColorset $[MENU_COLORSET]
 
 *FvwmProxy: Font 'Shadow=0:xft:Century Schoolbook L:Medium:Italic:pixelsize=16; \
     -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
-*FvwmProxy: SmallFont'Shadow=0:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
+*FvwmProxy: SmallFont 'Shadow=0:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
     -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
 
 *FvwmProxy: Width 252
@@ -137,10 +138,6 @@ DestroyModuleConfig FvwmProxy: *
 *FvwmProxy: Action Click3 Deschedule $[FVWMPROXY_SCHED_ID]
 
 Key Escape A 4 SendToModule FvwmProxy ShowToggle
-
-#SetEnv EDGE_COMMAND_S "ProxyShowDelayed"
-#RestoreEdgeCommands
-#EdgeLeaveCommand South ProxyHideDelayed
 
 
 

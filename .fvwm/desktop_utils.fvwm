@@ -100,6 +100,9 @@ Style xpad      Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, S
 SetEnv EDGE_COMMAND_N "Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager"
 SetEnv EDGE_LEAVE_COMMAND_N "Deschedule $[SHOW_DESKTOP_PAGER_SCHED_ID]"
 
+SetEnv EDGE_COMMAND_E "Mouse 1 R A ToggleDesktopTerminal"
+SetEnv EDGE_LEAVE_COMMAND_E "Mouse 1 R A RootWindowBinding"
+
 SetEnv EDGE_COMMAND_W "Mouse 1 R A ToggleDesktopButtonsNoWarp"
 SetEnv EDGE_LEAVE_COMMAND_W "Mouse 1 R A RootWindowBinding"
 #SetEnv EDGE_COMMAND_W "Schedule 500 $[SHOW_DESKTOP_BUTTONS_SCHED_ID] ShowDesktopButtons"
@@ -194,7 +197,7 @@ AddToFunc HideDesktopTerminal
 # sometimes the pager gets shown (e.g. pointer gets pushed up there)
 # this seems like an intuitive place to get rid of it
 + I HideDesktopPager
-+ I WindowId root WarpToWindow 50 50
+#+ I WindowId root WarpToWindow 50 50
 
 DestroyFunc HideDesktopButtons
 AddToFunc HideDesktopButtons
@@ -215,6 +218,11 @@ AddToFunc PrevDesktopTerminal
 + I Prev (DesktopTerminal*, CirculateHit) WarpToWindow 50 50
 + I Current (!DesktopTerminal*, CirculateHit) \
     Prev (DesktopTerminal*, CirculateHit) FlipFocus
+
+DestroyFunc ToggleDesktopTerminal
+AddToFunc ToggleDesktopTerminal
++ I Any (DesktopTerminal*, CirculateHit, !Shaded) HideDesktopTerminal
++ I TestRc (NoMatch) ShowDesktopTerminal
 
 # toggles the DesktopButtons* on and off
 DestroyFunc ToggleDesktopButtons
@@ -439,7 +447,7 @@ DestroyModuleConfig DesktopPager: *
 Colorset $[PAGER_COLORSET]                  fg white, bg black, VGradient 32 #020020 black
 Colorset $[PAGER_HILIGHT_COLORSET]          fg black, bg white, VGradient 32 white lavender
 Colorset $[PAGER_BALLOON_COLORSET]          fg black, bg bisque
-#Colorset $[PAGER_WINDOW_COLORSET]           fg white, bg grey51, DGradient 64 #A090A0 #666676
+#Colorset $[PAGER_WINDOW_COLORSET]          fg white, bg grey51, DGradient 64 #A090A0 #666676
 Colorset $[PAGER_WINDOW_COLORSET]           fg white, bg grey51, DGradient 64 #7f757f #9fa9ad
 Colorset $[PAGER_HILIGHT_WINDOW_COLORSET]   fg white, bg blue4, DGradient 64 #800080 #3989AF
 
@@ -494,106 +502,106 @@ DestroyModuleConfig DesktopMiniPager: *
 
 
 
-################################################################################
-# DesktopIconMan
-################################################################################
-
-# Notes:
-# we have 2 FvwmIconMans swallowed by an FvwmButtons
-
-DestroyFunc ButtonBinding1
-AddToFunc ButtonBinding1
-+ I Iconify off
-+ I FlipFocus
-+ I Raise
-#+ D ThisWindow (Iconic) Maximize True
-#+ D TestRc (NoMatch) Maximize 100 100
-#+ D Iconify False
-
-XineramaPrimaryScreen $[LEFT_SCREEN]
-
-Style "Left Screen" StartsOnScreen $[LEFT_SCREEN]
-Style "Right Screen" StartsOnScreen $[RIGHT_SCREEN]
-
-DestroyModuleConfig DesktopIconMan: *
-
-Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: NumManagers 2
-Test (!EnvIsSet USE_XINERAMA) *DesktopIconMan: NumManagers 1
-
-*DesktopIconMan: 1 Resolution any_desk, page, screen
-*DesktopIconMan: 2 Resolution any_desk, page, screen
-
-*DesktopIconMan: Colorset $[MENU_COLORSET]
-*DesktopIconMan: IconColorset $[MENU_COLORSET]
-*DesktopIconMan: SelectColorset $[MENU_COLORSET]
-*DesktopIconMan: FocusColorset $[MENU_HILIGHT_COLORSET]
-*DesktopIconMan: FocusAndSelectColorset $[MENU_HILIGHT_COLORSET]
-*DesktopIconMan: TipsColorset $[ICON_TITLE_COLORSET]
-
-*DesktopIconMan: 1 ManagerGeometry 1x1
-*DesktopIconMan: 2 ManagerGeometry 1x1
-*DesktopIconMan: MaxButtonWidthByColumns 4
-
-*DesktopIconMan: Font 'Shadow=0:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
-    -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
-*DesktopIconMan: TipsFont 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
-    -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
-
-*DesktopIconMan: PlainButton flat
-*DesktopIconMan: SelectButton flat
-*DesktopIconMan: IconButton down
-
-*DesktopIconMan: Sort id
-Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: 1 Title "Left Screen"
-Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: 2 Title "Right Screen"
-Test (!EnvIsSet USE_XINERAMA) *DesktopIconMan: 1 Title "Taskbar"
-*DesktopIconMan: DrawIcons always
-*DesktopIconMan: UseWinList true
-*DesktopIconMan: FollowFocus true
-
-*DesktopIconMan: Tips always
-*DesktopIconMan: TipsDelays 0 0
-
-*DesktopIconMan: Action Mouse 0 N sendcommand Nop
-*DesktopIconMan: Action Mouse 1 N sendcommand ButtonBinding1
-*DesktopIconMan: Action Mouse 2 N sendcommand Iconify
-*DesktopIconMan: Action Mouse 3 N sendcommand WindowMenuOrCloseIcon
-#*DesktopIconMan: NoIconAction SendToModule FvwmAnimate animate
-
-
-################################################################################
-# swallowing buttons
-
-DestroyModuleConfig DesktopTaskbar: *
-
-SetEnv __height__ 27
-#SetEnv __window_height__ 81
-SetEnv __window_height__ 27
-
-*DesktopTaskbar: ButtonGeometry $[vp.width]x$[__height__]
-*DesktopTaskbar: BoxSize smart
-Test (EnvIsSet USE_XINERAMA) *DesktopTaskbar: Columns 2
-Test (!EnvIsSet USE_XINERAMA) *DesktopTaskbar: Columns 1
-#*DesktopTaskbar: Rows 3
-*DesktopTaskbar: Rows 1
-*DesktopTaskbar: Colorset $[BUTTONS_COLORSET]
-
-*DesktopTaskbar: Geometry $[vp.width]x$[__window_height__]+0--1@$[LEFT_SCREEN]
-
-Test (EnvIsSet USE_XINERAMA) \
-*DesktopTaskbar: (1x1, Frame 1, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
-    "Left Screen" "Nop")
-Test (EnvIsSet USE_XINERAMA) \
-*DesktopTaskbar: (1x1, Frame 0, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
-    "Right Screen" "Nop")
-
-Test (!EnvIsSet USE_XINERAMA) \
-*DesktopTaskbar: (1x1, Frame 0, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
-    "Taskbar" "Nop")
-
-
-UnSetEnv __height__
-UnSetEnv __window_height__
+# ################################################################################
+# # DesktopIconMan
+# ################################################################################
+# 
+# # Notes:
+# # we have 2 FvwmIconMans swallowed by an FvwmButtons
+# 
+# DestroyFunc ButtonBinding1
+# AddToFunc ButtonBinding1
+# + I Iconify off
+# + I FlipFocus
+# + I Raise
+# #+ D ThisWindow (Iconic) Maximize True
+# #+ D TestRc (NoMatch) Maximize 100 100
+# #+ D Iconify False
+# 
+# XineramaPrimaryScreen $[LEFT_SCREEN]
+# 
+# Style "Left Screen" StartsOnScreen $[LEFT_SCREEN]
+# Style "Right Screen" StartsOnScreen $[RIGHT_SCREEN]
+# 
+# DestroyModuleConfig DesktopIconMan: *
+# 
+# Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: NumManagers 2
+# Test (!EnvIsSet USE_XINERAMA) *DesktopIconMan: NumManagers 1
+# 
+# *DesktopIconMan: 1 Resolution any_desk, page, screen
+# *DesktopIconMan: 2 Resolution any_desk, page, screen
+# 
+# *DesktopIconMan: Colorset $[MENU_COLORSET]
+# *DesktopIconMan: IconColorset $[MENU_COLORSET]
+# *DesktopIconMan: SelectColorset $[MENU_COLORSET]
+# *DesktopIconMan: FocusColorset $[MENU_HILIGHT_COLORSET]
+# *DesktopIconMan: FocusAndSelectColorset $[MENU_HILIGHT_COLORSET]
+# *DesktopIconMan: TipsColorset $[ICON_TITLE_COLORSET]
+# 
+# *DesktopIconMan: 1 ManagerGeometry 1x1
+# *DesktopIconMan: 2 ManagerGeometry 1x1
+# *DesktopIconMan: MaxButtonWidthByColumns 4
+# 
+# *DesktopIconMan: Font 'Shadow=0:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
+#     -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
+# *DesktopIconMan: TipsFont 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
+#     -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
+# 
+# *DesktopIconMan: PlainButton flat
+# *DesktopIconMan: SelectButton flat
+# *DesktopIconMan: IconButton down
+# 
+# *DesktopIconMan: Sort id
+# Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: 1 Title "Left Screen"
+# Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: 2 Title "Right Screen"
+# Test (!EnvIsSet USE_XINERAMA) *DesktopIconMan: 1 Title "Taskbar"
+# *DesktopIconMan: DrawIcons always
+# *DesktopIconMan: UseWinList true
+# *DesktopIconMan: FollowFocus true
+# 
+# *DesktopIconMan: Tips always
+# *DesktopIconMan: TipsDelays 0 0
+# 
+# *DesktopIconMan: Action Mouse 0 N sendcommand Nop
+# *DesktopIconMan: Action Mouse 1 N sendcommand ButtonBinding1
+# *DesktopIconMan: Action Mouse 2 N sendcommand Iconify
+# *DesktopIconMan: Action Mouse 3 N sendcommand WindowMenuOrCloseIcon
+# #*DesktopIconMan: NoIconAction SendToModule FvwmAnimate animate
+# 
+# 
+# ################################################################################
+# # swallowing buttons
+# 
+# DestroyModuleConfig DesktopTaskbar: *
+# 
+# SetEnv __height__ 27
+# #SetEnv __window_height__ 81
+# SetEnv __window_height__ 27
+# 
+# *DesktopTaskbar: ButtonGeometry $[vp.width]x$[__height__]
+# *DesktopTaskbar: BoxSize smart
+# Test (EnvIsSet USE_XINERAMA) *DesktopTaskbar: Columns 2
+# Test (!EnvIsSet USE_XINERAMA) *DesktopTaskbar: Columns 1
+# #*DesktopTaskbar: Rows 3
+# *DesktopTaskbar: Rows 1
+# *DesktopTaskbar: Colorset $[BUTTONS_COLORSET]
+# 
+# *DesktopTaskbar: Geometry $[vp.width]x$[__window_height__]+0--1@$[LEFT_SCREEN]
+# 
+# Test (EnvIsSet USE_XINERAMA) \
+# *DesktopTaskbar: (1x1, Frame 1, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
+#     "Left Screen" "Nop")
+# Test (EnvIsSet USE_XINERAMA) \
+# *DesktopTaskbar: (1x1, Frame 0, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
+#     "Right Screen" "Nop")
+# 
+# Test (!EnvIsSet USE_XINERAMA) \
+# *DesktopTaskbar: (1x1, Frame 0, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
+#     "Taskbar" "Nop")
+# 
+# 
+# UnSetEnv __height__
+# UnSetEnv __window_height__
 
 
 

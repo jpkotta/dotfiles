@@ -132,7 +132,9 @@ IgnoreModifiers L25
 ################################################################################
 
 # do not flip pages, but allow dragging windows across pages
-EdgeResistance 500 100
+EdgeResistance 500
+Style * EdgeMoveDelay 500
+Style * EdgeMoveResistance 100 25
 EdgeScroll 0 0
 # a very interesting thing about edges: they're technically the root window
 # this means there is always a thin strip of root window around the edges, 
@@ -172,7 +174,7 @@ OpaqueMoveSize unlimited
 
 MoveThreshold 3
 
-SnapAttraction 10 All Screen
+Style * SnapAttraction 10 All Screen
 
 Style * ResizeOpaque
 
