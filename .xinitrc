@@ -6,7 +6,7 @@ echo "END OF PARAMETERS TO .xinitrc"
 echo 
 
 # turn monitors off after 10 min
-xset dpms 0 0 300
+xset dpms 0 0 600
 
 # set the wallpaper
 # do this first because it can take a while
