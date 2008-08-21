@@ -126,6 +126,8 @@ IgnoreModifiers
 #IgnoreModifiers L35
 IgnoreModifiers L25
 
+# time threshold to determine if mouse button is click or hold
+ClickTime 200
 
 ################################################################################
 # MOVEMENT AND RESIZING
