@@ -310,8 +310,11 @@ Test (x gdeskcal) \
 
 # a nice monitor
 Test (x gkrellm) \
-    *DesktopButtons: (4x28, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+    *DesktopButtons: (4x28, Frame 0, ActionIgnoresClientWindow, \
+    Action (Mouse 1) Exec killall gkrellm ; gkrellm, \
+    Swallow (NoClose, SwallowNew, UseOld) \
     "gkrellm" "Exec exec gkrellm -geometry +1500+1500")
+# sometimes, gkrellm gets weird, hence the restart action
 
 # app launch buttons
 *DesktopButtons: (4x4, Frame 0, Icon arrows2.xpm, \
