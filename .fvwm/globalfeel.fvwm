@@ -218,6 +218,11 @@ Style * FPGrabFocus, FPGrabFocusTransient, FPReleaseFocus, FPReleaseFocusTransie
 # these basically make a parent and its transients get raised and lowered as a group
 #Style * RaiseTransient, LowerTransient, StackTransientParent
 
+# default UrgencyFunc is too...urgent
+DestroyFunc UrgencyFunc
+AddToFunc UrgencyFunc
++ I Raise
++ I WarpToWindow +5p +5p
 
 ################################################################################
 # MENU STYLES

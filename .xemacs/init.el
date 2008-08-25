@@ -179,6 +179,9 @@
 
 ; the best way to find the symbol for a key is to run C-h k <key>
 
+; undo binding messes with default suspend-emacs binding
+(global-set-key (kbd "C-x z") 'suspend-emacs)
+
 ; replace kill- functions with delete- functions
 ; I find it unintuitive to kill the text
 ; usually I want to replace it with killed text, not go to the kill ring
