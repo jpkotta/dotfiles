@@ -222,7 +222,20 @@ Style * FPGrabFocus, FPGrabFocusTransient, FPReleaseFocus, FPReleaseFocusTransie
 DestroyFunc UrgencyFunc
 AddToFunc UrgencyFunc
 + I Raise
-+ I WarpToWindow +5p +5p
++ I WarpToWindow +50 +50
+# make it wiggle
++ I PipeRead '\
+	for i in 16 -16 8 -8 4 -4 2 -2 ; do \
+		echo WindowId $[w.id] Move w${i}p w${i}p ; \
+		sleep 0.05 ; \
+	done'
+# alternate wiggle
+#+ I PipeRead '\
+#	for i in 8 -8 6 -6 4 -4 2 -2 ; do \
+#		echo WindowId $[w.id] Move w${i}p w${i}p ; \
+#		sleep 0.05 ; \
+#	done'
+
 
 ################################################################################
 # MENU STYLES
