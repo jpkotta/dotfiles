@@ -155,6 +155,8 @@ if [[ "$TERM" == "xterm" || $TERM == "rxvt" ]] ; then
     PROMPT_COMMAND='echo -ne "\033]0;[${USER}@${HOSTNAME}][${PWD/$HOME/~}]\007"'
 fi
 
+TERMINAL="urxvt -pe tabbed"
+
 ################################################################################
 # OTHER VARIABLES 
 
@@ -206,6 +208,9 @@ function daemon
 # default editor
 alias edit="$EDITOR"
 alias E="$EDITOR"
+
+# terminal
+alias T="daemon $TERMINAL"
 
 # source this file
 THIS_FILE=`readlink -f $BASH_SOURCE`
