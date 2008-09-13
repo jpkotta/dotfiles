@@ -10,7 +10,9 @@
 
 # bash_completion has an error, that causes it to fail if you source
 # it more than once, thus we make it idempotent
-[ -n "$BASH_COMPLETION" ] || . /etc/bash_completion
+[ -n "$BASH_COMPLETION" ] \
+    || [ -f /etc/bash_completion ] \
+    && . /etc/bash_completion
 
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
