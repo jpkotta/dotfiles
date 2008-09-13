@@ -326,7 +326,7 @@ alias gq='bg_wrapper gqview'
 # start a new opera window
 alias opera='bg_wrapper opera -newwindow'
 # start a new firefox window
-alias ffox='bg_wrapper firefox'
+alias ffox='daemon firefox'
 # by default, nautilus manages the desktop (icons and such)
 alias nautilus='bg_wrapper nautilus --no-desktop --browser'
 # start a separate acroread for every document
