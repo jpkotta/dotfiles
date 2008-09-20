@@ -171,11 +171,8 @@ TERMINAL="urxvt -pe tabbed"
 export IGNOREEOF=1
 
 # some programs' startup scipts need to know the screen res
-if [[ -n $DISPLAY && -z $SCREEN_RES && -z $SSH_TTY ]] ; then
-    #export SCREEN_RES=1024x768
-    #export SCREEN_RES=1280x960
-    #export SCREEN_RES=`xdpyinfo | grep dimensions | grep -o '[0-9]*x[0-9]*[[:space:]]*pixels' | sed -e 's/pixels//' -e 's/[[:space:]]//'`
-    true
+if [ -n "$DISPLAY" ] ; then
+    export RESOLUTION=`xdpyinfo | grep dimensions | awk '{ print $2 }'`
 fi
 
 # set up colors for ls
@@ -358,8 +355,6 @@ alias latexref="bg_wrapper $PDF_READER ~/doc/latex/lshort.pdf"
 alias pythonref="bg_wrapper $PDF_READER ~/doc/python_ref.pdf"
 alias pythondoc="bg_wrapper $BROWSER ~/doc/python/Python-Docs-2.4.2/html/index.html"
 
-# start up ssh with compression
-alias ssh='ssh -C'
 # xine media player
 alias xine="bg_wrapper xine --enqueue"
 # xsnow
@@ -386,6 +381,9 @@ alias pidgin='daemon pidgin'
 alias gkrellm='daemon gkrellm'
 # music player
 alias m=xmms
+# remote desktop
+alias rdp="rdesktop -K -g $RESOLUTION"
+
 
 ################################################################################
 # FUNCTIONS 

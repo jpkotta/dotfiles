@@ -109,3 +109,5 @@ Style OpenArena !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
 Style doomsday* !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
 
 Style rdesktop !Title, !Borders, PositionPlacement
+
+Style krusader !Closable, Sticky
