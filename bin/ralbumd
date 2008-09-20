@@ -1,0 +1,67 @@
+#!/usr/bin/env perl
+
+use warnings;
+use strict;
+
+use Audio::MPD;
+use POSIX qw(setsid);
+
+# daemonize
+chdir("/") or
+    die("Can't chdir to /: $!");
+umask(0);
+
+open(STDIN, "</dev/null") or
+    die("Can't redirect STDIN to /dev/null: $!");
+open(STDOUT, ">/dev/null") or
+    die("Can't redirect STDOUT to /dev/null: $!");
+open(STDERR, ">/dev/null") or
+    die("Can't redirect STDERR to /dev/null: $!");
+
+my $pid = fork();
+defined($pid) or
+    die("Can't fork(): $!");
+
+if ($pid != 0) {
+    exit(0);
+}
+
+setsid() or
+    die("Can't start new session: $!");
+
+my $mpd = Audio::MPD->new();
+
+# randomize prng
+srand(time);
+
+my $playlist_finished = 0;
+my $delay = 1;
+while (1) {
+    my %status = %{ $mpd->status() };
+
+    if ($playlist_finished
+	&& $status{"state"} eq "stop") {
+
+	my @albums = $mpd->collection->all_albums();
+	my $idx = int(rand($#albums));
+	my @songs = $mpd->collection->songs_from_album($albums[$idx]);
+
+	$mpd->playlist->clear();
+	my $song;
+	foreach $song (@songs) {
+	    $mpd->playlist->add($$song{"file"});
+	}
+	$playlist_finished = 0;
+
+	$mpd->play();
+    }
+
+    if (defined($status{"song"})
+	&& $status{"playlistlength"} - 1 == $status{"song"}) {
+	if ($status{"time"}{"seconds_total"} - $status{"time"}{"seconds_left"} < 3*$delay) {
+	    $playlist_finished = 1;
+	}
+    }
+
+    sleep($delay);
+}
