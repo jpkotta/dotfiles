@@ -13,6 +13,7 @@ fi
 num_ralbumd_instances=$(ps -ef | grep -v grep | grep jpkotta | grep -c ralbumd)
 if [[ "$num_ralbumd_instances" -gt 1 ]] ; then
     echo "Killing extra ralbumd instances."
+    ralbumd kill
     killall --user $USER ralbumd
 fi
 

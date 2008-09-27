@@ -371,7 +371,15 @@ alias azureus='daemon azureus'
 # ntpdate
 alias ntpdate='sudo ntpdate -u -v ntp.ubuntu.com'
 # du on files and dirs in pwd, sorted by size
-alias dusrt='du --max-depth=1 -a -k | sort -n'
+function dusrt()
+{
+    du_cmd="du --max-depth=1 --all -k --one-file-system"
+    if [ -x "`which ionice`" ] ; then
+	ionice -c 3 $du_cmd 2>/dev/null | sort -n
+    else
+	$du_cmd 2>/dev/null | sort -n
+    fi
+}
 # mathematica needs this env var when using Composite extension on X.org
 alias mathematica='(export XLIB_SKIP_ARGB_VISUALS=1 ; mathematica &)'
 # Gaim instant messenger
