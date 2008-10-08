@@ -29,7 +29,7 @@ AddToFunc StartEditor
 
 DestroyFunc StartTerminal
 AddToFunc StartTerminal
-+ I Exec exec urxvt $*
++ I Exec exec urxvtcd $*
 
 DestroyFunc StartRootTerminal
 AddToFunc StartRootTerminal

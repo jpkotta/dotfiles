@@ -612,13 +612,12 @@ DestroyModuleConfig DesktopMiniPager: *
 # DesktopTerminals
 ################################################################################
 
-# terminals with/without transparency
-#SetEnv DESKTOP_TERMINAL_OPTS "-tr -sh 50 -tint white +sb"
-SetEnv DESKTOP_TERMINAL_OPTS "+sb"
-
 DestroyFunc StartDesktopTerminal
 AddToFunc StartDesktopTerminal
-+ I Exec exec urxvt $*
+#  with (fake) transparency
+#+ I Exec exec urxvt -tr -sh 50 -tint white +sb $*
+#  without (fake) transparency
++ I Exec exec urxvt +sb $*
 
 PipeRead "echo SetEnv SCREEN_MID_Y $(( $SCREEN_RES_Y / 2))"
 
@@ -628,10 +627,10 @@ PipeRead "echo SetEnv SCREEN_MID_Y $(( $SCREEN_RES_Y / 2))"
 DestroyFunc StartDesktopTerminals
 AddToFunc StartDesktopTerminals
 + I Schedule 500 None (DesktopTerminal, CirculateHit) \
-    StartDesktopTerminal --geometry 120x25-0-$[SCREEN_MID_Y] $[DESKTOP_TERMINAL_OPTS] \
+    StartDesktopTerminal --geometry 120x25-0-$[SCREEN_MID_Y] \
         -name DesktopTerminal &
 + I Schedule 500 None (DesktopTerminal2, CirculateHit) \
-    StartDesktopTerminal --geometry 120x25-0+$[SCREEN_MID_Y] $[DESKTOP_TERMINAL_OPTS] \
+    StartDesktopTerminal --geometry 120x25-0+$[SCREEN_MID_Y] \
         -name DesktopTerminal2 &
 
 
