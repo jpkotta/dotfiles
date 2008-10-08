@@ -47,7 +47,7 @@ MenuStyle screenshot_menu_style SelectOnRelease Super_L
 # things like FvwmButtons that you don't want thumbnails of anyway
 DestroyFunc ScreenShotThumbnail
 AddToFunc ScreenShotThumbnail
-+ I ThisWindow (Visible, !Iconic, Closable) \
++ I ThisWindow (Visible, !Iconic, Iconifiable) \
     WindowStyle IconOverride, Icon $[SCREENSHOT_ICONDIR]/$[w.id]_big.png
 + I TestRc (Match) Exec \
     nice -n 19 xwd -silent -id $[w.id] | \

@@ -326,20 +326,24 @@ alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
 # remake /dev/dsp
 alias mkdsp='sudo mknod /dev/dsp c 14 3 && sudo chmod 777 /dev/dsp'
 # open gqview
-alias gq='bg_wrapper gqview'
+alias gq='daemon gqview'
 # start a new opera window
-alias opera='bg_wrapper opera -newwindow'
+alias opera='daemon opera -newwindow'
 # start a new firefox window
 alias ffox='daemon firefox'
 # by default, nautilus manages the desktop (icons and such)
 alias nautilus='bg_wrapper nautilus --no-desktop --browser'
 # start a separate acroread for every document
-alias acroread='bg_wrapper acroread -openInNewWindow'
+alias acroread='daemon acroread -openInNewWindow'
 # kpdf is better
 alias kpdf='daemon kpdf'
+# okular is even better
+alias okular='daemon /usr/lib/kde4/bin/okular'
+alias pdf="$PDF_READER"
 # open office
-alias oocalc='bg_wrapper oocalc'
-alias oowriter='bg_wrapper oowriter'
+alias ooffice='daemon ooffice'
+alias oocalc='daemon oocalc'
+alias oowriter='daemon oowriter'
 # open my checking account spreadsheets
 alias finances="oocalc ~/doc/finances.ods"
 
