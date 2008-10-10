@@ -96,6 +96,12 @@ Style Firefox*-bin SkipMapping, FPOverrideGrabFocus, \
 	!UsePPosition, !UseTransientPPosition, \
 	!FPGrabFocus, !FPGrabFocusTransient
 
+# GNUPlot
+Style "gplt" !FPGrabFocus, CascadePlacement, !StartsRaised
+Style "Figure *" !FPGrabFocus, CascadePlacement, !StartsRaised
+#Style "gplt" StartsOnPage 0 1 0
+#Style "Figure *" StartsOnPage 0 1 0
+
 # java think they should handle focusing, but do a terrible job
 # this lets FVWM control focusing
 Style sun-awt-X11-* Lenience
