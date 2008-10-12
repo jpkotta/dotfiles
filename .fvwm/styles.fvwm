@@ -97,10 +97,10 @@ Style Firefox*-bin SkipMapping, FPOverrideGrabFocus, \
 	!FPGrabFocus, !FPGrabFocusTransient
 
 # GNUPlot
-Style "gplt" !FPGrabFocus, CascadePlacement, !StartsRaised
-Style "Figure *" !FPGrabFocus, CascadePlacement, !StartsRaised
-#Style "gplt" StartsOnPage 0 1 0
-#Style "Figure *" StartsOnPage 0 1 0
+Style "gplt" !FPGrabFocus, CascadePlacement, SkipMapping
+Style "Figure *" !FPGrabFocus, CascadePlacement, SkipMapping
+#Style "gplt" StartsOnPage 1 1 0, StartsLowered, StartsOnScreen $[LEFT_SCREEN]
+#Style "Figure *" StartsOnPage 1 1 0, StartsLowered, StartsOnScreen $[LEFT_SCREEN]
 
 # java think they should handle focusing, but do a terrible job
 # this lets FVWM control focusing

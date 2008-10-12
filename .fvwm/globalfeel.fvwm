@@ -189,6 +189,9 @@ Style * MinOverlapPlacement
 # start on screen with pointer
 Style * StartsOnScreen c
 
+# do not jump to a desk that a window suddenly pops up on
+Style * SkipMapping
+
 
 ################################################################################
 # ICONS
