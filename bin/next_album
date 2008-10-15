@@ -34,8 +34,8 @@ $mpc play && $mpc crop || exit >/dev/null
 times=$($mpc status | grep "\[playing\]" | awk '{ print $3 }' | sed "s#/# #")
 if [ -n "$times" ] ; then
     time_total=$(echo "$times" | awk '{print $2}' | sed "s/:/ /")
-    min=$(echo "$time_total" | awk '{print $1}')
-    sec=$(echo "$time_total" | awk '{print $2}')
+    min=$(echo "$time_total" | awk '{print $1}' | sed s/^0//)
+    sec=$(echo "$time_total" | awk '{print $2}' | sed s/^0//)
     sec_total=$(( $min*60 + $sec ))
 
     if [ "$sec_total" -ge 4 ] ; then
