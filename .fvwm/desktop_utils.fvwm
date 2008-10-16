@@ -46,7 +46,7 @@ AddState DESKTOP_UTIL_UNHIDEABLE_STATE
 # COMMON STYLES
 Style Desktop* !Borders, NoIcon, NoTitle, \
     WindowListSkip, CirculateSkip, FixedPosition, FixedSize, \
-    !Closable, !Iconifiable, Sticky, !Maximizable
+    !Closable, !Iconifiable, Sticky, !Maximizable, !SkipMapping
 
 # INDIVIDUAL STYLES
 
@@ -59,7 +59,7 @@ Style DesktopButtonsMediaPlayer TitleAtTop
 
 # DesktopMiniPager must be on top so it's always visible
 # DesktopPager must be on top so it's on the same layer as DesktopMiniPager
-Style DesktopPager 	    NeverFocus, TitleAtTop, Layer 6
+Style DesktopPager 	NeverFocus, TitleAtTop, Layer 6
 Style DesktopMiniPager 	NeverFocus, TitleAtTop, Layer 5
 
 Style DesktopTaskbar    NeverFocus, TitleAtBottom, Layer 6
