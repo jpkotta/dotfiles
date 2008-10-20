@@ -27,6 +27,9 @@ umask 0022
 # this stops crtl-s from freezing the terminal
 stty stop ""
 
+# prevent CTRL-D from immediately logging out
+export IGNOREEOF=1
+
 ################################################################################
 # source other rc files
 declare -a source_these_files
@@ -37,10 +40,7 @@ source_these_files=(\
 
 for i in ${source_these_files[@]}; do
     if [ -e $i ] ; then
-	#echo sourcing $i
 	source $i
-    #else
-	#echo not sourcing $i, does not exist
     fi
 done
 
@@ -71,12 +71,7 @@ PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib/pkgconfig"
 
 
 ################################################################################
-# IMPORTANT VARIABLES
-
-# configure less to page just about anything in a rational way
-if [ -e $(which lessfile) ] ; then
-    eval $(lessfile)
-fi
+# DEFAULT APPS
 
 export EDITOR="xemacs"
 export BROWSER="/usr/bin/opera -newwindow"
@@ -86,6 +81,13 @@ export PDF_READER=/usr/lib/kde4/bin/okular
 if [ ! -x "$PDF_READER" ] ; then
     export PDF_READER=/usr/bin/kpdf
 fi
+
+# package maintainers don't understand how to keep termcaps up to date
+if [[ "$TERM" == 'rxvt-unicode' ]] ; then
+    TERM=rxvt
+fi
+
+TERMINAL="urxvt -pe tabbed"
 
 ################################################################################
 # PROMPT
@@ -136,28 +138,19 @@ prompt_prompt="$blue\$$normal"
 PLAIN_PROMPT='[\u@\h][\w](\j)\n\$ '
 FANCY_PROMPT="$prompt_open$prompt_time$prompt_close_open$prompt_username$prompt_at$prompt_hostname$prompt_close_open$prompt_pwd$prompt_close_open$prompt_jobs$prompt_close\n$prompt_prompt "
 
-export PS1=$PLAIN_PROMPT
-if [[ $TERM == 'rxvt-unicode' ]] ; then
-    TERM=rxvt
+export PS1=$FANCY_PROMPT
+if [[ $TERM == '' ]] ; then
+    export PS1=$PLAIN_PROMPT
 fi
-if [[ $TERM == 'rxvt' || $TERM == 'xterm' || $TERM == 'linux' ]] ; then
-    export PS1=$FANCY_PROMPT
-fi
-
-# monstrous 3 line prompt example by Robert
-#export PS1='\[\033[0m\]\[\033[0;31m\].:\[\033[0m\]\[\033[1;30m\][\[\033[0m\]\[\033[0;28m\]Managing \033[1;31m\]\j\[\033[0m\]\[\033[1;30m\]/\[\033[0m\]\[\033[1;31m\]$(ps ax | wc -l | tr -d '\'' '\'')\[\033[0m\]\[\033[1;30m\] \[\033[0m\]\[\033[0;28m\]jobs.\[\033[0m\]\[\033[1;30m\]] [\[\033[0m\]\[\033[0;28m\]CPU Load: \[\033[0m\]\[\033[1;31m\]$(temp=$(cat /proc/loadavg) && echo ${temp%% *}) \[\033[0m\]\[\033[0;28m\]Uptime: \[\033[0m\]\[\033[1;31m\]$(temp=$(cat /proc/uptime) && upSec=${temp%%.*} ; let secs=$((${upSec}%60)) ; let mins=$((${upSec}/60%60)) ; let hours=$((${upSec}/3600%24)) ; let days=$((${upSec}/86400)) ; if [ ${days} -ne 0 ]; then echo -n ${days}d; fi ; echo -n ${hours}h${mins}m)\[\033[0m\]\[\033[1;30m\]]\[\033[0m\]\[\033[0;31m\]:.\n\[\033[0m\]\[\033[0;31m\].:\[\033[0m\]\[\033[1;30m\][\[\033[0m\]\[\033[1;31m\]$(ls -l | grep "^-" | wc -l | tr -d " ") \[\033[0m\]\[\033[0;28m\]files using \[\033[0m\]\[\033[1;31m\]$(ls --si -s | head -1 | awk '\''{print $2}'\'')\[\033[0m\]\[\033[1;30m\]] [\[\033[0m\]\[\033[1;31m\]\u\[\033[0m\]\[\033[0;31m\]@\[\033[0m\]\[\033[1;31m\]\h \[\033[0m\]\[\033[1;34m\]\w\[\033[0m\]\[\033[1;30m\]]\[\033[0m\]\[\033[0;31m\]:.\n\[\033[0m\]\[\033[0;31m\].:\[\033[0m\]\[\033[1;30m\][\[\033[0m\]\[\033[1;31m\]\t\[\033[0m\]\[\033[1;30m\]]\[\033[0m\]\[\033[0;31m\]:. \[\033[0m\]\[\033[1;37m\]\$ \[\033[0m\]'
 
 # this sets the title of the terminal window:
 # 'user@host: /present/working/directory/ [ previous_command args ]'
 # see the Eterm technical docs, "Set X Terminal Parameters"
 # 'ESC ] 0 ; string BEL' sets icon name and title to string
 # seems to not work when there is a space before \007
-if [[ "$TERM" == "xterm" || $TERM == "rxvt" ]] ; then
-    #PROMPT_COMMAND='echo -ne "\033]0;[`whoami`@`hostname` `pwd`]$ `history 1 | cut -d\  -f 4-`\007"'
+if [[ "$TERM" != "linux" ]] ; then
     PROMPT_COMMAND='echo -ne "\033]0;[${USER}@${HOSTNAME}][${PWD/$HOME/~}]\007"'
 fi
-
-TERMINAL="urxvt -pe tabbed"
 
 ################################################################################
 # OTHER VARIABLES 
@@ -167,13 +160,13 @@ TERMINAL="urxvt -pe tabbed"
 # more dangerous flags
 #CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse,387'
 
-# prevent CTRL-D from immediately logging out
-export IGNOREEOF=1
-
 # some programs' startup scipts need to know the screen res
 if [ -n "$DISPLAY" ] ; then
     export RESOLUTION=`xdpyinfo | grep dimensions | awk '{ print $2 }'`
 fi
+
+################################################################################
+# COLORS
 
 # set up colors for ls
 if [ ! -r ~/.dircolors ] ; then
@@ -181,8 +174,7 @@ if [ ! -r ~/.dircolors ] ; then
 fi
 eval `dircolors --sh ~/.dircolors`
 
-# grep colors
-# color syntax is the same as for ls
+# grep color syntax is the same as for ls
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='01;32'
 
@@ -297,8 +289,13 @@ alias rmdir='rmdir -p'
 # rsync for updating usb drives
 alias rsync='rsync -auv'
 
-# less (_v_iewer)
-#alias v='less --LONG-PROMPT'
+####################################
+# less is more
+# configure less to page just about anything in a rational way
+if [ -e $(which lessfile) ] ; then
+    eval $(lessfile)
+fi
+# _v_iewer
 function v()
 {
     if [ -d "$1" ] ; then
@@ -415,40 +412,12 @@ function synchronize()
     done
 }
 
-# backup a small number of important configuration files
-function bckupconf()
-{
-    pushd $HOME
-    tar -jcvf config`date +%m%d%y`.tar.bz2 \
-        --exclude=.fvwm/cache/* \
-        --exclude=.fvwm/archive/* \
-        --exclude=.emacs.d/backup/* \
-        --exclude=.opera/cache4/* \
-        --exclude=.opera/images/* \
-        bin/ .fvwm/ .gnupg/ \
-        .emacs.d/ .emacs \
-        .xinitrc .Xresources .xsession \
-        .inputrc .bashrc .dircolors \
-        .opera
-    popd
-}
-
-
-# often used form of rename
-function rename_d()
-{
-    local str
-    str=$1
-    shift 1
-    rename "s/$str//" $@
-}
-
 # creates a dated tarball
 function tarball()
 {
     name=$1
     shift
-    tar zcvf $name-`date +%Y%m%d`.tar.gz "$@"
+    tar zcf $name-`date +%Y%m%d`.tar.gz "$@"
 }
 
 # moves specified files to ~/.Trash
