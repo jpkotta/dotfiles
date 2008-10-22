@@ -91,6 +91,11 @@ AddToFunc ProxyBinding1
 + I DeiconifyFocusAndRaise
 + I SendToModule FvwmProxy Hide
 
+DestroyFunc ProxyBinding3
+AddToFunc ProxyBinding3
++ I Raise
++ I Focus
+
 SetEnv EDGE_COMMAND_S "Mouse 1 R A SendToModule FvwmProxy ShowToggle"
 SetEnv EDGE_LEAVE_COMMAND_S "Mouse 1 R A RootWindowBinding"
 RestoreEdgeCommands
@@ -106,7 +111,7 @@ RestoreEdgeCommands
 #+ I Schedule 1500 $[FVWMPROXY_SCHED_ID] \
 #	SendToModule FvwmProxy Hide
 
-AddSchedId FVWMPROXY_SCHED_ID
+#AddSchedId FVWMPROXY_SCHED_ID
 
 DestroyModuleConfig FvwmProxy: *
 
@@ -135,7 +140,7 @@ DestroyModuleConfig FvwmProxy: *
 
 *FvwmProxy: Action Click1 ProxyBinding1
 *FvwmProxy: Action Click2 Iconify
-*FvwmProxy: Action Click3 Deschedule $[FVWMPROXY_SCHED_ID]
+*FvwmProxy: Action Click3 ProxyBinding3
 
 Key Escape A 4 SendToModule FvwmProxy ShowToggle
 
