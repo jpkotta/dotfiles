@@ -586,11 +586,12 @@ AddToFunc HideDesktop
 # this will let you keep picking windows until you click on root or hit ESC
 # sometimes it gets run twice, e.g. 'PickAgain FvwmIdent'
 # adding a Schedule 0 fixes problems with Close, but causes other problems
+# the problem with Close is that the window won't actually close until the function exits
 DestroyFunc PickAgain
 AddToFunc PickAgain
 + I Pick $*
 # prevent infinite recursion (fvwm actually does this automatically, but only after 512 iterations)
-+ I PipeRead "test $[func.context] = r && echo 'PickAgain $*'"
++ I PipeRead "test '$[func.context]' = 'r' && echo 'PickAgain $*'"
 
 # zooms a window using xmag, then swallows the xmag window with FvwmScroll
 # the original window should be untouched

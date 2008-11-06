@@ -152,22 +152,7 @@ Key     Right   A       4S      MoveAndGotoPage up
 Key     Left    A       4C      MoveToScreen $[LEFT_SCREEN]
 Key     Right   A       4C      MoveToScreen $[RIGHT_SCREEN]
 
-DestroyMenu LaunchApps
-AddToMenu LaunchApps
-+ "&Terminal"           StartTerminal -pe tabbed
-+ "&Root Terminal"      StartRootTerminal
-+ "&Web Browser"        StartBrowser
-+ "FVWM &Console"       StartConsole
-+ "&X Error Log"        StartXErrorViewer
-+ "Text &Editor"        StartEditor
-+ "&Image Editor"       StartImageEditor
-+ "Image &Viewer"       StartImageViewer
-+ "&File Manager"       StartFileManager
-+ "&Package Manager"    StartPackageManager
-+ "&Game"               StartPysol
-+ "System &Monitor"     StartTop
-+ "Calculator (&#)"     StartCalculator
-
+# launcher, works like emacs multikey bindings ("Super-S T" starts terminal, etc.)
 Key     S       A       4       Menu LaunchApps root c c
 
 ########################################
