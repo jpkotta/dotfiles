@@ -16,8 +16,8 @@ AddToFunc StartBrowser
 #+ I None (opera) Exec export XLIB_SKIP_ARGB_VISUALS=1 ; aoss opera $0
 + I None (opera) Exec export XLIB_SKIP_ARGB_VISUALS=1 ; opera $0
 + I TestRc (!Match) Exec opera -newwindow $0
-+ I Schedule 100 All (opera, CurrentPage, !Shaded, !Iconic) Maximize True
-+ I Schedule 1000 All (opera, CurrentPage, !Shaded, !Iconic) Maximize True
++ I Schedule 100 All (opera, CurrentPage, AnyScreen, !Shaded, !Iconic) Maximize True
++ I Schedule 1000 All (opera, CurrentPage, AnyScreen, !Shaded, !Iconic) Maximize True
 
 DestroyFunc StartPySol
 AddToFunc StartPySol
@@ -396,7 +396,7 @@ DestroyFunc IconifyOrResize
 AddToFunc IconifyOrResize
 + C Iconify
 + M ResizeWarpNW
-+ D All ($c, CurrentPage, AnyScreen) Iconify On
++ D All ($[w.class], CurrentPage, AnyScreen) Iconify On
 
 # pops up a window-op menu or closes
 # bound to the window button

@@ -401,20 +401,20 @@ ChangeMenuStyle small_menu_style WindowMove
 DestroyMenu "GroupMove"
 AddToMenu "GroupMove"
 + "Group Move"                          Title
-+ 'This &Desk%mini.move1.xpm%'          Pick All ($c) MoveToDesk
-+ '$[desk.name0] [&1] %mini.move1.xpm%' Pick All ($c) MoveToDesk 0 0
-+ '$[desk.name1] [&2] %mini.move1.xpm%' Pick All ($c) MoveToDesk 0 1
-+ '$[desk.name2] [&3] %mini.move1.xpm%' Pick All ($c) MoveToDesk 0 2
-+ '$[desk.name3] [&4] %mini.move1.xpm%' Pick All ($c) MoveToDesk 0 3
++ 'This &Desk%mini.move1.xpm%'          Pick All ($[w.class]) MoveToDesk
++ '$[desk.name0] [&1] %mini.move1.xpm%' Pick All ($[w.class]) MoveToDesk 0 0
++ '$[desk.name1] [&2] %mini.move1.xpm%' Pick All ($[w.class]) MoveToDesk 0 1
++ '$[desk.name2] [&3] %mini.move1.xpm%' Pick All ($[w.class]) MoveToDesk 0 2
++ '$[desk.name3] [&4] %mini.move1.xpm%' Pick All ($[w.class]) MoveToDesk 0 3
 + '' Nop
-+ 'This &Page%mini.move1.xpm%'          Pick All ($c, CurrentDesk) MoveToPage
-+ 'Page 0 0 [&Q] %mini.move1.xpm%'      Pick All ($c, CurrentDesk) MoveToPage 0 0
-+ 'Page 1 0 [&W] %mini.move1.xpm%'      Pick All ($c, CurrentDesk) MoveToPage 1 0
-+ 'Page 0 1 [&E] %mini.move1.xpm%'      Pick All ($c, CurrentDesk) MoveToPage 0 1
-+ 'Page 1 1 [&R] %mini.move1.xpm%'      Pick All ($c, CurrentDesk) MoveToPage 1 1
++ 'This &Page%mini.move1.xpm%'          Pick All ($[w.class], CurrentDesk) MoveToPage
++ 'Page 0 0 [&Q] %mini.move1.xpm%'      Pick All ($[w.class], CurrentDesk) MoveToPage 0 0
++ 'Page 1 0 [&W] %mini.move1.xpm%'      Pick All ($[w.class], CurrentDesk) MoveToPage 1 0
++ 'Page 0 1 [&E] %mini.move1.xpm%'      Pick All ($[w.class], CurrentDesk) MoveToPage 0 1
++ 'Page 1 1 [&R] %mini.move1.xpm%'      Pick All ($[w.class], CurrentDesk) MoveToPage 1 1
 + '' Nop
-+ 'Left Screen [&A] %mini.move1.xpm%'   Pick All ($c, CurrentPage) MoveToScreen $[LEFT_SCREEN]
-+ 'Right Screen [&S] %mini.move1.xpm%'  Pick All ($c, CurrentPage) MoveToScreen $[RIGHT_SCREEN]
++ 'Left Screen [&A] %mini.move1.xpm%'   Pick All ($[w.class], CurrentPage, AnyScreen) MoveToScreen $[LEFT_SCREEN]
++ 'Right Screen [&S] %mini.move1.xpm%'  Pick All ($[w.class], CurrentPage, AnyScreen) MoveToScreen $[RIGHT_SCREEN]
 ChangeMenuStyle small_menu_style GroupMove
 
 # change certain window styles 
