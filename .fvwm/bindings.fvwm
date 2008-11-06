@@ -45,8 +45,6 @@ Mouse   5       R       N       PrevWindowOnScreen
 Mouse   1       I       N       MoveOrMaximize
 Mouse   2       I       N       Iconify
 Mouse   3       I       N       WindowMenuOrCloseIcon
-Mouse   4       I       A       Nop
-Mouse   5       I       A       Nop
 Mouse   0       I       4M      Close
 
 ########################################
@@ -96,9 +94,9 @@ Mouse   5       SWTF   4       DecTranslucency
 
 ########################################
 # ANY CONTEXT 
-Mouse   1       A       4C      GotoDesk -1 0 $[LAST_DESKTOP]
-Mouse   2       A       4C      All (CurrentPage, AnyScreen) Iconify On
-Mouse   3       A       4C      GotoDesk +1 0 $[LAST_DESKTOP]
+#Mouse   1       A       4C      GotoDesk -1 0 $[LAST_DESKTOP]
+#Mouse   2       A       4C      All (CurrentPage, AnyScreen) Iconify On
+#Mouse   3       A       4C      GotoDesk +1 0 $[LAST_DESKTOP]
 Mouse   4       A       4C      CyclePages down
 Mouse   5       A       4C      CyclePages up
 
