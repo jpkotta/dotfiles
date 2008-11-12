@@ -34,19 +34,17 @@ AddToFunc TitleBinding3
 
 ########################################
 # ROOT WINDOW
-Mouse   1       R       A       RootWindowBinding
-Mouse   2       R       A       WindowList mouse -5p -5p
-Mouse   3       R       A       Menu WindowOps mouse -5p -5p
-Mouse   4       R       A       NextWindowOnScreen
-Mouse   5       R       A       PrevWindowOnScreen
+Mouse   1       R       N       RootWindowBinding
+Mouse   2       R       N       WindowList mouse -5p -5p
+Mouse   3       R       N       Menu WindowOps mouse -5p -5p
+Mouse   4       R       N       NextWindowOnScreen
+Mouse   5       R       N       PrevWindowOnScreen
 
 ########################################
 # ICONS
 Mouse   1       I       N       MoveOrMaximize
 Mouse   2       I       N       Iconify
 Mouse   3       I       N       WindowMenuOrCloseIcon
-Mouse   4       I       A       Nop
-Mouse   5       I       A       Nop
 Mouse   0       I       4M      Close
 
 ########################################
@@ -56,6 +54,7 @@ Mouse   0       I       4M      Close
 Mouse   1       1       A       Button1Binding
 # close on any click
 Mouse   1       2       A       Close
+
 # 3 mouse buttons can do the same job as the common titlebar buttons (close, maximize, iconify)
 Mouse   1       T       N       MoveOrMaximize
 Mouse   2       T       N       IconifyOrResize
@@ -95,9 +94,9 @@ Mouse   5       SWTF   4       DecTranslucency
 
 ########################################
 # ANY CONTEXT 
-Mouse   1       A       4C      GotoDesk -1 0 $[LAST_DESKTOP]
-#Mouse   2       A       4C      All ($c) Iconify On
-Mouse   3       A       4C      GotoDesk +1 0 $[LAST_DESKTOP]
+#Mouse   1       A       4C      GotoDesk -1 0 $[LAST_DESKTOP]
+#Mouse   2       A       4C      All (CurrentPage, AnyScreen) Iconify On
+#Mouse   3       A       4C      GotoDesk +1 0 $[LAST_DESKTOP]
 Mouse   4       A       4C      CyclePages down
 Mouse   5       A       4C      CyclePages up
 

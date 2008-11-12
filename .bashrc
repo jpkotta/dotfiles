@@ -44,6 +44,8 @@ for i in ${source_these_files[@]}; do
     fi
 done
 
+unset source_these_files
+
 ################################################################################
 # PATH VARIABLES 
 
@@ -143,6 +145,8 @@ if [[ $TERM == '' ]] ; then
     export PS1=$PLAIN_PROMPT
 fi
 
+unset prompt_open prompt_close prompt_close_open prompt_username prompt_at prompt_hostname prompt_jobs prompt_time prompt_pwd prompt_cmd_num prompt_err_stat prompt_prompt
+
 # this sets the title of the terminal window:
 # 'user@host: /present/working/directory/ [ previous_command args ]'
 # see the Eterm technical docs, "Set X Terminal Parameters"
@@ -198,7 +202,7 @@ function daemon
 
 # default editor
 alias edit="$EDITOR"
-alias E="$EDITOR"
+alias E="daemon $EDITOR"
 
 # terminal
 alias T="daemon $TERMINAL"
@@ -208,6 +212,7 @@ THIS_FILE=`readlink -f $BASH_SOURCE`
 alias jpk="source $THIS_FILE"
 # edit this file
 alias aka='$EDITOR $THIS_FILE'
+
 # handy notes file
 alias note='$EDITOR ~/doc/notes.txt'
 
@@ -254,6 +259,7 @@ alias lla='ls -lA'
 # display only directories
 function lsdir()
 {
+    local i
     for i in "$@" ; do
 	if [ -d "$i" ] ; then
 	    (
@@ -415,6 +421,7 @@ function synchronize()
 # creates a dated tarball
 function tarball()
 {
+    local name
     name=$1
     shift
     tar zcf $name-`date +%Y%m%d`.tar.gz "$@"
@@ -423,7 +430,9 @@ function tarball()
 # moves specified files to ~/.Trash
 # will not overwrite files that have the same name
 function trash()
-{   local trash_dir=$HOME/.Trash
+{   
+    local trash_dir=$HOME/.Trash
+    local file
     for file in "$@" ; do 
         if [[ -d $file ]] ; then
             local already_trashed=$trash_dir/`basename $file`
@@ -439,43 +448,37 @@ function trash()
     done
 }
 
-# these functions are not mine
+function showcolors()
+{
+    esc="\033["
+    echo -e "\t  40\t   41\t   42\t    43\t      44       45\t46\t 47"
+    for fore in 30 31 32 33 34 35 36 37; do
+        line1="$fore  "
+        line2="    "
+        for back in 40 41 42 43 44 45 46 47; do
+            line1="${line1}${esc}${back};${fore}m Normal  ${esc}0m"
+            line2="${line2}${esc}${back};${fore};1m Bold    ${esc}0m"
+	done
+        echo -e "$line1\n$line2"
+    done
+    
+    echo ""
+    echo "# Example:"
+    echo "#"
+    echo "# Type a Blinkin TJEENARE in Swedens colours (Yellow on Blue)"
+    echo "#"
+    echo "#           ESC"
+    echo "#            |  CD"
+    echo "#            |  | CD2"
+    echo "#            |  | | FG"
+    echo "#            |  | | |  BG + m"
+    echo "#            |  | | |  |         END-CD"
+    echo "#            |  | | |  |            |"
+    echo "# echo -e '\033[1;5;33;44mTJEENARE\033[0m'"
+    echo "#"
+    echo "# Sedika Signing off for now ;->"
+}
 
-#Shows the colors in a kewl way...party stolen from HH :)
-#function colors()
-#{
-#       # Display ANSI colours.
-#       #
-#    esc="\033["
-#    echo -e "\t  40\t   41\t   42\t    43\t      44       45\t46\t 47"
-#    for fore in 30 31 32 33 34 35 36 37; do
-#        line1="$fore  "
-#        line2="    "
-#        for back in 40 41 42 43 44 45 46 47; do
-#            line1="${line1}${esc}${back};${fore}m Normal  ${esc}0m"
-#            line2="${line2}${esc}${back};${fore};1m Bold    ${esc}0m"
-#        done
-#        echo -e "$line1\n$line2"
-#    done
-#
-#    echo ""
-#    echo "# Example:"
-#    echo "#"
-#    echo "# Type a Blinkin TJEENARE in Swedens colours (Yellow on Blue)"
-#    echo "#"
-#    echo "#           ESC"
-#    echo "#            |  CD"
-#    echo "#            |  | CD2"
-#    echo "#            |  | | FG"
-#    echo "#            |  | | |  BG + m"
-#    echo "#            |  | | |  |         END-CD"
-#    echo "#            |  | | |  |            |"
-#    echo "# echo -e '\033[1;5;33;44mTJEENARE\033[0m'"
-#    echo "#"
-#    echo "# Sedika Signing off for now ;->"
-#}
-
-# I-Spell @ work: ENGLISH
 function spell()
 {
     local CHATTO
