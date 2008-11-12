@@ -87,7 +87,7 @@ if [[ "$TERM" == 'rxvt-unicode' ]] ; then
     TERM=rxvt
 fi
 
-TERMINAL="urxvt -pe tabbed"
+TERMINAL="urxvt --perl-lib ~/.urxvt-perl -pe tabbed"
 
 ################################################################################
 # PROMPT
