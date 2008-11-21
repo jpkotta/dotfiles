@@ -13,8 +13,7 @@ DestroyMenu RootMenu
 AddToMenu RootMenu
 + "FVWM Root Menu"                          Title
 + "%mini.lock.xpm%Blank Screen"             BlankScreen
-+ "%mini.term.xpm%Terminal"                 StartTerminal --perl-lib ~/.urxvt-perl/ -pe tabbed
-#+ "%mini.term.xpm%Root Terminal"            StartRootTerminal
++ "%mini.term.xpm%Terminal"                 StartTerminalTabbed
 + "%mini.filemgr.xpm%File Manager"          StartFileManager
 + "%mini.edit.xpm%Editor"                   StartEditor
 + "%mini.opera.png%Browser"                 StartBrowser
@@ -72,8 +71,7 @@ AddToMenu   "Goto"
 
 DestroyMenu LaunchApps
 AddToMenu LaunchApps
-+ "&Terminal"           StartTerminal -pe tabbed
-+ "&Root Terminal"      StartRootTerminal
++ "&Terminal"           StartTerminalTabbed
 + "&Web Browser"        StartBrowser
 + "FVWM &Console"       StartConsole
 + "&X Error Log"        StartXErrorViewer
@@ -81,7 +79,6 @@ AddToMenu LaunchApps
 + "&Image Editor"       StartImageEditor
 + "Image &Viewer"       StartImageViewer
 + "&File Manager"       StartFileManager
-+ "&Package Manager"    StartPackageManager
 + "&Game"               StartPysol
 + "System &Monitor"     StartTop
 + "Calculator (&#)"     StartCalculator
@@ -135,7 +132,6 @@ AddToMenu RootMisc
 + "%mini.fractal.xpm%Science"               Popup Science
 + "" Nop
 + "&Firefox"                                Exec exec firefox
-+ "%mini.checkmark.xpm%Synaptic"            StartPackageManager
 + "%mini.display.xpm%Screenshot"            ScreenShotRoot
 + "%mini.display.xpm%Screenshot Window"     ScreenShotWindow
 + "%mini.perf.xpm%Top"                      StartTop

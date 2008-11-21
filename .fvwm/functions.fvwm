@@ -31,9 +31,9 @@ DestroyFunc StartTerminal
 AddToFunc StartTerminal
 + I Exec exec urxvtcd $*
 
-DestroyFunc StartRootTerminal
-AddToFunc StartRootTerminal
-+ I StartTerminal $* -e sudo -i
+DestroyFunc StartTerminalTabbed
+AddToFunc StartTerminalTabbed
++ I Exec exec urxvtcd --perl-lib ~/.urxvt-perl/ -pe tabbed $*
 
 DestroyFunc StartFileManager
 AddToFunc StartFileManager
@@ -95,10 +95,6 @@ DestroyFunc EjectMovieDVD
 AddToFunc EjectMovieDVD
 + I Test (EnvIsSet DVD_DEVICE) \
     Exec xine --session quit ; eject $[DVD_DEVICE]
-
-DestroyFunc StartPackageManager
-AddToFunc StartPackageManager
-+ I Exec exec gksudo synaptic
 
 
 ################################################################################
