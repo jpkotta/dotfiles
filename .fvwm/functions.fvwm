@@ -33,7 +33,7 @@ AddToFunc StartTerminal
 
 DestroyFunc StartTerminalTabbed
 AddToFunc StartTerminalTabbed
-+ I Exec exec urxvtcd --perl-lib ~/.urxvt-perl/ -pe tabbed $*
++ I Exec exec urxvtcd -pe tabbed $*
 
 DestroyFunc StartFileManager
 AddToFunc StartFileManager

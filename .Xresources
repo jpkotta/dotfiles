@@ -109,6 +109,8 @@ URxvt.font:             9x15
 ! URxvt.font:             7x13
 ! #endif
 
+! perl-lib path, must be absolute, apparently
+URxvt.perl-lib:    /home/jpkotta/.urxvt-perl
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! mrxvt settings
