@@ -33,7 +33,7 @@ AddToFunc InitFunction
 + I Test (EnvIsSet USE_COMPOSITE) RestartXcompmgr
 #+ I Exec exec $[FVWM_SCRIPTDIR]/rotate_wallpaper
 + I Exec exec pidgin
-+ I Exec pulseaudio --kill ; pulseaudio -D
++ I Exec pulseaudio --check || pulseaudio -D
 + I Exec sleep 1 ; mpd --kill ; mpd
 + I Exec sleep 2 ; ralbumd kill ; ralbumd
 
