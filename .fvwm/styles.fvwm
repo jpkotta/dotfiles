@@ -22,7 +22,7 @@
 Style FvwmIdent 	Sticky, NoButton 2, NoButton 4, NoButton 6
 Style FvwmWinList 	NoTitle,Sticky,WindowListSkip,CirculateSkip
 
-Style *lock        NoTitle, NoHandles, Sticky, WindowListSkip
+#Style *lock        NoTitle, NoHandles, Sticky, WindowListSkip
 Style xeyes        NoTitle, Sticky
 Style *biff*       NoTitle,            Sticky, WindowListSkip
 Style xsysinfo     NoTitle,            Sticky, WindowListSkip
