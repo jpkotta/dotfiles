@@ -5,6 +5,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; GENERAL
+
+(if (featurep 'png)
+    (set-glyph-image xemacs-logo "~/.xemacs/xemacs.png")
+  )
  
 ; set user and hostname
 (setq user-name (getenv "USER"))
