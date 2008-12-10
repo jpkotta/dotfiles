@@ -9,7 +9,6 @@
  '(buffers-tab-switch-to-buffer-function (quote switch-to-buffer))
  '(c-basic-offset 4)
  '(c-default-style (quote ((java-mode . "java") (other . "bsd"))))
- '(color-theme-selection "Calm Forest" nil (color-theme))
  '(column-number-mode t)
  '(cperl-indent-level 4)
  '(dired-find-subdir t)
@@ -38,4 +37,4 @@
  '(hyper-apropos-hyperlink ((((class color) (background light)) (:underline t))))
  '(region ((t (:inverse-video nil))))
  '(underline ((t nil)))
- '(zmacs-region ((t (:background "blue"))) t))
+ '(zmacs-region ((t (:background "blue")))))

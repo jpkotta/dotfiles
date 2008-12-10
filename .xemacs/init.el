@@ -17,9 +17,9 @@
 ; frame title (window title)
 ; user@host: buffer
 (setq frame-title-format
-      '(multiple-frames "%b" ("" user-name "@" system-name ": " mode-line-buffer-identification " ("buffer-file-truename")")))
+      '(multiple-frames "%b" ("" user-name "@" system-name ": " mode-line-buffer-identification " (" buffer-file-truename ")" )))
 
-; i store my extra elisps in ~/.emacs.d
+; i store my extra elisps in ~/.xemacs/
 (pushnew (expand-file-name "~/.emacs.d") load-path :test 'equal)
 (pushnew (expand-file-name "~/.xemacs") load-path :test 'equal)
 
@@ -34,9 +34,9 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
-(require 'color-theme)
-(load "color-theme-calm-forest-jpk.el")
-(color-theme-calm-forest-jpk)
+;(require 'color-theme)
+;(load "color-theme-calm-forest-jpk.el")
+;(color-theme-calm-forest-jpk)
 
 (load "cua-mode-1.3-xemacs.el")
 (CUA-mode t)
