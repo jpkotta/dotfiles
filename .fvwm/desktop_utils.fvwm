@@ -428,10 +428,13 @@ DestroyModuleConfig DesktopButtonsMediaPlayer: *
 
 ################################################
 # ncmpc setup
+DestroyFunc StartMediaPlayer
+AddToFunc StartMediaPlayer
++ I StartTerminal -geometry 120x11 -T ncmpc -n ncmpc +sb -fn 7x13 -e sh -c "sleep 1 ; exec ncmpc"
 
 *DesktopButtonsMediaPlayer: (Size 844 147, Frame 0, \
     Swallow (NoClose, SwallowNew, UseOld) \
-        "ncmpc*" "StartTerminal -geometry 120x11 -T ncmpc -n ncmpc +sb -fn 7x13 -e ncmpc")
+        "ncmpc*" StartMediaPlayer)
 
 
 ################################################################################

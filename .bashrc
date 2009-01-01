@@ -409,15 +409,26 @@ alias rdp="rdesktop -K -g $RESOLUTION"
 # rsync with delete and confirmation
 function synchronize()
 {
-    local resp
-    /usr/bin/rsync --archive --update --verbose --delete --dry-run $@
-    select resp in {yes,no} ; do
-        if [[ x$resp == xyes ]] ; then
-            /usr/bin/rsync --archive --update --verbose --delete $@
-            break
-        elif [[ x$resp == xno ]] ; then
-            break
-        fi
+    local PS3 cmd
+    PS3="Pick a number: "
+    cmd="rsync --archive --update --verbose --delete"
+
+    if [ -z "$2" ] ; then
+	echo "Usage: $0 <source> <destination>"
+	echo "Uses rsync to synchronize destination with source."
+	echo "Shows you what will happen before doing anything."
+	#exit 1
+	break
+    fi
+
+    $cmd --dry-run "$@"
+    select resp in yes no ; do 
+	if [[ "$resp" = yes ]] ; then
+	    $cmd "$@"
+	    break
+	elif [[ "$resp" = no ]] ; then
+	    break
+	fi
     done
 }
 
