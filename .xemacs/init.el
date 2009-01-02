@@ -341,3 +341,10 @@ the line."
   (pending-delete-mode t)
 )
 (fix-xemacs-stupidity)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; host-specific stuff
+
+; this works, but it happens before customization settings
+; how to override customizations?
+(load "~/.xemacs/host.el")
