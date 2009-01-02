@@ -97,12 +97,18 @@ Style Firefox*-bin SkipMapping, FPOverrideGrabFocus, \
 	!FPGrabFocus, !FPGrabFocusTransient
 
 # GNUPlot
+# sometimes, you just need to plot a ton of things
+# this helps keep things organized
 Style "gplt" !FPGrabFocus, CascadePlacement, SkipMapping
 Style "Figure *" !FPGrabFocus, CascadePlacement, SkipMapping
-Style "gplt" StartsOnPage 1 0 0, StartsLowered, StartsOnScreen $[LEFT_SCREEN]
-Style "Figure *" StartsOnPage 1 0 0, StartsLowered, StartsOnScreen $[LEFT_SCREEN]
+Style "Figure?? *" !FPGrabFocus, CascadePlacement, SkipMapping, \
+	StartsLowered, StartsOnScreen $[LEFT_SCREEN]
+Style "Figure00 *" StartsOnPage 1 0 0
+Style "Figure10 *" StartsOnPage 1 1 0
+Style "Figure01 *" StartsOnPage 1 0 1
+Style "Figure11 *" StartsOnPage 1 1 1
 
-# java think they should handle focusing, but do a terrible job
+# java apps think they should handle focusing, but do a terrible job
 # this lets FVWM control focusing
 Style sun-awt-X11-* Lenience
 

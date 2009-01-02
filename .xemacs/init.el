@@ -34,16 +34,15 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
-;(require 'color-theme)
-;(load "color-theme-calm-forest-jpk.el")
-;(color-theme-calm-forest-jpk)
-
-(load "cua-mode-1.3-xemacs.el")
+(autoload 'CUA-mode "cua-mode-1.3-xemacs.el" t)
 (CUA-mode t)
 
 ; no sound or beeps
 (setq bell-volume 0)
 (setq sound-alist nil)
+
+(autoload 'custom-set-face-font-size "cus-face" t)
+(custom-set-face-font-size 'default "13")
 
 ; start server
 ;(gnuserv-start)
@@ -96,10 +95,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; FVWM
 
+(autoload 'fvwm-mode "fvwm-mode" t)
+
 ; fvwm config file major mode
-(load "fvwm-mode")
-; this is slow, currently
-(setq fvwm-preload-completions nil)
+(eval-after-load "fvwm-mode"
+  '(progn
+     ; this may be slow
+     (setq fvwm-preload-completions nil)
+     
+     ; fvwm indent function
+     (defun fvwm-indent-line ()
+       (tab-to-tab-stop))
+     )
+  )
 
 ; fvwm major mode
 (setq auto-mode-alist
@@ -107,10 +115,6 @@
         (cons '("FvwmScript-" . fvwm-mode)
          (cons '(".fvwm" . fvwm-mode)
       auto-mode-alist))))
-
-; fvwm indent function
-(defun fvwm-indent-line ()
-  (tab-to-tab-stop))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; MEDIAWIKI MODE
@@ -125,7 +129,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; PYTHON MODE
 
-(require 'ipython)
+;(require 'ipython)
 
 (autoload 'python-mode "python-mode.el"
   "Major mode for editing Python source." t)
@@ -347,4 +351,6 @@ the line."
 
 ; this works, but it happens before customization settings
 ; how to override customizations?
-(load "~/.xemacs/host.el")
+(if (file-readable-p "~/.xemacs/host.el")
+    (load "~/.xemacs/host.el")
+  )
