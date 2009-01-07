@@ -157,14 +157,6 @@
 ;          )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; GNUGO
-
-; use the i key to toggle between ascii and xpm modes
-;(load "gnugo")				
-;(eval-after-load "gnugo"
-;  '(load-file "~/.emacs.d/gnugo/default-gnugo-xpms.el"))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; LINE NUMBERS
 
 ; line numbering
