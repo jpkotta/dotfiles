@@ -314,6 +314,9 @@ function v()
     fi
 }
 
+# this is another way to open just about any file the right way
+alias open="kfmclient exec"
+
 # sdiff the way it was at IBM
 alias sdiff='/usr/bin/sdiff --expand-tabs --ignore-all-space --strip-trailing-cr --width=160'
 # displays global disk usage by partition, excluding supermounted devices
@@ -394,6 +397,8 @@ alias m=xmms
 # remote desktop
 alias rdp="rdesktop -K -g $RESOLUTION"
 
+# vmware has been messing with X modifier keys, so start it in Xephyr
+alias startvmware="daemon Xephyr :10 -screen 1272x993 && DISPLAY=:10 daemon vmware"
 
 ################################################################################
 # FUNCTIONS 
