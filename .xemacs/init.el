@@ -76,12 +76,6 @@
 ;  (local-set-key (kbd "<down>") 'comint-next-matching-input-from-input)
 ;  )
 
-; Linux kernel has bad ideas about tabs, but I'll conform
-(defun set-c-style-linux ()
-  (interactive)
-  (setq indent-tabs-mode t)
-  (setq tab-width 4)
-)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; OCTAVE
@@ -255,36 +249,46 @@ the line."
 (global-set-key (kbd "C-6") 'downcase-region)
 (global-set-key (kbd "C-^") 'upcase-region)
 
+; bounce between matching parens
+(defun goto-match-paren (arg)
+  "Go to the matching parenthesis if on parenthesis. Else go to the
+opening parenthesis one level up."
+  (interactive "p")
+  (cond ((looking-at "\\s\(") (forward-list 1))
+        (t
+         (backward-char 1)
+         (cond ((looking-at "\\s\)")
+                (forward-char 1) (backward-list 1))
+               (t
+                (while (not (looking-at "\\s("))
+                  (backward-char 1)
+                  (cond ((looking-at "\\s\)")
+                         (message "->> )")
+                         (forward-char 1)
+                         (backward-list 1)
+                         (backward-char 1)))
+                  ))))))
+(global-set-key (kbd "C-%") 'goto-match-paren)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; FILL AND INDENT
 
-; tab key only inserts spaces to the next tab stop
-; C-i still runs the indentation macros
-; tab characters can be inserted with C-q TAB
-; see the wiki for TurnAllIndentationOff for a possibly better solution
-; see indent-for-tab-command in emacs help
-(setq jpk-tab-mode nil)
-(defun jpk-turn-off-indent ()
-  "Rebinds the TAB key to tab-to-tab-stop"
+; for source code that wants tabs
+(defun tab-mode () 
   (interactive)
-  (local-set-key (kbd "<tab>") 'tab-to-tab-stop)
-;  (local-set-key (kbd "RET") 'newline-and-indent)
-  (setq jpk-tab-mode t)
-  (message "Auto indent is now off"))
-(defun jpk-turn-on-indent ()
-  "Rebinds the TAB key to whatever the current mode wants it to be by default"
-  (interactive)
-;  (local-set-key (kbd "<tab>") 'find a function to set tab correctly)
-;  (local-set-key (kbd "RET") 'newline)
-  (setq jpk-tab-mode nil)
-  (message "Auto indent is now on"))
-(defun jpk-toggle-indent ()
-  "Toggles jpk-tab-mode on and off.  Runs either jpk-turn-on-indent (off) or jpk-turn-off-indent (on)"
-  (interactive)
-  (if jpk-tab-mode
-      (jpk-turn-on-indent)
-    (jpk-turn-off-indent)))
-;(global-set-key (kbd "C-<tab>") 'jpk-toggle-indent)
+  (if indent-tabs-mode
+      (progn
+	(setq indent-tabs-mode nil)
+	(setq tab-width 8)
+	(message "Space mode")
+	)
+    (progn
+      (setq indent-tabs-mode t)
+      (setq tab-width 4)
+      (message "Tab mode")
+      )
+    )
+  )
 
 ; rigidly indent
 ; see EmacsWiki://MovingRegionHorizontally
