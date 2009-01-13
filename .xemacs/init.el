@@ -274,14 +274,15 @@ opening parenthesis one level up."
 ; FILL AND INDENT
 
 ; for source code that wants tabs
-(defun tab-mode () 
+; toggle
+(defun tab-mode ()
   (interactive)
   (if indent-tabs-mode
       (progn
-	(setq indent-tabs-mode nil)
-	(setq tab-width 8)
-	(message "Space mode")
-	)
+        (setq indent-tabs-mode nil)
+        (setq tab-width 8)
+        (message "Space mode")
+        )
     (progn
       (setq indent-tabs-mode t)
       (setq tab-width 4)
@@ -289,6 +290,14 @@ opening parenthesis one level up."
       )
     )
   )
+; set explicitly
+(defun tab-mode-set (arg) 
+  (setq indent-tabs-mode (not arg))
+  (tab-mode)
+  )
+; default to spaces
+(tab-mode-set nil)
+
 
 ; rigidly indent
 ; see EmacsWiki://MovingRegionHorizontally
