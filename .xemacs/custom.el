@@ -18,7 +18,7 @@
  '(ecb-options-version "2.31")
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(font-lock-mode t nil (font-lock))
- '(get-frame-for-buffer-default-instance-limit 4)
+ '(get-frame-for-buffer-default-instance-limit nil)
  '(gutter-buffers-tab-visible-p t)
  '(highlight-current-line-globally t nil (highlight-current-line))
  '(lazy-shot-mode t nil (lazy-shot))

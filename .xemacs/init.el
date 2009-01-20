@@ -297,7 +297,8 @@ opening parenthesis one level up."
   )
 ; default to spaces
 (tab-mode-set nil)
-
+; bind to C-c TAB
+(global-set-key (kbd "C-c TAB") 'tab-mode)
 
 ; rigidly indent
 ; see EmacsWiki://MovingRegionHorizontally
