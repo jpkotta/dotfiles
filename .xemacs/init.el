@@ -70,6 +70,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; C
 
+(add-hook 'c-mode-hook
+	  (lambda ()
+	    (tab-mode-set t)
+	    )
+	  )
+
 ; gdb
 ;(defun gdb-mode-hook ()
 ;  (local-set-key (kbd "<up>") 'comint-previous-matching-input-from-input)
@@ -172,6 +178,10 @@
 ; MISCELLANEOUS KEYBINDINGS
 
 ; the best way to find the symbol for a key is to run C-h k <key>
+
+; this is more natural than M-prev and M-next
+(global-set-key (kbd "S-next") 'scroll-other-window)
+(global-set-key (kbd "S-prior") 'scroll-other-window-down)
 
 ; undo binding messes with default suspend-emacs binding
 (global-set-key (kbd "C-x z") 'suspend-emacs)
