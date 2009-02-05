@@ -32,19 +32,16 @@ export IGNOREEOF=1
 
 ################################################################################
 # source other rc files
-declare -a source_these_files
-source_these_files=(\
-    $HOME/open_embedded/setup_env.sh\ 
-    $HOME/bfin/bfin.sh\ 
-)
 
-for i in ${source_these_files[@]}; do
-    if [ -e $i ] ; then
-	source $i
+if [ -e ~/.bashrc.local ] ; then
+    source ~/.bashrc.local
+fi
+
+for i in ~/.bash.d/* ; do
+    if [ -r "$i" ] ; then
+	source "$i"
     fi
 done
-
-unset source_these_files
 
 ################################################################################
 # PATH VARIABLES 
