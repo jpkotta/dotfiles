@@ -331,7 +331,7 @@ AddToMenu "WindowOps"
 + "(Un)Freeze Position  %mini.move2.xpm%"           PickAgain ToggleMovable
 + "(Un)Freeze Size      %mini.resize2.xpm%"         PickAgain ToggleResizable
 + "" Nop
-+ "&Close (F4)          %mini.cross.xpm%"           PickAgain Close           
++ "&Close (F4)          %mini.cross.xpm%"           MultiClose
 + "&Destroy             %mini.bomb.xpm%"            PickAgain Destroy
 + "X&Kill               %mini.crosbone.xpm%"        Exec xkill           
 + "" Nop
