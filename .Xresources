@@ -90,7 +90,7 @@ URxvt.visualBell:   1
 URxvt.scrollTtyOutput:      0
 URxvt.scrollTtyKeypress:    1
 URxvt.scrollWithBuffer:     1
-URxvt.saveLines:    8192
+URxvt.saveLines:    65535
 URxvt.tripleclickwords:     1
 
 ! default
