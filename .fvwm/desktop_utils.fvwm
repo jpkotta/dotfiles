@@ -196,6 +196,7 @@ AddToFunc HideDesktopTerminal
 + I All (DesktopTerminal*) Lower
 # sometimes the pager gets shown (e.g. pointer gets pushed up there)
 # this seems like an intuitive place to get rid of it
++ I Any (CirculateHit, DesktopPager, !Shaded) CursorMove 0p 5p
 + I HideDesktopPager
 #+ I WindowId root WarpToWindow 50 50
 
