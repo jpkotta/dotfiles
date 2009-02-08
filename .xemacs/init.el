@@ -20,14 +20,13 @@
       '(multiple-frames "%b" ("" user-name "@" system-name ": " mode-line-buffer-identification " (" buffer-file-truename ")" )))
 
 ; i store my extra elisps in ~/.xemacs/
-(pushnew (expand-file-name "~/.xemacs") load-path :test 'equal)
+(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
+(add-to-list 'load-path (expand-file-name "~/.xemacs"))
 
 ; debian seems to store some auxillary elisp files here
-(setq load-path (append load-path
-(list
- "/usr/share/emacs/site-lisp"
- "/usr/share/emacs/21.4/lisp"
- "/usr/share/emacs/site-lisp/emacs-goodies-el")))
+(add-to-list 'load-path  "/usr/share/emacs/site-lisp")
+(add-to-list 'load-path  "/usr/share/emacs/21.4/lisp")
+(add-to-list 'load-path  "/usr/share/emacs/site-lisp/emacs-goodies-el")
 
 ; enable downcasing a region
 (put 'downcase-region 'disabled nil)
@@ -75,13 +74,6 @@
 	    )
 	  )
 
-; gdb
-;(defun gdb-mode-hook ()
-;  (local-set-key (kbd "<up>") 'comint-previous-matching-input-from-input)
-;  (local-set-key (kbd "<down>") 'comint-next-matching-input-from-input)
-;  )
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; OCTAVE
 
@@ -108,7 +100,7 @@
 ; fvwm major mode
 (add-to-list 'auto-mode-alist '("FvwmApplet-" . fvwm-mode))
 (add-to-list 'auto-mode-alist '("FvwmScript-" . fvwm-mode))
-(add-to-list 'auto-mode-alist '(".fvwm" . fvwm-mode))
+(add-to-list 'auto-mode-alist '("\\.fvwm\\'" . fvwm-mode))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
