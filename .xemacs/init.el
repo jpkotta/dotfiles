@@ -20,7 +20,6 @@
       '(multiple-frames "%b" ("" user-name "@" system-name ": " mode-line-buffer-identification " (" buffer-file-truename ")" )))
 
 ; i store my extra elisps in ~/.xemacs/
-(pushnew (expand-file-name "~/.emacs.d") load-path :test 'equal)
 (pushnew (expand-file-name "~/.xemacs") load-path :test 'equal)
 
 ; debian seems to store some auxillary elisp files here
@@ -86,11 +85,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; OCTAVE
 
-; open .m files in octave mode (i can't believe there isn't a matlab mode in emacs)
-;(setq auto-mode-alist (cons '("\\.m\\'" . octave-mode-alist))
-
 ; open .m files in matlab mode (i can't believe there isn't an octave mode in xemacs)
-(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; FVWM
@@ -110,11 +106,10 @@
   )
 
 ; fvwm major mode
-(setq auto-mode-alist
-       (cons '("FvwmApplet-" . fvwm-mode)
-        (cons '("FvwmScript-" . fvwm-mode)
-         (cons '(".fvwm" . fvwm-mode)
-      auto-mode-alist))))
+(add-to-list 'auto-mode-alist '("FvwmApplet-" . fvwm-mode))
+(add-to-list 'auto-mode-alist '("FvwmScript-" . fvwm-mode))
+(add-to-list 'auto-mode-alist '(".fvwm" . fvwm-mode))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; MEDIAWIKI MODE
