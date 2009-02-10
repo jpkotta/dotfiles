@@ -1,6 +1,6 @@
 #!/bin/sh
 
-EMACS=$(which xemacs)
+EMACS=$(which emacs)
 EMACS_CLIENT=gnuclient
 
 $EMACS "$@" 2>/dev/null

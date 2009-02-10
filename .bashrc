@@ -72,7 +72,7 @@ PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib/pkgconfig"
 ################################################################################
 # DEFAULT APPS
 
-export EDITOR="xemacs"
+export EDITOR="emacs"
 export BROWSER="/usr/bin/opera -newwindow"
 export PAGER="/usr/bin/less --LONG-PROMPT"
 
