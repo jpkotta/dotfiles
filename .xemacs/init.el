@@ -42,6 +42,8 @@
 (autoload 'custom-set-face-font-size "cus-face" t)
 (custom-set-face-font-size 'default "13")
 
+(setq visible-bell 'top-bottom)
+
 ; start server
 ;(gnuserv-start)
 
