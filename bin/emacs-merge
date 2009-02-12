@@ -4,7 +4,7 @@ set -e # bail out quickly on failure
 
 # choose your emacs executable
 # e.g. EMACS=emacsclient or EMACS=xemacs
-EMACS=xemacs
+EMACS=emacs
 
 # choose your emacs options
 # e.g. EMACS_OPTIONS="-q"
