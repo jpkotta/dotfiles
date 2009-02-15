@@ -1,0 +1,133 @@
+#!/usr/bin/perl -w
+
+################################################################################
+# GLOBALS
+
+# env vars
+my $HOME = $ENV{"HOME"};
+my $DISPLAY = $ENV{"DISPLAY"};
+
+# this is the root of the wallpaper directory tree
+my $wallpaper_dir = "$HOME/pics/wallpaper";
+
+# this is a list of valid filename extensions
+my @extensions_arry = ("jpg", "jpeg", "png");
+
+# array of wallpaper filenames
+my @wallpaper_arry = ();
+
+# current wallpaper (name) is saved here
+my $wallpaper_file = "$HOME/tmp/current_wallpaper";
+
+# delay between switches (minutes)
+my $delay_minutes = 60*24;
+
+# command to run to set wallpaper
+my $wallpaper_set_command = "Esetroot -display $DISPLAY -center -fit";
+
+
+################################################################################
+# MAIN
+
+# will not work if display is null
+if ( $DISPLAY eq "" )
+{
+    die "\$DISPLAY not set.";
+}
+
+if ( ! -l $wallpaper_file )
+{
+    system("rm -f $wallpaper_file");
+    if ( -e $wallpaper_file )
+    {
+        die ("Could not remove old $wallpaper_file.");
+    }
+}
+
+# idempotency
+my $proc_list = `ps -ef | grep -v grep | grep $ENV{USER} | grep -E $0`;
+my $proc_count = split('\n', $proc_list);
+#print STDOUT $proc_count;
+if ($proc_count > 1)
+{
+    exit;
+}
+
+&set_current();
+
+sleep(60);
+
+&create_new_list();
+
+while (1)
+{
+    &set_next();
+    sleep(60*$delay_minutes);
+}
+
+# fork into background: not working / not necessary (yet)
+# if (!defined($chld_pid = fork()))
+# {
+#     die ("Could not fork process: $!");
+# }
+# elsif ($$ != $chld_pid)
+# {
+#     exit 0;
+# }
+# else
+# {
+#     while (1)
+#     {
+#         &next_wallpaper();
+#         sleep(60*$delay_minutes);
+#     }
+# }
+
+################################################################################
+# SUBROUTINES
+
+sub create_new_list()
+{
+    # $extensions will be used in the find command line to filter file extensions
+    my $extensions = "";
+    foreach $ext (@extensions_arry)
+    {
+        $extensions .= " -or -iname '*.$ext'";
+    }
+    $extensions =~ s/^ -or //;
+
+    # get list of files
+    my $get_list_cmd = "find $wallpaper_dir -type f $extensions";
+    @wallpaper_arry = split('\n', `$get_list_cmd`);
+
+    # randomize
+    for ($i = 0; $i < $#wallpaper_arry; $i++)
+    {
+        $rnd1 = int(rand(@wallpaper_arry));
+        $rnd2 = int(rand(@wallpaper_arry));
+        $swap = $wallpaper_arry[$rnd1];
+        $wallpaper_arry[$rnd1] = $wallpaper_arry[$rnd2];
+        $wallpaper_arry[$rnd2] = $swap;
+    }
+}
+
+################################################################################
+
+sub set_next()
+{
+    $idx++;
+    $idx %= @wallpaper_arry;
+
+    my $next_wallpaper = $wallpaper_arry[$idx];
+
+    system("$wallpaper_set_command $next_wallpaper");
+    system("ln -snf $next_wallpaper $wallpaper_file");
+}
+
+
+################################################################################
+
+sub set_current()
+{
+    system("$wallpaper_set_command $wallpaper_file");
+}

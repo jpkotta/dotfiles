@@ -1,0 +1,111 @@
+#!/bin/bash
+
+# FVWM SETTINGS:
+#   Style Radar NeverFocus, !Borders, NoTitle
+
+image_dir="$HOME/tmp/radar"
+
+# defaults
+reload_time=15 # in min
+delay_time=1 # in sec
+xv_win_name="RadarMap"
+geometry="320x240-0-0"
+
+# get images and rename them
+function get_images()
+{   # cedar rapids
+    #image_url_base="http://image.weather.com/looper/archive/us_dsm_closeradar_large_usen/"
+    #image_url_suffix="L.jpg?1122250838670"
+    
+    # fargo
+    image_url_base="http://image.weather.com/looper/archive/us_bis_closeradar_large_usen/"
+    image_url_suffix="L.jpg"
+
+    for i in {1,2,3,4,5} ; do 
+        /usr/bin/wget ${image_url_base}${i}${image_url_suffix} >&/dev/null
+    done
+    
+    /usr/bin/rename $image_url_suffix "" * >&/dev/null
+}
+
+# parse options
+while [[ -n "$@" ]] ; do
+    case $1 in 
+        (-name)     
+            shift
+            if [[ -z "$1" ]] ; then
+                echo "Missing name" 1>&2
+                exit 1
+            fi
+            xv_win_name=$1 
+            ;;
+        (-reload)   
+            shift
+            if [[ -z "$1" ]] ; then
+                echo "Missing reload time" 1>&2
+                exit 1
+            elif [[ -z `echo "$1" | /bin/grep -oE '^[0-9]{1,}$'` ]] ; then
+                echo "Reload time must be a number" 1>&2
+                exit 1
+            fi
+            reload_time=$1 
+            ;;
+        (-delay)    
+            shift
+            if [[ -z "$1" ]] ; then
+                echo "Missing reload time" 1>&2
+                exit 1
+            elif [[ -z `echo "$1" | /bin/grep -oE '^[0-9]{1,}$'` ]] ; then
+                echo "Reload time must be a number" 1>&2
+                exit 1
+            fi
+            delay_time=$1
+            ;;
+        (-geom|-geometry)
+            shift
+            if [[ -z "$1" ]] ; then
+                echo "Missing geometry" 1>&2
+                exit 1
+            elif [[ -z `echo "$1" | /bin/grep -oE \
+            '^[0-9]{1,}x[0-9]{1,}($|([+-][0-9]{1,}){2}$)'` ]] ; then
+                echo "Geometry must be like 123x456 or 123x456+78-90" 1>&2
+                exit 1
+            fi
+            geometry=$1
+            ;;
+        (*)         
+            echo Bad Option $1 1>&2
+            exit 1 
+            ;;
+    esac
+    shift
+done
+
+# set up the working directory
+if [[ ! -d $image_dir ]] ; then
+    /bin/mkdir $image_dir
+else
+    /bin/rm -f $image_dir/*
+fi
+cd $image_dir
+
+get_images
+while [[ -z `/bin/ls` ]] ; do
+    sleep 60
+    get_images
+done
+
+# fork xv
+/usr/bin/killall xv >&/dev/null
+#/usr/bin/killall `basename $0`
+/usr/bin/xv -wait $delay_time -wloop -viewonly -poll \
+    -smooth -geometry $geometry -fixed \
+    -name "$xv_win_name" -viewonly -nodecor -bw 0 \
+    * >&/dev/null &
+
+# main loop
+while true ; do
+    sleep $(( $reload_time * 60 ))
+    get_images
+done
+
