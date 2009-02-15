@@ -152,7 +152,8 @@ unset prompt_open prompt_close prompt_close_open prompt_username prompt_at promp
 # see the Eterm technical docs, "Set X Terminal Parameters"
 # 'ESC ] 0 ; string BEL' sets icon name and title to string
 # seems to not work when there is a space before \007
-if [[ "$TERM" != "linux" ]] ; then
+if [[ "$TERM" =~ "rxvt" \
+    || "$TERM" =~ "xterm" ]] ; then
     PROMPT_COMMAND='echo -ne "\033]0;[${USER}@${HOSTNAME}][${PWD/$HOME/~}]\007"'
 fi
 
