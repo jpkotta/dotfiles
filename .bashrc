@@ -78,9 +78,6 @@ export PAGER="/usr/bin/less --LONG-PROMPT"
 
 export PDF_READER=/usr/bin/okular
 if [ ! -x "$PDF_READER" ] ; then
-    export PDF_READER=/usr/lib/kde4/bin/okular
-fi
-if [ ! -x "$PDF_READER" ] ; then
     export PDF_READER=/usr/bin/kpdf
 fi
 
@@ -345,7 +342,7 @@ alias acroread='daemon acroread -openInNewWindow'
 # kpdf is better
 alias kpdf='daemon kpdf'
 # okular is even better
-alias okular='daemon /usr/lib/kde4/bin/okular'
+alias okular='daemon okular'
 alias pdf="$PDF_READER"
 # open office
 alias ooffice='daemon ooffice'
