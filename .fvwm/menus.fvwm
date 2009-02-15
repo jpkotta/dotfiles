@@ -181,26 +181,57 @@ AddToMenu   Files
 DestroyMenu MenuBrowser
 AddToMenu   MenuBrowser 
 + DynamicPopupAction Piperead \
-    'fvwm-menu-directory --func-name MenuBrowser --dir $HOME --check-subdir --special-dirs --links --reuse \
-    --xterm "urxvt -e" --command-file "StartEditor \"%f\"" --command-app "Exec exec \"%f\"" \
-    --icon-dir mini.folder.xpm --icon-title mini.term.xpm --icon-file mini.file.xpm --icon-app mini.hex.xpm'
+    'fvwm-menu-directory \
+    --func-name MenuBrowser \
+    --dir $HOME \
+    --check-subdir \
+    --special-dirs \
+    --links \
+    --reuse \
+    --xterm "urxvt -e" \
+    --command-file "StartEditor \"%f\"" \
+    --command-app "Exec exec \"%f\"" \
+    --icon-dir mini.folder.xpm \
+    --icon-title mini.term.xpm \
+    --icon-file mini.file.xpm \
+    --icon-app mini.hex.xpm'
 
 DestroyMenu MenuBrowserDotFiles
 AddToMenu   MenuBrowserDotFiles
 + DynamicPopupAction Piperead \
-    'fvwm-menu-directory --name MenuBrowserDotFiles --dir $HOME --check-subdir --special-dirs --links --reuse --all \
-    --xterm "urxvt -e" --command-file "StartEditor \"%f\"" --command-app "Exec exec \"%f\"" \
-    --icon-dir mini.folder.xpm --icon-title mini.term.xpm --icon-file mini.file.xpm --icon-app mini.hex.xpm'
+    'fvwm-menu-directory \
+    --name MenuBrowserDotFiles \
+    --dir $HOME \
+    --check-subdir \
+    --special-dirs \
+    --links \
+    --reuse \
+    --all \
+    --xterm "urxvt -e" \
+    --command-file "StartEditor \"%f\"" \
+    --command-app "Exec exec \"%f\"" \
+    --icon-dir mini.folder.xpm \
+    --icon-title mini.term.xpm \
+    --icon-file mini.file.xpm \
+    --icon-app mini.hex.xpm'
 
 # defines a popup menu built from the directory given in $0
 # sends non-executable files to StartEditor
 # executes executable files
 DestroyFunc MenuDirectoryStartEditor
 AddToFunc MenuDirectoryStartEditor
-+ I PipeRead \
-    'fvwm-menu-directory --func-name MenuDirectoryStartEditor --dir "$0" --check-subdir --links \
-    --xterm "urxvt -e" --command-file "StartEditor \"%f\"" --command-app "StartEditor \"%f\"" \
-    --icon-dir mini.folder.xpm --icon-title mini.term.xpm --icon-file mini.file.xpm --icon-app mini.hex.xpm'
++ I PipeRead 'fvwm-menu-directory \
+    --func-name MenuDirectoryStartEditor \
+    --dir "$0" \
+    --check-subdir \
+    --links \
+    --xterm "urxvt -e" \
+    --command-file "StartEditor \"%f\"" \
+    --command-app "StartEditor \"%f\"" \
+    --icon-dir mini.folder.xpm \
+    --icon-title mini.term.xpm \
+    --icon-file mini.file.xpm \
+    --icon-app mini.hex.xpm'
 
 
 ################################################################################
@@ -286,10 +317,9 @@ DestroyMenu Wallpaper
 AddToMenu Wallpaper
 + MissingSubmenuFunction                    WallpaperBrowser
 + "Wallpaper%mini.folder.xpm%"              Popup /home/jpkotta/pics/wallpaper
-+ "Pics%mini.folder.xpm%"                   Popup /home/jpkotta/pics
++ "w%mini.folder.xpm%"                      Popup /home/jpkotta/w
 + "Home%mini.folder.xpm%"                   Popup /home/jpkotta
 + "Refresh Wallpaper%mini.display.xpm%"     ResetWallpaper
-+ "Flip Current%mini.maximize-horiz.xpm%"   FlipCurrentWallpaper
 
 # defines a popup menu built from the directory given in $0 (must be the full path)
 # sends files to SetWallpaper
@@ -297,10 +327,25 @@ AddToMenu Wallpaper
 # dynamically builds a menu with with fvwm-menu-directory with thumbnails of image files as the icons
 # auto generates thumbnails if they don't exist or are older than the file
 # this is based on taviso's WallpaperBrowser function, but I added extra logic to it and put it in a script
-DestroyFunc WallpaperBrowser
-AddToFunc WallpaperBrowser 
-+ I PipeRead '$[FVWM_SCRIPTDIR]/wallpaper_menu.sh $0'
+#DestroyFunc WallpaperBrowser
+#AddToFunc WallpaperBrowser 
+#+ I PipeRead '$[FVWM_SCRIPTDIR]/wallpaper_menu.sh $0'
 
+# opens nitrogen on a directory
+DestroyFunc WallpaperBrowser
+AddToFunc WallpaperBrowser
++ I PipeRead `fvwm-menu-directory \
+    --dir "$0" \
+    --links \
+    --check-subdir \
+    --func-name WallpaperBrowser \
+    --title "%*-20p" --item "%*20n" \
+    --command-title "Exec exec nitrogen $0" \
+    --command-file "----" \
+    --command-app "----" \
+    --icon-dir mini.folder.xpm \
+    --icon-title mini.folder.xpm \
+    | grep -v -- '----$'`
 
 ################################################################################
 # FULL WINDOW OPERATIONS MENU

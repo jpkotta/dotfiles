@@ -11,7 +11,8 @@ xset dpms 0 0 600
 # set the wallpaper
 # do this first because it can take a while
 #Esetroot -fit -center $HOME/tmp/current_wallpaper &
-hsetroot -full $HOME/tmp/current_wallpaper &
+#hsetroot -full $HOME/tmp/current_wallpaper &
+nitrogen --restore &
 
 # setup xmodmap, because certain programs (e.g. Mathematica and fvwm) require
 # certain settings

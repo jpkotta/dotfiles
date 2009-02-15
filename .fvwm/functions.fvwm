@@ -53,8 +53,6 @@ AddToFunc StartImageEditor
 
 DestroyFunc StartConsole
 AddToFunc StartConsole
-# Eterm understands '-e', but not '-name' or '-title', so we override those
-#+ I FvwmConsole -terminal Eterm --name FvwmConsole --title FvwmConsole --icon-name FvwmConsole
 + I FvwmConsole -terminal urxvt
 
 DestroyFunc StartXErrorViewer
@@ -469,21 +467,20 @@ AddToFunc PersistenceToggle
 # MISC FUNCTIONS
 ################################################################################
 
-DestroyFunc SetWallpaper
-AddToFunc SetWallpaper
-#+ I Exec Esetroot -fit -center $0
-+ I Exec hsetroot -full '$0'
-+ I Exec ln -sf '$0' $HOME/tmp/current_wallpaper
+#DestroyFunc SetWallpaper
+#AddToFunc SetWallpaper
+#+ I Exec hsetroot -full '$0'
+#+ I Exec ln -sf '$0' $HOME/tmp/current_wallpaper
 
 DestroyFunc ResetWallpaper
 AddToFunc ResetWallpaper
-#+ I Exec Esetroot -fit -center $HOME/tmp/current_wallpaper
-+ I Exec hsetroot -full $HOME/tmp/current_wallpaper
++ I Exec nitrogen --restore
+#+ I Exec hsetroot -full $HOME/tmp/current_wallpaper
 
-DestroyFunc FlipCurrentWallpaper
-AddToFunc FlipCurrentWallpaper
-+ I PipeRead 'convert -flop $HOME/tmp/current_wallpaper $HOME/tmp/flipped_wallpaper.png >/dev/null 1>&2'
-+ I SetWallpaper $HOME/tmp/flipped_wallpaper.png
+#DestroyFunc FlipCurrentWallpaper
+#AddToFunc FlipCurrentWallpaper
+#+ I PipeRead 'convert -flop $HOME/tmp/current_wallpaper $HOME/tmp/flipped_wallpaper.png >/dev/null 1>&2'
+#+ I SetWallpaper $HOME/tmp/flipped_wallpaper.png
 
 # these will overwrite an existing screenshot image
 DestroyMenu ScreenShotNotify
@@ -590,6 +587,7 @@ AddToFunc PickAgain
 
 # PickAgain has problems with Close, so here is a separate function
 DestroyFunc MultiClose
+AddToFunc MultiClose
 + I Pick Close
 + I Schedule 0 MultiClose
 
