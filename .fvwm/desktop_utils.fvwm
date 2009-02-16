@@ -616,12 +616,13 @@ DestroyModuleConfig DesktopMiniPager: *
 # DesktopTerminals
 ################################################################################
 
+# transparency with a hint of blue
+Test (EnvIsSet USE_COMPOSITE) \
+    SetEnv DesktopTerminalsOptions "-depth 32 -bg rgba:0200/0000/1000/f400"
+
 DestroyFunc StartDesktopTerminal
 AddToFunc StartDesktopTerminal
-#  with (fake) transparency
-#+ I Exec exec urxvt -tr -sh 50 -tint white +sb $*
-#  without (fake) transparency
-+ I Exec exec urxvt +sb $*
++ I Exec exec urxvt +sb $[DesktopTerminalsOptions] $*
 
 PipeRead "echo SetEnv SCREEN_MID_Y $(( $SCREEN_RES_Y / 2))"
 

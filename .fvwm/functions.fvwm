@@ -28,13 +28,16 @@ DestroyFunc StartEditor
 AddToFunc StartEditor
 + I Exec $HOME/bin/editor $*
 
+Test (EnvIsSet USE_COMPOSITE) \
+    SetEnv TerminalOptions "-depth 32 -bg rgba:0200/0000/1000/f400"
+
 DestroyFunc StartTerminal
 AddToFunc StartTerminal
-+ I Exec exec urxvtcd $*
++ I Exec exec urxvtcd $[TerminalOptions] $*
 
 DestroyFunc StartTerminalTabbed
 AddToFunc StartTerminalTabbed
-+ I Exec exec urxvtcd -pe tabbed $*
++ I Exec exec urxvtcd -pe tabbed $[TerminalOptions] $*
 
 DestroyFunc StartFileManager
 AddToFunc StartFileManager
@@ -53,7 +56,7 @@ AddToFunc StartImageEditor
 
 DestroyFunc StartConsole
 AddToFunc StartConsole
-+ I FvwmConsole -terminal urxvt
++ I FvwmConsole -terminal urxvt $[TerminalOptions]
 
 DestroyFunc StartXErrorViewer
 AddToFunc StartXErrorViewer
