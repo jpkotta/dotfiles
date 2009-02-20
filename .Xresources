@@ -81,8 +81,12 @@ XClock*background:              black
 ! urxvt settings
 !transparency: -tr -tint white -sh 50 
 URxvt.geometry:     80x25
-URxvt.fading:       25
-URxvt.background:   black
+!URxvt.fading:       25
+!URxvt.background:   black
+Urxvt.fading:	    40
+URxvt.depth:	    32
+URxvt.background:   rgba:0200/0000/1000/f000
+URxvt.fadeColor:    rgba:0200/0000/1000/f000
 URxvt.foreground:   white
 Urxvt.colorBD:      green
 URxvt.cursorColor:  yellow
