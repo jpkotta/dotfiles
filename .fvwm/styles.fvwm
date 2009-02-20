@@ -80,11 +80,6 @@ Mouse (XMathematica) 5 W N FakeKeyPress modifiers 8 press Down wait 50
 
 Style Pysol PositionPlacement Center
 
-# these are persistent windows that only occupy the first desk
-Style "Buddy List" \
-    FixedPosition, FixedSize, CirculateSkip, StickyAcrossPages, \
-    !Iconifiable, StartsOnDesk 0
-
 Style "RadarMap <unregistered>" \
     NoTitle, !Borders, NeverFocus, StickyAcrossPages, \
     CirculateSkip, WindowListSkip, StartsOnDesk 0, \
@@ -112,9 +107,13 @@ Style "Figure11 *" StartsOnPage 1 1 1
 # this lets FVWM control focusing
 Style sun-awt-X11-* Lenience
 
-Style "Buddy List" WindowListSkip, Sticky, !FPGrabFocus
-Style Gaim Sticky, !FPGrabFocus
-Style Pidgin Sticky, !FPGrabFocus
+Style "Buddy List" \
+    FixedPosition, FixedSize, \
+    CirculateSkip, WindowListSkip, \
+    Sticky, !Iconifiable, \
+    !FPGrabFocus, !FPFocusByProgram
+Style Gaim Sticky, !FPGrabFocus, !FPFocusByProgram
+Style Pidgin Sticky, !FPGrabFocus, !FPFocusByProgram
 
 Style Tremulous !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
 Style OpenArena !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]

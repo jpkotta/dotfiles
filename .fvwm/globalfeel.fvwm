@@ -197,7 +197,8 @@ Style * SkipMapping
 # ICONS
 ################################################################################
 
-Style * IconBox screen w 0 0 -0 -0, IconFill Left Bottom, IconGrid 10 10
+# icons are normally 256x192 when using the screenshot_thumbnail icon config
+Style * IconBox screen w 0 0 -0 -0, IconFill Left Bottom, IconGrid 63 5
 Style * MiniIcon mini.x.xpm, Icon jx.xpm
 
 
@@ -207,6 +208,7 @@ Style * MiniIcon mini.x.xpm, Icon jx.xpm
 
 # widows are focused by clicking on them
 # the focusing click is passed to the window
+# clicking in the window does not raise, but clicking on the decorations does
 Style * ClickToFocus, FPClickDecorToFocus
 Style * !FPClickRaisesFocused, !FPClickRaisesUnfocused, \
     FPClickDecorRaisesFocused, FPClickDecorRaisesUnfocused

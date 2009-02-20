@@ -123,6 +123,7 @@ DestroyModuleConfig FvwmEvent FvwmEventThumbnail
 *FvwmEventThumbnail: add_window     ScreenShotThumbnail
 *FvwmEventThumbnail: focus_change   ScreenShotThumbnail
 #*FvwmEventThumbnail: map            ScreenShotThumbnail
+*FvwmEventThumbnail: iconify        RearrangeIcons
 *FvwmEventThumbnail: deiconify      RearrangeIcons
 *FvwmEventThumbnail: destroy_window SSTNOnClose
 
