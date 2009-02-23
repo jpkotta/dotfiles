@@ -83,7 +83,7 @@ XClock*background:              black
 URxvt.geometry:     80x25
 !URxvt.fading:       25
 !URxvt.background:   black
-Urxvt.fading:	    40
+URxvt.fading:	    40
 URxvt.depth:	    32
 URxvt.background:   rgba:0200/0000/1000/f000
 URxvt.fadeColor:    rgba:0200/0000/1000/f000
@@ -191,5 +191,4 @@ gnuplot*background: lavender
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! machine-specific resources
-
 #include "/home/jpkotta/.Xresources.local"

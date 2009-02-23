@@ -1,6 +1,9 @@
 #!/bin/sh
 
 trem=/usr/games/tremulous
+#export SDL_AUDIODRIVER=pulse
+#export SDL_AUDIODRIVER=esd
+export SDL_AUDIODRIVER=alsa
 
 nvclock -f -F 100
 
