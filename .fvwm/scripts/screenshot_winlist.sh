@@ -1,29 +1,39 @@
-#!/bin/sh
+#!/usr/bin/env perl
 
-SCREENSHOT_ICONDIR=/dev/shm
-w_id=$1
-iconic=$2
+use strict;
+use warnings;
 
-if [ x"$w_id" = "xw.id" ] ; then
+my $SCREENSHOT_ICONDIR = "/dev/shm";
+
+my $w_id = $ARGV[0];
+my $iconic = $ARGV[1];
+
+if ($w_id eq "w.id") {
     exit 0
-fi
+}
 
-# get WM_NAME from xprop to avoid quoting complications
-# change '*' to '**' because AddToMenu treats '*' as a formatting symbol
-name=`xprop -id $w_id WM_NAME | sed -e 's/^WM_NAME(STRING) = //' -e 's/[*]/**/g' -e 's/%/%%/g' | tr "\\042\\140" "\\047\\047"`
-len=`echo "${name}" | wc -c`
+# get the window name from xprop
+my $name = `xprop -id $w_id WM_NAME`;
+chomp($name);
+$name =~ s/^WM_NAME\(STRING\) = //;
+$name =~ s/^"(.*)"$/$1/; # remove initial and final quote (from xprop)
+$name =~ s/\*/**/g; # metachar for Fvwm menus
+$name =~ s/%/%%/g; # metachar for Fvwm menus
+$name =~ s/&/&&/g; # metachar for Fvwm menus
+$name =~ s/\^/^^/g; # metachar for Fvwm menus
+$name =~ tr/"`/''/; # change all quotes to single quotes
 
-if [ ${len} -gt 50 ] ; then
-    name=`echo "${name}" | cut -c 2-25`"..."`echo "${name}" | cut -c $(( ${len} - 25 ))-$(( ${len} - 2 ))`;
-    true
-else
-    name=`echo "${name}" | cut -c 2-$(( ${len} - 2 ))`;
-    true
-fi
+my $len = length($name);
 
-if [ -z $iconic ] ; then
-    echo AddToMenu ScreenShotMenu "'%${SCREENSHOT_ICONDIR}/${w_id}.png%${name}'" WindowId $w_id WindowListFunc
-else
-    echo AddToMenu ScreenShotMenu "'%${SCREENSHOT_ICONDIR}/${w_id}.png%(${name})'" WindowId $w_id WindowListFunc
-fi
+my $max_len = 50;
+if ($len > $max_len) {
+    my @tmp = split("", $name);
+    $name = join("", @tmp[0 .. ($max_len/2 - 2)], "...", @tmp[($len - $max_len/2 + 2) .. $#tmp]);
+}
+
+if ($iconic) {
+    $name = "($name)";
+}
+
+print "AddToMenu ScreenShotMenu \"%${SCREENSHOT_ICONDIR}/${w_id}.png%${name}\" WindowId $w_id WindowListFunc\n";
 
