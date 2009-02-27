@@ -36,7 +36,7 @@ AddToMenu RootMenu
 
 DestroyMenu FvwmQuitMenu
 AddToMenu FvwmQuitMenu
-+ "Quit Fvwm"   Title
++ "Quit Fvwm"     Title
 + "&Blank Screen" BlankScreen
 + "&Lock Screen"  LockScreen
 + "&Restart"      ConfirmMenuFunc Restart Restart
@@ -64,6 +64,37 @@ AddToMenu   "Goto"
 + '$[desk.name2] [&3] %mini.move1.xpm%' GotoDesk 0 2
 + '$[desk.name3] [&4] %mini.move1.xpm%' GotoDesk 0 3
 
+DestroyMenu GeneralMovePickDeskMenu
+AddToMenu GeneralMovePickDeskMenu
++ 'Move to Desk...'                     Title
++ 'This Desk'                           Current MoveToDesk 0
++ '$[desk.name0] [&1] %mini.move1.xpm%' Current MoveToDesk 0 0
++ '$[desk.name1] [&2] %mini.move1.xpm%' Current MoveToDesk 0 1
++ '$[desk.name2] [&3] %mini.move1.xpm%' Current MoveToDesk 0 2
++ '$[desk.name3] [&4] %mini.move1.xpm%' Current MoveToDesk 0 3
+
+DestroyMenu GeneralMovePickPageMenu
+AddToMenu GeneralMovePickPageMenu
++ 'Move to Page...'                     Title
++ 'This Page'                           Current MoveToPage 0w 0w
++ 'Page 0 0 [&Q] %mini.move1.xpm%'      Current MoveToPage 0 0
++ 'Page 1 0 [&W] %mini.move1.xpm%'      Current MoveToPage 1 0
++ 'Page 0 1 [&E] %mini.move1.xpm%'      Current MoveToPage 0 1
++ 'Page 1 1 [&R] %mini.move1.xpm%'      Current MoveToPage 1 1
+
+DestroyMenu GeneralMovePickScreenMenu
+AddToMenu GeneralMovePickScreenMenu
++ 'Move to Screen...'                   Title
++ 'This Screen'                         Nop # bug! Current MoveToScreen w
++ 'Left Screen [&A] %mini.move1.xpm%'   Current MoveToScreen $[LEFT_SCREEN]
++ 'Right Screen [&S] %mini.move1.xpm%'  Current MoveToScreen $[RIGHT_SCREEN]
+
+DestroyFunc GeneralMove
+AddToFunc GeneralMove
++ I Menu GeneralMovePickDeskMenu root c c
++ I Menu GeneralMovePickPageMenu root c c
++ I Test (EnvIsSet USE_XINERAMA) \
+    Menu GeneralMovePickScreenMenu root c c
 
 ################################################################################
 # Application Launcher Menu

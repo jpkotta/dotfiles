@@ -112,7 +112,8 @@ Key     Left    A       4       CyclePages down
 Key     Right   A       4       CyclePages up
 
 Key     D       A       4       Menu Goto root c c
-Key     M       A       4       Menu WindowMove root c c 
+Key     M       A       4       GeneralMove
+Key     N       A       4       Menu WindowMove root c c 
 Key     G       A       4       Menu GroupMove root c c
 
 ########################################
