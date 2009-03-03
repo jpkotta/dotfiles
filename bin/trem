@@ -1,11 +1,16 @@
 #!/bin/sh
 
 trem=/usr/games/tremulous
-#export SDL_AUDIODRIVER=pulse
-#export SDL_AUDIODRIVER=esd
-export SDL_AUDIODRIVER=alsa
 
 nvclock -f -F 100
+
+# pause pulseaudio
+#pactl suspend-sink alsa_output.hw_0 1
+#pkill -STOP -U $USER pulseaudio
+#sleep 1
+mpc stop
+pulseaudio --kill
+sleep 1
 
 if [ -z $DISPLAY ] ; then 
     startx $trem -- :1 -config xorg.conf.single
@@ -13,5 +18,10 @@ else
     echo "Starting windowed Tremulous"
     $trem +set r_fullScreen 0 
 fi
+
+# unpause pulseaudio
+#pkill -CONT -U $USER pulseaudio
+#pactl suspend-sink alsa_output.hw_0 0
+pulseaudio -D
 
 nvclock -f -F 20
