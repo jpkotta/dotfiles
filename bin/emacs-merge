@@ -42,7 +42,7 @@ Restore ()
 ExitOK ()
 {
     rc=$?
-    Rm
+    #Rm
     exit $rc
 }
 
