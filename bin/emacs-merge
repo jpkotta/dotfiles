@@ -41,8 +41,9 @@ Restore ()
 
 ExitOK ()
 {
-    Rm 
-    exit $?
+    rc=$?
+    Rm
+    exit $rc
 }
 
 # Back up our file
