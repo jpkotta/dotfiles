@@ -29,11 +29,6 @@ fi
 
 BACKUP="$LOCAL.orig"
 
-Rm ()
-{
-    rm  -f "$BACKUP"
-}
-
 Restore ()
 {
     cp "$BACKUP" "$LOCAL" 
