@@ -48,7 +48,8 @@ AddToFunc StartFileManager
 
 DestroyFunc StartImageViewer
 AddToFunc StartImageViewer
-+ I Exec exec gqview $0
++ I Test (X geeqie) Exec exec geeqie $0
++ I TestRc (NoMatch) Exec exec gqview $0 
 
 DestroyFunc StartImageEditor
 AddToFunc StartImageEditor
