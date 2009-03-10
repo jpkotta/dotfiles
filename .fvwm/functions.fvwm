@@ -493,11 +493,11 @@ AddToMenu ScreenShotNotify "Screenshot in 5 seconds..." Title
 DestroyFunc ScreenShotRoot
 AddToFunc ScreenShotRoot
 + I Menu ScreenShotNotify
-+ I Exec sleep 5 ; xwd -root -silent | xwdtopnm | pnmtopng > $HOME/screenshot.png
++ I Exec sleep 5 ; xwd -root -silent | convert xwd:- png:$HOME/screenshot.png
 
 DestroyFunc ScreenShotWindow
 AddToFunc ScreenShotWindow
-+ I Exec xwd -id $[w.id] -silent | xwdtopnm | pnmtopng > $HOME/screenshot.png
++ I Exec xwd -id $[w.id] -silent | convert xwd:- png:$HOME/screenshot.png
 
 # usb key drive mount/unmount functions
 DestroyMenu UnmountUSBTrue
