@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# put the absolute pathname of a file into the clipboard
+readlink -f "$1" | tr -d "\n" | xclip -in
