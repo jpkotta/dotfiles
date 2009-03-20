@@ -85,7 +85,7 @@ AddToMenu GeneralMovePickPageMenu
 DestroyMenu GeneralMovePickScreenMenu
 AddToMenu GeneralMovePickScreenMenu
 + 'Move to Screen...'                   Title
-+ 'This Screen'                         Nop # bug! Current MoveToScreen w
++ 'This Screen'                         Nop
 + 'Left Screen [&A] %mini.move1.xpm%'   Current MoveToScreen $[LEFT_SCREEN]
 + 'Right Screen [&S] %mini.move1.xpm%'  Current MoveToScreen $[RIGHT_SCREEN]
 
