@@ -87,7 +87,8 @@ URxvt.fading:	    40
 URxvt.depth:	    32
 URxvt.background:   rgba:0200/0000/1000/f000
 URxvt.fadeColor:    rgba:0200/0000/1000/f000
-URxvt.foreground:   white
+!URxvt.foreground:   white
+URxvt.foreground:   lavender blush
 Urxvt.colorBD:      green
 URxvt.cursorColor:  yellow
 URxvt.visualBell:   1

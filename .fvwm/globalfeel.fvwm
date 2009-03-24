@@ -135,8 +135,8 @@ ClickTime 200
 
 # do not flip pages, but allow dragging windows across pages
 EdgeResistance 500
-Style * EdgeMoveDelay 500
-Style * EdgeMoveResistance 100 25
+Style * EdgeMoveDelay 300
+Style * EdgeMoveResistance 50 25
 EdgeScroll 0 0
 # a very interesting thing about edges: they're technically the root window
 # this means there is always a thin strip of root window around the edges, 
