@@ -120,14 +120,47 @@
 
 
 ################################################################################
+# HOST SPECIFIC SETTINGS
+################################################################################
+
+# set the hostname, since for some reason it isn't set already
+PipeRead 'echo SetEnv HOSTNAME `hostname`'
+
+DestroyFunc IfHost
+AddToFunc IfHost
++ I Test (EnvMatch HOSTNAME $[0]) $[*]
+
+DestroyFunc IfNotHost
+AddToFunc IfNotHost
++ I Test (!EnvMatch HOSTNAME $[0]) $[*]
+
+# Various differences between my machines are handled by these env
+# vars.  These are the defaults.  A host-specific local.fvwm can set
+# this or anything else meant for that specific host.
+
+# set to enable dual screens
+UnSetEnv USE_XINERAMA
+UnSetEnv LEFT_SCREEN
+UnSetEnv RIGHT_SCREEN
+# set to enable xcompmgr
+UnSetEnv USE_COMPOSITE
+# volume, mute, etc.
+UnSetEnv USE_MEDIA_KEYS
+# should be similar amongst machines
+SetEnv CDROM_DEVICE cdrom0
+SetEnv DVD_DEVICE cdrom0
+# take screenshots of windows periodically and use them as the icon image
+SetEnv USE_SCREENSHOT_THUMBS
+
+Read local.fvwm
+
+
+################################################################################
 # GENERAL CONFIGURATION FILES
 ################################################################################
 
 # these define the base configuration, global options, general functions, etc.
 # there may be dependencies, but they're confined to this group, and generally follow this order
-
-# host-specific settings
-Read host.fvwm
 
 # this sets environment variables, desktop names, focus policy, global styles (Style * ...), etc.
 Read globalfeel.fvwm
