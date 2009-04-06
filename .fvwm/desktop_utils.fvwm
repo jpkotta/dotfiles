@@ -617,6 +617,7 @@ DestroyModuleConfig DesktopMiniPager: *
 ################################################################################
 
 # transparency with a hint of blue
+SetEnv DesktopTerminalsOptions
 Test (EnvIsSet USE_COMPOSITE) \
     SetEnv DesktopTerminalsOptions "-depth 32 -bg rgba:0200/0000/1000/f400"
 

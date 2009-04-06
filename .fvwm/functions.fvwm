@@ -28,6 +28,7 @@ DestroyFunc StartEditor
 AddToFunc StartEditor
 + I Exec $HOME/bin/editor $*
 
+SetEnv TerminalOptions
 Test (EnvIsSet USE_COMPOSITE) \
     SetEnv TerminalOptions "-depth 32 -bg rgba:0200/0000/1000/f400"
 
