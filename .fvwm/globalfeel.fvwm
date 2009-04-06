@@ -52,52 +52,47 @@ DesktopName -1 hidden
 SetEnv LAST_DESKTOP 3
 
 
-################################################################################
+########################################################################
+# NAMED IDs
+########################################################################
+
+# this is a machine to generate unique IDs
+# $0 is a variable name to keep track of the next ID
+# $1 is a variable name for the next ID
+# this was originally written to make symbolic names for ColorSets
+# see below for examples
+DestroyFunc AddUniqueId
+AddToFunc AddUniqueId
++ I Test (!EnvMatch $0 "?*") SetEnv $0 1 # initialize the index the first time
++ I Test (EnvMatch $1 "?*") Break # exit if var has non-null value
++ I UnSetEnv $1
++ I PipeRead 'echo SetEnv $1 $[$0]'
++ I PipeRead 'echo SetEnv $0 $(( $[$0] + 1 ))'
+
+
 # COLORSETS 
-################################################################################
-
-CleanupColorsets
-
 # easy way to uniquely number colorsets
 #   fvwm allocates enough memory for all colorsets between 0 and N, 
 #   where N is the highest number used to name a colorset
 #   using this function guarantees that the lowest possible number is used
 # note that FvwmForm uses colorset 0 for its widgets
-Test (Init) SetEnv NextColorset 1
 DestroyFunc AddColorset
 AddToFunc AddColorset
-+ I PipeRead 'if [ -n "\$\$0" ] ; then echo Break ; fi'
-+ I UnSetEnv $0
-+ I PipeRead 'echo SetEnv $0 $[NextColorset]'
-+ I PipeRead 'echo SetEnv NextColorset $(( $[NextColorset] + 1 ))'
++ I AddUniqueId NextColorSetId $0
+
+CleanupColorsets
 
 
-################################################################################
 # SCHEDULE IDS
-################################################################################
-
-# easy way to number unique schedule ids
-Test (Init) SetEnv NextSchedId 1
 DestroyFunc AddSchedId
 AddToFunc AddSchedId
-+ I PipeRead 'if [ -n "\$\$0" ] ; then echo Break ; fi'
-+ I UnSetEnv $0
-+ I PipeRead 'echo SetEnv $0 $[NextSchedId]'
-+ I PipeRead 'echo SetEnv NextSchedId $(( $[NextSchedId] + 1 ))'
++ I AddUniqueId NextSchedId $0
 
 
-################################################################################
 # STATES
-################################################################################
-
-# easy way to number unique states
-Test (Init) SetEnv NextState 1
 DestroyFunc AddState
 AddToFunc AddState
-+ I PipeRead 'if [ -n "\$\$0" ] ; then echo Break ; fi'
-+ I UnSetEnv $0
-+ I PipeRead 'echo SetEnv $0 $[NextState]'
-+ I PipeRead 'echo SetEnv NextState $(( $[NextState] + 1 ))'
++ I AddUniqueId NextStateId $0
 
 
 ################################################################################
