@@ -1,8 +1,23 @@
-# /etc/skel/.bash_profile:
-# $Header: /home/cvsroot/gentoo-src/rc-scripts/etc/skel/.bash_profile,v 1.10 2002/11/18 19:39:22 azarah Exp $
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
 
-#This file is sourced by bash when you log in interactively.
-[ -f ~/.bashrc ] && . ~/.bashrc
+# the default umask is set in /etc/profile
+#umask 022
 
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+    fi
+fi
 
-fortune
+# set PATH so it includes user's private bin if it exists
+if [ -d ~/bin ] ; then
+    PATH=~/bin:"${PATH}"
+fi
+
+[ -x "$(which fortune)" ] && fortune
