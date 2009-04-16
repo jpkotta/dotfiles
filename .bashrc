@@ -351,6 +351,8 @@ alias oocalc='daemon oocalc'
 alias oowriter='daemon oowriter'
 # open my checking account spreadsheets
 alias finances="oocalc ~/doc/finances.ods"
+# password database
+alias kp="keepassx ~/.keepassx/keepass.kdb"
 
 # open the perl reference
 alias perlref="bg_wrapper $PDF_READER ~/doc/perlref-5.004.1.pdf"
@@ -404,7 +406,7 @@ function synchronize()
 {
     local PS3 cmd
     PS3="Pick a number: "
-    cmd="rsync --archive --update --verbose --delete"
+    cmd="rsync --archive --update --verbose --delete --protect-args"
 
     if [ -z "$2" ] ; then
 	echo "Usage: $0 <source> <destination>"
