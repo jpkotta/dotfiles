@@ -15,7 +15,7 @@ if ($w_id eq "w.id") {
 # get the window name from xprop
 my $name = `xprop -id $w_id WM_NAME`;
 chomp($name);
-$name =~ s/^WM_NAME\(STRING\) = //;
+$name =~ s/^WM_NAME\(.*\) = //;
 $name =~ s/^"(.*)"$/$1/; # remove initial and final quote (from xprop)
 $name =~ s/\*/**/g; # metachar for Fvwm menus
 $name =~ s/%/%%/g; # metachar for Fvwm menus
