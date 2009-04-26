@@ -151,6 +151,8 @@ SetEnv CDROM_DEVICE cdrom0
 SetEnv DVD_DEVICE cdrom0
 # take screenshots of windows periodically and use them as the icon image
 SetEnv USE_SCREENSHOT_THUMBS
+# settings for small, wide screens
+UnSetEnv USE_NETBOOK
 
 Read local.fvwm
 

@@ -260,6 +260,8 @@ MenuStyle small_menu_style VerticalItemSpacing 1 2, VerticalTitleSpacing 1 2
 # MISCELLANEOUS SETTINGS
 ################################################################################
 
+Test (EnvIsSet USE_NETBOOK) Style * TitleAtLeft
+
 Style * WindowShadeSteps 0, WindowShadeShrinks
 
 # it seems like HintOverride negates this
