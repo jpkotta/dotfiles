@@ -18,13 +18,12 @@ nitrogen --restore &
 # certain settings
 
 # add some special keys
-ubuntu_version=$(lsb_release --release | awk '{ print $2 }')
-if [ "$ubuntu_version" != "8.10" ] ; then
-    xmodmap -e "keycode 115 = Super_L"
-    xmodmap -e "keycode 116 = Super_R"
-    xmodmap -e "keycode 117 = Menu"
-    xmodmap -e "add mod4 = Super_L Super_R"
-fi
+#ubuntu_version=$(lsb_release --release | awk '{ print $2 }')
+
+# xmodmap -e "keycode 115 = Super_L"
+# xmodmap -e "keycode 116 = Super_R"
+# xmodmap -e "keycode 117 = Menu"
+# xmodmap -e "add mod4 = Super_L Super_R"
 
 xmodmap -e "remove lock = Caps_Lock"
 
