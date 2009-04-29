@@ -396,7 +396,7 @@ alias m=xmms
 alias rdp="rdesktop -K -g $RESOLUTION"
 
 # vmware has been messing with X modifier keys, so start it in Xephyr
-alias startvmware="daemon Xephyr :10 -screen 1272x993 && DISPLAY=:10 daemon vmware"
+alias startvmware="daemon Xephyr :11 -screen 1272x993 && DISPLAY=:11 daemon vmware"
 
 ################################################################################
 # FUNCTIONS 
