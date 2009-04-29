@@ -113,7 +113,7 @@ AddToMenu ScreenSaverOnMsg "Screen Saver ON" Title
 
 DestroyFunc StartScreensaver
 AddToFunc StartScreensaver
-+ I Exec exec xscreensaver
++ I Exec exec xscreensaver -no-splash
 
 DestroyFunc StopScreensaver
 AddToFunc StopScreensaver

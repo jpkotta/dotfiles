@@ -269,8 +269,11 @@ AddToFunc ShowAndAssertStateDesktopButtonsNoWarp
 # DesktopButtons
 ################################################################################
 
-# the main idea here is information display, 
-# secondary is an easily accessible place (xpostit and media player)
+# The main idea here is information display, secondary is an easily
+# accessible place (xpostit and media player).
+
+# On netbooks, the screen is narrow, so we have to reorder things a
+# bit to make it less tall and wider.
 
 DestroyModuleConfig DesktopButtons: *
 
@@ -284,7 +287,17 @@ Colorset $[BUTTONS_COLORSET]    fg blue4, bg black, hi black, sh black
 *DesktopButtons: ButtonGeometry 16x16
 *DesktopButtons: BoxSize smart
 *DesktopButtons: Columns 8
+Test (EnvIsSet USE_NETBOOK) *DesktopButtons: Columns 12
 *DesktopButtons: Colorset $[BUTTONS_COLORSET]
+
+# a nice monitor
+Test (EnvIsSet USE_NETBOOK) \
+    Test (x gkrellm) \
+    *DesktopButtons: (4x28, Frame 0, ActionIgnoresClientWindow, \
+    Action (Mouse 1) Exec killall gkrellm ; gkrellm, \
+    Swallow (NoClose, SwallowNew, UseOld) \
+    "gkrellm" "Exec exec gkrellm -geometry +1500+1500")
+# sometimes, gkrellm gets weird, hence the restart action
 
 # a nice analog clock
 # xclock resources are set in ~/.Xresources
@@ -310,7 +323,8 @@ Test (x gdeskcal) \
     "gdeskcal" "Exec exec gdeskcal --first-day=7 -x 1500 -y 1500")
 
 # a nice monitor
-Test (x gkrellm) \
+Test (!EnvIsSet USE_NETBOOK) \
+    Test (x gkrellm) \
     *DesktopButtons: (4x28, Frame 0, ActionIgnoresClientWindow, \
     Action (Mouse 1) Exec killall gkrellm ; gkrellm, \
     Swallow (NoClose, SwallowNew, UseOld) \
@@ -318,8 +332,12 @@ Test (x gkrellm) \
 # sometimes, gkrellm gets weird, hence the restart action
 
 # app launch buttons
-*DesktopButtons: (4x4, Frame 0, Icon arrows2.xpm, \
+Test (!EnvIsSet USE_NETBOOK) \
+    *DesktopButtons: (4x4, Frame 0, Icon arrows2.xpm, \
 	Action (Mouse 1) 'ToggleDesktopButtons')
+Test (EnvIsSet USE_NETBOOK) \
+    *DesktopButtons: (4x4, Frame 0, Icon wifi.png, \
+	Action (Mouse 1) 'Exec exec wicd-client -n')
 *DesktopButtons: (4x4, Frame 0, Icon pidgin.png, \
 	Action (Mouse 1) 'All (Pidgin) Raise')
 *DesktopButtons: (4x4, Frame 0, Icon sonata_play.png, \
@@ -337,7 +355,6 @@ Test (x gkrellm) \
 #Test (x xpostit) \
 #    *DesktopButtons: (4x4, Frame 8, Swallow (NoClose, SwallowNew, UseOld) "xpostit" \
 #    "Exec exec xpostit -geometry 48x48+1500+1500")
-
     
 
 ################################################################################
@@ -377,24 +394,31 @@ Mouse (DesktopButtonsMediaPlayer) 3 W N MediaPlayerNext
 # swallows media player
 # works like other desktop modules, so it hides/unhides with an EdgeCommand
 DestroyModuleConfig DesktopButtonsMediaPlayer: *
-
 *DesktopButtonsMediaPlayer: Geometry +128+-1@$[LEFT_SCREEN]
+Test (EnvIsSet USE_NETBOOK) \
+    *DesktopButtonsMediaPlayer: Geometry +192+-1@$[LEFT_SCREEN]
 *DesktopButtonsMediaPlayer: Columns 1
 *DesktopButtonsMediaPlayer: BoxSize smart
 *DesktopButtonsMediaPlayer: Colorset $[BUTTONS_COLORSET]
 
+SetEnv media_buttons_geom "844 147"
+Test (EnvIsSet USE_NETBOOK) SetEnv media_buttons_geom "704 147"
+
 # if the media player doesn't start up, middle click on the button
 # middle click is the only mouse button left, and is useless when ncmpc is running
 *DesktopButtonsMediaPlayer: \
-    (Size 844 147, Frame 0, ActionIgnoresClientWindow, \
+    (Size $[media_buttons_geom], Frame 0, ActionIgnoresClientWindow, \
     Action (Mouse 2) StartMediaPlayer, \
     Swallow (NoClose, SwallowNew, UseOld) "ncmpc*" StartMediaPlayer)
 
 ################################################
 # ncmpc setup
+SetEnv ncmpc_geom 120x11
+Test (EnvIsSet USE_NETBOOK) SetEnv ncmpc_geom 100x11
+
 DestroyFunc StartMediaPlayer
 AddToFunc StartMediaPlayer
-+ I StartTerminal -geometry 120x11 -T ncmpc -n ncmpc +sb -fn 7x13 -e sh -c "sleep 1 ; exec ncmpc"
++ I StartTerminal -geometry $[ncmpc_geom] -T ncmpc -n ncmpc +sb -fn 7x13 -e sh -c "sleep 1 ; exec ncmpc"
 
 
 ################################################################################
@@ -589,8 +613,8 @@ PipeRead "echo SetEnv SCREEN_MID_Y $(( $SCREEN_RES_Y / 2))"
 # during a restart, sometimes fvwm reads this file before finding old DesktopTerminals,
 # and it creates new ones when it shouldn't.  Schedules prevent that by giving it
 # a chance to find them
-DestroyFunc StartDesktopTerminals
-AddToFunc StartDesktopTerminals
+DestroyFunc StartDesktopDualTerminals
+AddToFunc StartDesktopDualTerminals
 + I Schedule 500 None (DesktopTerminal, CirculateHit) \
     StartDesktopTerminal --geometry 120x25-0-$[SCREEN_MID_Y] \
         -name DesktopTerminal &
@@ -598,6 +622,16 @@ AddToFunc StartDesktopTerminals
     StartDesktopTerminal --geometry 120x25-0+$[SCREEN_MID_Y] \
         -name DesktopTerminal2 &
 
+DestroyFunc StartDestopSingleTerminal
+AddToFunc StartDesktopSingleTerminal
++ I Schedule 500 None (DesktopTerminal, CirculateHit) \
+    StartDesktopTerminal -name DesktopTerminal &
++ I Style DesktopTerminal PositionPlacement -0 50-50w
+
+DestroyFunc StartDesktopTerminals
+AddToFunc StartDesktopTerminals
++ I Test (EnvIsSet USE_NETBOOK) StartDesktopSingleTerminal
++ I Test (!EnvIsSet USE_NETBOOK) StartDesktopDualTerminals
 
 ################################################################################
 #
