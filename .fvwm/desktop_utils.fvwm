@@ -386,10 +386,15 @@ AddToFunc MediaPlayerButton1
 + C MediaPlayerPrev
 + D MediaPlayerPlayPause
 
+DestroyFunc MediaPlayerButton3
+AddToFunc MediaPlayerButton3
++ C MediaPlayerNext
++ D MediaPlayerPrev
+
 Mouse (DesktopButtonsMediaPlayer) 5 W N MediaPlayerDecrVol
 Mouse (DesktopButtonsMediaPlayer) 4 W N MediaPlayerIncrVol
 Mouse (DesktopButtonsMediaPlayer) 1 W N MediaPlayerPlayPause
-Mouse (DesktopButtonsMediaPlayer) 3 W N MediaPlayerNext
+Mouse (DesktopButtonsMediaPlayer) 3 W N MediaPlayerButton3
 
 # swallows media player
 # works like other desktop modules, so it hides/unhides with an EdgeCommand
