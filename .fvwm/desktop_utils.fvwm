@@ -346,7 +346,8 @@ Test (EnvIsSet USE_NETBOOK) \
 	Action (Mouse 1) 'exec sonata')
 *DesktopButtons: (4x4, Frame 0, Icon fvwm_icon.png, \
 	Action (Mouse 1) 'StartConsole')
-*DesktopButtons: (4x4, Frame 0, Icon Jlock.xpm, \
+Test (!EnvIsSet USE_NETBOOK) \
+    *DesktopButtons: (4x4, Frame 0, Icon Jlock.xpm, \
 	Action (Mouse 1) 'LockScreen')
 *DesktopButtons: (4x4, Frame 0, Icon Monitor.xpm, \
 	Action (Mouse 1) 'ToggleScreensaver')
