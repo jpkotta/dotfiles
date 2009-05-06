@@ -237,22 +237,22 @@ AddToFunc WindowListFunc
 # NoWindow command is needed otherwise windows are focused in a strange order - not sure why
 DestroyFunc FocusNextWindow
 AddToFunc FocusNextWindow
-+ I NoWindow Next (!Desktop*, CurrentPage, !Iconic, AcceptsFocus, AnyScreen) \
++ I Next (CurrentPage, !Iconic, AcceptsFocus, AnyScreen) \
     FlipFocus NoWarp
 
 DestroyFunc FocusPrevWindow
 AddToFunc FocusPrevWindow
-+ I NoWindow Prev (!Desktop*, CurrentPage, !Iconic, AcceptsFocus, AnyScreen) \
++ I Prev (CurrentPage, !Iconic, AcceptsFocus, AnyScreen) \
     FlipFocus NoWarp
 
 DestroyFunc FocusNextWindowOnScreen
 AddToFunc FocusNextWindowOnScreen
-+ I NoWindow Next (!Desktop*, CurrentPage, AcceptsFocus) \
++ I Next (CurrentPage, AcceptsFocus) \
     FlipFocus NoWarp
 
 DestroyFunc FocusPrevWindowOnScreen
 AddToFunc FocusPrevWindowOnScreen
-+ I NoWindow Prev (!Desktop*, CurrentPage, AcceptsFocus) \
++ I Prev (CurrentPage, AcceptsFocus) \
     FlipFocus NoWarp
 
 DestroyFunc NextWindow

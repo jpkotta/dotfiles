@@ -199,6 +199,8 @@ function daemon
     (exec "$@" >&/dev/null &)
 }
 
+alias d=daemon
+
 # default editor
 alias edit="$EDITOR"
 alias E="daemon $EDITOR"
