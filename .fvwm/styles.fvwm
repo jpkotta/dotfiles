@@ -129,3 +129,12 @@ Style krusader !Closable, Sticky
 Style Xephyr* MouseFocus
 Key (Xephyr*) Super_L W A Nop
 Key (Xephyr*) Super_R W A Nop
+
+DestroyFunc OnMapVLC
+AddToFunc OnMapVLC
++ I Move -0 -0
++ I IncTranslucency
++ I IncTranslucency
+
+Test (EnvIsSet USE_NETBOOK) \
+    Style "*VLC media player" Layer 6, InitialMapCommand OnMapVLC

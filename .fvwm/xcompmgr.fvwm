@@ -30,14 +30,13 @@ AddToFunc RestartXcompmgr
 #+ I Restart
 
 # increases or decreases translucency
-# function works fine, but xcompmrg isn't ready for primetime
 DestroyFunc DecTranslucency
 AddToFunc DecTranslucency
-+ I Exec $HOME/bin/transset-df --min 0.2 --dec 0.2 --id $[w.id] >/dev/null
++ I Exec $HOME/bin/transset-df --min 0.2 --inc 0.2 --id $[w.id] >/dev/null
 
 DestroyFunc IncTranslucency
 AddToFunc IncTranslucency
-+ I Exec $HOME/bin/transset-df --min 0.2 --inc 0.2 --id $[w.id] >/dev/null
++ I Exec $HOME/bin/transset-df --min 0.2 --dec 0.2 --id $[w.id] >/dev/null
 
 
 ################################################################################

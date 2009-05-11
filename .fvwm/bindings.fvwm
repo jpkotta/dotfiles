@@ -89,8 +89,8 @@ Mouse   2       SWFT   4       IconifyOrResize
 Mouse   3       SWFT   4       TitleBinding3
 # these fade the window in and out
 # not ready for primetime
-Mouse   4       SWTF   4       IncTranslucency
-Mouse   5       SWTF   4       DecTranslucency
+Mouse   4       SWTF   4       DecTranslucency
+Mouse   5       SWTF   4       IncTranslucency
 
 ########################################
 # ANY CONTEXT 
@@ -165,8 +165,8 @@ Key     G       A       4       GotoDesk 0 -1 # the secret desk
 Key     G       A       4S      MoveToDesk 0 -1 # the secret desk
 Key     C       A       4       Menu RootMenu root c c
 Key     X       A       4       Menu WindowOps root c c
-Key     bracketleft  A  4       DecTranslucency
-Key     bracketright A  4       IncTranslucency
+Key     bracketleft  A  4       IncTranslucency
+Key     bracketright A  4       DecTranslucency
 Key     equal   A       4       Resize br w+5 w+5
 Key     minus   A       4       Resize br w-5 w-5
 Key     Print   A       4       ScreenShotRoot
