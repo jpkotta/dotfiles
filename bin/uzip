@@ -1,0 +1,24 @@
+#!/bin/sh
+
+this_script=`basename $0`
+
+if [ -z "$1" ] ; then
+    echo "Usage: $this_script <filename.zip>"
+    echo "Extracts the zip archive to a directory called 'filename' in the pwd."
+    echo "This works around the annoying tendency of creators of zip archives"
+    echo "to not put a protective subdirectory around the files in the archive."
+fi
+
+if [ ! -x `which unzip` ] ; then
+    echo "Could not find unzip!"
+    exit 1
+fi
+
+for i in "$@" ; do
+    if ! echo "$i" | grep -q "[.]zip$" ; then
+	echo "$i doesn't appear to be a zip archive."
+	continue
+    fi
+    dirname=`echo "$i" | sed 's/[.]zip$//'`
+    unzip "$i" -d "$dirname"
+done
