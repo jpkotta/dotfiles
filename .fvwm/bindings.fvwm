@@ -197,6 +197,19 @@ Test (EnvIsSet USE_MEDIA_KEYS) \
     Exec $[FVWM_SCRIPTDIR]/mixer.sh decr
 
 Test (EnvIsSet USE_MEDIA_KEYS) \
+    Key     XF86AudioPlay           A   N \
+    MediaPlayerPlayPause
+Test (EnvIsSet USE_MEDIA_KEYS) \
+    Key     XF86AudioNext           A   N \
+    MediaPlayerNext
+Test (EnvIsSet USE_MEDIA_KEYS) \
+    Key     XF86AudioPrev           A   N \
+    MediaPlayerPrev
+Test (EnvIsSet USE_MEDIA_KEYS) \
+    Key     XF86Tools               A   N \
+    Exec exec next_album
+
+Test (EnvIsSet USE_MEDIA_KEYS) \
     Key     XF86Calculator          A   N \
     StartCalculator
     
