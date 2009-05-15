@@ -74,7 +74,7 @@ PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib/pkgconfig"
 
 export EDITOR="emacs"
 export BROWSER="/usr/bin/opera -newwindow"
-export PAGER="/usr/bin/less --LONG-PROMPT"
+export PAGER="/usr/bin/less"
 
 export PDF_READER=/usr/bin/okular
 if [ ! -x "$PDF_READER" ] ; then
@@ -298,10 +298,14 @@ alias rsync='rsync -auv'
 
 ####################################
 # less is more
+
+export LESS="--LONG-PROMPT --RAW-CONTROL-CHARS"
+
 # configure less to page just about anything in a rational way
 if [ -e $(which lessfile) ] ; then
     eval $(lessfile)
 fi
+
 # _v_iewer
 function v()
 {

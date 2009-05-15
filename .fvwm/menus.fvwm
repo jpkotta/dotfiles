@@ -393,8 +393,8 @@ AddToMenu "WindowOps"
 + "(Un)Max&tall (F6)    %mini.maximize-vert1.xpm%"  PickAgain Maximize   0 100
 + "(Un)&Fullscreen (F11)%mini.maximize.xpm%"        PickAgain FullScreenToggle
 + "(Un)Maximum Maximi&ze%mini.maximize1.xpm%"       PickAgain MaximumMaximize
-+ "(Un)Shade (F12)      %mini.shade1.xpm%"          PickAgain WindowShade
-+ "(Un)Desk&Stick (F2)  %mini.stick1.xpm%"          PickAgain StickAcrossPages
++ "(Un)&Shade (F12)     %mini.shade1.xpm%"          PickAgain WindowShade
++ "(Un)DeskStic&k (F2)  %mini.stick1.xpm%"          PickAgain StickAcrossPages
 + "(Un)Stick            %mini.stick1.xpm%"          PickAgain Stick
 + "R&aise (F1)          %mini.raise2.xpm%"          PickAgain Raise           
 + "&Lower (F3)          %mini.lower2.xpm%"          PickAgain Lower
@@ -409,8 +409,8 @@ AddToMenu "WindowOps"
 + "" Nop
 + "&Close (F4)          %mini.cross.xpm%"           Close
 + "Multi Close          %mini.cross.xpm%"           MultiClose
-+ "&Destroy             %mini.bomb.xpm%"            PickAgain Destroy
-+ "X&Kill               %mini.crosbone.xpm%"        Exec xkill           
++ "Destroy              %mini.bomb.xpm%"            PickAgain Destroy
++ "XKill                %mini.crosbone.xpm%"        Exec xkill           
 + "" Nop
 + "Move to ...          %mini.move1.xpm%"           Popup WindowMove
 + "Group Move           %mini.move1.xpm%"           Popup GroupMove

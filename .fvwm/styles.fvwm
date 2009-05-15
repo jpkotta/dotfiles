@@ -60,9 +60,11 @@ Style "GQview full screen" NoTitle, !Borders, StaysOnTop
 Style "Find duplicates - GQview" StaysOnTop
 Style gqview PositionPlacement Center
 
-# needed for fullscreen mode to lose the titlebar
-#Style opera MWMDecor
-#Style opera PositionPlacement Center
+DestroyFunc OnMapOpera
+AddToFunc OnMapOpera
++ I All (opera, CurrentPage, AnyScreen, !Shaded, !Iconic) Maximize True
+
+Style opera PositionPlacement Center, InitialMapCommand OnMapOpera
 
 # scroll wheel doesn't work in mathematica (doesn't work in windows version either)
 Mouse (XMathematica) 4 W N --
