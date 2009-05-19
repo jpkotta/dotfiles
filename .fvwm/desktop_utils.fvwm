@@ -319,7 +319,7 @@ Test (x dclock) \
 
 # a nice calendar
 Test (x gdeskcal) \
-    *DesktopButtons: (8x6, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+    *DesktopButtons: (8x7, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
     "gdeskcal" "Exec exec gdeskcal --first-day=7 -x 1500 -y 1500")
 
 # a nice monitor
