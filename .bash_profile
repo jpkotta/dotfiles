@@ -11,13 +11,20 @@
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
     if [ -f ~/.bashrc ]; then
-	. ~/.bashrc
+        . ~/.bashrc
     fi
 fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d ~/bin ] ; then
     PATH=~/bin:"${PATH}"
+fi
+
+# set up ssh-agent, if it hasn't been done already
+SSH_AGENT=/usr/bin/ssh-agent
+if [ -z "$SSH_AUTH_SOCK" -a -x "$SSH_AGENT" ] ; then
+    eval $($SSH_AGENT -s)
+    trap "kill $SSH_AGENT_PID" 0
 fi
 
 [ -x "$(which fortune)" ] && fortune
