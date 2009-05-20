@@ -57,7 +57,11 @@ elif which diff3 > /dev/null 2>&1 ; then
     Restore
 fi
 
-if $EMACS $EMACS_OPTIONS --eval "(ediff-merge-with-ancestor \"$BACKUP\" \"$OTHER\" \"$BASE\" nil \"$LOCAL\")" 
+# the tool-bar-mode command works around a crazy bug
+#    --eval "(setq ediff-window-setup-function 'ediff-setup-windows-plain)" \
+if $EMACS $EMACS_OPTIONS \
+    --eval "(tool-bar-mode t)" \
+    --eval "(ediff-merge-with-ancestor \"$BACKUP\" \"$OTHER\" \"$BASE\" nil \"$LOCAL\")"
     then       
     ExitOK
 fi
@@ -66,4 +70,3 @@ echo "emacs-merge: failed to merge files"
 exit 1
 
 # End of file
-
