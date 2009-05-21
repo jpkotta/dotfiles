@@ -4,7 +4,7 @@ set -e # bail out quickly on failure
 
 # choose your emacs executable
 # e.g. EMACS=emacsclient or EMACS=xemacs
-EMACS=emacs
+EMACS=emacs-snapshot
 
 # choose your emacs options
 # e.g. EMACS_OPTIONS="-q"
@@ -57,10 +57,7 @@ elif which diff3 > /dev/null 2>&1 ; then
     Restore
 fi
 
-# the tool-bar-mode command works around a crazy bug
-#    --eval "(setq ediff-window-setup-function 'ediff-setup-windows-plain)" \
 if $EMACS $EMACS_OPTIONS \
-    --eval "(tool-bar-mode t)" \
     --eval "(ediff-merge-with-ancestor \"$BACKUP\" \"$OTHER\" \"$BASE\" nil \"$LOCAL\")"
     then       
     ExitOK
