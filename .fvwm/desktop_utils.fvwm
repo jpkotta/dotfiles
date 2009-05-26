@@ -645,8 +645,6 @@ KillModule FvwmButtons DesktopButtonsMediaPlayer
 KillModule FvwmPager DesktopPager
 KillModule FvwmPager DesktopMiniPager 
 KillModule FvwmAuto 
-#KillModule FvwmButtons DesktopTaskbar
-#KillModule FvwmIconMan DesktopIconMan
 
 
 Module FvwmButtons DesktopButtons
@@ -654,14 +652,14 @@ Module FvwmButtons DesktopButtonsMediaPlayer
 Module FvwmPager DesktopPager 0 $[LAST_DESKTOP]
 Module FvwmPager DesktopMiniPager 0 $[LAST_DESKTOP]
 Module FvwmAuto 0 -passid -menter EnterWindowHandler LeaveWindowHandler
-#Module FvwmIconMan DesktopIconMan
-#Module FvwmButtons DesktopTaskbar
-
 StartDesktopTerminals
 
-Schedule 3000 HideDesktopPager
-#Schedule 3000 HideDesktopIcons
-#Schedule 3000 HideDesktopTaskbar
-Schedule 5000 HideDesktopTerminal
-Schedule 3000 HideDesktopButtons
+DestroyFunc OnMapDesktopPager
+AddToFunc OnMapDesktopPager
++ I HideDesktopPager
++ I IncTranslucency
+
+Style DesktopPager InitialMapCommand OnMapDesktopPager
+Style DesktopTerminal* InitialMapCommand HideDesktopTerminal
+Style DesktopButtons* InitialMapCommand HideDesktopButtons
 

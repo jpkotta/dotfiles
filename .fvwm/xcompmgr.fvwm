@@ -44,12 +44,3 @@ AddToFunc IncTranslucency
 ################################################################################
 
 AddToMenu RootMisc "%mini.ray.xpm%Restart xcompmgr" RestartXcompmgr
-
-
-################################################################################
-# STARTUP
-################################################################################
-
-AddToFunc StartFunction
-#+ I Schedule 5000 All (DesktopTerminal*) DecTranslucency
-+ I Schedule 5000 All (DesktopPager) DecTranslucency
