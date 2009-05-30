@@ -10,14 +10,13 @@
 
 DestroyFunc PlaySound
 AddToFunc PlaySound
-+ I     Exec exec esdplay $* >/dev/null 2>&1 
-#+ I     Exec exec artsplay $* >/dev/null 2>&1 
++ I Exec exec aplay $* >/dev/null 2>/dev/null 
 
 # play sounds for various events
 DestroyModuleConfig FvwmEventSound
 *FvwmEventSound: Cmd PlaySound
 *FvwmEventSound: StartDelay 3
-*FvwmEventSound: Delay 1
+*FvwmEventSound: Delay 0
 
 *FvwmEventSound: startup        "$[FVWM_SOUNDDIR]/gong.wav"
 #*FvwmEventSound: add_window     "$[FVWM_SOUNDDIR]/wipe.wav"
