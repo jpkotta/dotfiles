@@ -113,7 +113,7 @@ Style "Buddy List" \
     FixedPosition, FixedSize, \
     CirculateSkip, WindowListSkip, \
     Sticky, !Iconifiable, \
-    !FPGrabFocus, !FPFocusByProgram
+    NeverFocus
 Style pidgin Sticky, !FPGrabFocus, !FPFocusByProgram
 
 Style Tremulous !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
