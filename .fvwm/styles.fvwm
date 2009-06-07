@@ -137,6 +137,8 @@ AddToFunc OnMapVLC
 + I Move -0 -0
 + I IncTranslucency
 + I IncTranslucency
++ I IncTranslucency
++ I IncTranslucency
 
-Test (EnvIsSet USE_NETBOOK) \
-    Style "*VLC media player" Layer 6, InitialMapCommand OnMapVLC
+Style "*VLC media player" Layer 6, InitialMapCommand OnMapVLC
+Style "VLC (XVideo output)" StartsOnScreen $[LEFT_SCREEN]
