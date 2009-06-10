@@ -8,10 +8,19 @@
 #
 # See http://www-verimag.imag.fr/~moy/opendocument/
 
-prg=diff
+# try for colordiff, fallback on diff
+prg=colordiff
+if [ -z `which $prg`] ; then
+    prg=diff
+fi
 
 if [ -x /opt/csw/bin/gdiff ]; then 			# SUN/OS Solaris
     prg=/opt/csw/bin/gdiff
+fi
+
+if [ -z `which $prg`] ; then
+    echo "How can you not have diff installed?!"
+    exit 1
 fi
 
 DIFF_PROGRAM=${DIFF_PROGRAM:-$prg}
