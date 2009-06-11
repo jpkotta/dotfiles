@@ -15,8 +15,8 @@ DestroyFunc StartBrowser
 AddToFunc StartBrowser
 #+ I None (opera) Exec export XLIB_SKIP_ARGB_VISUALS=1 ; aoss opera $0
 + I None (opera) Exec export XLIB_SKIP_ARGB_VISUALS=1 ; opera $0
-#+ I TestRc (!Match) Exec opera -newwindow $0
-+ I TestRc (!Match) Exec opera -newwindow opera:blank
++ I TestRc (!Match) Exec opera -newwindow $0
+#+ I TestRc (!Match) Exec opera -newwindow opera:blank
 
 DestroyFunc StartPySol
 AddToFunc StartPySol
