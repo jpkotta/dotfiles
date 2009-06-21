@@ -39,6 +39,7 @@ AddToMenu FvwmQuitMenu
 + "Quit Fvwm"     Title
 + "&Blank Screen" BlankScreen
 + "&Lock Screen"  LockScreen
++ "S&witch Session" FastUserSwitch
 + "&Restart"      ConfirmMenuFunc Restart Restart
 + "&Quit"         ConfirmMenuFunc Quit Quit
 + "&Sleep"        ConfirmMenuFunc Sleep SleepSystem

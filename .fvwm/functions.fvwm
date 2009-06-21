@@ -151,26 +151,27 @@ AddToFunc LockScreen
 # 3 sec wait so it doesn't recieve any key presses or mouse movements
 + I Schedule 3000 Exec exec xscreensaver-command -lock
 
-# try both kdm and gdm
+DestroyFunc FastUserSwitch
+AddToFunc FastUserSwitch
++ I Exec exec kdmctl reserve
+
 DestroyFunc SleepSystem
 AddToFunc SleepSystem
-+ I Exec exec gdm-signal --suspend
++ I Echo "SleepSystem: unimplemented."
+#+ I Exec exec gdm-signal --suspend
 
 DestroyFunc HibernateSystem
 AddToFunc HibernateSystem
-+ I Exec exec gdm-signal --hibernate
++ I Echo "HibernateSystem: unimplemented."
+#+ I Exec exec gdm-signal --hibernate
 
 DestroyFunc RebootSystem
 AddToFunc RebootSystem
-+ I Exec exec gdm-signal --reboot
-+ I Exec exec kdmctl shutdown reboot trynow
-+ I Schedule 1000 Quit
++ I PipeRead '[ "`kdmctl shutdown reboot trynow`" = "ok" ] && echo Quit'
 
 DestroyFunc ShutDownSystem
 AddToFunc ShutDownSystem
-+ I Exec exec gdm-signal --halt
-+ I Exec exec kdmctl shutdown halt trynow
-+ I Schedule 1000 Quit
++ I PipeRead '[ "`kdmctl shutdown halt trynow`" = "ok" ] && echo Quit'
 
 ################################################################################
 # WINDOWSHADE + CHANGE TITLE DIRECTION
