@@ -4,6 +4,15 @@
 ! system specific settings go in ~/.Xresources.local
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! fonts
+Xft.antialias: 1
+Xft.dpi: 96
+Xft.hinting: 1
+Xft.hintstyle: hintfull
+Xft.rgba: rgb
+Xft.lcdfilter: lcddefault
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! Nedit window settings - for a cleaner, more modern look
 
 ! make the 3D-shading of widgets "flatter" if True
