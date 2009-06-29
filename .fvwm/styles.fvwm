@@ -142,3 +142,6 @@ AddToFunc OnMapVLC
 
 Style "*VLC media player" Layer 6, InitialMapCommand OnMapVLC
 Style "VLC (XVideo output)" StartsOnScreen $[LEFT_SCREEN]
+
+# OO.o floating toolbars not sticky
+Style VCLSalFrame EWMHIgnoreWindowType
