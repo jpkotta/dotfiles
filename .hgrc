@@ -1,0 +1,20 @@
+# Mercurial config
+
+[ui]
+username = Jonathan Kotta <jpkotta@packetdigital.com>
+merge = emacs-merge
+ignore = ~/.hgignore.global
+
+[defaults]
+#heads = --active
+#branches = --active
+
+[extensions]
+hgext.convert =
+hgk =
+hgext.mq =
+color =
+
+[trusted]
+# 754 is packet@storagez
+users = root, 754

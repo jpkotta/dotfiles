@@ -1,0 +1,10 @@
+syntax: glob
+
+*.o
+*.pyc
+
+# emacs lock files
+.\#*
+
+# OO.o lock files
+.~lock.*#
