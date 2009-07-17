@@ -8,9 +8,9 @@ nvclock -f -F 100
 #pactl suspend-sink alsa_output.hw_0 1
 #pkill -STOP -U $USER pulseaudio
 #sleep 1
-mpc stop
-pulseaudio --kill
-sleep 1
+# mpc stop
+# pulseaudio --kill
+# sleep 1
 
 if [ -z $DISPLAY ] ; then 
     startx $trem -- :1 -config xorg.conf.single
@@ -22,6 +22,6 @@ fi
 # unpause pulseaudio
 #pkill -CONT -U $USER pulseaudio
 #pactl suspend-sink alsa_output.hw_0 0
-pulseaudio -D
+#pulseaudio -D
 
 nvclock -f -F 20
