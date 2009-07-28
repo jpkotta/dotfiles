@@ -422,7 +422,7 @@ function synchronize()
 	break
     fi
 
-    $cmd --dry-run "$@"
+    $cmd --dry-run "$@" | less
     select resp in yes no ; do 
 	if [[ "$resp" = yes ]] ; then
 	    $cmd "$@"
