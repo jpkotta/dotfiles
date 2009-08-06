@@ -156,7 +156,7 @@ function set_terminal_title()
 }
 if [[ "$TERM" =~ "rxvt" \
     || "$TERM" =~ "xterm" ]] ; then
-    PROMPT_COMMAND='set_term_title "[${USER}@${HOSTNAME}][${PWD/$HOME/~}] "'
+    PROMPT_COMMAND='set_terminal_title "[${USER}@${HOSTNAME}][${PWD/$HOME/~}] "'
 fi
 
 ################################################################################
