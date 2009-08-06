@@ -132,16 +132,7 @@ Style Xephyr* MouseFocus
 Key (Xephyr*) Super_L W A Nop
 Key (Xephyr*) Super_R W A Nop
 
-DestroyFunc OnMapVLC
-AddToFunc OnMapVLC
-+ I Move -0 -0
-+ I IncTranslucency
-+ I IncTranslucency
-+ I IncTranslucency
-+ I IncTranslucency
-
-Style "*VLC media player" Layer 6, InitialMapCommand OnMapVLC
-Style "VLC (XVideo output)" StartsOnScreen $[LEFT_SCREEN]
+Style "*VLC media player" StartsOnScreen $[LEFT_SCREEN]
 
 # OO.o floating toolbars not sticky
 Style VCLSalFrame EWMHIgnoreWindowType
