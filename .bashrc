@@ -72,7 +72,7 @@ PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib/pkgconfig"
 ################################################################################
 # DEFAULT APPS
 
-export EDITOR="emacs"
+export EDITOR="emacs-snapshot"
 export BROWSER="/usr/bin/opera -newwindow"
 export PAGER="/usr/bin/less"
 
@@ -206,7 +206,6 @@ function daemon
 alias d=daemon
 
 # default editor
-alias edit="$EDITOR"
 alias E="daemon $EDITOR"
 
 # terminal
@@ -340,8 +339,8 @@ alias ping='ping -c 5 -A'
 alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
 # remake /dev/dsp
 alias mkdsp='sudo mknod /dev/dsp c 14 3 && sudo chmod 777 /dev/dsp'
-# open gqview
-alias gq='daemon gqview'
+# open gqview or geeqie
+alias gq='if [[ -x `which geeqie` ]] ; then daemon geeqie ; else daemon gqview ; fi'
 # start a new opera window
 alias opera='daemon opera -newwindow'
 # start a new firefox window
