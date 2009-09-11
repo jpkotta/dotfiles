@@ -16,7 +16,7 @@ AddToFunc PlaySound
 DestroyModuleConfig FvwmEventSound
 *FvwmEventSound: Cmd PlaySound
 *FvwmEventSound: StartDelay 3
-*FvwmEventSound: Delay 0
+*FvwmEventSound: Delay 1
 
 *FvwmEventSound: startup        "$[FVWM_SOUNDDIR]/gong.wav"
 #*FvwmEventSound: add_window     "$[FVWM_SOUNDDIR]/wipe.wav"
