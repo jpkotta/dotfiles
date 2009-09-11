@@ -16,9 +16,9 @@ fi
 
 for i in "$@" ; do
     if ! echo "$i" | grep -q "[.]zip$" ; then
-	echo "$i doesn't appear to be a zip archive."
-	continue
+        echo "$i doesn't appear to be a zip archive."
+        continue
     fi
-    dirname=`echo "$i" | sed 's/[.]zip$//'`
+    dirname=`basename "$i" | sed 's/[.]zip$//'`
     unzip "$i" -d "$dirname"
 done
