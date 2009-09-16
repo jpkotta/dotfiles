@@ -332,11 +332,7 @@ Test (!EnvIsSet USE_NETBOOK) \
 # sometimes, gkrellm gets weird, hence the restart action
 
 # app launch buttons
-Test (!EnvIsSet USE_NETBOOK) \
-    *DesktopButtons: (4x4, Frame 0, Icon arrows2.xpm, \
-	Action (Mouse 1) 'ToggleDesktopButtons')
-Test (EnvIsSet USE_NETBOOK) \
-    *DesktopButtons: (4x4, Frame 0, Icon wifi.png, \
+*DesktopButtons: (4x4, Frame 0, Icon wifi.png, \
 	Action (Mouse 1) 'Exec exec wicd-client -n')
 *DesktopButtons: (4x4, Frame 0, Icon pidgin.png, \
 	Action (Mouse 1) 'All (Pidgin) Raise')
