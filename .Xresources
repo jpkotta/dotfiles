@@ -43,7 +43,9 @@ nedit*XmText.background:        white
 nedit*XmTextField.background:   white
 nedit*XmList.background:        white
 
-
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Emacs
+Emacs.ToolBar: 0
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! xclock settings
