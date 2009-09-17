@@ -113,7 +113,7 @@ $if term=eterm-color
     "\e[6~": 
 
     # ctrl-backspace deletes previous word
-    "\C-W":     backward-kill-word
+    "\C-H":     backward-kill-word
     # ctrl-delete deletes next word
     "\e0d":    kill-word
 
