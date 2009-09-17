@@ -113,8 +113,7 @@ $if term=eterm-color
     "\e[6~": 
 
     # ctrl-backspace deletes previous word
-    #"\C-?":     backward-kill-word
-    "\C-w":     backward-kill-word
+    "\C-W":     backward-kill-word
     # ctrl-delete deletes next word
     "\e0d":    kill-word
 
@@ -124,7 +123,7 @@ $if term=eterm-color
     # down arrow
     "\e0A": history-search-backward
     
-    # xterm and friends have trouble with home and end
+    # home and end
     "\e[1~":    beginning-of-line
     "\e[4~":    end-of-line
 $endif
