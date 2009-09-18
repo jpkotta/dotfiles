@@ -72,7 +72,7 @@ PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib/pkgconfig"
 ################################################################################
 # DEFAULT APPS
 
-export EDITOR="emacs-snapshot"
+export EDITOR="emacsclient.emacs-snapshot -c -a ''"
 export BROWSER="/usr/bin/opera -newwindow"
 export PAGER="/usr/bin/less"
 
