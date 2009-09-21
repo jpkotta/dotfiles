@@ -132,18 +132,33 @@ prompt_jobs="$cyan\j$normal"
 prompt_time="$cyan\t$normal"
 prompt_pwd="$magenta\w$normal"
 prompt_cmd_num="$blue\#$normal"
-prompt_err_stat="$bold$?$normal"
+# prompt_err_stat="\
+# \`__lasterr=\$?; \
+# if [ \$__lasterr = 0 ] ; then \
+# echo -ne '\e[1;32m' ; \
+# else echo -ne '\e[1;31m' ; \
+# fi ; \
+# echo \$__lasterr\`$normal"
+prompt_err_stat="$cyan\`echo \$?\`$normal"
 prompt_prompt="$blue\\\$$normal"
 
 PLAIN_PROMPT='[\u@\h][\w](\j)\n\$ '
-FANCY_PROMPT="$prompt_open$prompt_time$prompt_close_open$prompt_username$prompt_at$prompt_hostname$prompt_close_open$prompt_pwd$prompt_close_open$prompt_jobs$prompt_close\n$prompt_prompt "
+FANCY_PROMPT="\
+$prompt_open$prompt_time$prompt_close_open\
+$prompt_username$prompt_at$prompt_hostname$prompt_close_open\
+$prompt_pwd$prompt_close_open\
+$prompt_jobs$prompt_close_open\
+$prompt_err_stat$prompt_close\
+\n$prompt_prompt "
 
 export PS1=$FANCY_PROMPT
 if [[ $TERM == '' ]] ; then
     export PS1=$PLAIN_PROMPT
 fi
 
-unset prompt_open prompt_close prompt_close_open prompt_username prompt_at prompt_hostname prompt_jobs prompt_time prompt_pwd prompt_cmd_num prompt_err_stat prompt_prompt
+unset prompt_open prompt_close prompt_close_open prompt_username \
+    prompt_at prompt_hostname prompt_jobs prompt_time prompt_pwd \
+    prompt_cmd_num prompt_err_stat prompt_prompt
 
 # this sets the title of the terminal window:
 # 'user@host: /present/working/directory/ [ previous_command args ]'
@@ -237,7 +252,8 @@ function cdmk() { mkdir -p "$1" ; cd "$1" ; }
 
 # list of processes matching a regex
 # ps[kK] should be modified to use pkill/pgrep
-alias psg='ps -e -o pid,ppid,user,start_time,cmd | grep -vE "grep|ps[gkK]" | grep -E'
+alias psg="ps -e -o pid,ppid,user,start_time,cmd \
+| grep -vE 'grep|ps[gkK]' | grep -E"
 function psk() { kill `psg "$@" | awk '{print $1}'` ; }
 function psK() { kill -KILL `psg "$@" | awk '{print $1}'` ; }
 # like psg, but shows different info
