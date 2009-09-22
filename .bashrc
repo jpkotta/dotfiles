@@ -44,7 +44,7 @@ for i in ~/.bash.d/* ; do
 done
 
 ################################################################################
-# PATH VARIABLES 
+# PATH VARIABLES
 
 # append PATHs idempotently
 [ -z "$PATH" ] && PATH=/bin:/usr/bin
@@ -175,7 +175,7 @@ if [[ "$TERM" =~ "rxvt" \
 fi
 
 ################################################################################
-# OTHER VARIABLES 
+# OTHER VARIABLES
 
 # optimizations
 #CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse'
@@ -202,7 +202,7 @@ export GREP_COLOR='01;32'
 
 
 ################################################################################
-# COMMAND LINE ALIASES 
+# COMMAND LINE ALIASES
 
 # appends a '&' to a command so it will run in the background
 # useful for aliases
@@ -248,7 +248,7 @@ work_dir=$HOME/w
 alias cdw="cd $work_dir"
 unset work_dir
 # mkdir and cd to it
-function cdmk() { mkdir -p "$1" ; cd "$1" ; } 
+function cdmk() { mkdir -p "$1" ; cd "$1" ; }
 
 # list of processes matching a regex
 # ps[kK] should be modified to use pkill/pgrep
@@ -283,7 +283,7 @@ function lsdir()
     for i in "$@" ; do
 	if [ -d "$i" ] ; then
 	    (
-		cd "$i" 
+		cd "$i"
 		/bin/ls --color=auto -v -d */
 	    )
 	fi
@@ -424,7 +424,7 @@ alias rdp="rdesktop -K -g $RESOLUTION"
 alias startvmware="daemon Xephyr :11 -screen 1272x993 && DISPLAY=:11 daemon vmware"
 
 ################################################################################
-# FUNCTIONS 
+# FUNCTIONS
 
 # rsync with delete and confirmation
 function synchronize()
@@ -442,7 +442,7 @@ function synchronize()
     fi
 
     $cmd --dry-run "$@" | $PAGER
-    select resp in yes no ; do 
+    select resp in yes no ; do
 	if [[ "$resp" = yes ]] ; then
 	    $cmd "$@"
 	    break
@@ -464,10 +464,10 @@ function tarball()
 # moves specified files to ~/.Trash
 # will not overwrite files that have the same name
 function trash()
-{   
+{
     local trash_dir=$HOME/.Trash
     local file
-    for file in "$@" ; do 
+    for file in "$@" ; do
         if [[ -d $file ]] ; then
             local already_trashed=$trash_dir/`basename $file`
             if [[ -n `/bin/ls -d $already_trashed*` ]] ; then
@@ -477,7 +477,7 @@ function trash()
                 continue
             fi
         fi
-        
+
         /bin/mv --verbose --backup=numbered "$file" $HOME/.Trash
     done
 }
@@ -495,7 +495,7 @@ function showcolors()
 	done
         echo -e "$line1\n$line2"
     done
-    
+
     echo ""
     echo "# Example:"
     echo "#"
@@ -515,17 +515,30 @@ function showcolors()
 
 function spell()
 {
-    local CHATTO
+    local word resp
 
-    if [ $# -ne 1 ]; then
-        echo -e "\033[1;32mUSAGE: \033[33mis word_to_check\033[0m"
+    if [ -z "$1" ]; then
+        echo "Usage: spell word1 [ word2 ... ]"
     else
-        CHATTO=$( echo $* | awk '{print $1}' )
-        shift 
+        while [ -n "$1" ] ; do
+            word=$1
+            shift
 
-        echo -e "----------------------------------------------------->\n"
-        echo $CHATTO | ispell -a -m -B |grep -v "@"
-        echo -e "----------------------------------------------------->"
+            resp=$(echo $word | ispell -a -m -B | grep -v "^[@*]")
+            if [ -z "$resp" ] ; then
+                # example:
+                # $ echo spell | ispell -a -m -B
+                # @(#) International Ispell Version 3.1.20 10/10/95, patch 1
+                # *
+                echo "'$word' is spelled correctly."
+            else
+                # example:
+                # $ echo spel | ispell -a -m -B
+                # @(#) International Ispell Version 3.1.20 10/10/95, patch 1
+                # & spel 7 0: Opel, spec, sped, spell, spelt, spew, spiel
+                resp=$(echo $resp | sed -e 's/&.*://')
+                echo "Suggestions for '$word':$resp"
+            fi
+        done
     fi
 }
-
