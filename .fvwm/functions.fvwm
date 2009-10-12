@@ -24,7 +24,7 @@ AddToFunc StartPySol
 
 DestroyFunc StartEditor
 AddToFunc StartEditor
-+ I Exec exec $EDITOR $*
++ I Exec exec $[EDITOR] $*
 
 SetEnv TerminalOptions
 Test (EnvIsSet USE_COMPOSITE) \
