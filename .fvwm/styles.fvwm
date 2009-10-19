@@ -108,6 +108,8 @@ Style "Figure11 *" StartsOnPage 1 1 1
 # java apps think they should handle focusing, but do a terrible job
 # this lets FVWM control focusing
 Style sun-awt-X11-* Lenience
+# same with Wine
+Style Wine Lenience
 
 Style "Buddy List" \
     FixedPosition, FixedSize, \
