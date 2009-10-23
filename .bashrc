@@ -25,7 +25,9 @@ set -b
 umask 0022
 
 # this stops crtl-s from freezing the terminal
-stty stop ""
+if [ "$TERM" != "dumb" ] ; then
+    stty stop ""
+fi
 
 # prevent CTRL-D from immediately logging out
 export IGNOREEOF=1
