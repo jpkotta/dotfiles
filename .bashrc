@@ -254,7 +254,7 @@ function cdmk() { mkdir -p "$1" ; cd "$1" ; }
 
 # list of processes matching a regex
 # ps[kK] should be modified to use pkill/pgrep
-alias psg="ps -e -o pid,ppid,user,start_time,cmd \
+alias psg="ps -e -o pid,ppid,user,%cpu,%mem,start_time,cmd \
 | grep -vE 'grep|ps[gkK]' | grep -E"
 function psk() { kill `psg "$@" | awk '{print $1}'` ; }
 function psK() { kill -KILL `psg "$@" | awk '{print $1}'` ; }
@@ -265,7 +265,7 @@ alias psgaux='ps auxw | grep -vE "grep|psg" | grep -E'
 alias srcgrp="grep -RE --include='*.[ch]' -n"
 
 # ls aliases
-alias ls='/bin/ls -vF --color=auto'
+alias ls='ls -vF --color=auto'
 alias l='ls'
 # long listing
 alias ll='ls -l'

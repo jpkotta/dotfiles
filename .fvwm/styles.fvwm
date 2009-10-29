@@ -96,7 +96,10 @@ Style Firefox*-bin SkipMapping, FPOverrideGrabFocus, \
 # GNUPlot
 # sometimes, you just need to plot a ton of things
 # this helps keep things organized
-Style "gplt" !FPGrabFocus, CascadePlacement, SkipMapping
+Style "gplt*" !FPGrabFocus, CascadePlacement, SkipMapping, \
+	StartsLowered, StartsOnScreen $[LEFT_SCREEN]
+Style "Gnuplot" !FPGrabFocus, CascadePlacement, SkipMapping, \
+	StartsLowered, StartsOnScreen $[LEFT_SCREEN]
 Style "Figure *" !FPGrabFocus, CascadePlacement, SkipMapping
 Style "Figure?? *" !FPGrabFocus, CascadePlacement, SkipMapping, \
 	StartsLowered, StartsOnScreen $[LEFT_SCREEN]
