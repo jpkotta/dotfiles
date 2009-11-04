@@ -240,9 +240,24 @@ alias note='$EDITOR ~/doc/notes.txt'
 # common typo, easier to type
 alias cd..='cd ..'
 alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
+function cdn()
+{
+    # do 'cd ..' N times
+    local x
+    local i
+    local s
+    local d
+    x=$(($1 * ($1 > 0))) # positive or zero
+    s=`pwd`
+    for i in `seq 1 $x` ; do
+        cd ..
+    done
+    # this is so 'cd -' works properly
+    d=`pwd`
+    cd $s
+    cd $d
+}
+alias ...='cdn'
 # go to the previous pwd
 alias prev='cd -'
 # cd to the "work directory"
