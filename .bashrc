@@ -247,6 +247,9 @@ function cdn()
     local i
     local s
     local d
+    if [ -z "$1" ] ; then 
+        return
+    fi
     x=$(($1 * ($1 > 0))) # positive or zero
     s=`pwd`
     for i in `seq 1 $x` ; do
