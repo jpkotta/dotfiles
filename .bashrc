@@ -1,18 +1,41 @@
-# .bashrc
+# JPK's .bashrc
 
-################################################################################
+########################################################################
 # NOTES
 
-# Never start a program from here that will output text.  It screws up things
-#   like ssh.  Put those in ~/.bash_profile instead.
+# Never start a program from here that will output text.  It screws up
+# things like ssh.  Put those in ~/.bash_profile instead.
 
-################################################################################
+########################################################################
+
+# for profiling
+function tic()
+{
+    start_time=`date +%s%N`
+}
+function toc()
+{
+    stop_time=`date +%s%N`
+    if [ -n "$1" ] ; then
+        echo $1
+    fi
+    echo "Elapsed time is $(( ($stop_time - $start_time)/1000000 )) ms."
+}
+
+# try to make this portable to BSD systems
+is_GNU=1
+if bash --version | grep -iq bsd ; then
+    is_GNU=0
+fi
+
+########################################################################
 
 # bash_completion has an error, that causes it to fail if you source
 # it more than once, thus we make it idempotent
-[ -n "$BASH_COMPLETION" ] \
-    || [ -f /etc/bash_completion ] \
-    && . /etc/bash_completion
+if [ -z "$BASH_COMPLETION" ] ; then
+    [ -f /etc/bash_completion ] \
+        && . /etc/bash_completion
+fi
 
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
@@ -32,7 +55,7 @@ fi
 # prevent CTRL-D from immediately logging out
 export IGNOREEOF=1
 
-################################################################################
+########################################################################
 # source other rc files
 
 if [ -e ~/.bashrc.local ] ; then
@@ -45,7 +68,7 @@ for i in ~/.bash.d/* ; do
     fi
 done
 
-################################################################################
+########################################################################
 # PATH VARIABLES
 
 # append PATHs idempotently
@@ -71,7 +94,7 @@ LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
 PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib/pkgconfig"
 
 
-################################################################################
+########################################################################
 # DEFAULT APPS
 
 export EDITOR="emacsclient.emacs-snapshot -c -a ''"
@@ -90,7 +113,7 @@ fi
 
 TERMINAL="urxvt --perl-lib ~/.urxvt-perl -pe tabbed"
 
-################################################################################
+########################################################################
 # PROMPT
 
 # color escape codes
@@ -176,7 +199,7 @@ if [[ "$TERM" =~ "rxvt" \
     PROMPT_COMMAND='set_terminal_title "[${USER}@${HOSTNAME}][${PWD/$HOME/~}] "'
 fi
 
-################################################################################
+########################################################################
 # OTHER VARIABLES
 
 # optimizations
@@ -189,21 +212,28 @@ if [ -n "$DISPLAY" ] ; then
     export RESOLUTION=`xdpyinfo | grep dimensions | awk '{ print $2 }'`
 fi
 
-################################################################################
+########################################################################
 # COLORS
 
 # set up colors for ls
-if [ ! -r ~/.dircolors ] ; then
-    dircolors --print-database > ~/.dircolors
+if [ $is_GNU = 0 ] ; then
+    DIRCOLORS=gdircolors
+else
+    DIRCOLORS=dircolors
 fi
-eval `dircolors --sh ~/.dircolors`
+if which $DIRCOLORS >&/dev/null ; then
+    if [ ! -e ~/.dircolors ] ; then
+        $DIRCOLORS --print-database > ~/.dircolors
+    fi
+    eval `$DIRCOLORS --sh ~/.dircolors`
+fi
 
 # grep color syntax is the same as for ls
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='01;32'
 
 
-################################################################################
+########################################################################
 # COMMAND LINE ALIASES
 
 # appends a '&' to a command so it will run in the background
@@ -228,8 +258,12 @@ alias E="daemon $EDITOR"
 # terminal
 alias T="daemon $TERMINAL"
 
+if ! which realpath >&/dev/null ; then
+    alias realpath="readlink -f"
+fi
+
 # source this file
-THIS_FILE=`readlink -f $BASH_SOURCE`
+THIS_FILE=`realpath $BASH_SOURCE`
 alias jpk="source $THIS_FILE"
 # edit this file
 alias aka='$EDITOR $THIS_FILE'
@@ -283,7 +317,13 @@ alias psgaux='ps auxw | grep -vE "grep|psg" | grep -E'
 alias srcgrp="grep -RE --include='*.[ch]' -n"
 
 # ls aliases
-alias ls='ls -vF --color=auto'
+# workaround for BSD
+if [ $is_GNU = 0 ] ; then
+    LS=gls
+else
+    LS=ls
+fi
+alias ls="$LS -vF --color=auto"
 alias l='ls'
 # long listing
 alias ll='ls -l'
@@ -301,17 +341,17 @@ function lsdir()
 {
     local i
     for i in "$@" ; do
-	if [ -d "$i" ] ; then
-	    (
-		cd "$i"
-		/bin/ls --color=auto -v -d */
-	    )
-	fi
+    if [ -d "$i" ] ; then
+        (
+        cd "$i"
+        ls --color=auto -v -d */
+        )
+    fi
     done
 }
 alias lsd='lsdir'
 # display 'canonical' name (guaranteed to be unique and not a symlink)
-alias lc='readlink -f'
+alias lc='realpath'
 
 # clear the screen, Ctrl-L also works
 alias cls='clear'
@@ -341,7 +381,7 @@ alias rsync='rsync -auv'
 export LESS="--LONG-PROMPT --RAW-CONTROL-CHARS"
 
 # configure less to page just about anything in a rational way
-if [ -e $(which lessfile) ] ; then
+if which lessfile >&/dev/null ; then
     eval $(lessfile)
 fi
 
@@ -349,9 +389,13 @@ fi
 function v()
 {
     if [ -d "$1" ] ; then
-	tree -C "$@" | less -r --LONG-PROMPT
+        if which tree >&/dev/null ; then
+            ls -R --color=always | less -r --LONG-PROMPT
+        else
+            tree -C "$@" | less -r --LONG-PROMPT
+        fi
     else
-	less --LONG-PROMPT "$@"
+        less --LONG-PROMPT "$@"
     fi
 }
 
@@ -360,6 +404,14 @@ alias open="kfmclient exec"
 
 # sdiff the way it was at IBM
 alias sdiff='/usr/bin/sdiff --expand-tabs --ignore-all-space --strip-trailing-cr --width=160'
+function dif()
+{
+    if which colordiff >&/dev/null ; then
+        colordiff -u "$@"
+    else
+        diff -u "$@"
+    fi
+}
 # displays global disk usage by partition, excluding supermounted devices
 alias df='df -h -x supermount'
 # displays disk usage by directory, in human readable format
@@ -376,7 +428,7 @@ alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
 # remake /dev/dsp
 alias mkdsp='sudo mknod /dev/dsp c 14 3 && sudo chmod 777 /dev/dsp'
 # open gqview or geeqie
-alias gq='if [[ -x `which geeqie` ]] ; then daemon geeqie ; else daemon gqview ; fi'
+alias gq='if which geeqie >&/dev/null ; then daemon geeqie ; else daemon gqview ; fi'
 # start a new opera window
 alias opera='daemon opera -newwindow'
 # start a new firefox window
@@ -443,7 +495,7 @@ alias rdp="rdesktop -K -g $RESOLUTION"
 # vmware has been messing with X modifier keys, so start it in Xephyr
 alias startvmware="daemon Xephyr :11 -screen 1272x993 && DISPLAY=:11 daemon vmware"
 
-################################################################################
+########################################################################
 # FUNCTIONS
 
 # rsync with delete and confirmation
@@ -562,3 +614,4 @@ function spell()
         done
     fi
 }
+
