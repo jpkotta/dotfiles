@@ -246,12 +246,12 @@ AddToFunc FocusPrevWindow
 
 DestroyFunc FocusNextWindowOnScreen
 AddToFunc FocusNextWindowOnScreen
-+ I Next (CurrentPage, AcceptsFocus) \
++ I Next (CurrentPage, !Iconic, AcceptsFocus) \
     FlipFocus NoWarp
 
 DestroyFunc FocusPrevWindowOnScreen
 AddToFunc FocusPrevWindowOnScreen
-+ I Prev (CurrentPage, AcceptsFocus) \
++ I Prev (CurrentPage, !Iconic, AcceptsFocus) \
     FlipFocus NoWarp
 
 DestroyFunc NextWindow
