@@ -319,8 +319,10 @@ Test (x dclock) \
 
 # a nice calendar
 Test (x gdeskcal) \
-    *DesktopButtons: (8x7, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
-    "gdeskcal" "Exec exec gdeskcal --first-day=7 -x 1500 -y 1500")
+    *DesktopButtons: (8x7, Frame 0, ActionIgnoresClientWindow, \
+    Action (Mouse 1) Exec killall gdeskcal ; gdeskcal --first-day=7, \
+    Swallow (NoClose, SwallowNew, UseOld) \
+    "gdeskcal" "Exec exec gdeskcal --first-day=7")
 
 # a nice monitor
 Test (!EnvIsSet USE_NETBOOK) \
