@@ -64,7 +64,8 @@ DestroyFunc OnMapOpera
 AddToFunc OnMapOpera
 + I All (opera, CurrentPage, AnyScreen, !Shaded, !Iconic) Maximize True
 
-Style opera PositionPlacement Center, InitialMapCommand OnMapOpera
+Style opera PositionPlacement Center, IgnoreRestack, \
+    InitialMapCommand OnMapOpera
 
 # scroll wheel doesn't work in mathematica (doesn't work in windows version either)
 Mouse (XMathematica) 4 W N --
