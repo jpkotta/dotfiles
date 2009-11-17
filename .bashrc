@@ -262,11 +262,14 @@ if ! which realpath >&/dev/null ; then
     alias realpath="readlink -f"
 fi
 
-# source this file
-THIS_FILE=`realpath $BASH_SOURCE`
-alias jpk="source $THIS_FILE"
-# edit this file
-alias aka='$EDITOR $THIS_FILE'
+
+if [ $TERM != "dumb" ] ; then
+    THIS_FILE=`realpath $BASH_SOURCE`
+    # source this file
+    alias jpk="source $THIS_FILE"
+    # edit this file
+    alias aka='$EDITOR $THIS_FILE'
+fi
 
 # handy notes file
 alias note='$EDITOR ~/doc/notes.txt'
@@ -314,6 +317,7 @@ function psK() { kill -KILL `psg "$@" | awk '{print $1}'` ; }
 alias psgaux='ps auxw | grep -vE "grep|psg" | grep -E'
 
 # grep
+# see also ack-grep
 alias srcgrp="grep -RE --include='*.[ch]' -n"
 
 # ls aliases
@@ -390,9 +394,9 @@ function v()
 {
     if [ -d "$1" ] ; then
         if which tree >&/dev/null ; then
-            ls -R --color=always | less -r --LONG-PROMPT
-        else
             tree -C "$@" | less -r --LONG-PROMPT
+        else
+            ls -R --color=always | less -r --LONG-PROMPT
         fi
     else
         less --LONG-PROMPT "$@"
@@ -615,3 +619,6 @@ function spell()
     fi
 }
 
+# if [ $TERM != "dumb" ] ; then
+#     fortune
+# fi
