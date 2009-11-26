@@ -432,7 +432,8 @@ alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
 # remake /dev/dsp
 alias mkdsp='sudo mknod /dev/dsp c 14 3 && sudo chmod 777 /dev/dsp'
 # open gqview or geeqie
-alias gq='if which geeqie >&/dev/null ; then daemon geeqie ; else daemon gqview ; fi'
+VIEWER=`if which geeqie >&/dev/null ; then echo geeqie ; else echo gqview ; fi`
+alias gq="daemon $VIEWER"
 # start a new opera window
 alias opera='daemon opera -newwindow'
 # start a new firefox window
