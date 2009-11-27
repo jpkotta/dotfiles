@@ -116,7 +116,7 @@ AddToFunc SSTNOnClose
 ################################################################################
 
 # an FvwmEvent to screenshot a window every time it is raised
-DestroyModuleConfig FvwmEvent FvwmEventThumbnail
+DestroyModuleConfig FvwmEventThumbnail: *
 *FvwmEventThumbnail: Cmd
 *FvwmEventThumbnail: Delay 1
 *FvwmEventThumbnail: raise_window   ScreenShotThumbnail

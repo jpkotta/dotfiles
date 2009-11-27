@@ -13,7 +13,7 @@ AddToFunc PlaySound
 + I Exec exec aplay $* >/dev/null 2>/dev/null 
 
 # play sounds for various events
-DestroyModuleConfig FvwmEventSound
+DestroyModuleConfig FvwmEventSound: *
 *FvwmEventSound: Cmd PlaySound
 *FvwmEventSound: StartDelay 3
 *FvwmEventSound: Delay 1
@@ -35,7 +35,7 @@ DestroyModuleConfig FvwmEventSound
 # FvwmAnimate
 ################################################################################
 
-DestroyModuleConfig FvwmAnimate
+DestroyModuleConfig FvwmAnimate: *
 #*FvwmAnimate: Save
 #Currently the effects are: Frame, Lines, Flip, Turn, Zoom3D, Twist, Random, and None.
 *FvwmAnimate: Effect Twist
@@ -49,7 +49,7 @@ DestroyModuleConfig FvwmAnimate
 # FvwmIdent
 ################################################################################
 
-DestroyModuleConfig FvwmIdent
+DestroyModuleConfig FvwmIdent: *
 #*FvwmIdent: Back Blue4
 #*FvwmIdent: Fore Yellow
 *FvwmIdent: Colorset $[MENU_COLORSET]
@@ -61,7 +61,7 @@ DestroyModuleConfig FvwmIdent
 # FvwmScript
 ################################################################################
 
-DestroyModuleConfig FvwmScript
+DestroyModuleConfig FvwmScript: *
 *FvwmScript: DefaultFont 'xft:Helvetica:Bold:Regular:pixelsize=12; \
     -adobe-helvetica-bold-r-*-*-12-*-*-*-*-*-*-*'
 *FvwmScript: DefaultFore black
@@ -74,7 +74,7 @@ DestroyModuleConfig FvwmScript
 # FvwmBanner
 ################################################################################
 
-DestroyModuleConfig FvwmBanner
+DestroyModuleConfig FvwmBanner: *
 *FvwmBanner: NoDecor
 *FvwmBanner: Timeout 3
 *FvwmBanner: Pixmap banner.big_bracket.png

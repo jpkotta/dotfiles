@@ -186,29 +186,34 @@ AddToFunc ResizeRaiseShadeDirection
 + C Raise
 + D shade$0
  
+DestroyFunc DefaultTitlePos
+AddToFunc DefaultTitlePos
++ I Test (EnvIsSet USE_NETBOOK) WindowStyle TitleAtLeft
++ I TestRC (NoMatch) WindowStyle TitleAtTop
+
 DestroyFunc shadeN
 AddToFunc shadeN
 + I WindowShade N
 + I ThisWindow (shaded) WindowStyle TitleAtTop
-+ I ThisWindow (!shaded) WindowStyle TitleAtTop
++ I ThisWindow (!shaded) DefaultTitlePos
  
 DestroyFunc shadeS
 AddToFunc shadeS
 + I WindowShade S
 + I ThisWindow (shaded) WindowStyle TitleAtBottom
-+ I ThisWindow (!shaded) WindowStyle TitleAtTop
++ I ThisWindow (!shaded) DefaultTitlePos
  
 DestroyFunc shadeW
 AddToFunc shadeW
 + I WindowShade W
 + I ThisWindow (shaded) WindowStyle TitleAtLeft
-+ I ThisWindow (!shaded) WindowStyle TitleAtTop
++ I ThisWindow (!shaded) DefaultTitlePos
  
 DestroyFunc shadeE
 AddToFunc shadeE
 + I WindowShade E
 + I ThisWindow (shaded) WindowStyle TitleAtRight
-+ I ThisWindow (!shaded) WindowStyle TitleAtTop
++ I ThisWindow (!shaded) DefaultTitlePos
 
 
 ################################################################################

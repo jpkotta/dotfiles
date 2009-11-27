@@ -21,7 +21,7 @@ DestroyFunc FocusPrev
 AddToFunc FocusPrev
 #+ I Echo func.context = $[func.context]
 + I None (CurrentPage, Focused, AnyScreen) \
-    Prev (CurrentPage, !Iconic, !Shaded, Visible, AnyScreen) \
+    Prev (!Desktop*, CurrentPage, !Iconic, !Shaded, Visible, AcceptsFocus, AnyScreen) \
     FlipFocus NoWarp
 
 
@@ -29,7 +29,7 @@ AddToFunc FocusPrev
 # MODULES
 ################################################################################
 
-DestroyModuleConfig FvwmEventFocus
+DestroyModuleConfig FvwmEventFocus: *
 *FvwmEventFocus: Cmd Function
 *FvwmEventFocus: new_page       FocusPrev
 *FvwmEventFocus: new_desk       FocusPrev

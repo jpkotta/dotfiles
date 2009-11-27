@@ -68,7 +68,7 @@ AddToFunc GotoDeskAndRecallPage
 # MODULES
 ################################################################################
 
-DestroyModuleConfig FvwmEventRecallPage
+DestroyModuleConfig FvwmEventRecallPage: *
 *FvwmEventRecallPage: Cmd 
 *FvwmEventRecallPage: new_desk       RememberPage
 *FvwmEventRecallPage: new_page       RememberPage
