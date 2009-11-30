@@ -132,7 +132,7 @@ DestroyModuleConfig FvwmEvent FvwmEventThumbnail
 # BINDINGS
 ################################################################################
 
-Mouse   2       R       A       ShowScreenShotMenu
+#Mouse   2       R       A       ShowScreenShotMenu
 Key     Tab     A       4       NoWindow ShowScreenShotMenu
 
 
