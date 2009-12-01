@@ -254,6 +254,7 @@ alias d=daemon
 
 # default editor
 alias E="daemon $EDITOR"
+alias EE="$EDITOR"
 
 # terminal
 alias T="daemon $TERMINAL"
