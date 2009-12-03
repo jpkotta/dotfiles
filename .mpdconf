@@ -17,3 +17,10 @@ audio_output {
 	type	"alsa"
 	name	"ALSA"
 }
+
+audio_output {
+    type    "fifo"
+    name    "fifo"
+    path    "~/.mpd/fifo"
+    format  "44100:16:1"
+}

@@ -360,35 +360,35 @@ Test (!EnvIsSet USE_NETBOOK) \
 # DesktopButtonsMediaPlayer
 ################################################################################
 
-DestroyFunc MediaPlayerDecrVol
-AddToFunc MediaPlayerDecrVol
-+ I Exec mpc --no-status volume -2
+# DestroyFunc MediaPlayerDecrVol
+# AddToFunc MediaPlayerDecrVol
+# + I Exec mpc --no-status volume -2
 
-DestroyFunc MediaPlayerIncrVol
-AddToFunc MediaPlayerIncrVol
-+ I Exec mpc --no-status volume +2
+# DestroyFunc MediaPlayerIncrVol
+# AddToFunc MediaPlayerIncrVol
+# + I Exec mpc --no-status volume +2
 
-DestroyFunc MediaPlayerPlayPause
-AddToFunc MediaPlayerPlayPause
-+ I Exec mpc --no-status toggle
+# DestroyFunc MediaPlayerPlayPause
+# AddToFunc MediaPlayerPlayPause
+# + I Exec mpc --no-status toggle
 
-DestroyFunc MediaPlayerNext
-AddToFunc MediaPlayerNext
-+ I Exec mpc --no-status next
+# DestroyFunc MediaPlayerNext
+# AddToFunc MediaPlayerNext
+# + I Exec mpc --no-status next
 
-DestroyFunc MediaPlayerPrev
-AddToFunc MediaPlayerPrev
-+ I Exec mpc --no-status prev
+# DestroyFunc MediaPlayerPrev
+# AddToFunc MediaPlayerPrev
+# + I Exec mpc --no-status prev
 
-DestroyFunc MediaPlayerButton1
-AddToFunc MediaPlayerButton1
-+ D MediaPlayerPrev
-+ C MediaPlayerPlayPause
+# DestroyFunc MediaPlayerButton1
+# AddToFunc MediaPlayerButton1
+# + D MediaPlayerPrev
+# + C MediaPlayerPlayPause
 
-Mouse (DesktopButtonsMediaPlayer) 5 W N MediaPlayerDecrVol
-Mouse (DesktopButtonsMediaPlayer) 4 W N MediaPlayerIncrVol
-Mouse (DesktopButtonsMediaPlayer) 1 W N MediaPlayerButton1
-Mouse (DesktopButtonsMediaPlayer) 3 W N MediaPlayerNext
+# Mouse (DesktopButtonsMediaPlayer) 5 W N MediaPlayerDecrVol
+# Mouse (DesktopButtonsMediaPlayer) 4 W N MediaPlayerIncrVol
+# Mouse (DesktopButtonsMediaPlayer) 1 W N MediaPlayerButton1
+# Mouse (DesktopButtonsMediaPlayer) 3 W N MediaPlayerNext
 
 # swallows media player
 # works like other desktop modules, so it hides/unhides with an EdgeCommand
@@ -412,12 +412,21 @@ Test (EnvIsSet USE_NETBOOK) SetEnv media_buttons_geom "704 147"
 
 ################################################
 # ncmpc setup
-SetEnv ncmpc_geom 120x11
-Test (EnvIsSet USE_NETBOOK) SetEnv ncmpc_geom 100x11
+# SetEnv ncmpc_geom 120x11
+# Test (EnvIsSet USE_NETBOOK) SetEnv ncmpc_geom 100x11
+
+# DestroyFunc StartMediaPlayer
+# AddToFunc StartMediaPlayer
+# + I StartTerminal -geometry $[ncmpc_geom] -T ncmpc -n ncmpc +sb -fn 7x13 -e sh -c "sleep 1 ; exec ncmpc"
+
+################################################
+# ncmpcpp setup
+SetEnv ncmpcpp_geom 120x11
+Test (EnvIsSet USE_NETBOOK) SetEnv ncmpcpp_geom 100x11
 
 DestroyFunc StartMediaPlayer
 AddToFunc StartMediaPlayer
-+ I StartTerminal -geometry $[ncmpc_geom] -T ncmpc -n ncmpc +sb -fn 7x13 -e sh -c "sleep 1 ; exec ncmpc"
++ I StartTerminal -geometry $[ncmpcpp_geom] -T ncmpc -n ncmpc +sb -fn 7x13 -e sh -c "sleep 1 ; exec ncmpcpp"
 
 
 ################################################################################
