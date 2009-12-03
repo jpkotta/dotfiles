@@ -1,0 +1,22 @@
+# See /usr/share/doc/ncmpcpp/config.gz
+
+mpd_music_dir = "/home/jpkotta/music"
+
+visualizer_fifo_path = "/home/jpkotta/.mpd/fifo"
+visualizer_type = "spectrum"
+
+selected_item_prefix = "$u"
+selected_item_suffix = "$/u"
+
+song_list_format = "{$7%a$9 - }{$6%t$9}{ ($7%b$9)}|{$8%f$9}$R{$3(%l)$9}"
+song_status_format = "{{%a - {\"%b{[%d]}\" - }}{%t}}|{%f}"
+
+#user_interface = "alternative"
+playlist_display_mode = "columns"
+browser_display_mode = "columns"
+search_engine_display_mode = "columns"
+
+autocenter_mode = "yes"
+default_space_mode = "select"
+ask_before_clearing_main_playlist = "yes"
+clock_display_seconds = "yes"
