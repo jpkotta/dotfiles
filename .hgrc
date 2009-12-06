@@ -1,7 +1,7 @@
 # Mercurial config
 
 [ui]
-username = Jonathan Kotta <jpkotta@packetdigital.com>
+#username = Jonathan Kotta <jpkotta@packetdigital.com>
 merge = emacs-merge
 ignore = ~/.hgignore.global
 
