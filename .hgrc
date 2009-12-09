@@ -2,6 +2,7 @@
 
 [ui]
 #username = Jonathan Kotta <jpkotta@packetdigital.com>
+askusername = False # use $HGUSER
 merge = emacs-merge
 ignore = ~/.hgignore.global
 
@@ -15,7 +16,11 @@ hgk =
 hgext.mq =
 color =
 hgext.graphlog = 
+hgext.schemes = 
 
 [trusted]
 # 754 is packet@storagez
 users = root, 754
+
+[schemes]
+pd = ssh://hg@storagez.packetdigital.com/repos/
