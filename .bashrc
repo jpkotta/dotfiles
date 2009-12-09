@@ -212,6 +212,9 @@ if [ -n "$DISPLAY" ] ; then
     export RESOLUTION=`xdpyinfo | grep dimensions | awk '{ print $2 }'`
 fi
 
+# used if username isn't specified
+export HGUSER=${USER}@${HOSTNAME}
+
 ########################################################################
 # COLORS
 
@@ -357,6 +360,11 @@ function lsdir()
 alias lsd='lsdir'
 # display 'canonical' name (guaranteed to be unique and not a symlink)
 alias lc='realpath'
+# display canonical name of an executable in the path
+function le()
+{
+    realpath `which $1`
+}
 
 # clear the screen, Ctrl-L also works
 alias cls='clear'
