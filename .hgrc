@@ -2,7 +2,8 @@
 
 [ui]
 #username = Jonathan Kotta <jpkotta@packetdigital.com>
-askusername = False # use $HGUSER
+# use $HGUSER
+askusername = False
 merge = emacs-merge
 ignore = ~/.hgignore.global
 
