@@ -17,6 +17,8 @@ hgext.mq =
 color =
 hgext.graphlog = 
 hgext.schemes = 
+# http://mercurial.selenic.com/wiki/CrecordExtension
+hgext.crecord = ~/.hgext/crecord
 
 [trusted]
 # 754 is packet@storagez
