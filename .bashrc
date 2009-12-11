@@ -71,28 +71,51 @@ done
 ########################################################################
 # PATH VARIABLES
 
-# append PATHs idempotently
+# these functions allow us to set the PATH idempotently
+
+function pathremove ()
+{
+        local IFS=':'
+        local NEWPATH
+        local DIR
+        local PATHVARIABLE=${2:-PATH}
+        for DIR in ${!PATHVARIABLE} ; do
+                if [ "$DIR" != "$1" ] ; then
+                  NEWPATH=${NEWPATH:+$NEWPATH:}$DIR
+                fi
+        done
+        export $PATHVARIABLE="$NEWPATH"
+}
+
+function pathprepend () 
+{
+        pathremove $1 $2
+        local PATHVARIABLE=${2:-PATH}
+        export $PATHVARIABLE="$1${!PATHVARIABLE:+:${!PATHVARIABLE}}"
+}
+
+function pathappend ()
+{
+        pathremove $1 $2
+        local PATHVARIABLE=${2:-PATH}
+        export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
+}
+
 [ -z "$PATH" ] && PATH=/bin:/usr/bin
-[ -z ${PATH##*/sbin*} ] || PATH=$PATH:/sbin
-[ -z ${PATH##*/usr/sbin*} ] || PATH=$PATH:/usr/sbin
-[ -z ${PATH##*/usr/local/bin*} ] || PATH=$PATH:/usr/local/bin
-[ -z ${PATH##*/usr/local/sbin*} ] || PATH=$PATH:/usr/local/sbin
-[ -z ${PATH##*.*} ] || PATH=$PATH:.
-[ -z ${PATH##*$HOME/bin*} ] || PATH=$PATH:$HOME/bin
-[ -z ${PATH##*$HOME/usr/local/bin*} ] || PATH=$PATH:$HOME/usr/local/bin
-[ -z ${PATH##*/usr/X11R6/bin*} ] || PATH=$PATH:/usr/X11R6/bin
-[ -z ${PATH##*/usr/games*} ] || PATH=$PATH:/usr/games
-[ -z ${PATH##*/usr/local/games*} ] || PATH=$PATH:/usr/local/games
-[ -z ${PATH##*/usr/share/games/bin*} ] || PATH=$PATH:/usr/share/games/bin
-#PATH="$PATH:.:$HOME/bin:$HOME/usr/local/bin:/usr/X11R6/bin"
-#PATH="$PATH:/usr/games:/usr/local/games:/usr/share/games/bin"
+for d in /sbin /usr/sbin /usr/local/bin /usr/local/sbin \
+    . $HOME/bin $HOME/usr/local/bin \
+    /usr/X11R6/bin \
+    /usr/games /usr/local/games /usr/share/games/bin ; do
+    pathappend $d PATH
+done
 
-#append_var 'LD_LIBRARY_PATH' ':/usr/local/lib'
-C_INCLUDE_PATH="$C_INCLUDE_PATH:/usr/local/include"
-CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:/usr/local/include"
-LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
-PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib/pkgconfig"
-
+#pathappend /usr/local/lib LD_LIBRARY_PATH
+pathappend /usr/local/include C_INCLUDE_PATH
+pathappend /usr/local/include CPLUS_INCLUDE_PATH
+pathappend /usr/local/lib LIBRARY_PATH
+pathappend /usr/lib/pkgconfig PKG_CONFIG_PATH
+pathappend /usr/local/lib/python2.6/site-packages PYTHONPATH
+pathappend /usr/lib/python2.6/site-packages PYTHONPATH
 
 ########################################################################
 # DEFAULT APPS
