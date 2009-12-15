@@ -119,9 +119,9 @@ $if term=eterm-color
 
     # non-incremental search of history based on the text between the prompt and the cursor
     # up arrow
-    "\e0B": history-search-forward
+    "\e[B": history-search-forward
     # down arrow
-    "\e0A": history-search-backward
+    "\e[A": history-search-backward
     
     # home and end
     "\e[1~":    beginning-of-line
