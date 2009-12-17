@@ -121,20 +121,10 @@ pathappend /usr/lib/python2.6/site-packages PYTHONPATH
 # DEFAULT APPS
 
 export EDITOR="emacsclient.emacs-snapshot -c -a ''"
-export BROWSER="/usr/bin/opera -newwindow"
-export PAGER="/usr/bin/less"
-
-export PDF_READER=/usr/bin/okular
-if [ ! -x "$PDF_READER" ] ; then
-    export PDF_READER=/usr/bin/kpdf
-fi
-
-# package maintainers don't understand how to keep termcaps up to date
-if [[ "$TERM" == 'rxvt-unicode' ]] ; then
-    TERM=rxvt
-fi
-
-TERMINAL="urxvt --perl-lib ~/.urxvt-perl -pe tabbed"
+export BROWSER="opera -newwindow"
+export PAGER="less"
+export PDF_READER="okular"
+export TERMINAL="urxvt --perl-lib ~/.urxvt-perl -pe tabbed"
 
 ########################################################################
 # PROMPT
@@ -217,6 +207,12 @@ function set_terminal_title()
 {
     echo -ne "\033]0;$1\007"
 }
+
+# package maintainers don't understand how to keep termcaps up to date
+if [[ "$TERM" == 'rxvt-unicode' ]] ; then
+    TERM=rxvt
+fi
+
 if [[ "$TERM" =~ "rxvt" \
     || "$TERM" =~ "xterm" ]] ; then
     PROMPT_COMMAND='set_terminal_title "[${USER}@${HOSTNAME}][${PWD/$HOME/~}] "'
