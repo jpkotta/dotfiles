@@ -109,10 +109,10 @@ URxvt.scrollWithBuffer:     1
 URxvt.saveLines:            65535
 URxvt.tripleclickwords:     1
 
-! URL highlighting                        
+! URL highlighting and clicking
 URxvt.perl-ext-common:      default,matcher
-URxvt.urlLauncher:          opera
-URxvt.colorUL:              #86a2be
+URxvt.urlLauncher:          opera-newwindow
+URxvt.matcher.rend.0:       Uline fg8
 
 ! default
 !URxvt.font:             7x13
