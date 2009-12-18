@@ -91,23 +91,28 @@ XClock*background:              black
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! urxvt settings
 !transparency: -tr -tint white -sh 50 
-URxvt.geometry:     80x25
-!URxvt.fading:       25
-!URxvt.background:   black
-URxvt.fading:	    40
-URxvt.depth:	    32
-URxvt.background:   rgba:0200/0000/1000/f000
-URxvt.fadeColor:    rgba:0200/0000/1000/f000
-!URxvt.foreground:   white
-URxvt.foreground:   lavender blush
-Urxvt.colorBD:      green
-URxvt.cursorColor:  yellow
-URxvt.visualBell:   1
+URxvt.geometry:             80x25
+!URxvt.fading:               25
+!URxvt.background:           black
+URxvt.fading:	            40
+URxvt.depth:	            32
+URxvt.background:           rgba:0200/0000/1000/f000
+URxvt.fadeColor:            rgba:0200/0000/1000/f000
+!URxvt.foreground:           white
+URxvt.foreground:           lavender blush
+Urxvt.colorBD:              green
+URxvt.cursorColor:          yellow
+URxvt.visualBell:           1
 URxvt.scrollTtyOutput:      0
 URxvt.scrollTtyKeypress:    1
 URxvt.scrollWithBuffer:     1
-URxvt.saveLines:    65535
+URxvt.saveLines:            65535
 URxvt.tripleclickwords:     1
+
+! URL highlighting                        
+URxvt.perl-ext-common:      default,matcher
+URxvt.urlLauncher:          opera
+URxvt.colorUL:              #86a2be
 
 ! default
 !URxvt.font:             7x13
