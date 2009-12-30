@@ -120,7 +120,7 @@ pathappend /usr/lib/python2.6/site-packages PYTHONPATH
 ########################################################################
 # DEFAULT APPS
 
-export EDITOR="emacsclient.emacs-snapshot -c -a ''"
+export EDITOR="emacsclient -c -a ''"
 export BROWSER="opera -newwindow"
 export PAGER="less"
 export PDF_READER="okular"
