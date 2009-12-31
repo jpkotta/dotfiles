@@ -3,15 +3,14 @@
 // @author FyberOptic
 // @email fyberoptic@gmail.com
 // @namespace http://fychan.fybertech.com
-// @version 1.0.8
+// @version 1.1
 // @description Adds additional functionality to 4chan imageboards.
 // @include http://*.4chan.org/*
 // @ujs:category site: enhancements
 // @ujs:published 2006-05-31 21:45
-// @ujs:modified 2009-03-18 18:30
+// @ujs:modified 2009-10-04 00:09
 // @ujs:download http://fychan.fybertech.com/fychan.js
 // ==/UserScript==
-
 
 
 /*
@@ -240,6 +239,11 @@
 /*
  * VERSION HISTORY (incomplete)
  * 
+ * 1.1 - 2009-12-08
+ 	- Updated script to work in newest Chrome
+ * 1.0.9 - 2009-10-04
+ 	- Modified the script to be compatible with Firefox and Chrome in Greasemonkey mode
+ 	- Updated to work properly with Opera 10 (page bar was broken)
  * 1.0.8 - 2009-03-18
  	- Standard saving of preferred stylesheet functionality restored
  	- Clicking a post number to reply to it now intelligently activates Quick Reply when appropriate
@@ -297,7 +301,7 @@
 
 
 
-myFychan = {
+var myFychan = {
 
 	/*************************************************
 	* USER SETTINGS                                  *
@@ -594,6 +598,17 @@ myFychan = {
 		// Set up what to do when page retrieved
 		r.onreadystatechange = function()
 		{
+			if (r.readyState == 3)
+			{
+				//responseStream.length
+				//responseText.length
+				//[[XMLHttpRequest]].getResponseHeader("Content-Length")
+				//alert(r.responseText.length);
+				//alert(r.getResponseHeader("Content-Length"));
+				//alert(r.responseText.length);
+				
+			}
+						
 			if (r.readyState == 4)
 			{				
 				// Chop headers and footers from fetched page to only leave topic data
@@ -615,7 +630,7 @@ myFychan = {
 				fychan_loadelement.innerHTML = myFychan.BuildFychanBarInner(id);
 				
 				// Re-add thread jump buttons
-				fychan_loadelement.innerHTML += myFychan.createJumpButtons(id);
+				document.getElementById('fychannavs' + id).innerHTML = myFychan.createJumpButtons(id);
 				
 				// Update border to solid green
 				if (myFychan.config_ThreadBorders) 
@@ -694,7 +709,7 @@ myFychan = {
 				jumpbuttons += " &nbsp;-&nbsp; <a href=\"javascript:myFychan.jumpThread('" + threadNext + "',1);\" style='font-family:verdana; font-size:inherit'>Next</a>";				
 			}			
 		}
-		return "<div style='float:right; position:relative; top:-15px; right:5px'>" + jumpbuttons + "</div>";
+		return "<div style='float:right; margin-right:0.5em'>" + jumpbuttons + "</div>";
 	},
 	
 	
@@ -703,7 +718,7 @@ myFychan = {
 	{
 		// Check if target thread is hidden, and skip it accordingly
 		if (threadID != 'bottom' && threadID != 'top')
-		{			
+		{				
 			while (myFychan.threadInfoArray[threadID].hidden)
 			{			
 				threadID = (threadDIR == 0 ? myFychan.threadInfoArray[threadID].prevThread : myFychan.threadInfoArray[threadID].nextThread);
@@ -730,7 +745,7 @@ myFychan = {
 		{
 			divElement = document.createElement('div');
 			divElement.id = 'FychanReply';
-			divElement.style = 'position:fixed; left:0; top:0; background-color:inherit; border: 1px solid black;';
+			divElement.style.cssText = 'position:fixed; left:0; top:0; background-color:inherit; border: 1px solid black;';
 			document.body.appendChild(divElement);	
 		}
 	  	
@@ -780,7 +795,8 @@ myFychan = {
 		fychan_element.style.borderStyle = myFychan.threadInfoArray[threadID].previousBorderStyle;		
 		fychan_element.style.backgroundColor = 'transparent';
 		
-		fychan_loadelement.innerHTML += myFychan.createJumpButtons(threadID);
+		//fychan_loadelement.innerHTML += myFychan.createJumpButtons(threadID);
+		document.getElementById('fychannavs' + threadID).innerHTML = myFychan.createJumpButtons(threadID);
 		
 		myFychan.threadInfoArray[threadID].hidden = false;
 		
@@ -857,7 +873,7 @@ myFychan = {
 		//divstring += "</div>";
 		divstring += " &nbsp;-&nbsp; <a href=\"javascript:myFychan.addWatchlist('" + div_id + "')\" style='font-family:verdana; font-size:inherit'>Watch</a>";
 			
-		return divstring;
+		return "<div id='fychannavs" + div_id + "'></div><div>" + divstring + "</div>";
 	},
 	
 	
@@ -920,7 +936,7 @@ myFychan = {
 		var watchdiv = document.createElement('div');
 		watchdiv.setAttribute('id','fychan_watchlist');
 		document.body.style.overflow = 'hidden';
-		watchdiv.style = "border:0px solid black; padding:1em; position: fixed; left:0%; right:0%; top:0%; bottom:0%; background-color:gray; text-align:center";
+		watchdiv.style.cssText = "border:0px solid black; padding:1em; position: fixed; left:0%; right:0%; top:0%; bottom:0%; background-color:gray; text-align:center";
 		
 		var closebutton = "<button onClick='var watchdiv = document.getElementById(\"fychan_watchlist\"); watchdiv.parentNode.removeChild(watchdiv); document.body.style.overflow = \"scroll\";'>Close</button>";
 			
@@ -963,47 +979,36 @@ myFychan = {
 			var watchbar = document.getElementById('fychanload' + watchsplit[1]);			
 			if (watchbar) watchbar.style.backgroundColor = myFychan.config_id_bgcolor;
 		}
-	}
-}
-
-
-
-
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-//----------------------------- End myFychan Object ---------------------------
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-
-
-
-
-// Event triggers immediately after DOM is processed
-window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
-
-	// If not document, halt processing
-	if (!(e.event.target instanceof Document)) return; 
+	},
 	
-	// Save head element for later use
-	var headID = document.getElementsByTagName('head')[0];
+	
+	initFychan : function()
+	{
+		
+		//alert(myFychan.toString());
+
+		// Save head element for later use
+		var headID = document.getElementsByTagName('head')[0];
 	
 	// Check if user just submitted a comment to attempt redirecting to same topic
 	if (document.location.href.match("imgboard.php"))
 	{
+		
 		var metaID = headID.getElementsByTagName('meta')[0];	
-		headID.innerHTML = '';
+		////headID.innerHTML = '';
 		//metaID.parentNode.removeChild(metaID);
 		//alert(headID.outerHTML);
 		var blrnt = new Array();
 		//alert(document.body.outerHTML);
 		blrnt = document.body.innerHTML.match(/Updating page.*?thread\:(\d+?)\,no\:(\d*)/);
-		
+
 		// Check if 'Updating page' among other things is present
 		if (blrnt[0])
 		{
 			// Also check if there's a thread ID
 			if (blrnt[1])
 			{
+			
 				// Rip the url we'd normally redirect to from the META tag, and alter it with the thread ID instead
 				var redirectURL = metaID.getAttribute('CONTENT').match(/http.+?imgboard\.html/i).toString();
 				var originalredirectURL = redirectURL;
@@ -1037,7 +1042,7 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 	
 	var cssNode = document.createElement('style');
 	cssNode.type = 'text/css';	
-	cssNode.innerHTML = ' \
+	cssNode.appendChild(document.createTextNode(' \
 		#fychan_watchlist { color:white; overflow:auto} \
 		#fychan_watchlist table { border:2px solid black; border-collapse: collapse } \
 		#fychan_watchlist td { background-color: #aaaaaa; color: #4444ff; border:1px solid black; padding:0.5em; text-align: center; font-size:1.1em} \
@@ -1045,7 +1050,7 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 		#fychan_watchlist tr:first-child td { color: yellow; background-color: #222222; font-weight: bold; font-size:1.2em; } \
 		.threadIDbarclass { border:2px solid transparent; border-right-color: #333333; border-bottom-color: #333333; padding:5px; margin-bottom:0px; text-align:center; color:white; font-size:9pt; font-family:verdana; } \
 		.threadIDbarclass a { color:white; text-decoration: none; text-shadow: #000000 2px 2px 5px; } \
-	';
+	'));
 	//.fychan_thread div > a 
 	headID.appendChild(cssNode);
 
@@ -1087,7 +1092,7 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
   	{  		
   		var watchbutton = document.createElement('button');
   		watchbutton.innerHTML = "Watch List";
-  		watchbutton.style = 'font-size:8pt; font-family:verdana; margin-top:10px';
+  		watchbutton.style.cssText = 'font-size:8pt; font-family:verdana; margin-top:10px';
   		watchbutton.setAttribute('onclick','myFychan.viewWatchList()');
   		divElement.appendChild(watchbutton);
   		divElement.appendChild(document.createElement('br'));  		
@@ -1097,7 +1102,7 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
   	var buttonElement = document.createElement('button');
   	if (nofychan == 'true') buttonElement.innerHTML = 'Enable Fychan';
   	else buttonElement.innerHTML = "Disable Fychan";
-  	buttonElement.style = 'font-size:8pt; font-family:verdana; margin-top:10px';
+  	buttonElement.style.cssText = 'font-size:8pt; font-family:verdana; margin-top:10px';
   	buttonElement.setAttribute('onclick','myFychan.ToggleFychan()');
   	divElement.appendChild(buttonElement);
   	document.body.insertBefore(divElement,mainform.previousSibling.previousSibling);
@@ -1133,6 +1138,8 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
   	var no_ids = true;
   	 
    	
+   	var threadfrag = document.createDocumentFragment();
+   	
    	// Start looping through elements inside mainform, separate threads
 	var rows = mainform.childNodes;	
 	for( var i = 0, row, lastrow = null; row = rows[i]; i++ )
@@ -1148,7 +1155,8 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 			
 			// Create a new div to house thread
 			var newElement = document.createElement('div');
-			// Assign div id
+			
+			// Assign div id			
 			if (div_id) 
 			{ 
 				newElement.id = 'fychan' + div_id; 
@@ -1167,7 +1175,7 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 			// Set border style depending on whether there are omitted posts
 			var borderstyle;
 			if (omittedposts) borderstyle = "dashed"; else borderstyle = "inset";
-			if (myFychan.config_ThreadBorders) newElement.style = "border:2px " + borderstyle + " black;";
+			if (myFychan.config_ThreadBorders) newElement.style.cssText = "border:2px " + borderstyle + " black;";
 			newElement.style.borderTopWidth = "0px";
 			newElement.style.marginLeft = newElement.style.marginRight = "5px";
 			newElement.style.marginBottom = "2em";
@@ -1196,7 +1204,7 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 			threadIDbar.setAttribute('class','threadIDbarclass');			
 			threadIDbar.style.backgroundColor = id_bgcolor;
 			threadIDbar.innerHTML = myFychan.BuildFychanBarInner(div_id);
-			addarray.push(threadIDbar);
+			//addarray.push(threadIDbar);
 			
 			
 			// Create inner container div for actual thread content
@@ -1229,7 +1237,14 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 			myFychan.Fychan_FixQuotes(div_id,newElement.getElementsByTagName('a'));
 			
 			// Push entire object into array, to add to page later
-			addarray.push(newElement);			
+			//addarray.push(newElement);
+			
+			
+			threadfrag.appendChild(threadIDbar);
+			threadfrag.appendChild(newElement);
+
+			// Code change no longer clones elements, so we have to modify the counter as elements are arrayed
+			//i -= postarray.length;
 
 			// Reset some stuff for next thread
 			delete postarray;
@@ -1242,8 +1257,10 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 		// If not end of thread, check if element is a child of mainform
 		else if (row.parentNode == mainform)
 		{
-			// Duplicate element
-			var cloned = row.cloneNode(true)
+			// Duplicate element			
+			var cloned = row.cloneNode(true);			
+			//var cloned = row;
+
 			// If working with a thread, push element into thread array,
 			if (!gatherrest) postarray.push(cloned);
 			// otherwise, push it to restarray for now.
@@ -1259,23 +1276,30 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 			if (row.className == 'omittedposts') omittedposts = true;
 			
 			// Find thread ID
-			if (row.id.indexOf('nothread') == 0) div_id = row.id.substr(8);
+			if (row.id.indexOf('nothread') == 0) { div_id = row.id.substr(8); }			
 			
 			//if (row.className == 'filetitle' || row.className == 'postername') cloned.innerHTML += '&nbsp;';			
+		
 		}		
 	}  	 
-  	
+
   	// If no elements to add, or no thread IDs found, we ignore this section
-  	if (addarray.length > 0 && !no_ids)
+  	if (!no_ids)
+  	//if (addarray.length > 0 && !no_ids)
   	{
   	
-  		// Totally wipe form contents
+  		var docfrag = threadfrag;
+  		//document.createDocumentFragment();
+  	
+  		// Totally wipe form contents  		
   		mainform.innerHTML = '';
+  		
  		// Append thread divs 		
- 		for (blrnt in addarray) mainform.appendChild(addarray[blrnt]);
+ 		//for (blrnt in addarray) docfrag.appendChild(addarray[blrnt]);  	
+	  	
 	  	
 	  	// Stores where to currently append rest of page elements
-	  	var appendto = mainform;  	
+	  	var appendto = docfrag; 
 	  	// Start adding rest of page back by looping through array
 	  	for (blrnt in restarray)
 	  	{
@@ -1283,15 +1307,23 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
   			//if (restarray[blrnt].nodeType == 1 && restarray[blrnt].innerHTML.indexOf('Previous') > 0)
   			if (restarray[blrnt].nodeType == 1 && restarray[blrnt].className == "pages")
   			{
+	  			mainform.appendChild(docfrag);
+	  			docfrag = document.createDocumentFragment();
+	  			appendto = docfrag;
 	  			// Change where all future tags are appended (now outside of main form)
-  				appendto = document.body;  			
+  				//appendto = document.body;  			
 	  			
   				// Repair Previous/Next bar, due to bad coding of page
-  				var buttontext = restarray[blrnt].outerHTML;	  			
-  				buttontext = buttontext.replace(/<FORM action=\"(.*?html)\" .*? method=\"get\"><\/FORM><TD><INPUT type=\"submit\" value=\"(Next|Previous)\" accesskey=\"(.)\"\><\/TD>/gi,'<TD><BUTTON onClick="javascript:document.location=\'$1\'; return true;" accesskey="$3">$2</BUTTON> </TD>');
-				buttontext = buttontext.replace(/<TD>Previous/,'<TD><button disabled>Previous</button>').replace(/<TD>Next/,'<TD><button disabled>Next</button>');
-				restarray[blrnt].innerHTML = buttontext.replace(/\<TABLE.*?\>/,'');
+  				//var buttontext = restarray[blrnt].outerHTML;
+  				//buttontext = buttontext.replace(/<FORM action=\"(.*?html)\" .*? method=\"get\"><\/FORM><TD><INPUT type=\"submit\" value=\"(Next|Previous)\" accesskey=\"(.)\"\><\/TD>/gi,'<TD><BUTTON onClick="javascript:document.location=\'$1\'; return true;" accesskey="$3">$2</BUTTON> </TD>');
+				//buttontext = buttontext.replace(/<TD>Previous/,'<TD><button disabled>Previous</button>').replace(/<TD>Next/,'<TD><button disabled>Next</button>');
+				//restarray[blrnt].innerHTML = buttontext.replace(/\<TABLE.*?\>/,'');
 				
+				var buttontext = restarray[blrnt].innerHTML;
+  				buttontext = buttontext.replace(/<FORM action=\"(.*?html)\" .*? method=\"get\"><\/FORM><TD><INPUT type=\"submit\" value=\"(Next|Previous)\" accesskey=\"(.)\"\><\/TD>/gi,'<TD><BUTTON onClick="javascript:document.location=\'$1\'; return true;" accesskey="$3">$2</BUTTON> </TD>');				
+				buttontext = buttontext.replace(/<TD>Previous/,'<TD><button disabled>Previous</button>').replace(/<TD>Next/,'<TD><button disabled>Next</button>');								
+				restarray[blrnt].innerHTML = buttontext;
+								
 				// Add extra page nav bar to top of page
 				var extranav = restarray[blrnt].cloneNode(true);
 				extranav.setAttribute('align','center');
@@ -1301,7 +1333,7 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
   			// Append page element
   			appendto.appendChild(restarray[blrnt]);
   		}  	
-	  	
+	  	document.body.appendChild(docfrag);
 	  	
   		// Now that we have all the thread IDs, add Next/Prev buttons to thread bars.
   		// Also fill in next/prev links in threadInfoArray (added to skip hidden threads).
@@ -1314,8 +1346,11 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 									
 				if (prevthread > 0) myFychan.threadInfoArray[prevthread].nextThread = tID;
 			
-				var cthread = document.getElementById('fychanload' + tID);
-				cthread.innerHTML += myFychan.createJumpButtons(tID);			
+				//var cthread = document.getElementById('fychanload' + tID);
+				//cthread.innerHTML += myFychan.createJumpButtons(tID);
+				
+				var cthread = document.getElementById('fychannavs' + tID);
+				if (cthread) cthread.innerHTML = myFychan.createJumpButtons(tID);				
 			
 				myFychan.threadInfoArray[tID].prevThread = prevthread;
 				prevthread = tID;
@@ -1338,7 +1373,7 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 	var finishTime = new Date();
 	
 	var speeddiv = document.createElement('div');
-	speeddiv.style='font-size:8pt; font-family:verdana; text-align:center';
+	speeddiv.style.cssText = 'font-size:8pt; font-family:verdana; text-align:center';
 	speeddiv.appendChild(document.createElement('br'));
 	speeddiv.appendChild(document.createTextNode("HEADER RENDER TIME: " + (startTime - initialStartTime) + "ms"));
 	speeddiv.appendChild(document.createElement('br'));
@@ -1351,9 +1386,70 @@ window.opera.addEventListener('AfterEvent.DOMContentLoaded', function(e) {
 	speeddiv.appendChild(document.createTextNode("HIDDEN THREAD LIST SIZE: " + (myFychan.hiddenlist.length / 1000) + "kb"));	
 	speeddiv.appendChild(document.createElement('br'));
 	document.getElementById('fychan_buttons').insertBefore(speeddiv,document.getElementById('fychan_buttons').lastChild);
-	
+	}
+};
 
-// End of addEventListener
-}, false);
+
+
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//----------------------------- End myFychan Object ---------------------------
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+
+(function(){
+
+
+	if (window.opera)
+	{
+		document.addEventListener('DOMContentLoaded', function(e) {
+			myFychan.initFychan();
+		}, false);
+	}
+	else 
+	{
+		
+		/*if (document.location.href.match("imgboard.php"))
+		{
+			//var dochead = document.getElementsByTagName('head')[0];
+			//alert(dochead.innerHTML);
+			myFychan.initFychan();
+		}*/
+		if (document.getElementById('fychanscript') == null)
+		{
+			
+			var mystring = '';
+			for (property in myFychan)
+			{	
+				//alert("Name: " + property + " Type: " + typeof(myFychan[property]) + " Source: " + myFychan[property].toString());
+				
+				var thistype = typeof(myFychan[property]);
+				var thisstring = myFychan[property].toString();
+				
+				if (thistype == "boolean" || thistype == "number") mystring += property + " : " + thisstring + ",\n";
+				else if (thistype == "string") mystring += property + " : '" + thisstring + "',\n";
+				else if (thistype == "object") mystring += property + " : [" + thisstring + "],\n";
+				else if (thistype == "function") mystring += property + " : " + thisstring + ",\n";
+				else alert("UNKNOWN TYPE: " + thistype);
+				
+			}
+			//alert("var myFychan = {\n" + mystring + "endvar : true\n};");
+			var chanscript = document.createElement('script');
+			chanscript.setAttribute("type", "text/javascript");
+			chanscript.setAttribute("id","fychanscript");
+			chanscript.appendChild(document.createTextNode("myFychan = {\n" + mystring + "endvar : true\n};\n myFychan.initFychan();"));		
+			
+			//document.body.appendChild(chanscript);
+			var dochead = document.getElementsByTagName('head')[0];
+			if (dochead) dochead.appendChild(chanscript);			
+			
+		}
+		
+		
+		
+	}
+
+})();
 
 
