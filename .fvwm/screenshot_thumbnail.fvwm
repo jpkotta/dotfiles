@@ -108,7 +108,7 @@ AddToFunc PeriodicThumbnail
 DestroyFunc SSTNOnClose
 AddToFunc SSTNOnClose
 + I Schedule 5000 Exec exec /bin/rm -f $[SCREENSHOT_ICONDIR]/$[w.id].png $[SCREENSHOT_ICONDIR]/$[w.id]_big.png
-+ I RearrangeIcons
++ I NoWindow RearrangeIcons
 
 
 ################################################################################
