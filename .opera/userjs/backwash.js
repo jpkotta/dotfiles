@@ -7,8 +7,8 @@
 // @ujs:download http://files.sector-5.net/4chan-backwash.js
 // ==/UserScript==
 
-
-if (window.location.href.search('^http://[^\.]+\.4chan.org/[^\.]') != -1) {
+if (window.location.href.search('^http://[^\.]+\.4chan.org/[^\.]') != -1
+   && (window.location.href.search('^http://images\.4chan\.org/[^\.]') == -1)) {
 	
 	// Pack everything into an anonymous function block to avoid functions and 
 	// variables from leaking out.
