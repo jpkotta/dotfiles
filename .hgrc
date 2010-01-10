@@ -20,6 +20,8 @@ hgext.graphlog =
 hgext.schemes = 
 # http://mercurial.selenic.com/wiki/CrecordExtension
 hgext.crecord = ~/.hgext/crecord
+# http://mercurial.selenic.com/wiki/ShelveExtension
+hgext.hgshelve = ~/.hgext/hgshelve.py
 
 [trusted]
 # 754 is packet@storagez
