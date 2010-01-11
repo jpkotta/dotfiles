@@ -22,6 +22,8 @@ hgext.schemes =
 hgext.crecord = ~/.hgext/crecord
 # http://mercurial.selenic.com/wiki/ShelveExtension
 hgext.hgshelve = ~/.hgext/hgshelve.py
+# http://bitbucket.org/durin42/hgsubversion/wiki/Home
+hgext.hgsubversion = ~/.hgext/hgsubversion
 
 [trusted]
 # 754 is packet@storagez
