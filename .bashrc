@@ -531,29 +531,65 @@ alias startvmware="daemon Xephyr :11 -screen 1272x993 && DISPLAY=:11 daemon vmwa
 ########################################################################
 # FUNCTIONS
 
+# show the contents of some bash object, where object is a variable,
+# function, or alias.
+function show()
+{
+    local usage name
+    name="show"
+    usage="Usage: $name <type> <obj>\n\
+  type may be one of 'var', 'func', 'alias'\n\
+  obj is some object that has been defined in the shell\n\
+E.g. 'foo=blah ; $name var foo'\n\
+  prints 'blah'\n\
+E.g. '$name func $name'\n\
+  prints the definition of this function"
+
+    if [ -n "$3" -o -z "$2" ] ; then
+        echo -e $usage
+        return 1
+    fi
+
+    case "$1" in
+        "func")
+            declare -f "$2"
+            ;;
+        "var")
+            echo "$2=${!2}"
+            ;;
+        "alias")
+            alias "$2"
+            ;;
+        *)
+            echo -e $usage
+            return 1
+            ;;
+    esac
+}
+
 # rsync with delete and confirmation
 function synchronize()
 {
-    local PS3 cmd
+    local PS3 cmd name
+    name="synchronize"
     PS3="Pick a number: "
     cmd="rsync --archive --update --verbose --delete --protect-args"
 
     if [ -z "$2" ] ; then
-	echo "Usage: $0 <source> <destination>"
-	echo "Uses rsync to synchronize destination with source."
-	echo "Shows you what will happen before doing anything."
-	#exit 1
-	break
+        echo "Usage: $name <source> <destination>"
+        echo "Uses rsync to synchronize destination with source."
+        echo "Shows you what will happen before doing anything."
+        return 1
     fi
 
     $cmd --dry-run "$@" | $PAGER
     select resp in yes no ; do
-	if [[ "$resp" = yes ]] ; then
-	    $cmd "$@"
-	    break
-	elif [[ "$resp" = no ]] ; then
-	    break
-	fi
+        if [[ "$resp" = yes ]] ; then
+            $cmd "$@"
+            return $?
+        elif [[ "$resp" = no ]] ; then
+            return 1
+        fi
     done
 }
 
