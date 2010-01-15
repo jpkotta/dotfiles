@@ -198,7 +198,6 @@ AddToFunc HideDesktopTerminal
 # this seems like an intuitive place to get rid of it
 + I Any (CirculateHit, DesktopPager, !Shaded) CursorMove 0p 5p
 + I HideDesktopPager
-#+ I WindowId root WarpToWindow 50 50
 
 DestroyFunc HideDesktopButtons
 AddToFunc HideDesktopButtons
@@ -607,16 +606,22 @@ DestroyModuleConfig DesktopMiniPager: *
 # DesktopTerminals
 ################################################################################
 
-# transparency with a hint of blue
-SetEnv DesktopTerminalsOptions
+SetEnv DesktopTerminalsOptions "+sb"
+#SetEnv DesktopTerminalsOptions "+sb -pe tabbed"
+
+# background color is slight transparency with a hint of blue
 Test (EnvIsSet USE_COMPOSITE) \
-    SetEnv DesktopTerminalsOptions "-depth 32 -bg rgba:0200/0000/1000/f400"
+    SetEnv DesktopTerminalsOptions \
+        "$[DesktopTerminalsOptions] -depth 32 -bg rgba:0200/0000/1000/f400"
+
+# use a larger geometry on large screens
+Test (!EnvIsSet USE_NETBOOK) \
+    SetEnv DesktopTerminalsOptions \
+        "$[DesktopTerminalsOptions] -geometry 120x25"
 
 DestroyFunc StartDesktopTerminal
 AddToFunc StartDesktopTerminal
-+ I Exec exec urxvt +sb $[DesktopTerminalsOptions] $*
-
-PipeRead "echo SetEnv SCREEN_MID_Y $(( $SCREEN_RES_Y / 2))"
++ I Exec exec urxvt $[DesktopTerminalsOptions] $*
 
 # during a restart, sometimes fvwm reads this file before finding old DesktopTerminals,
 # and it creates new ones when it shouldn't.  Schedules prevent that by giving it
@@ -624,11 +629,11 @@ PipeRead "echo SetEnv SCREEN_MID_Y $(( $SCREEN_RES_Y / 2))"
 DestroyFunc StartDesktopDualTerminals
 AddToFunc StartDesktopDualTerminals
 + I Schedule 500 None (DesktopTerminal, CirculateHit) \
-    StartDesktopTerminal --geometry 120x25-0-$[SCREEN_MID_Y] \
-        -name DesktopTerminal &
+    StartDesktopTerminal -name DesktopTerminal &
++ I Style DesktopTerminal PositionPlacement -0 50-100w
 + I Schedule 500 None (DesktopTerminal2, CirculateHit) \
-    StartDesktopTerminal --geometry 120x25-0+$[SCREEN_MID_Y] \
-        -name DesktopTerminal2 &
+    StartDesktopTerminal -name DesktopTerminal2 &
++ I Style DesktopTerminal2 PositionPlacement -0 -50+100w
 
 DestroyFunc StartDestopSingleTerminal
 AddToFunc StartDesktopSingleTerminal
