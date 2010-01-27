@@ -17,6 +17,6 @@ browser_display_mode = "columns"
 search_engine_display_mode = "columns"
 
 autocenter_mode = "yes"
-default_space_mode = "select"
+default_space_mode = "add"
 ask_before_clearing_main_playlist = "yes"
 clock_display_seconds = "yes"
