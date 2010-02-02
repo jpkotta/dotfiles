@@ -7,10 +7,6 @@ askusername = False
 merge = emacs-merge
 ignore = ~/.hgignore.global
 
-[defaults]
-#heads = --active
-#branches = --active
-
 [extensions]
 hgext.convert =
 hgk =
