@@ -252,7 +252,7 @@ fi
 
 # grep color syntax is the same as for ls
 export GREP_OPTIONS='--color=auto'
-export GREP_COLOR='01;32'
+export GREP_COLOR='01;32' # bold green
 
 
 ########################################################################
