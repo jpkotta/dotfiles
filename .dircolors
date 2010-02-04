@@ -31,6 +31,7 @@ TERM screen-w
 TERM vt100
 TERM Eterm
 TERM rxvt-unicode
+TERM eterm-color
 
 # Below are the color init strings for the basic file types. A color init
 # string consists of one or more of the following numeric codes:
@@ -79,6 +80,8 @@ EXEC 01;32
 .deb 01;31
 .rpm 01;31
 .jar 01;31
+.7z  01;31
+.rar 01;31
 
 # image formats
 .jpg 01;35
@@ -103,8 +106,17 @@ EXEC 01;32
 .dl 01;35
 .xcf 01;35
 .xwd 01;35
+.ogm 01;35
+.wmv 01;35
+.flv 01;35
+.mkv 01;35
+.swf 01;35
+.mp4 01;35
 
 # audio formats
 .ogg 01;35
 .mp3 01;35
 .wav 01;35
+.flac 01;35
+.m4a 01;35
+.wma 01;35
