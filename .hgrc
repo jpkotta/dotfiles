@@ -14,10 +14,16 @@ hgext.mq =
 color =
 hgext.graphlog = 
 hgext.schemes = 
+
 # http://mercurial.selenic.com/wiki/CrecordExtension
 hgext.crecord = ~/.hgext/crecord
+
 # http://mercurial.selenic.com/wiki/ShelveExtension
 hgext.hgshelve = ~/.hgext/hgshelve.py
+
+#http://hg-git.github.com/
+hggit = 
+hgext.bookmarks = 
 
 # http://bitbucket.org/durin42/hgsubversion/wiki/Home
 # requires python-subversion
