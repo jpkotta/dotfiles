@@ -36,3 +36,6 @@ users = root, 754
 
 [schemes]
 pd = ssh://hg@storagez.packetdigital.com/repos/
+
+[merge-tools]
+emacs-merge.binary = False
