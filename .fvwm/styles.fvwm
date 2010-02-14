@@ -94,6 +94,10 @@ Style Firefox*-bin SkipMapping, FPOverrideGrabFocus, \
 	!UsePPosition, !UseTransientPPosition, \
 	!FPGrabFocus, !FPGrabFocusTransient
 
+Style google-chrome SkipMapping, FPOverrideGrabFocus, \
+	!UsePPosition, !UseTransientPPosition, \
+	!FPGrabFocus, !FPGrabFocusTransient, !FPFocusByProgram
+
 # GNUPlot
 # sometimes, you just need to plot a ton of things
 # this helps keep things organized
