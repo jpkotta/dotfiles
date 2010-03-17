@@ -122,7 +122,8 @@ if ($commit_partial) {
     close PATCH;
 
     run([split(/ /,$vc{diff}), @ARGV], '>>', $patch);
-    system($ENV{VISUAL} || $ENV{EDITOR} || 'vi', $patch);
+    # split in case EDITOR is something like "editor -option"
+    system(split(/\s+/, $ENV{VISUAL} || $ENV{EDITOR} || "vi"), $patch);
 
     $message = '';
     open PATCH, '<', $patch or die "couldn't read $patch: $!\n";
