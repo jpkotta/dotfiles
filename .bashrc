@@ -392,6 +392,23 @@ alias clc='clear'
 alias ln='/bin/ln -sni'
 # a kinder, safer rm
 alias rm='/bin/rm -i'
+function rm-rf()
+{
+    echo "Delete these files?"
+    ls -dFv --color=auto "$@"
+    PS3="Please enter a number: "
+    select resp in y n ; do
+        if [ "$resp" = "y" ] ; then
+            rm -rf "$@"
+            break
+        elif [ "$resp" = "n" ] ; then
+            echo "Cancel."
+            break
+        else
+            echo "Invalid choice."
+        fi
+    done
+}
 # deletes backup files
 alias rmbck='/bin/rm -f ./*.bck ./.*.bck ./*?~ ./.*?~'
 # remove all data from file, or create an empty file
