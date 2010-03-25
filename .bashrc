@@ -64,7 +64,7 @@ fi
 
 for i in ~/.bash.d/* ; do
     if [ -r "$i" ] ; then
-	source "$i"
+        source "$i"
     fi
 done
 
@@ -79,30 +79,27 @@ done
 
 function pathremove ()
 {
-        local IFS=':'
-        local NEWPATH
-        local DIR
-        local PATHVARIABLE=${2:-PATH}
-        for DIR in ${!PATHVARIABLE} ; do
-                if [ "$DIR" != "$1" ] ; then
-                  NEWPATH=${NEWPATH:+$NEWPATH:}$DIR
-                fi
-        done
-        export $PATHVARIABLE="$NEWPATH"
+    local IFS=':' NEWPATH DIR PATHVARIABLE=${2:-PATH}
+    for DIR in ${!PATHVARIABLE} ; do
+        if [ "$DIR" != "$1" ] ; then
+            NEWPATH=${NEWPATH:+$NEWPATH:}$DIR
+        fi
+    done
+    export $PATHVARIABLE="$NEWPATH"
 }
 
 function pathprepend () 
 {
-        pathremove $1 $2
-        local PATHVARIABLE=${2:-PATH}
-        export $PATHVARIABLE="$1${!PATHVARIABLE:+:${!PATHVARIABLE}}"
+    pathremove $1 $2
+    local PATHVARIABLE=${2:-PATH}
+    export $PATHVARIABLE="$1${!PATHVARIABLE:+:${!PATHVARIABLE}}"
 }
 
 function pathappend ()
 {
-        pathremove $1 $2
-        local PATHVARIABLE=${2:-PATH}
-        export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
+    pathremove $1 $2
+    local PATHVARIABLE=${2:-PATH}
+    export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
 }
 
 [ -z "$PATH" ] && PATH=/bin:/usr/bin
@@ -307,10 +304,7 @@ alias ..='cd ..'
 function cdn()
 {
     # do 'cd ..' N times
-    local x
-    local i
-    local s
-    local d
+    local x i s d
     if [ -z "$1" ] ; then 
         return
     fi
@@ -627,13 +621,13 @@ function tarball()
 # will not overwrite files that have the same name
 function trash()
 {
-    local trash_dir=$HOME/.Trash
-    local file
+    local trash_dir file already_trashed count
+    trash_dir=$HOME/.Trash
     for file in "$@" ; do
         if [[ -d $file ]] ; then
-            local already_trashed=$trash_dir/`basename $file`
+            already_trashed=$trash_dir/`basename $file`
             if [[ -n `/bin/ls -d $already_trashed*` ]] ; then
-                local count=`/bin/ls -d $already_trashed* | /usr/bin/wc -l`
+                count=`/bin/ls -d $already_trashed* | /usr/bin/wc -l`
                 count=$((++count))
                 /bin/mv --verbose "$file" "$trash_dir/$file$count"
                 continue
@@ -654,7 +648,7 @@ function showcolors()
         for back in 40 41 42 43 44 45 46 47; do
             line1="${line1}${esc}${back};${fore}m Normal  ${esc}0m"
             line2="${line2}${esc}${back};${fore};1m Bold    ${esc}0m"
-	done
+        done
         echo -e "$line1\n$line2"
     done
 

@@ -1,5 +1,9 @@
 syntax: glob
 
+# for commit-patch
+non_committed.patch.*
+working.patch.*
+
 *.o
 *.pyc
 
