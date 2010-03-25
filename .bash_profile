@@ -20,11 +20,15 @@ if [ -d ~/bin ] ; then
     PATH=~/bin:"${PATH}"
 fi
 
-# set up ssh-agent, if it hasn't been done already
-SSH_AGENT=/usr/bin/ssh-agent
-if [ -z "$SSH_AUTH_SOCK" -a -x "$SSH_AGENT" ] ; then
-    eval $($SSH_AGENT -s)
-    trap "kill $SSH_AGENT_PID" 0
-fi
+# # set up ssh-agent, if it hasn't been done already
+# SSH_AGENT=/usr/bin/ssh-agent
+# if [ -z "$SSH_AUTH_SOCK" -a -x "$SSH_AGENT" ] ; then
+#     eval $($SSH_AGENT -s)
+#     trap "kill $SSH_AGENT_PID" 0
+# fi
+
+# keychain manages ssh-agents
+which keychain >&/dev/null \
+    && keychain
 
 [ -x "$(which fortune)" ] && fortune

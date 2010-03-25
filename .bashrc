@@ -68,6 +68,10 @@ for i in ~/.bash.d/* ; do
     fi
 done
 
+# keychain keeps track of ssh-agents
+[ -f $HOME/.keychain/$HOSTNAME-sh ] \
+    && . $HOME/.keychain/$HOSTNAME-sh
+
 ########################################################################
 # PATH VARIABLES
 
