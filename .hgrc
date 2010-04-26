@@ -36,6 +36,7 @@ users = root, 754
 
 [schemes]
 pd = ssh://hg@storagez.packetdigital.com/repos/
+pdsvn = svn+ssh://kotta@svn.packetdigital.com/zone/subversion/
 
 [merge-tools]
 emacs-merge.binary = False
