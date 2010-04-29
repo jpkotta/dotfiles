@@ -9,7 +9,7 @@ EMACS=emacs-snapshot
 # choose your emacs options
 # e.g. EMACS_OPTIONS="-q"
 # note there will be an --eval option to invoke ediff mode
-EMACS_OPTIONS=""
+EMACS_OPTIONS="--debug-init"
 
 LOCAL="$1"
 BASE="$2"
