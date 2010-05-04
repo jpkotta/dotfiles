@@ -62,7 +62,7 @@ Style gqview PositionPlacement Center
 
 DestroyFunc OnMapOpera
 AddToFunc OnMapOpera
-+ I All (opera, CurrentPage, AnyScreen, !Shaded, !Iconic) Maximize True
++ I All (Opera, CurrentPage, AnyScreen, !Shaded, !Iconic) Maximize True
 
 Style opera PositionPlacement Center, IgnoreRestack, \
     InitialMapCommand OnMapOpera
