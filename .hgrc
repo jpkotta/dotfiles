@@ -30,6 +30,9 @@ hgext.bookmarks =
 hgext.hgsubversion = ~/.hgext/hgsubversion
 rebase = 
 
+# localbranches like git
+hgext.localbranch = ~/.hgext/localbranch.py
+        
 [trusted]
 # 754 is packet@storagez
 users = root, 754

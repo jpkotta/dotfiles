@@ -322,9 +322,9 @@ alias ...='cdn'
 # go to the previous pwd
 alias prev='cd -'
 # cd to the "work directory"
-work_dir=$HOME/w
-alias cdw="cd $work_dir"
-unset work_dir
+alias cdw="cd $HOME/w"
+# cd to the source directory
+alias cds="cd $HOME/src"
 # mkdir and cd to it
 function cdmk() { mkdir -p "$1" ; cd "$1" ; }
 
