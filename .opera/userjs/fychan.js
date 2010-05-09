@@ -3,12 +3,12 @@
 // @author FyberOptic
 // @email fyberoptic@gmail.com
 // @namespace http://fychan.fybertech.com
-// @version 1.1
+// @version 1.1.1b
 // @description Adds additional functionality to 4chan imageboards.
 // @include http://*.4chan.org/*
 // @ujs:category site: enhancements
 // @ujs:published 2006-05-31 21:45
-// @ujs:modified 2009-10-04 00:09
+// @ujs:modified 2010-02-04 19:35
 // @ujs:download http://fychan.fybertech.com/fychan.js
 // ==/UserScript==
 
@@ -239,6 +239,13 @@
 /*
  * VERSION HISTORY (incomplete)
  * 
+ * 1.1.1b - 2010-02-04
+ 	- Fixed the return-to-thread feature, after 4chan recently changed its URL scheme
+ * 1.1.1a - 2009-12-24
+ 	- Removed a couple of debug alerts
+ * 1.1.1 - 2009-12-22
+ 	- Fixed page navigation bar after 4chan updated its code
+	- Fixed return-to-thread functionality after 4chan updated its code 	
  * 1.1 - 2009-12-08
  	- Updated script to work in newest Chrome
  * 1.0.9 - 2009-10-04
@@ -991,7 +998,7 @@ var myFychan = {
 		var headID = document.getElementsByTagName('head')[0];
 	
 	// Check if user just submitted a comment to attempt redirecting to same topic
-	if (document.location.href.match("imgboard.php"))
+	if (document.location.href.match("/post"))
 	{
 		
 		var metaID = headID.getElementsByTagName('meta')[0];	
@@ -1000,20 +1007,23 @@ var myFychan = {
 		//alert(headID.outerHTML);
 		var blrnt = new Array();
 		//alert(document.body.outerHTML);
-		blrnt = document.body.innerHTML.match(/Updating page.*?thread\:(\d+?)\,no\:(\d*)/);
-
+		blrnt = document.body.innerHTML.match(/Post successful.*?thread\:(\d+?)\,no\:(\d*)/);
+		
 		// Check if 'Updating page' among other things is present
 		if (blrnt[0])
 		{
 			// Also check if there's a thread ID
 			if (blrnt[1])
-			{
-			
+			{				
 				// Rip the url we'd normally redirect to from the META tag, and alter it with the thread ID instead
-				var redirectURL = metaID.getAttribute('CONTENT').match(/http.+?imgboard\.html/i).toString();
+				//var redirectURL = metaID.getAttribute('CONTENT').match(/http.+?imgboard\.html/i).toString();
+				var redirectURL = metaID.getAttribute('CONTENT').match(/http.*?$/i).toString();
+				//alert(redirectURL);
 				var originalredirectURL = redirectURL;
 				if (blrnt[1] == 0) blrnt[1] = blrnt[2];
-				redirectURL = redirectURL.replace('imgboard.html',"res/" + blrnt[1] + ".html#" + blrnt[2]);
+				//redirectURL = redirectURL.replace('imgboard.html',"res/" + blrnt[1] + ".html#" + blrnt[2]);
+				redirectURL = redirectURL.replace('./',"res/" + blrnt[1] + ".html#" + blrnt[2]);
+				//alert(redirectURL);
 				document.write(' ');
 
 				// Prompt to return to topic only if user setting says to
@@ -1319,8 +1329,11 @@ var myFychan = {
 				//buttontext = buttontext.replace(/<TD>Previous/,'<TD><button disabled>Previous</button>').replace(/<TD>Next/,'<TD><button disabled>Next</button>');
 				//restarray[blrnt].innerHTML = buttontext.replace(/\<TABLE.*?\>/,'');
 				
+				//<table class=pages align=left border=1><tr><td>Previous</td><td>[<b>0</b>] [<a href="1">1</a>] [<a href="2">2</a>] [<a href="3">3</a>] [<a href="4">4</a>] [<a href="5">5</a>] [<a href="6">6</a>] [<a href="7">7</a>] [<a href="8">8</a>] [<a href="9">9</a>] [<a href="10">10</a>] </td>
+				//<form action="1" onsubmit='location=this.action;return false' method=get><td><input type=submit value="Next" accesskey="x"></td></form></tr></table>
+				
 				var buttontext = restarray[blrnt].innerHTML;
-  				buttontext = buttontext.replace(/<FORM action=\"(.*?html)\" .*? method=\"get\"><\/FORM><TD><INPUT type=\"submit\" value=\"(Next|Previous)\" accesskey=\"(.)\"\><\/TD>/gi,'<TD><BUTTON onClick="javascript:document.location=\'$1\'; return true;" accesskey="$3">$2</BUTTON> </TD>');				
+  				buttontext = buttontext.replace(/<FORM action=\"(.*?)\" .*? method=\"get\"><\/FORM><TD><INPUT type=\"submit\" value=\"(Next|Previous)\" accesskey=\"(.)\"\><\/TD>/gi,'<TD><BUTTON onClick="javascript:document.location=\'$1\'; return true;" accesskey="$3">$2</BUTTON> </TD>');				
 				buttontext = buttontext.replace(/<TD>Previous/,'<TD><button disabled>Previous</button>').replace(/<TD>Next/,'<TD><button disabled>Next</button>');								
 				restarray[blrnt].innerHTML = buttontext;
 								
