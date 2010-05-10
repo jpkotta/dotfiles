@@ -143,6 +143,7 @@ Key (Xephyr*) Super_L W A Nop
 Key (Xephyr*) Super_R W A Nop
 
 Style "*VLC*" StartsOnScreen $[LEFT_SCREEN], Sticky
+Style "VLC (XVideo output)" SloppyFocus
 
 # OO.o floating toolbars not sticky
 Style VCLSalFrame EWMHIgnoreWindowType
