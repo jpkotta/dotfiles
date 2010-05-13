@@ -12,3 +12,7 @@ working.patch.*
 
 # OO.o lock files
 .~lock.*#
+
+# tags files
+TAGS
+tags
