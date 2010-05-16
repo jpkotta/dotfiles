@@ -1,8 +1,7 @@
 # Mercurial config
 
 [ui]
-#username = Jonathan Kotta <jpkotta@packetdigital.com>
-# use $HGUSER
+# use $HGUSER for username
 askusername = False
 merge = emacs-merge
 ignore = ~/.hgignore.global
@@ -21,8 +20,9 @@ hgext.crecord = ~/.hgext/crecord
 # http://mercurial.selenic.com/wiki/ShelveExtension
 hgext.hgshelve = ~/.hgext/hgshelve.py
 
-#http://hg-git.github.com/
-hggit = 
+# http://hg-git.github.com/
+# in mercurial-git package
+hgext.git =
 hgext.bookmarks = 
 
 # http://bitbucket.org/durin42/hgsubversion/wiki/Home
@@ -46,3 +46,6 @@ pdsvn = svn+ssh://kotta@svn.packetdigital.com/zone/subversion/
 
 [merge-tools]
 emacs-merge.binary = False
+
+# local settings
+%include .hgrc.local
