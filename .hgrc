@@ -31,6 +31,8 @@ hgext.hgsubversion = ~/.hgext/hgsubversion
 rebase = 
 
 # localbranches like git
+# http://mercurial.selenic.com/wiki/LocalbranchExtension
+# http://bitbucket.org/brendan/mercurial-extensions-localbranch
 hgext.localbranch = ~/.hgext/localbranch.py
 
 # combines pull, update, and merge
