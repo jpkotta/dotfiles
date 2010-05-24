@@ -4,11 +4,9 @@ import sys
 from mercurial import util as hgutil
 from mercurial import revlog
 from mercurial import node
-from svn import delta
-from svn import core
 
+import svnwrap
 import util
-
 
 def ieditor(fn):
     """Helps identify methods used by the SVN editor interface.
@@ -35,7 +33,7 @@ class RevisionData(object):
     __slots__ = [
         'file', 'files', 'deleted', 'rev', 'execfiles', 'symlinks', 'batons',
         'copies', 'missing', 'emptybranches', 'base', 'externals', 'ui',
-        'exception', 'maybeedits',
+        'exception',
     ]
 
     def __init__(self, ui):
@@ -57,7 +55,6 @@ class RevisionData(object):
         self.base = None
         self.externals = {}
         self.exception = None
-        self.maybeedits = set()
 
     def set(self, path, data, isexec=False, islink=False):
         if islink:
@@ -97,7 +94,7 @@ class RevisionData(object):
                 new = [p + f for f, k in svn.list_files(dir, r) if k == 'f']
                 files.update(new)
             else:
-                files.add(p[len(root):])
+                files.add(p)
 
         i = 1
         self.ui.note('\nfetching files...\n')
@@ -114,7 +111,7 @@ class RevisionData(object):
         self.ui.note('\n')
 
 
-class HgEditor(delta.Editor):
+class HgEditor(svnwrap.Editor):
 
     def __init__(self, meta):
         self.meta = meta
@@ -126,6 +123,9 @@ class HgEditor(delta.Editor):
     def delete_entry(self, path, revision_bogus, parent_baton, pool=None):
         br_path, branch = self.meta.split_branch_path(path)[:2]
         if br_path == '':
+            if self.meta.get_path_tag(path):
+                # Tag deletion is not handled as branched deletion
+                return
             self.meta.closebranches.add(branch)
         if br_path is not None:
             ha = self.meta.get_parent_revision(self.current.rev.revnum, branch)
@@ -164,17 +164,20 @@ class HgEditor(delta.Editor):
         if self.current.file in self.current.files:
             return
 
-        baserev = base_revision
-        if baserev is None or baserev == -1:
-            baserev = self.current.rev.revnum - 1
-        parent = self.meta.get_parent_revision(baserev + 1, branch)
-
-        ctx = self.repo[parent]
         if not self.meta.is_path_valid(path):
             return
 
+        baserev = base_revision
+        if baserev is None or baserev == -1:
+            baserev = self.current.rev.revnum - 1
+        # Use exact=True because during replacements ('R' action) we select
+        # replacing branch as parent, but svn delta editor provides delta
+        # agains replaced branch.
+        parent = self.meta.get_parent_revision(baserev + 1, branch, True)
+        ctx = self.repo[parent]
         if fpath not in ctx:
             self.current.missing.add(path)
+            return
 
         fctx = ctx.filectx(fpath)
         base = fctx.data()
@@ -193,7 +196,7 @@ class HgEditor(delta.Editor):
         if not fpath:
             return
         if (branch not in self.meta.branches and
-            not self.meta.is_path_tag(self.meta.remotename(branch))):
+            not self.meta.get_path_tag(self.meta.remotename(branch))):
             # we know this branch will exist now, because it has at least one file. Rock.
             self.meta.branches[branch] = None, 0, self.current.rev.revnum
         self.current.file = path
@@ -207,20 +210,23 @@ class HgEditor(delta.Editor):
         if not from_file:
             self.current.missing.add(path)
             return
+        # Use exact=True because during replacements ('R' action) we select
+        # replacing branch as parent, but svn delta editor provides delta
+        # agains replaced branch.
         ha = self.meta.get_parent_revision(copyfrom_revision + 1,
-                                           from_branch)
+                                           from_branch, True)
         ctx = self.repo.changectx(ha)
         if from_file in ctx:
             fctx = ctx.filectx(from_file)
             flags = fctx.flags()
             self.current.set(path, fctx.data(), 'x' in flags, 'l' in flags)
-        if from_branch == branch:
-            parentid = self.meta.get_parent_revision(self.current.rev.revnum,
-                                                     branch)
-            if parentid != revlog.nullid:
-                parentctx = self.repo.changectx(parentid)
-                if util.issamefile(parentctx, ctx, from_file):
-                    self.current.copies[path] = from_file
+            if from_branch == branch:
+                parentid = self.meta.get_parent_revision(
+                    self.current.rev.revnum, branch)
+                if parentid != revlog.nullid:
+                    parentctx = self.repo.changectx(parentid)
+                    if util.issamefile(parentctx, ctx, from_file):
+                        self.current.copies[path] = from_file
 
     @ieditor
     def add_directory(self, path, parent_baton, copyfrom_path,
@@ -234,16 +240,18 @@ class HgEditor(delta.Editor):
                 self.current.emptybranches[branch] = False
         if br_path is None or not copyfrom_path:
             return path
-        if copyfrom_path:
-            tag = self.meta.is_path_tag(copyfrom_path)
-            if tag not in self.meta.tags:
-                tag = None
-            if not self.meta.is_path_valid(copyfrom_path) and not tag:
+        if self.meta.get_path_tag(path):
+            del self.current.emptybranches[branch]
+            return path
+        tag = self.meta.get_path_tag(copyfrom_path)
+        if tag not in self.meta.tags:
+            tag = None
+            if not self.meta.is_path_valid(copyfrom_path):
                 self.current.missing.add('%s/' % path)
                 return path
         if tag:
-            ci = self.meta.repo[self.meta.tags[tag]].extra()['convert_revision']
-            source_rev, source_branch, = self.meta.parse_converted_revision(ci)
+            changeid = self.meta.tags[tag]
+            source_rev, source_branch = self.meta.get_source_rev(changeid)[:2]
             cp_f = ''
         else:
             source_rev = copyfrom_revision
@@ -252,7 +260,7 @@ class HgEditor(delta.Editor):
                 assert br_path is not None
                 tmp = source_branch, source_rev, self.current.rev.revnum
                 self.meta.branches[branch] = tmp
-        new_hash = self.meta.get_parent_revision(source_rev + 1, source_branch)
+        new_hash = self.meta.get_parent_revision(source_rev + 1, source_branch, True)
         if new_hash == node.nullid:
             self.current.missing.add('%s/' % path)
             return path
@@ -281,8 +289,7 @@ class HgEditor(delta.Editor):
                 parentctx = self.repo.changectx(parentid)
                 for k, v in copies.iteritems():
                     if util.issamefile(parentctx, cp_f_ctx, v):
-                        self.current.maybeedits.add(k)
-                        self.current.copies.update({k: v})
+                        self.current.copies[k] = v
         return path
 
     @ieditor
@@ -305,7 +312,8 @@ class HgEditor(delta.Editor):
         self.current.batons[path] = path
         p_, branch = self.meta.split_branch_path(path)[:2]
         if p_ == '' or (self.meta.layout == 'single' and p_):
-            self.current.emptybranches[branch] = False
+            if not self.meta.get_path_tag(path):
+                self.current.emptybranches[branch] = False
         return path
 
     @ieditor
@@ -328,17 +336,11 @@ class HgEditor(delta.Editor):
                 or self.current.file in self.current.missing), '%s not found' % self.current.file
         if self.current.file in self.current.missing:
             return lambda x: None
-        # If we apply a textdelta, the body of the file is going to change.
-        # There's little reason to check and see if it matches the parent, because
-        # that's extremely unlikely. If we see cases where that happens,
-        # maybe this line can go, but until then, it stays.
-        self.current.maybeedits.discard(self.current.file)
         base = self.current.files[self.current.file]
-        source = cStringIO.StringIO(base)
         target = cStringIO.StringIO()
         self.stream = target
 
-        handler, baton = delta.svn_txdelta_apply(source, target, None)
+        handler = svnwrap.apply_txdelta(base, target)
         if not callable(handler): #pragma: no cover
             raise hgutil.Abort('Error in Subversion bindings: '
                                'cannot call handler!')
@@ -346,12 +348,12 @@ class HgEditor(delta.Editor):
             try:
                 if not self.meta.is_path_valid(self.current.file):
                     return
-                handler(window, baton)
+                handler(window)
                 # window being None means commit this file
                 if not window:
                     self.current.files[self.current.file] = target.getvalue()
-            except core.SubversionException, e: #pragma: no cover
-                if e.apr_err == core.SVN_ERR_INCOMPLETE_DATA:
+            except svnwrap.SubversionException, e: #pragma: no cover
+                if e.args[1] == svnwrap.ERR_INCOMPLETE_DATA:
                     self.current.missing.add(self.current.file)
                 else: #pragma: no cover
                     raise hgutil.Abort(*e.args)

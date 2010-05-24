@@ -56,7 +56,7 @@ class AuthorMap(dict):
                 src, dst = line.split('=', 1)
             except (IndexError, ValueError):
                 msg = 'ignoring line %i in author map %s: %s\n'
-                self.ui.warn(msg % (number, path, line.rstrip()))
+                self.ui.status(msg % (number, path, line.rstrip()))
                 continue
 
             src = src.strip()
@@ -64,7 +64,7 @@ class AuthorMap(dict):
             self.ui.debug('adding author %s to author map\n' % src)
             if src in self and dst != self[src]:
                 msg = 'overriding author: "%s" to "%s" (%s)\n'
-                self.ui.warn(msg % (self[src], dst, src))
+                self.ui.status(msg % (self[src], dst, src))
             self[src] = dst
 
         f.close()
@@ -98,7 +98,10 @@ class AuthorMap(dict):
 
 
 class TagMap(dict):
+    """Map tags to converted node identifier.
 
+    tag names are non-empty strings.
+    """
     VERSION = 2
 
     @classmethod
@@ -119,10 +122,10 @@ class TagMap(dict):
         f = open(self.path)
         ver = int(f.readline())
         if ver < self.VERSION:
-            repo.ui.warn('tag map outdated, running rebuildmeta...\n')
+            repo.ui.status('tag map outdated, running rebuildmeta...\n')
             f.close()
             os.unlink(self.path)
-            svncommands.rebuildmeta(repo.ui, repo, os.path.dirname(repo.path), ())
+            svncommands.rebuildmeta(repo.ui, repo, ())
             return
         elif ver != self.VERSION:
             print 'tagmap too new -- please upgrade'
@@ -133,6 +136,8 @@ class TagMap(dict):
             tag = tag[:-1]
             if self.endrev is not None and revision > self.endrev:
                 break
+            if not tag:
+                continue
             dict.__setitem__(self, tag, node.bin(hash))
         f.close()
 
@@ -148,14 +153,17 @@ class TagMap(dict):
             self[k] = v
 
     def __contains__(self, tag):
-        return dict.__contains__(self, tag) and dict.__getitem__(self, tag) != node.nullid
+        return (tag and dict.__contains__(self, tag)
+                and dict.__getitem__(self, tag) != node.nullid)
 
     def __getitem__(self, tag):
-        if tag in self:
+        if tag and tag in self:
             return dict.__getitem__(self, tag)
         raise KeyError()
 
     def __setitem__(self, tag, info):
+        if not tag:
+            raise hgutil.Abort('tag cannot be empty')
         hash, revision = info
         f = open(self.path, 'a')
         f.write('%s %s %s\n' % (node.hex(hash), revision, tag))
@@ -259,8 +267,8 @@ class FileMap(object):
     def add(self, fn, map, path):
         mapping = getattr(self, map)
         if path in mapping:
-            msg = 'duplicate %s entry in %s: "%d"\n'
-            self.ui.warn(msg % (map, fn, path))
+            msg = 'duplicate %s entry in %s: "%s"\n'
+            self.ui.status(msg % (map, fn, path))
             return
         bits = map.strip('e'), path
         self.ui.debug('%sing %s\n' % bits)
@@ -284,3 +292,60 @@ class FileMap(object):
                 msg = 'ignoring bad line in filemap %s: %s\n'
                 self.ui.warn(msg % (fn, line.rstrip()))
         f.close()
+
+class BranchMap(dict):
+    '''Facility for controlled renaming of branch names. Example:
+
+    oldname = newname
+    other = default
+
+    All changes on the oldname branch will now be on the newname branch; all
+    changes on other will now be on default (have no branch name set).
+    '''
+
+    def __init__(self, ui, path):
+        self.ui = ui
+        self.path = path
+        self.super = super(BranchMap, self)
+        self.super.__init__()
+        self.load(path)
+
+    def load(self, path):
+        '''Load mappings from a file at the specified path.'''
+        if not os.path.exists(path):
+            return
+
+        writing = False
+        if path != self.path:
+            writing = open(self.path, 'a')
+
+        self.ui.note('reading branchmap from %s\n' % path)
+        f = open(path, 'r')
+        for number, line in enumerate(f):
+
+            if writing:
+                writing.write(line)
+
+            line = line.split('#')[0]
+            if not line.strip():
+                continue
+
+            try:
+                src, dst = line.split('=', 1)
+            except (IndexError, ValueError):
+                msg = 'ignoring line %i in branch map %s: %s\n'
+                self.ui.status(msg % (number, path, line.rstrip()))
+                continue
+
+            src = src.strip()
+            dst = dst.strip()
+            self.ui.debug('adding branch %s to branch map\n' % src)
+            if src in self and dst != self[src]:
+                msg = 'overriding branch: "%s" to "%s" (%s)\n'
+                self.ui.status(msg % (self[src], dst, src))
+            self[src] = dst
+
+        f.close()
+        if writing:
+            writing.flush()
+            writing.close()

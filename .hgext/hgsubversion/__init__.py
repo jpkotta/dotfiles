@@ -3,10 +3,10 @@
 hgsubversion is an extension for Mercurial that allows it to act as a Subversion
 client, offering fast, incremental and bidirectional synchronisation.
 
-Please note that hgsubversion should not be considered stable software. It is
-not feature complete, and neither guarantees of functionality nor future
-compatability can be offered. It is, however, quite useful for the cases where
-it works, and a good platform for further improvements.
+At this point, hgsubversion is usable by users reasonably familiar with
+Mercurial as a VCS. It's not recommended to dive into hgsubversion as an
+introduction to Mercurial, since hgsubversion "bends the rules" a little
+and violates some of the typical assumptions of early Mercurial users.
 
 Before using hgsubversion, we *strongly* encourage running the
 automated tests. See 'README' in the hgsubversion directory for
@@ -36,8 +36,6 @@ demandimport.ignore.extend([
     'svn.delta',
     'svn.ra',
     ])
-
-from svn import core
 
 import svncommands
 import util
@@ -73,12 +71,12 @@ wrapcmds = { # cmd: generic, target, fixdoc, ppopts, opts
          'file containing rules for remapping Subversion repository paths'),
         ('', 'layout', 'auto', ('import standard layout or single '
                                 'directory? Can be standard, single, or auto.')),
+        ('', 'branchmap', '', 'file containing rules for branch conversion'),
     ]),
 }
 
 def uisetup(ui):
     """insert command wrappers for a bunch of commands"""
-
     docvals = {'extension': 'hgsubversion'}
     for cmd, (generic, target, fixdoc, ppopts, opts) in wrapcmds.iteritems():
 
@@ -107,44 +105,6 @@ def uisetup(ui):
         pass
 
 
-def svn(ui, repo, subcommand, *args, **opts):
-    '''see detailed help for list of subcommands'''
-
-    # guess command if prefix
-    if subcommand not in svncommands.table:
-        candidates = []
-        for c in svncommands.table:
-            if c.startswith(subcommand):
-                candidates.append(c)
-        if len(candidates) == 1:
-            subcommand = candidates[0]
-
-    # override subversion credentials
-    for key in ('username', 'password'):
-        if key in opts:
-            ui.setconfig('hgsubversion', key, opts[key])
-
-    path = os.path.dirname(repo.path)
-    try:
-        commandfunc = svncommands.table[subcommand]
-        return commandfunc(ui, args=args, hg_repo_path=path, repo=repo, **opts)
-    except core.SubversionException, e:
-        if e.apr_err == core.SVN_ERR_RA_SERF_SSL_CERT_UNTRUSTED:
-            raise hgutil.Abort('It appears svn does not trust the ssl cert for this site.\n'
-                     'Please try running svn ls on that url first.')
-        raise
-    except TypeError:
-        tb = traceback.extract_tb(sys.exc_info()[2])
-        if len(tb) == 1:
-            ui.status('Bad arguments for subcommand %s\n' % subcommand)
-        else:
-            raise
-    except KeyError, e:
-        tb = traceback.extract_tb(sys.exc_info()[2])
-        if len(tb) == 1:
-            ui.status('Unknown subcommand %s\n' % subcommand)
-        else:
-            raise
 
 def reposetup(ui, repo):
     if repo.local():
@@ -162,9 +122,11 @@ hg.schemes.update({ 'file': _lookup, 'http': svnrepo, 'https': svnrepo,
                     'svn': svnrepo, 'svn+ssh': svnrepo, 'svn+http': svnrepo,
                     'svn+https': svnrepo})
 
+commands.optionalrepo += ' svn'
+
 cmdtable = {
     "svn":
-        (svn,
+        (svncommands.svn,
          [('u', 'svn-url', '', 'path to the Subversion server.'),
           ('', 'stupid', False, 'be stupid and use diffy replay.'),
           ('A', 'authors', '', 'username mapping filename'),
@@ -175,7 +137,7 @@ cmdtable = {
           ('', 'password', '', 'password for authentication'),
           ('r', 'rev', '', 'Mercurial revision'),
           ],
-         svncommands._helpgen(),
+         'hg svn <subcommand> ...',
          ),
 }
 

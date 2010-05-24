@@ -1,3 +1,4 @@
+import errno
 import traceback
 
 from mercurial import revlog
@@ -86,22 +87,6 @@ def convert_rev(ui, meta, svn, r, tbdelta):
         if not meta.is_path_valid(f):
             continue
         p, b = meta.split_branch_path(f)[:2]
-        # Subversion sometimes "over reports" edits from our perspective,
-        # typically when a directory is restored from some past version.
-        # This isn't something we can detect reliably until the end of
-        # the delta edit, so we have to punt this detection until here
-        # This just verifies that if the file content is identical
-        # in the parent and the to-be-committed file, we don't bother
-        # marking it in the changelog as modified in this revision.
-        if f in current.maybeedits:
-            pctx = meta.repo[meta.get_parent_revision(rev.revnum, b)]
-            if p in pctx and pctx[p].data() == current.files[f]:
-                flags = pctx[p].flags()
-                is_exec = current.execfiles.get(f, 'x' in flags)
-                is_link = current.symlinks.get(f, 'l' in flags)
-                if is_link == ('l' in flags) and is_exec == ('x' in flags):
-                    # file is wholly unchanged, we can skip it
-                    continue
         if b not in branch_batches:
             branch_batches[b] = []
         branch_batches[b].append((p, f))
@@ -114,6 +99,10 @@ def convert_rev(ui, meta, svn, r, tbdelta):
             continue
         ha = branchedits[0][1]
         closebranches[branch] = ha
+
+    extraempty = (set(tbdelta['branches'][0]) -
+                  (set(current.emptybranches) | set(branch_batches.keys())))
+    current.emptybranches.update([(x, False) for x in extraempty])
 
     # 1. handle normal commits
     closedrevs = closebranches.values()
@@ -128,12 +117,15 @@ def convert_rev(ui, meta, svn, r, tbdelta):
             continue
 
         extra = meta.genextra(rev.revnum, branch)
-        tag = False
+        tag = None
         if branch is not None:
-            tag = meta.is_path_tag(meta.remotename(branch))
-            if (not (tag and tag in meta.tags) and
-                (branch not in meta.branches
-                and branch not in meta.repo.branchtags())):
+            # New regular tag without modifications, it will be committed by
+            # svnmeta.committag(), we can skip the whole branch for now
+            tag = meta.get_path_tag(meta.remotename(branch))
+            if (tag and tag not in meta.tags
+                and branch not in meta.branches
+                and branch not in meta.repo.branchtags()
+                and not files):
                 continue
 
         parentctx = meta.repo.changectx(parents[0])
@@ -152,7 +144,7 @@ def convert_rev(ui, meta, svn, r, tbdelta):
         def filectxfn(repo, memctx, path):
             current_file = files[path]
             if current_file in current.deleted:
-                raise IOError()
+                raise IOError(errno.ENOENT, '%s is deleted' % path)
             copied = current.copies.get(current_file)
             flags = parentctx.flags(path)
             is_exec = current.execfiles.get(current_file, 'x' in flags)
@@ -171,8 +163,7 @@ def convert_rev(ui, meta, svn, r, tbdelta):
                                       islink=is_link, isexec=is_exec,
                                       copied=copied)
 
-        if not meta.usebranchnames or extra.get('branch', None) == 'default':
-            extra.pop('branch', None)
+        meta.mapbranch(extra)
         current_ctx = context.memctx(meta.repo,
                                      parents,
                                      rev.message or '...',
@@ -188,6 +179,7 @@ def convert_rev(ui, meta, svn, r, tbdelta):
             meta.revmap[rev.revnum, branch] = new_hash
         if tag:
             meta.movetag(tag, new_hash, parentctx.extra().get('branch', None), rev, date)
+            meta.addedtags.pop(tag, None)
 
     # 2. handle branches that need to be committed without any files
     for branch in current.emptybranches:
@@ -198,7 +190,7 @@ def convert_rev(ui, meta, svn, r, tbdelta):
 
         parent_ctx = meta.repo.changectx(ha)
         def del_all_files(*args):
-            raise IOError
+            raise IOError(errno.ENOENT, 'deleting all files')
 
         # True here meant nuke all files, shouldn't happen with branch closing
         if current.emptybranches[branch]: #pragma: no cover

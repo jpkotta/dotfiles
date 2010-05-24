@@ -1,8 +1,4 @@
-#!/usr/bin/python
-
 from mercurial import util as hgutil
-
-from svn import core
 
 import svnwrap
 import svnexternals
@@ -15,9 +11,12 @@ class NoFilesException(Exception):
 
 def _isdir(svn, branchpath, svndir):
     try:
-        svn.list_dir('%s/%s' % (branchpath, svndir))
+        path = ''
+        if branchpath:
+            path = branchpath + '/'
+        svn.list_dir('%s%s' % (path, svndir))
         return True
-    except core.SubversionException:
+    except svnwrap.SubversionException:
         return False
 
 
@@ -200,10 +199,12 @@ def commit(ui, repo, rev_ctx, meta, base_revision, svn):
         svn.commit(new_target_files, rev_ctx.description(), file_data,
                    base_revision, set(addeddirs), set(deleteddirs),
                    props, newcopies)
-    except core.SubversionException, e:
-        if hasattr(e, 'apr_err') and (e.apr_err == core.SVN_ERR_FS_TXN_OUT_OF_DATE
-                                      or e.apr_err == core.SVN_ERR_FS_CONFLICT):
-            raise hgutil.Abort('Base text was out of date, maybe rebase?')
+    except svnwrap.SubversionException, e:
+        if len(e.args) > 0 and e.args[1] in (svnwrap.ERR_FS_TXN_OUT_OF_DATE,
+                                             svnwrap.ERR_FS_CONFLICT):
+            raise hgutil.Abort('Outgoing changesets parent is not at '
+                               'subversion HEAD\n'
+                               '(pull again and rebase on a newer revision)')
         else:
             raise
 

@@ -7,9 +7,6 @@ from mercurial import util as hgutil
 from mercurial import node
 from mercurial import i18n
 
-from svn import core
-from svn import delta
-
 import replay
 import pushmod
 import stupid as stupidmod
@@ -57,7 +54,7 @@ def incoming(orig, ui, repo, source='default', **opts):
     """show incoming revisions from Subversion
     """
 
-    source, revs, checkout = hg.parseurl(ui.expandpath(source))
+    source, revs, checkout = util.parseurl(ui.expandpath(source))
     other = hg.repository(ui, source)
     if 'subversion' not in other.capabilities:
         return orig(ui, repo, source, **opts)
@@ -81,7 +78,7 @@ def outgoing(repo, dest=None, heads=None, force=False):
     assert dest.capable('subversion')
 
     # split off #rev; TODO implement --revision/#rev support
-    svnurl, revs, checkout = hg.parseurl(dest.svnurl, heads)
+    svnurl, revs, checkout = util.parseurl(dest.svnurl, heads)
     meta = repo.svnmeta()
     parent = repo.parents()[0].node()
     hashes = meta.revmap.hashes()
@@ -125,7 +122,7 @@ def push(repo, dest, force, revs):
     # TODO: implement --rev/#rev support
     # TODO: do credentials specified in the URL still work?
     svnurl = repo.ui.expandpath(dest.svnurl)
-    svn = svnrepo.svnremoterepo(repo.ui, svnurl).svn
+    svn = dest.svn
     meta = repo.svnmeta(svn.uuid)
 
     # Strategy:
@@ -210,7 +207,7 @@ def pull(repo, source, heads=[], force=False):
     svn_url = source.svnurl
 
     # Split off #rev
-    svn_url, heads, checkout = hg.parseurl(svn_url, heads)
+    svn_url, heads, checkout = util.parseurl(svn_url, heads)
     old_encoding = util.swap_out_encoding()
 
     # TODO implement skipto support
@@ -222,19 +219,10 @@ def pull(repo, source, heads=[], force=False):
                            'only numbers work.' % checkout)
 
     have_replay = not repo.ui.configbool('hgsubversion', 'stupid')
-    if have_replay and not callable(
-        delta.svn_txdelta_apply(None, None, None)[0]): #pragma: no cover
-        repo.ui.status('You are using old Subversion SWIG bindings. Replay '
-                       'will not work until you upgrade to 1.5.0 or newer. '
-                       'Falling back to a slower method that may be buggier. '
-                       'Please upgrade, or contribute a patch to use the '
-                       'ctypes bindings instead of SWIG.\n')
-        have_replay = False
-    elif not have_replay:
+    if not have_replay:
         repo.ui.note('fetching stupidly...\n')
 
-    # TODO: do credentials specified in the URL still work?
-    svn = svnrepo.svnremoterepo(repo.ui, svn_url).svn
+    svn = source.svn
     meta = repo.svnmeta(svn.uuid, svn.subdir)
 
     layout = repo.ui.config('hgsubversion', 'layout', 'auto')
@@ -255,7 +243,11 @@ def pull(repo, source, heads=[], force=False):
         raise hgutil.Abort('Revision skipping at repository initialization '
                            'remains unimplemented.')
 
-    revisions = 0
+    oldrevisions = len(meta.revmap)
+    if stopat_rev:
+        total = stopat_rev - start
+    else:
+        total = svn.HEAD - start
     try:
         try:
             # start converting revisions
@@ -269,20 +261,21 @@ def pull(repo, source, heads=[], force=False):
                 converted = False
                 while not converted:
                     try:
-
-                        msg = r.message.strip()
+                        msg = ''
+                        if r.message:
+                            msg = r.message.strip()
                         if not msg:
                             msg = util.default_commit_msg
                         else:
                             msg = [s.strip() for s in msg.splitlines() if s][0]
                         w = hgutil.termwidth()
                         bits = (r.revnum, r.author, msg)
-                        ui.status(('[r%d] %s: %s\n' % bits)[:w])
+                        ui.status(('[r%d] %s: %s' % bits)[:w] + '\n')
+                        util.progress(ui, 'pull', r.revnum - start, total=total)
 
                         meta.save_tbdelta(tbdelta)
                         close = pullfuns[have_replay](ui, meta, svn, r, tbdelta)
-                        if tbdelta['tags'][0] or tbdelta['tags'][1]:
-                            meta.committags(tbdelta['tags'], r, close)
+                        meta.committags(r, close)
                         for branch, parent in close.iteritems():
                             if parent in (None, node.nullid):
                                 continue
@@ -295,19 +288,21 @@ def pull(repo, source, heads=[], force=False):
                         ui.status('%s\n' % e.message)
                         stupidmod.print_your_svn_is_old_message(ui)
                         have_replay = False
-                    except core.SubversionException, e: #pragma: no cover
-                        if (e.apr_err == core.SVN_ERR_RA_DAV_REQUEST_FAILED
+                    except svnwrap.SubversionException, e: #pragma: no cover
+                        if (e.args[1] == svnwrap.ERR_RA_DAV_REQUEST_FAILED
                             and '502' in str(e)
                             and tries < 3):
                             tries += 1
                             ui.status('Got a 502, retrying (%s)\n' % tries)
                         else:
                             raise hgutil.Abort(*e.args)
-                revisions += 1
         except KeyboardInterrupt:
             pass
     finally:
+        util.progress(ui, 'pull', None, total=total)
         util.swap_out_encoding(old_encoding)
+
+    revisions = len(meta.revmap) - oldrevisions
 
     if revisions == 0:
         ui.status(i18n._("no changes found\n"))
@@ -366,6 +361,7 @@ optionmap = {
     'tagpaths': ('hgsubversion', 'tagpaths'),
     'authors': ('hgsubversion', 'authormap'),
     'filemap': ('hgsubversion', 'filemap'),
+    'branchmap': ('hgsubversion', 'branchmap'),
     'stupid': ('hgsubversion', 'stupid'),
     'defaulthost': ('hgsubversion', 'defaulthost'),
     'defaultauthors': ('hgsubversion', 'defaultauthors'),

@@ -1,5 +1,6 @@
 import cStringIO
 import getpass
+import errno
 import os
 import shutil
 import sys
@@ -13,18 +14,27 @@ warnings.filterwarnings('ignore',
                         module='svn.core',
                         category=DeprecationWarning)
 
-from svn import client
-from svn import core
-from svn import delta
-from svn import ra
+required_bindings = (1, 5, 0)
 
-from mercurial import util as hgutil
+try:
+    from svn import client
+    from svn import core
+    from svn import delta
+    from svn import ra
+
+    current_bindings = (core.SVN_VER_MAJOR, core.SVN_VER_MINOR,
+                        core.SVN_VER_MICRO)
+except ImportError:
+    raise ImportError('Subversion %d.%d.%d or later required, '
+                      'but no bindings were found' % required_bindings)
+
+if current_bindings < required_bindings: #pragma: no cover
+    raise ImportError('Subversion %d.%d.%d or later required, '
+                      'but bindings for %d.%d.%d found' %
+                      (required_bindings + current_bindings))
 
 def version():
-    return '%d.%d.%d' % (core.SVN_VER_MAJOR, core.SVN_VER_MINOR, core.SVN_VER_MICRO)
-
-if (core.SVN_VER_MAJOR, core.SVN_VER_MINOR, core.SVN_VER_MICRO) < (1, 5, 0): #pragma: no cover
-    raise ImportError, 'You must have Subversion 1.5.0 or newer and matching SWIG bindings.'
+    return '%d.%d.%d' % current_bindings
 
 class SubversionRepoCanNotReplay(Exception):
     """Exception raised when the svn server is too old to have replay.
@@ -34,8 +44,27 @@ class SubversionRepoCanNotDiff(Exception):
     """Exception raised when the svn API diff3() command cannot be used
     """
 
+class SubversionConnectionException(Exception):
+    """Exception raised when a generic error occurs when connecting to a
+       repository.
+    """
+
 '''Default chunk size used in fetch_history_at_paths() and revisions().'''
 _chunk_size = 1000
+
+# exported values
+ERR_FS_CONFLICT = core.SVN_ERR_FS_CONFLICT
+ERR_FS_NOT_FOUND = core.SVN_ERR_FS_NOT_FOUND
+ERR_FS_TXN_OUT_OF_DATE = core.SVN_ERR_FS_TXN_OUT_OF_DATE
+ERR_INCOMPLETE_DATA = core.SVN_ERR_INCOMPLETE_DATA
+ERR_RA_DAV_REQUEST_FAILED = core.SVN_ERR_RA_DAV_REQUEST_FAILED
+SubversionException = core.SubversionException
+Editor = delta.Editor
+
+def apply_txdelta(base, target):
+    handler, baton = delta.svn_txdelta_apply(cStringIO.StringIO(base),
+                                             target, None)
+    return (lambda window: handler(window, baton))
 
 def optrev(revnum):
     optrev = core.svn_opt_revision_t()
@@ -194,9 +223,9 @@ class SubversionRepo(object):
 
         self.init_ra_and_client()
         self.uuid = ra.get_uuid(self.ra, self.pool)
-        repo_root = urllib.unquote(ra.get_repos_root(self.ra, self.pool))
+        self.root = urllib.unquote(ra.get_repos_root(self.ra, self.pool))
         # *will* have a leading '/', would not if we used get_repos_root2
-        self.subdir = url[len(repo_root):]
+        self.subdir = url[len(self.root):]
         if not self.subdir or self.subdir[-1] != '/':
             self.subdir += '/'
         self.hasdiff3 = True
@@ -228,9 +257,22 @@ class SubversionRepo(object):
             path=urllib.quote(path)
             url = urlparse.urlunparse((scheme, netloc, path, params, query, fragment))
             self.ra = ra.open2(url, callbacks,
-                               svn_config, self.pool)
+                              svn_config, self.pool)
         except core.SubversionException, e:
-            raise hgutil.Abort(e.args[0])
+            if e.apr_err == core.SVN_ERR_RA_SERF_SSL_CERT_UNTRUSTED:
+                msg = ('Subversion does not trust the SSL certificate for this '
+                       'site; please try running \'svn ls %s\' first.'
+                       % self.svn_url)
+            elif e.apr_err == core.SVN_ERR_RA_DAV_REQUEST_FAILED:
+                msg = ('Failed to open Subversion repository; please try '
+                       'running \'svn ls %s\' for details.' % self.svn_url)
+            else:
+                msg = e.args[0]
+                for k, v in vars(core).iteritems():
+                    if k.startswith('SVN_ERR_') and v == e.apr_err:
+                        msg = '%s (%s)' % (msg, k)
+                        break
+            raise SubversionConnectionException(msg)
 
     def HEAD(self):
         return ra.get_latest_revnum(self.ra, self.pool)
@@ -397,10 +439,11 @@ class SubversionRepo(object):
                            self.pool)
             except core.SubversionException, e:
                 if e.apr_err == core.SVN_ERR_FS_NOT_FOUND:
-                    raise hgutil.Abort('%s not found at revision %d!'
-                                       % (self.subdir.rstrip('/'), stop))
+                    msg = ('%s not found at revision %d!'
+                           % (self.subdir.rstrip('/'), stop))
+                    raise SubversionConnectionException(msg)
                 elif e.apr_err == core.SVN_ERR_FS_NO_SUCH_REVISION:
-                    raise hgutil.Abort(e.message)
+                    raise SubversionConnectionException(e.message)
                 else:
                     raise
 
@@ -461,7 +504,7 @@ class SubversionRepo(object):
             elif action == 'add':
                 frompath, fromrev = copies.get(path, (None, -1))
                 if frompath:
-                    frompath = self.svn_url + '/' + frompath
+                    frompath = self.path2url(frompath)
                 baton = editor.add_file(path, parent, frompath, fromrev, pool)
             elif action == 'delete':
                 baton = editor.delete_entry(path, base_revision, parent, pool)
@@ -576,8 +619,8 @@ class SubversionRepo(object):
         except core.SubversionException, e:
             notfound = (core.SVN_ERR_FS_NOT_FOUND,
                         core.SVN_ERR_RA_DAV_PATH_NOT_FOUND)
-            if e.apr_err in notfound: # File not found
-                raise IOError()
+            if e.args[1] in notfound: # File not found
+                raise IOError(errno.ENOENT, e.args[0])
             raise
         if mode  == 'l':
             linkprefix = "link "
@@ -598,17 +641,11 @@ class SubversionRepo(object):
         except core.SubversionException, e:
             # Specified path does not exist at this revision
             if e.apr_err == core.SVN_ERR_NODE_UNKNOWN_KIND:
-                raise IOError()
+                raise IOError(errno.ENOENT, e.args[0])
             raise
         if not pl:
             return {}
         return pl[0][1]
-
-    def fetch_all_files_to_dir(self, path, revision, checkout_path):
-        rev = optrev(revision)
-        client.export3(self.svn_url+'/'+path, checkout_path, rev,
-                       rev, True, True, True, 'LF', # should be 'CRLF' on win32
-                       self.client_context, self.pool)
 
     def list_files(self, dirpath, revision):
         """List the content of a directory at a given revision, recursively.
@@ -625,7 +662,8 @@ class SubversionRepo(object):
             entries = client.ls(rpath, rev, True, self.client_context, pool)
         except core.SubversionException, e:
             if e.apr_err == core.SVN_ERR_FS_NOT_FOUND:
-                raise IOError('%s cannot be found at r%d' % (dirpath, revision))
+                raise IOError(errno.ENOENT,
+                              '%s cannot be found at r%d' % (dirpath, revision))
             raise
         for path, e in entries.iteritems():
             kind = _svntypes.get(e.kind)

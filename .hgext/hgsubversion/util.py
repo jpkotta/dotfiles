@@ -78,11 +78,29 @@ def version(ui):
 def normalize_url(url):
     if url.startswith('svn+http://') or url.startswith('svn+https://'):
         url = url[4:]
-    url, revs, checkout = hg.parseurl(url)
+    url, revs, checkout = parseurl(url)
     url = url.rstrip('/')
     if checkout:
         url = '%s#%s' % (url, checkout)
     return url
+
+# TODO remove when we drop 1.3 support
+def progress(ui, *args, **kwargs):
+    if getattr(ui, 'progress', False):
+        return ui.progress(*args, **kwargs)
+
+def parseurl(url, heads=[]):
+    parsed = hg.parseurl(url, heads)
+    if len(parsed) == 3:
+        # old hg, remove when we can be 1.5-only
+        svn_url, heads, checkout = parsed
+    else:
+        svn_url, heads = parsed
+        if heads:
+            checkout = heads[0]
+        else:
+            checkout = None
+    return svn_url, heads, checkout
 
 
 class PrefixMatch(object):
@@ -127,7 +145,9 @@ def swap_out_encoding(new_encoding="UTF-8"):
 
 
 def issamefile(parentctx, childctx, f):
-    """Assuming f exists and is the same in childctx and parentctx, return True."""
+    """Return True if f exists and is the same in childctx and parentctx"""
+    if f not in parentctx or f not in childctx:
+        return False
     if parentctx == childctx:
         return True
     if parentctx.rev() > childctx.rev():

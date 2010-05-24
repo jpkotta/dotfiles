@@ -93,7 +93,11 @@ class svnremoterepo(mercurial.repo.repository):
 
     @propertycache
     def svn(self):
-        return svnwrap.SubversionRepo(*self.svnauth)
+        try:
+            return svnwrap.SubversionRepo(*self.svnauth)
+        except svnwrap.SubversionConnectionException, e:
+            self.ui.traceback()
+            raise hgutil.Abort(e)
 
     @property
     def svnuuid(self):
@@ -121,7 +125,8 @@ def instance(ui, url, create):
             # may yield a bogus 'real URL...' message
             return httprepo.instance(ui, url, create)
         except error.RepoError:
-            pass
+            ui.traceback()
+            ui.note('(falling back to Subversion support)\n')
 
     if create:
         raise hgutil.Abort('cannot create new remote Subversion repository')

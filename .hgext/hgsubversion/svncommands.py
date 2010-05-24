@@ -1,22 +1,30 @@
 import os
 import posixpath
 import cPickle as pickle
+import sys
+import traceback
 
+from mercurial import commands
 from mercurial import hg
 from mercurial import node
 from mercurial import util as hgutil
+from mercurial import error
 
 import maps
 import svnwrap
 import svnrepo
 import util
-import utility_commands
 import svnexternals
 
 
 def verify(ui, repo, *args, **opts):
     '''verify current revision against Subversion repository
     '''
+
+    if repo is None:
+        raise error.RepoError("There is no Mercurial repository"
+                              " here (.hg not found)")
+
     ctx = repo[opts.get('rev', '.')]
     if 'close' in ctx.extra():
         ui.write('cannot verify closed branch')
@@ -67,9 +75,14 @@ def verify(ui, repo, *args, **opts):
     return result
 
 
-def rebuildmeta(ui, repo, hg_repo_path, args, **opts):
+def rebuildmeta(ui, repo, args, **opts):
     """rebuild hgsubversion metadata using values stored in revisions
     """
+
+    if repo is None:
+        raise error.RepoError("There is no Mercurial repository"
+                              " here (.hg not found)")
+
     dest = None
     if len(args) == 1:
         dest = args[0]
@@ -97,8 +110,9 @@ def rebuildmeta(ui, repo, hg_repo_path, args, **opts):
 
     skipped = set()
 
+    numrevs = len(repo)
     for rev in repo:
-
+        util.progress(ui, 'rebuild', rev, total=numrevs)
         ctx = repo[rev]
         convinfo = ctx.extra().get('convert_revision', None)
         if not convinfo:
@@ -208,6 +222,7 @@ def rebuildmeta(ui, repo, hg_repo_path, args, **opts):
                 and droprev(cctx.extra().get('convert_revision', '@')) == droprev(convinfo)):
                 branchinfo.pop(branch, None)
                 break
+    util.progress(ui, 'rebuild', None, total=numrevs)
 
     # save off branch info
     branchinfofile = open(os.path.join(svnmetadir, 'branch_info'), 'w')
@@ -215,7 +230,7 @@ def rebuildmeta(ui, repo, hg_repo_path, args, **opts):
     branchinfofile.close()
 
 
-def help(ui, args=None, **opts):
+def help_(ui, args=None, **opts):
     """show help for a given subcommands or a help overview
     """
     if args:
@@ -228,15 +243,14 @@ def help(ui, args=None, **opts):
             if len(candidates) == 1:
                 subcommand = candidates[0]
             elif len(candidates) > 1:
-                ui.status('Ambiguous command. Could have been:\n%s\n' %
-                          ' '.join(candidates))
+                raise error.AmbiguousCommand(subcommand, candidates)
                 return
         doc = table[subcommand].__doc__
         if doc is None:
             doc = "No documentation available for %s." % subcommand
         ui.status(doc.strip(), '\n')
         return
-    ui.status(_helpgen())
+    commands.help_(ui, 'svn')
 
 
 def update(ui, args, repo, clean=False, **opts):
@@ -266,25 +280,169 @@ def update(ui, args, repo, clean=False, **opts):
     return 1
 
 
-table = {
-    'update': update,
-    'help': help,
-    'rebuildmeta': rebuildmeta,
-    'updateexternals': svnexternals.updateexternals,
-    'verify': verify,
-}
+def genignore(ui, repo, force=False, **opts):
+    """generate .hgignore from svn:ignore properties.
+    """
 
-table.update(utility_commands.table)
+    if repo is None:
+        raise error.RepoError("There is no Mercurial repository"
+                              " here (.hg not found)")
+
+    ignpath = repo.wjoin('.hgignore')
+    if not force and os.path.exists(ignpath):
+        raise hgutil.Abort('not overwriting existing .hgignore, try --force?')
+    svn = svnrepo.svnremoterepo(repo.ui).svn
+    meta = repo.svnmeta()
+    hashes = meta.revmap.hashes()
+    parent = util.parentrev(ui, repo, meta, hashes)
+    r, br = hashes[parent.node()]
+    if meta.layout == 'single':
+        branchpath = ''
+    else:
+        branchpath = br and ('branches/%s/' % br) or 'trunk/'
+    ignorelines = ['.hgignore', 'syntax:glob']
+    dirs = [''] + [d[0] for d in svn.list_files(branchpath, r)
+                   if d[1] == 'd']
+    for dir in dirs:
+        path = '%s%s' % (branchpath, dir)
+        props = svn.list_props(path, r)
+        if 'svn:ignore' not in props:
+            continue
+        lines = props['svn:ignore'].strip().split('\n')
+        ignorelines += [dir and (dir + '/' + prop) or prop for prop in lines]
+
+    repo.wopener('.hgignore', 'w').write('\n'.join(ignorelines) + '\n')
+
+
+def info(ui, repo, **opts):
+    """show Subversion details similar to `svn info'
+    """
+
+    if repo is None:
+        raise error.RepoError("There is no Mercurial repository"
+                              " here (.hg not found)")
+
+    meta = repo.svnmeta()
+    hashes = meta.revmap.hashes()
+
+    if opts.get('rev'):
+        parent = repo[opts['rev']]
+    else:
+        parent = util.parentrev(ui, repo, meta, hashes)
+
+    pn = parent.node()
+    if pn not in hashes:
+        ui.status('Not a child of an svn revision.\n')
+        return 0
+    r, br = hashes[pn]
+    subdir = parent.extra()['convert_revision'][40:].split('@')[0]
+    if meta.layout == 'single':
+        branchpath = ''
+    elif br == None:
+        branchpath = '/trunk'
+    elif br.startswith('../'):
+        branchpath = '/%s' % br[3:]
+        subdir = subdir.replace('branches/../', '')
+    else:
+        branchpath = '/branches/%s' % br
+    remoterepo = svnrepo.svnremoterepo(repo.ui)
+    url = '%s%s' % (remoterepo.svnurl, branchpath)
+    author = meta.authors.reverselookup(parent.user())
+    # cleverly figure out repo root w/o actually contacting the server
+    reporoot = url[:len(url)-len(subdir)]
+    ui.write('''URL: %(url)s
+Repository Root: %(reporoot)s
+Repository UUID: %(uuid)s
+Revision: %(revision)s
+Node Kind: directory
+Last Changed Author: %(author)s
+Last Changed Rev: %(revision)s
+Last Changed Date: %(date)s\n''' %
+              {'reporoot': reporoot,
+               'uuid': meta.uuid,
+               'url': url,
+               'author': author,
+               'revision': r,
+               # TODO I'd like to format this to the user's local TZ if possible
+               'date': hgutil.datestr(parent.date(),
+                                      '%Y-%m-%d %H:%M:%S %1%2 (%a, %d %b %Y)')
+              })
+
+
+def listauthors(ui, args, authors=None, **opts):
+    """list all authors in a Subversion repository
+    """
+    if not len(args):
+        ui.status('No repository specified.\n')
+        return
+    svn = svnrepo.svnremoterepo(ui, args[0]).svn
+    author_set = set()
+    for rev in svn.revisions():
+        author_set.add(str(rev.author)) # So None becomes 'None'
+    if authors:
+        authorfile = open(authors, 'w')
+        authorfile.write('%s=\n' % '=\n'.join(sorted(author_set)))
+        authorfile.close()
+    else:
+        ui.write('%s\n' % '\n'.join(sorted(author_set)))
 
 
 def _helpgen():
-    ret = ['hg svn ...', '',
-           'subcommands for Subversion integration', '',
+    ret = ['subcommands for Subversion integration', '',
            'list of subcommands:', '']
     for name, func in sorted(table.items()):
         if func.__doc__:
             short_description = func.__doc__.splitlines()[0]
         else:
             short_description = ''
-        ret.append(" %-10s  %s" % (name, short_description))
+        ret.append(" :%s: %s" % (name, short_description))
     return '\n'.join(ret) + '\n'
+
+def svn(ui, repo, subcommand, *args, **opts):
+    '''see detailed help for list of subcommands'''
+
+    # guess command if prefix
+    if subcommand not in table:
+        candidates = []
+        for c in table:
+            if c.startswith(subcommand):
+                candidates.append(c)
+        if len(candidates) == 1:
+            subcommand = candidates[0]
+        else:
+            raise error.AmbiguousCommand(subcommand, candidates)
+
+    # override subversion credentials
+    for key in ('username', 'password'):
+        if key in opts:
+            ui.setconfig('hgsubversion', key, opts[key])
+
+    try:
+        commandfunc = table[subcommand]
+        return commandfunc(ui, args=args, repo=repo, **opts)
+    except svnwrap.SubversionConnectionException, e:
+        raise hgutil.Abort(*e.args)
+    except TypeError:
+        tb = traceback.extract_tb(sys.exc_info()[2])
+        if len(tb) == 1:
+            ui.status('Bad arguments for subcommand %s\n' % subcommand)
+        else:
+            raise
+    except KeyError, e:
+        tb = traceback.extract_tb(sys.exc_info()[2])
+        if len(tb) == 1:
+            ui.status('Unknown subcommand %s\n' % subcommand)
+        else:
+            raise
+
+table = {
+    'genignore': genignore,
+    'info': info,
+    'listauthors': listauthors,
+    'update': update,
+    'help': help_,
+    'rebuildmeta': rebuildmeta,
+    'updateexternals': svnexternals.updateexternals,
+    'verify': verify,
+}
+svn.__doc__ = _helpgen()

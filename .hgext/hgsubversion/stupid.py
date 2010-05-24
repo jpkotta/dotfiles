@@ -1,11 +1,11 @@
 import cStringIO
+import errno
 import re
 
 from mercurial import patch
 from mercurial import node
 from mercurial import context
 from mercurial import revlog
-from svn import core
 
 import svnwrap
 import svnexternals
@@ -54,13 +54,14 @@ def mempatchproxy(parentctx, files):
     # Avoid circular references patch.patchfile -> mempatch
     patchfile = patch.patchfile
 
+    # TODO(durin42): make this a compat path for hg < 1.6.
     class mempatch(patchfile):
-        def __init__(self, ui, fname, opener, missing=False, eol=None):
-            patchfile.__init__(self, ui, fname, None, False, eol)
+        def __init__(self, ui, fname, opener, missing=False, eolmode=None):
+            patchfile.__init__(self, ui, fname, None, False, eolmode)
 
         def readlines(self, fname):
             if fname not in parentctx:
-                raise IOError('Cannot find %r to patch' % fname)
+                raise IOError(errno.ENOENT, 'Cannot find %r to patch' % fname)
             fctx = parentctx[fname]
             data = fctx.data()
             if 'l' in fctx.flags():
@@ -82,7 +83,11 @@ def filteriterhunks(meta):
         applycurrent = False
         # Passing False instead of textmode because we should never
         # be ignoring EOL type.
-        for data in iterhunks(ui, fp, sourcefile, False):
+        if len(iterhunks.func_defaults) == 1:
+            gen = iterhunks(ui, fp, sourcefile)
+        else:
+            gen = iterhunks(ui, fp, sourcefile, textmode)
+        for data in gen:
             if data[0] == 'file':
                 if data[1][1] in meta.filemap:
                     applycurrent = True
@@ -94,7 +99,7 @@ def filteriterhunks(meta):
     return filterhunks
 
 
-def diff_branchrev(ui, svn, meta, branch, r, parentctx):
+def diff_branchrev(ui, svn, meta, branch, branchpath, r, parentctx):
     """Extract all 'branch' content at a given revision.
 
     Return a tuple (files, filectxfn) where 'files' is the list of all files
@@ -102,52 +107,41 @@ def diff_branchrev(ui, svn, meta, branch, r, parentctx):
     callable to retrieve individual file information. Raise BadPatchApply upon
     error.
     """
-    def make_diff_path(branch):
-        if meta.layout == 'single':
-            return ''
-        if branch == 'trunk' or branch is None:
-            return 'trunk'
-        elif branch.startswith('../'):
-            return branch[3:]
-        return 'branches/%s' % branch
-    parent_rev, br_p = meta.get_parent_svn_branch_and_rev(r.revnum, branch)
-    diff_path = make_diff_path(branch)
     try:
-        if br_p == branch:
+        prev, pbranch, ppath = meta.get_source_rev(ctx=parentctx)
+    except KeyError:
+        prev, pbranch, ppath = None, None, None
+    try:
+        if prev is None or pbranch == branch:
             # letting patch handle binaries sounded
             # cool, but it breaks patch in sad ways
-            d = svn.get_unified_diff(diff_path, r.revnum, deleted=False,
+            d = svn.get_unified_diff(branchpath, r.revnum, deleted=False,
                                      ignore_type=False)
         else:
-            d = svn.get_unified_diff(diff_path, r.revnum,
-                                     other_path=make_diff_path(br_p),
-                                     other_rev=parent_rev,
+            d = svn.get_unified_diff(branchpath, r.revnum,
+                                     other_path=ppath, other_rev=prev,
                                      deleted=True, ignore_type=True)
             if d:
                 raise BadPatchApply('branch creation with mods')
     except svnwrap.SubversionRepoCanNotDiff:
         raise BadPatchApply('subversion diffing code is not supported')
-    except core.SubversionException, e:
-        if (hasattr(e, 'apr_err') and e.apr_err != core.SVN_ERR_FS_NOT_FOUND):
+    except svnwrap.SubversionException, e:
+        if len(e.args) > 1 and e.args[1] != svnwrap.ERR_FS_NOT_FOUND:
             raise
         raise BadPatchApply('previous revision does not exist')
     if '\0' in d:
         raise BadPatchApply('binary diffs are not supported')
     files_data = {}
-    binary_files = {}
-    touched_files = {}
-    for m in binary_file_re.findall(d):
-        # we have to pull each binary file by hand as a fulltext,
-        # which sucks but we've got no choice
-        binary_files[m] = 1
-        touched_files[m] = 1
+    # we have to pull each binary file by hand as a fulltext,
+    # which sucks but we've got no choice
+    binary_files = set(binary_file_re.findall(d))
+    touched_files = set(binary_files)
     d2 = empty_file_patch_wont_make_re.sub('', d)
     d2 = property_exec_set_re.sub('', d2)
     d2 = property_exec_removed_re.sub('', d2)
-    for f in any_file_re.findall(d):
-        # Here we ensure that all files, including the new empty ones
-        # are marked as touched. Content is loaded on demand.
-        touched_files[f] = 1
+    # Here we ensure that all files, including the new empty ones
+    # are marked as touched. Content is loaded on demand.
+    touched_files.update(any_file_re.findall(d))
     if d2.strip() and len(re.findall('\n[-+]', d2.strip())) > 0:
         try:
             oldpatchfile = patch.patchfile
@@ -190,8 +184,7 @@ def diff_branchrev(ui, svn, meta, branch, r, parentctx):
         exec_files[m] = False
     for m in property_exec_set_re.findall(d):
         exec_files[m] = True
-    for m in exec_files:
-        touched_files[m] = 1
+    touched_files.update(exec_files)
     link_files = {}
     for m in property_special_set_re.findall(d):
         # TODO(augie) when a symlink is removed, patching will fail.
@@ -203,32 +196,40 @@ def diff_branchrev(ui, svn, meta, branch, r, parentctx):
         assert m in files_data
         link_files[m] = False
 
+    unknown_files = set()
     for p in r.paths:
-        if p.startswith(diff_path) and r.paths[p].action == 'D':
-            if diff_path:
-                p2 = p[len(diff_path)+1:].strip('/')
-            else:
-                p2 = p
-            if p2 in parentctx:
-                files_data[p2] = None
-                continue
+        action = r.paths[p].action
+        if not p.startswith(branchpath) or action not in 'DR':
+            continue
+        if branchpath:
+            p2 = p[len(branchpath)+1:].strip('/')
+        else:
+            p2 = p
+        if p2 in parentctx:
+            toucheds = [p2]
+        else:
             # If this isn't in the parent ctx, it must've been a dir
-            files_data.update([(f, None) for f in parentctx if f.startswith(p2 + '/')])
+            toucheds = [f for f in parentctx if f.startswith(p2 + '/')]
+        if action == 'R':
+            # Files were replaced, we don't know if they still exist
+            unknown_files.update(toucheds)
+        else:
+            files_data.update((f, None) for f in toucheds)
 
-    for f in files_data:
-        touched_files[f] = 1
+    touched_files.update(files_data)
+    touched_files.update(unknown_files)
 
-    copies = getcopies(svn, meta, branch, diff_path, r, touched_files,
+    copies = getcopies(svn, meta, branch, branchpath, r, touched_files,
                        parentctx)
 
     def filectxfn(repo, memctx, path):
         if path in files_data and files_data[path] is None:
-            raise IOError()
+            raise IOError(errno.ENOENT, '%s is deleted' % path)
 
-        if path in binary_files:
+        if path in binary_files or path in unknown_files:
             pa = path
-            if diff_path:
-                pa = diff_path + '/' + path
+            if branchpath:
+                pa = branchpath + '/' + path
             data, mode = svn.get_file(pa, r.revnum)
             isexe = 'x' in mode
             islink = 'l' in mode
@@ -253,7 +254,7 @@ def diff_branchrev(ui, svn, meta, branch, r, parentctx):
 
     return list(touched_files), filectxfn
 
-def makecopyfinder(r, branchpath, rootdir):
+def makecopyfinder(meta, r, branchpath):
     """Return a function detecting copies.
 
     Returned copyfinder(path) returns None if no copy information can
@@ -263,21 +264,35 @@ def makecopyfinder(r, branchpath, rootdir):
     "sourcepath" and "source" are the same, while file copies dectected from
     directory copies return the copied source directory in "source".
     """
+    # cache changeset contexts and map them to source svn revisions
+    ctxs = {}
+    def getctx(branch, svnrev):
+        if svnrev in ctxs:
+            return ctxs[svnrev]
+        changeid = meta.get_parent_revision(svnrev + 1, branch, True)
+        ctx = None
+        if changeid != revlog.nullid:
+            ctx = meta.repo.changectx(changeid)
+        ctxs[svnrev] = ctx
+        return ctx
+
     # filter copy information for current branch
     branchpath = (branchpath and branchpath + '/') or ''
-    fullbranchpath = rootdir + branchpath
     copies = []
     for path, e in r.paths.iteritems():
         if not e.copyfrom_path:
             continue
         if not path.startswith(branchpath):
             continue
-        if not e.copyfrom_path.startswith(fullbranchpath):
-            # ignore cross branch copies
+        # compute converted source path and revision
+        frompath, frombranch = meta.split_branch_path(e.copyfrom_path)[:2]
+        if frompath is None:
             continue
-        dest = path[len(branchpath):]
-        source = e.copyfrom_path[len(fullbranchpath):]
-        copies.append((dest, (source, e.copyfrom_rev)))
+        fromctx = getctx(frombranch, e.copyfrom_rev)
+        if fromctx is None:
+            continue
+        destpath = path[len(branchpath):]
+        copies.append((destpath, (frompath, fromctx)))
 
     copies.sort(reverse=True)
     exactcopies = dict(copies)
@@ -286,12 +301,12 @@ def makecopyfinder(r, branchpath, rootdir):
         if path in exactcopies:
             return exactcopies[path], exactcopies[path][0]
         # look for parent directory copy, longest first
-        for dest, (source, sourcerev) in copies:
+        for dest, (source, sourcectx) in copies:
             dest = dest + '/'
             if not path.startswith(dest):
                 continue
             sourcepath = source + '/' + path[len(dest):]
-            return (source, sourcerev), sourcepath
+            return (source, sourcectx), sourcepath
         return None
 
     return finder
@@ -308,7 +323,7 @@ def getcopies(svn, meta, branch, branchpath, r, files, parentctx):
     # one event for single file copy). We assume that copy events match
     # copy sources in revision info.
     svncopies = {}
-    finder = makecopyfinder(r, branchpath, svn.subdir)
+    finder = makecopyfinder(meta, r, branchpath)
     for f in files:
         copy = finder(f)
         if copy:
@@ -316,24 +331,9 @@ def getcopies(svn, meta, branch, branchpath, r, files, parentctx):
     if not svncopies:
         return {}
 
-    # cache changeset contexts and map them to source svn revisions
-    ctxs = {}
-    def getctx(svnrev):
-        if svnrev in ctxs:
-            return ctxs[svnrev]
-        changeid = meta.get_parent_revision(svnrev + 1, branch)
-        ctx = None
-        if changeid != revlog.nullid:
-            ctx = meta.repo.changectx(changeid)
-        ctxs[svnrev] = ctx
-        return ctx
-
     # check svn copies really make sense in mercurial
     hgcopies = {}
-    for (sourcepath, rev), copies in svncopies.iteritems():
-        sourcectx = getctx(rev)
-        if sourcectx is None:
-            continue
+    for (sourcepath, sourcectx), copies in svncopies.iteritems():
         for k, v in copies:
             if not util.issamefile(sourcectx, parentctx, v):
                 continue
@@ -424,6 +424,10 @@ def fetch_branchrev(svn, meta, branch, branchpath, r, parentctx):
                 for child, k in svn.list_files(dirpath, r.revnum):
                     if k == 'f':
                         files.append(path + '/' + child)
+                if e.action == 'R':
+                    # Check all files in replaced directory
+                    path = path + '/'
+                    files += [f for f in parentctx if f.startswith(path)]
             else:
                 if path in parentctx:
                     files.append(path)
@@ -443,6 +447,10 @@ def fetch_branchrev(svn, meta, branch, branchpath, r, parentctx):
         isexec = 'x' in mode
         islink = 'l' in mode
         copied = copies.get(path)
+        # TODO this branch feels like it should not be required,
+        # and this may actually imply a bug in getcopies
+        if copied not in parentctx.manifest():
+            copied = None
         return context.memfilectx(path=path, data=data, islink=islink,
                                   isexec=isexec, copied=copied)
 
@@ -469,7 +477,7 @@ def branches_in_paths(meta, tbdelta, paths, revnum, checkpath, listdir):
         relpath, branch, branchpath = meta.split_branch_path(p)
         if relpath is not None:
             branches[branch] = branchpath
-        elif paths[p].action == 'D' and not meta.is_path_tag(p):
+        elif paths[p].action == 'D' and not meta.get_path_tag(p):
             ln = meta.localname(p)
             # must check in branches_to_delete as well, because this runs after we
             # already updated the branch map
@@ -552,7 +560,8 @@ def convert_rev(ui, meta, svn, r, tbdelta):
 
     deleted_branches = {}
     for p in r.paths:
-        if meta.is_path_tag(p):
+        tag = meta.get_path_tag(p)
+        if tag and tag not in meta.tags:
             continue
         branch = meta.localname(p)
         if not (r.paths[p].action == 'R' and branch in meta.branches):
@@ -565,19 +574,18 @@ def convert_rev(ui, meta, svn, r, tbdelta):
     check_deleted_branches = set(tbdelta['branches'][1])
     for b in branches:
         parentctx = meta.repo[meta.get_parent_revision(r.revnum, b)]
-        if parentctx.branch() != (b or 'default'):
-            check_deleted_branches.add(b)
-
+        tag = meta.get_path_tag(meta.remotename(b))
         kind = svn.checkpath(branches[b], r.revnum)
         if kind != 'd':
-            # Branch does not exist at this revision. Get parent revision and
-            # remove everything.
-            deleted_branches[b] = parentctx.node()
+            if not tag:
+                # Branch does not exist at this revision. Get parent
+                # revision and remove everything.
+                deleted_branches[b] = parentctx.node()
             continue
 
         try:
             files_touched, filectxfn2 = diff_branchrev(
-                                           ui, svn, meta, b, r, parentctx)
+                ui, svn, meta, b, branches[b], r, parentctx)
         except BadPatchApply, e:
             # Either this revision or the previous one does not exist.
             ui.status("Fetching entire revision: %s.\n" % e.args[0])
@@ -592,12 +600,12 @@ def convert_rev(ui, meta, svn, r, tbdelta):
         def filectxfn(repo, memctx, path):
             if path == '.hgsvnexternals':
                 if not externals:
-                    raise IOError()
+                    raise IOError(errno.ENOENT, 'no externals')
                 return context.memfilectx(path=path, data=externals.write(),
                                           islink=False, isexec=False, copied=None)
             for bad in bad_branch_paths[b]:
                 if path.startswith(bad):
-                    raise IOError()
+                    raise IOError(errno.ENOENT, 'Path %s is bad' % path)
             return filectxfn2(repo, memctx, path)
 
         if '' in files_touched:
@@ -605,6 +613,15 @@ def convert_rev(ui, meta, svn, r, tbdelta):
         excluded = [f for f in files_touched if f not in meta.filemap]
         for f in excluded:
             files_touched.remove(f)
+
+        if b:
+            # Regular tag without modifications, it will be committed by
+            # svnmeta.committag(), we can skip the whole branch for now
+            if (tag and tag not in meta.tags and
+                b not in meta.branches
+                and b not in meta.repo.branchtags()
+                and not files_touched):
+                continue
 
         if parentctx.node() == node.nullid and not files_touched:
             meta.repo.ui.debug('skipping commit since parent is null and no files touched.\n')
@@ -617,18 +634,13 @@ def convert_rev(ui, meta, svn, r, tbdelta):
                 assert f[0] != '/'
 
         extra = meta.genextra(r.revnum, b)
-
-        tag = False
-        tag = meta.is_path_tag(meta.remotename(b))
-
         if tag:
             if parentctx.node() == node.nullid:
                 continue
             extra.update({'branch': parentctx.extra().get('branch', None),
                           'close': 1})
 
-        if not meta.usebranchnames or extra.get('branch', None) == 'default':
-            extra.pop('branch', None)
+        meta.mapbranch(extra)
         current_ctx = context.memctx(meta.repo,
                                      [parentctx.node(), revlog.nullid],
                                      r.message or util.default_commit_msg,
@@ -642,11 +654,12 @@ def convert_rev(ui, meta, svn, r, tbdelta):
         branch = extra.get('branch', None)
         if not tag:
             if (not branch in meta.branches
-                and not meta.is_path_tag(meta.remotename(branch))):
+                and not meta.get_path_tag(meta.remotename(branch))):
                 meta.branches[branch] = None, 0, r.revnum
             meta.revmap[r.revnum, b] = ha
         else:
             meta.movetag(tag, ha, parentctx.extra().get('branch', None), r, date)
+            meta.addedtags.pop(tag, None)
         util.describe_commit(ui, ha, b)
 
     # These are branches with an 'R' status in svn log. This means they were
