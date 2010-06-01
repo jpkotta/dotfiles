@@ -162,7 +162,7 @@ Key     S       A       4       Menu LaunchApps root c c
 # OTHER STUFF
 Key     space   A       4       PrevDesktopTerminal
 Key     space   A       4M      HideDesktopTerminal
-Key     B       A       4       ToggleDesktopButtons
+Key     B       A       4       ToggleDesktopButtonsWarp
 Key     slash   A       4       Pick FvwmIdent
 Key     G       A       4       GotoDesk 0 -1 # the secret desk
 Key     G       A       4S      MoveToDesk 0 -1 # the secret desk

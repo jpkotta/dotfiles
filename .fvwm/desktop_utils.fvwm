@@ -34,8 +34,6 @@ AddColorset PAGER_BALLOON_COLORSET
 AddColorset PAGER_WINDOW_COLORSET
 AddColorset PAGER_HILIGHT_WINDOW_COLORSET
 
-AddState DESKTOP_UTIL_UNHIDEABLE_STATE
-
 # EDGE_COMMAND_? are set later
 
 
@@ -53,8 +51,7 @@ Style Desktop* !Borders, NoIcon, NoTitle, \
 Style DesktopTerminal*  TitleAtRight, SloppyFocus, FPLeaveToUnfocus, Layer 6, \
                         StartsOnScreen $[RIGHT_SCREEN]
 
-Style DesktopButtons*   NeverFocus, TitleAtLeft, Layer 6, \
-                        !State $[DESKTOP_UTIL_UNHIDEABLE_STATE]
+Style DesktopButtons*   NeverFocus, TitleAtLeft, Layer 6,
 Style DesktopButtonsMediaPlayer TitleAtTop
 
 # DesktopMiniPager must be on top so it's always visible
@@ -103,7 +100,7 @@ SetEnv EDGE_LEAVE_COMMAND_N "Deschedule $[SHOW_DESKTOP_PAGER_SCHED_ID]"
 SetEnv EDGE_COMMAND_E "Mouse 1 R A ToggleDesktopTerminal"
 SetEnv EDGE_LEAVE_COMMAND_E "Mouse 1 R A RootWindowBinding"
 
-SetEnv EDGE_COMMAND_W "Mouse 1 R A ToggleDesktopButtonsNoWarp"
+SetEnv EDGE_COMMAND_W "Mouse 1 R A ToggleDesktopButtons"
 SetEnv EDGE_LEAVE_COMMAND_W "Mouse 1 R A RootWindowBinding"
 #SetEnv EDGE_COMMAND_W "Schedule 500 $[SHOW_DESKTOP_BUTTONS_SCHED_ID] ShowDesktopButtons"
 #SetEnv EDGE_LEAVE_COMMAND_W "Deschedule $[SHOW_DESKTOP_BUTTONS_SCHED_ID]"
@@ -131,34 +128,42 @@ AddToFunc HideDesktopUtilsFilter
 # do nothing if pointer window is a DesktopUtil
 + I PointerWindow (Desktop*) Break
 # do nothing if pointer window is not root
-+ I TestRc (Error) $[0-100]
-+ I $[0-100]
++ I TestRc (Error) $*
++ I $*
 
-# note that DesktopButtons has a state variable 
-# that controls if it's affected by this function
 DestroyFunc HideDesktopUtils
 AddToFunc HideDesktopUtils
 + I Schedule 500 HideDesktopUtilsFilter HideDesktopPager
-#+ I Schedule 1000 HideDesktopUtilsFilter HideDesktopIcons
-#+ I Schedule 250 HideDesktopUtilsFilter HideDesktopTerminal
-+ I Schedule 1500 HideDesktopUtilsFilter HideDesktopTaskbar
-+ I Schedule 750 HideDesktopUtilsFilter \
-    Any (CirculateHit, DesktopButtons*, !State $[DESKTOP_UTIL_UNHIDEABLE_STATE]) \
-    HideDesktopButtons
+
+########################################################################
 
 DestroyFunc ShowDesktopPager
 AddToFunc ShowDesktopPager
 + I All (DesktopPager) WindowShade False
 + I All (DesktopPager) Raise
 
-DestroyFunc ShowDesktopIcons
-AddToFunc ShowDesktopIcons
-+ I All (Iconic) Raise
+DestroyFunc HideDesktopPager
+AddToFunc HideDesktopPager
++ I All (DesktopPager) WindowShade True N
++ I All (DesktopPager) Lower
 
-DestroyFunc ShowDesktopTaskbar
-AddToFunc ShowDesktopTaskbar
-+ I All (DesktopTaskbar) WindowShade False
-+ I All (DesktopTaskbar) Raise
+# DestroyFunc ShowDesktopIcons
+# AddToFunc ShowDesktopIcons
+# + I All (Iconic) Raise
+
+# DestroyFunc HideDesktopIcons
+# AddToFunc HideDesktopIcons
+# + I All (Iconic) Lower
+
+# DestroyFunc ShowDesktopTaskbar
+# AddToFunc ShowDesktopTaskbar
+# + I All (DesktopTaskbar) WindowShade False
+# + I All (DesktopTaskbar) Raise
+
+# DestroyFunc HideDesktopTaskbar
+# AddToFunc HideDesktopTaskbar
+# + I All (DesktopTaskbar) WindowShade True
+# + I All (DesktopTaskbar) Lower
 
 DestroyFunc ShowDesktopTerminal
 AddToFunc ShowDesktopTerminal
@@ -166,31 +171,8 @@ AddToFunc ShowDesktopTerminal
 + I All (DesktopTerminal*) Raise
 + I All (DesktopTerminal*) WindowStyle SloppyFocus
 
-DestroyFunc ShowDesktopButtons
-AddToFunc ShowDesktopButtons
-+ I All (DesktopButtons*) WindowShade False
-+ I All (DesktopButtons*) Raise
-+ I All (DesktopButtonsMediaPlayer) WindowStyle SloppyFocus
-+ I All (DesktopButtonsMediaPlayer) FlipFocus
-#+ I All (DesktopButtonsMediaPlayer) WarpToWindow 50 50
-
-DestroyFunc HideDesktopPager
-AddToFunc HideDesktopPager
-+ I All (DesktopPager) WindowShade True N
-+ I All (DesktopPager) Lower
-
-DestroyFunc HideDesktopIcons
-AddToFunc HideDesktopIcons
-+ I All (Iconic) Lower
-
-DestroyFunc HideDesktopTaskbar
-AddToFunc HideDesktopTaskbar
-+ I All (DesktopTaskbar) WindowShade True
-+ I All (DesktopTaskbar) Lower
-
 DestroyFunc HideDesktopTerminal
 AddToFunc HideDesktopTerminal 
-# fixes remember_focus.fvwm
 + I All (DesktopTerminal*) WindowStyle NeverFocus
 + I All (DesktopTerminal*) WindowShade True E
 + I All (DesktopTerminal*) Lower
@@ -198,17 +180,8 @@ AddToFunc HideDesktopTerminal
 # this seems like an intuitive place to get rid of it
 + I Any (CirculateHit, DesktopPager, !Shaded) CursorMove 0p 5p
 + I HideDesktopPager
-
-DestroyFunc HideDesktopButtons
-AddToFunc HideDesktopButtons
-+ I All (DesktopButtons*) WindowShade True W
-+ I All (DesktopButtons*) Lower
-+ I All (DesktopButtons*) WindowStyle NeverFocus
-
-
-################################################################################
-# OTHER FUNCTIONS
-################################################################################
+# without the schedule, it somehow runs ShowDesktopTerminal in ToggleDesktopTerminal
++ I Schedule 1 FocusPrev
 
 # raise and warp pointer to previous DesktopTerminal
 # toggles between them when called more than once
@@ -216,47 +189,42 @@ DestroyFunc PrevDesktopTerminal
 AddToFunc PrevDesktopTerminal
 + I ShowDesktopTerminal
 + I Prev (DesktopTerminal*, CirculateHit) WarpToWindow 50 50
-+ I Current (!DesktopTerminal*, CirculateHit) \
-    Prev (DesktopTerminal*, CirculateHit) FlipFocus
 
 DestroyFunc ToggleDesktopTerminal
 AddToFunc ToggleDesktopTerminal
 + I Any (DesktopTerminal*, CirculateHit, !Shaded) HideDesktopTerminal
 + I TestRc (NoMatch) ShowDesktopTerminal
 
-# toggles the DesktopButtons* on and off
-DestroyFunc ToggleDesktopButtons
-AddToFunc ToggleDesktopButtons
-+ I Any (DesktopButtons*, CirculateHit, State $[DESKTOP_UTIL_UNHIDEABLE_STATE]) \
-    HideAndNegateStateDesktopButtons
-+ I TestRc (NoMatch) \
-    ShowAndAssertStateDesktopButtons
+DestroyFunc ShowDesktopButtons
+AddToFunc ShowDesktopButtons
++ I All (DesktopButtons*) WindowShade False
++ I All (DesktopButtons*) Raise
++ I All (DesktopButtonsMediaPlayer) WindowStyle SloppyFocus
 
-DestroyFunc HideAndNegateStateDesktopButtons
-AddToFunc HideAndNegateStateDesktopButtons
-+ I All (DesktopButtons*, CirculateHit) State $[DESKTOP_UTIL_UNHIDEABLE_STATE] False
-+ I HideDesktopButtons
-
-DestroyFunc ShowAndAssertStateDesktopButtons
-AddToFunc ShowAndAssertStateDesktopButtons
-+ I All (DesktopButtons*, CirculateHit) State $[DESKTOP_UTIL_UNHIDEABLE_STATE] True
+DestroyFunc ShowDesktopButtonsWarp
+AddToFunc ShowDesktopButtonsWarp
 + I ShowDesktopButtons
 + I All (DesktopButtonsMediaPlayer) WarpToWindow 50 50
 
-# toggles the DesktopButtons* on and off, without warping (for use with Mouse bindings)
-DestroyFunc ToggleDesktopButtonsNoWarp
-AddToFunc ToggleDesktopButtonsNoWarp
-+ I Any (DesktopButtons*, CirculateHit, State $[DESKTOP_UTIL_UNHIDEABLE_STATE]) \
-    HideAndNegateStateDesktopButtons
-+ I TestRc (NoMatch) \
-    ShowAndAssertStateDesktopButtonsNoWarp
+DestroyFunc HideDesktopButtons
+AddToFunc HideDesktopButtons
++ I All (DesktopButtons*) WindowShade True W
++ I All (DesktopButtons*) Lower
++ I All (DesktopButtons*) WindowStyle NeverFocus
+# without the schedule, it somehow runs ShowDesktopButtons in ToggleDesktopButtons
++ I Schedule 1 FocusPrev
 
-DestroyFunc ShowAndAssertStateDesktopButtonsNoWarp
-AddToFunc ShowAndAssertStateDesktopButtonsNoWarp
-+ I All (DesktopButtons*, CirculateHit) State $[DESKTOP_UTIL_UNHIDEABLE_STATE] True
-+ I ShowDesktopButtons
+# toggles the DesktopButtons* on and off
+DestroyFunc ToggleDesktopButtons
+AddToFunc ToggleDesktopButtons
++ I Any (DesktopButtons*, CirculateHit, !Shaded) HideDesktopButtons
++ I TestRc (NoMatch) ShowDesktopButtons
 
-
+# toggles the DesktopButtons* on and off
+DestroyFunc ToggleDesktopButtonsWarp
+AddToFunc ToggleDesktopButtonsWarp
++ I Any (DesktopButtons*, CirculateHit, !Shaded) HideDesktopButtons
++ I TestRc (NoMatch) ShowDesktopButtonsWarp
 
 ################################################################################
 #
