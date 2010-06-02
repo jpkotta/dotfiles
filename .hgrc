@@ -37,7 +37,10 @@ hgext.localbranch = ~/.hgext/localbranch.py
 
 # combines pull, update, and merge
 hgext.fetch = 
-        
+
+# use a pager with long outputs
+pager =
+
 [trusted]
 # 754 is packet@storagez
 users = root, 754
