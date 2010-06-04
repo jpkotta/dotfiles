@@ -189,7 +189,7 @@ DestroyFunc PrevDesktopTerminal
 AddToFunc PrevDesktopTerminal
 + I ShowDesktopTerminal
 + I Prev (DesktopTerminal*, CirculateHit) FlipFocus NoWarp
-+ I Current (DesktopTerminal*, CirculateHit) WarpToWindow 50 50
++ I Prev (DesktopTerminal*, CirculateHit) WarpToWindow 50 50
 
 DestroyFunc ToggleDesktopTerminal
 AddToFunc ToggleDesktopTerminal
