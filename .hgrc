@@ -41,6 +41,9 @@ hgext.fetch =
 # use a pager with long outputs
 pager =
 
+# share metadata (.hg/) between multiple working directories
+share = 
+
 [trusted]
 # 754 is packet@storagez
 users = root, 754
