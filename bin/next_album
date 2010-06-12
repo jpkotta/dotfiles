@@ -1,13 +1,15 @@
 #!/bin/bash
 
-mpc="mpc --no-status"
+mpc="mpc"
+mpc_quiet="$mpc --no-status"
+ralbumd="ralbumd"
 
-if [ ! -x "$(which mpc)" ] ; then
+if ! which $mpc >/dev/null ; then
     echo "mpc not installed"
     exit 1
 fi
 
-if [ ! -x "$(which ralbumd)" ] ; then
+if ! which $ralbumd >/dev/null ; then
     echo "ralbumd not installed"
     exit 1
 fi
@@ -15,22 +17,22 @@ fi
 num_ralbumd_instances=$(ps -ef | grep -v grep | grep jpkotta | grep -c ralbumd)
 if [[ "$num_ralbumd_instances" -gt 1 ]] ; then
     echo "Killing extra ralbumd instances."
-    ralbumd kill
+    $ralbumd kill
     killall --user $USER ralbumd
 fi
 
 num_ralbumd_instances=$(ps -ef | grep -v grep | grep jpkotta | grep -c ralbumd)
 if [[ "$num_ralbumd_instances" -le 0 ]] ; then
     echo "Restarting ralbumd."
-    ralbumd
+    $ralbumd
 fi
 
 # add a song if the playlist is empty
 if [ -z "$($mpc playlist)" ] ; then
-    $mpc --no-status add "$($mpc listall | head -n 1)"
+    $mpc_quiet add "$($mpc listall | head -n 1)"
 fi
 
-$mpc play && $mpc crop || exit >/dev/null
+$mpc_quiet play && $mpc_quiet crop || exit >/dev/null
 times=$($mpc status | grep "\[playing\]" | awk '{ print $3 }' | sed "s#/# #")
 if [ -n "$times" ] ; then
     time_total=$(echo "$times" | awk '{print $2}' | sed "s/:/ /")
@@ -39,8 +41,8 @@ if [ -n "$times" ] ; then
     sec=$(echo "$time_total" | awk '{print $2}' | sed s/^0//)
     if [ -z "$sec" ] ; then sec=0 ; fi
     sec_total=$(( $min*60 + $sec ))
-
+    
     if [ "$sec_total" -ge 4 ] ; then
-	$mpc seek $(( $sec_total - 3 )) > /dev/null
+	$mpc_quiet seek $(( $sec_total - 3 )) > /dev/null
     fi
 fi
