@@ -67,7 +67,7 @@ Style DesktopTaskbar    NeverFocus, TitleAtBottom, Layer 6
 # it appears they become visible as soon as they're swallowed
 Style xclock    SkipMapping
 Style dclock    BorderWidth 0, SkipMapping
-Style gdeskcal  SkipMapping
+#Style gdeskcal  SkipMapping
 Style gkrellm   SkipMapping
 #Style XPostit   Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, SkipMapping
 Style xpad      Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, SkipMapping
