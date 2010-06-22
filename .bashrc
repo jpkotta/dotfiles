@@ -180,6 +180,7 @@ prompt_cmd_num="$blue\#$normal"
 # echo \$__lasterr\`$normal"
 prompt_err_stat="$cyan\`echo \$?\`$normal"
 prompt_prompt="$blue\\\$$normal"
+prompt_dpy="$cyan\$DISPLAY$normal"
 
 PLAIN_PROMPT='[\u@\h][\w](\j)\n\$ '
 FANCY_PROMPT="\
@@ -187,7 +188,8 @@ $prompt_open$prompt_time$prompt_close_open\
 $prompt_username$prompt_at$prompt_hostname$prompt_close_open\
 $prompt_pwd$prompt_close_open\
 $prompt_jobs$prompt_close_open\
-$prompt_err_stat$prompt_close\
+$prompt_err_stat$prompt_close_open\
+$prompt_dpy$prompt_close\
 \n$prompt_prompt "
 
 export PS1=$FANCY_PROMPT
@@ -197,7 +199,7 @@ fi
 
 unset prompt_open prompt_close prompt_close_open prompt_username \
     prompt_at prompt_hostname prompt_jobs prompt_time prompt_pwd \
-    prompt_cmd_num prompt_err_stat prompt_prompt
+    prompt_cmd_num prompt_err_stat prompt_prompt prompt_dpy
 
 # this sets the title of the terminal window:
 # 'user@host: /present/working/directory/ [ previous_command args ]'
@@ -388,6 +390,7 @@ alias cls='clear'
 alias clc='clear'
 # use symlinks only, treat links to dirs as normal files, interactive
 alias ln='/bin/ln -sni'
+
 # a kinder, safer rm
 alias rm='/bin/rm -i'
 function rm-rf()
@@ -411,6 +414,8 @@ function rm-rf()
 alias rmbck='/bin/rm -f ./*.bck ./.*.bck ./*?~ ./.*?~'
 # remove all data from file, or create an empty file
 alias empty='/bin/cp /dev/null'
+# delete all of the .orig files from a mercurial repo
+alias rmorig='hg stat -un0 $(hg root) | xargs -0r rm'
 # safer mv
 alias mv='mv -i'
 # safer cp
