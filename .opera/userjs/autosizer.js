@@ -94,13 +94,6 @@
 
     default_mode--;
 
-    this.swapDirection = function(){
-      self.sizing_mode -= 2;
-      if (self.sizing_mode < 0) {
-        self.sizing_mode = itemNames.length+self.sizing_mode;
-      } 
-    }
-
     this.lastHeight=document.documentElement.offsetHeight;
     this.workerThread = function(){
       if (self.lastHeight != document.documentElement.offsetHeight) {
@@ -241,8 +234,26 @@
       return;
     }
 
-    this.changeSizingMode = function(){
-      if (++self.sizing_mode > 4) self.sizing_mode = 0;
+    this.is_forbidden_mode = function (mode) {
+        var forbidden_modes = [2, 4];
+        var i;
+        for (i in forbidden_modes) {
+            if (forbidden_modes[i] == mode) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    this.changeSizingMode = function(direction){
+        self.sizing_mode += itemNames.length; // + 0 mod length
+        self.sizing_mode += direction;
+        self.sizing_mode %= itemNames.length;
+        while (self.is_forbidden_mode(self.sizing_mode)) {
+            self.sizing_mode += itemNames.length;
+            self.sizing_mode += direction;
+            self.sizing_mode %= itemNames.length;
+        }
       self.setCookie('sizingMode',self.sizing_mode,cookieLifetime ,'/');
       self.setSizingMode(self.sizing_mode);
       //document.getElementsByTagName('html')[0].setAttribute('style','');
@@ -303,9 +314,11 @@
     this.setSizingMode(self.sizing_mode);
     document.images[0].addEventListener("click",function(e){
       if (e.shiftKey) {
-        self.swapDirection();
+          self.changeSizingMode(-1);
       }
-      self.changeSizingMode();
+      else {
+          self.changeSizingMode(1);
+      }
     },false);
 
 
@@ -331,13 +344,12 @@
         // 'm' or 'M': next sizing mode
         case 77:
         case 109:
-          self.changeSizingMode();
+          self.changeSizingMode(1);
           break;
         // 'n' or 'N': previous sizing mode
         case 78:
         case 110:
-          self.swapDirection();
-          self.changeSizingMode();
+          self.changeSizingMode(-1);
           break;
         case 42:
         case 43:
