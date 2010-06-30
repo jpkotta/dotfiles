@@ -377,7 +377,10 @@ var myFychan = {
 		if (qc) 
 		{			
 			qc.focus();
-			document.selection.createRange().text = ">>" + quoteid;			
+			if (!qc.value.match("\n$") && qc.value.length > 0) {
+				qc.value += "\n";
+			}
+			qc.value += ">>" + quoteid + "\n";
 		}
 		else quote(quoteid);		
 	},
