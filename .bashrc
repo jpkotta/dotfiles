@@ -426,6 +426,8 @@ alias mkdir='mkdir -p'
 alias rmdir='rmdir -p'
 # rsync for updating usb drives
 alias rsync='rsync -auv'
+# the most common apt incantation
+alias upgrade="sudo aptitude update && sudo aptitude safe-upgrade"
 
 ####################################
 # less is more
