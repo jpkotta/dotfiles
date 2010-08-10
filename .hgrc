@@ -19,7 +19,7 @@ hgext.schemes =
 #hgext.crecord = ~/.hgext/crecord
 
 # http://mercurial.selenic.com/wiki/ShelveExtension
-hgext.hgshelve = ~/.hgext/hgshelve.py
+hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
 
 # http://hg-git.github.com/
 # in mercurial-git package
