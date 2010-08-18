@@ -28,7 +28,7 @@ hgext.bookmarks =
 
 # http://bitbucket.org/durin42/hgsubversion/wiki/Home
 # requires python-subversion
-hgext.hgsubversion = ~/.hgext/hgsubversion
+hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
 rebase = 
 
 # localbranches like git
