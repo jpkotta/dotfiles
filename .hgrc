@@ -16,7 +16,7 @@ hgext.graphlog =
 hgext.schemes = 
 
 # http://mercurial.selenic.com/wiki/CrecordExtension
-#hgext.crecord = ~/.hgext/crecord
+#hgext.crecord = ~/.hgext/crecord/crecord
 
 # http://mercurial.selenic.com/wiki/ShelveExtension
 hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
