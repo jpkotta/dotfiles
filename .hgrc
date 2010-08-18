@@ -34,7 +34,7 @@ rebase =
 # localbranches like git
 # http://mercurial.selenic.com/wiki/LocalbranchExtension
 # http://bitbucket.org/brendan/mercurial-extensions-localbranch
-hgext.localbranch = ~/.hgext/localbranch.py
+hgext.localbranch = ~/.hgext/localbranch/localbranch.py
 
 # combines pull, update, and merge
 hgext.fetch = 
