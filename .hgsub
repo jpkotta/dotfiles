@@ -3,4 +3,4 @@
 .hgext/hgshelve = http://bitbucket.org/tksoh/hgshelve
 .hgext/hgsubversion = http://bitbucket.org/durin42/hgsubversion
 .hgext/localbranch = http://bitbucket.org/brendan/mercurial-extensions-localbranch
-.hgext/crecord = http://bitbucket.org/edgimar/crecord
+#.hgext/crecord = http://bitbucket.org/edgimar/crecord
