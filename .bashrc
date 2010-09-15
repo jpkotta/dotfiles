@@ -339,6 +339,9 @@ function psK() { kill -KILL `psg "$@" | awk '{print $1}'` ; }
 # like psg, but shows different info
 alias psgaux='ps auxw | grep -vE "grep|psg" | grep -E'
 
+# kill emacs server in a controlled way
+alias kill_emacs_server="emacsclient -e '(client-save-kill-emacs)'"
+
 # grep
 # see also ack-grep
 alias srcgrp="grep -RE --include='*.[ch]' -n"
