@@ -55,7 +55,7 @@ XClock*secondColor:             red3
 XClock*minuteColor:             deep sky blue
 XClock*hourColor:               lavender
 XClock*background:              black
-
+XClock*foreground:              lavender
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
