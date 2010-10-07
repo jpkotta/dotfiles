@@ -3,29 +3,41 @@
 [ui]
 # use $HGUSER for username
 askusername = False
-#merge = emacs-merge
+# use emacs as a merge tool, special command line options elsewhere
 merge = emacs
+# ignore file for all repositories
 ignore = ~/.hgignore.global
 
 [extensions]
-hgext.convert =
+# TK gui distributed with mercurial
 hgk =
-hgext.mq =
-color =
-hgext.graphlog = 
-hgext.schemes = 
+
+# mercurial queues
+mq =
+
+# color output from some commands
+color = 
+
+# ASCII art changelog graph
+graphlog = 
+
+# allows custom URI schemes, like pd:// = ssh://hg@storagez/repos/
+schemes = 
 
 # http://mercurial.selenic.com/wiki/CrecordExtension
 #hgext.crecord = ~/.hgext/crecord/crecord
 
+# temporarily stash changes without a commit
 # http://mercurial.selenic.com/wiki/ShelveExtension
 hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
 
+# use mercurial as a git client
 # http://hg-git.github.com/
 # in mercurial-git package
 hgext.git =
-hgext.bookmarks = 
+bookmarks = 
 
+# use mercurial as a subversion client
 # http://bitbucket.org/durin42/hgsubversion/wiki/Home
 # requires python-subversion
 hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
@@ -37,7 +49,7 @@ rebase =
 hgext.localbranch = ~/.hgext/localbranch/localbranch.py
 
 # combines pull, update, and merge
-hgext.fetch = 
+fetch = 
 
 # use a pager with long outputs
 pager =
@@ -45,8 +57,26 @@ pager =
 # share metadata (.hg/) between multiple working directories
 share = 
 
+# show a progress bar for certain operations that take a long time
+progress = 
+
+# remove all untracked files
+purge = 
+
+# guard against committing FooBar if foobar is already tracked
+# http://bitbucket.org/alexandru/caseguard 
+hgext.caseguard = ~/.hgext/caseguard/caseguard.py
+
+# easily fix filename case changes
+# http://mercurial.selenic.com/wiki/FixcaseExtension
+hgext.fixcase = ~/.hgext/fixcase.py
+
+# a replacement for hgk
+hgview = 
+
 [alias]
 summ = summary --remote
+view = hgview
 
 [trusted]
 # 754 is packet@storagez
@@ -57,10 +87,8 @@ pd = ssh://hg@storagez.packetdigital.com/repos/
 pdsvn = svn+ssh://kotta@svn.packetdigital.com/zone/subversion/
 
 [merge-tools]
-emacs-merge.binary = False
 emacs.binary = False
 emacs.args = --debug-init --eval "(ediff-merge-with-ancestor \"$local\" \"$other\" \"$base\" nil \"$output\")"
-#emacs.args = --debug-init --eval "(emerge-files-with-ancestor nil \"$local\" \"$other\" \"$base\" \"$output\" nil 'kill-emacs)"
 
-# local settings
+# per-machine settings
 %include .hgrc.local
