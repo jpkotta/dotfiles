@@ -24,9 +24,6 @@ graphlog =
 # allows custom URI schemes, like pd:// = ssh://hg@storagez/repos/
 schemes = 
 
-# http://mercurial.selenic.com/wiki/CrecordExtension
-#hgext.crecord = ~/.hgext/crecord/crecord
-
 # temporarily stash changes without a commit
 # http://mercurial.selenic.com/wiki/ShelveExtension
 hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
@@ -74,9 +71,22 @@ hgext.fixcase = ~/.hgext/fixcase.py
 # a replacement for hgk
 hgview = 
 
+# transplant changesets from another branch
+transplant = 
+
 [alias]
 summ = summary --remote
 view = hgview
+
+shelve = shelve --all
+ls = unshelve -l
+ll = unshelve -i
+
+# remove all untracked .orig files
+rmorig = purge --include=**.orig
+# safety purge (order is important)
+PURGE = purge
+purge = purge --print
 
 [trusted]
 # 754 is packet@storagez
@@ -88,7 +98,14 @@ pdsvn = svn+ssh://kotta@svn.packetdigital.com/zone/subversion/
 
 [merge-tools]
 emacs.binary = False
-emacs.args = --debug-init --eval "(ediff-merge-with-ancestor \"$local\" \"$other\" \"$base\" nil \"$output\")"
+emacs.args = -q --debug-init --eval "(ediff-merge-with-ancestor \"$local\" \"$other\" \"$base\" nil \"$output\")"
+emacs.check = prompt
+
+[tortoisehg]
+vdiff = meld
+hgtkfork = True
 
 # per-machine settings
 %include .hgrc.local
+
+
