@@ -104,12 +104,13 @@ function pathappend ()
 
 [ -z "$PATH" ] && PATH=/bin:/usr/bin
 for d in /sbin /usr/sbin /usr/local/bin /usr/local/sbin \
-    . $HOME/bin $HOME/usr/local/bin \
-    /usr/X11R6/bin \
-    /usr/games /usr/local/games /usr/share/games/bin ; do
+    /usr/X11R6/bin /usr/games /usr/local/games /usr/share/games/bin . ; do
     pathappend $d PATH
 done
-
+for d in $HOME/usr/local/bin $HOME/bin ; do
+    pathprepend $d PATH
+done
+    
 #pathappend /usr/local/lib LD_LIBRARY_PATH
 pathappend /usr/local/include C_INCLUDE_PATH
 pathappend /usr/local/include CPLUS_INCLUDE_PATH
@@ -536,7 +537,7 @@ alias azureus='daemon azureus'
 # ntpdate
 alias ntpdate='sudo ntpdate -u -v ntp.ubuntu.com'
 # du on files and dirs in pwd, sorted by size
-alias dusrt="du --max-depth=1 --all -k --one-file-system 2>/dev/null | sort -n"
+alias dusrt="du --max-depth=1 --all -k --one-file-system 2>/dev/null | sort -n | cut -f2 | xargs -d '\n' du -sh"
 # mathematica needs this env var when using Composite extension on X.org
 alias mathematica='(export XLIB_SKIP_ARGB_VISUALS=1 ; mathematica &)'
 # Gaim instant messenger
