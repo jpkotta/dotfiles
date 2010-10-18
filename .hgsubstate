@@ -2,5 +2,5 @@
 3f9f6721285afde0a042e5841c5ccd11b0c1fccc .emacs.d/geiser
 d0e29f91631aac246105bbfb6ee55b3012c75954 .hgext/caseguard
 23649f81c364d5d6f52d59c3a124c4a3c23c474f .hgext/hgshelve
-a8d5eec1326b130da16cf884ed0cb4339a5e84ba .hgext/hgsubversion
+4baa41e0f8adc574f85148178c83af7ce8f64697 .hgext/hgsubversion
 bb46f7d7eb23eea34eac025f6639a3dabf3605bd .hgext/localbranch
