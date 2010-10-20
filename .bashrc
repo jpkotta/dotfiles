@@ -709,6 +709,12 @@ function spell()
     fi
 }
 
+function define()
+{
+    # dict is in the dict package
+    dict $@ | less
+}
+
 # if [ $TERM != "dumb" ] ; then
 #     fortune
 # fi
