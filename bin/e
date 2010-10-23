@@ -1,0 +1,33 @@
+#!/usr/bin/env python
+
+"""
+This is a very simple command line calculator.  It reads in all
+arguments as a single string and runs eval() on them.  The math module
+is imported so you have access to all of that.  If run with no
+arguments, it allows you to input a single line expression.  In the
+case of command line args, square brackets are replaced with round
+parentheses, because many shells interpret round parentheses if they
+are not quoted.
+"""
+
+import sys
+from cmath import *
+
+def log2(x):
+    return log(x, 2)
+
+# the smallest number such that 1+eps != 1
+# (this is approximate)
+epsilon = pow(2, -52)
+
+if len(sys.argv) <= 1:
+    expr = raw_input()
+else:
+    expr = " ".join(sys.argv[1:])
+    expr = expr.replace("[", "(").replace("]", ")")
+
+res = eval(expr)
+if res.imag/abs(res) < 10*epsilon:
+    res = res.real
+
+print res
