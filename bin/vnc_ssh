@@ -13,5 +13,12 @@ if [ -z "$disp" ] ; then
     disp=:0
 fi
 
-ssh "$login" "x11vnc -localhost -display '$disp' -scale 4/5 -bg" 
-vncviewer -via "$login" localhost"$disp"
+# ssh "$login" "x11vnc -localhost -display '$disp' -scale 4/5 -bg" 
+# vncviewer -via "$login" localhost"$disp"
+
+ssh -f -L 5900:localhost:5900 "$login" \
+    "x11vnc -safer -nopw -once -localhost -display '$disp' -scale 4/5 -ncache 10" \
+    && sleep 3 \
+    && vncviewer -encodings "tight" localhost"$disp"
+
+#"copyrect tight hextile zlib corre rre raw"
