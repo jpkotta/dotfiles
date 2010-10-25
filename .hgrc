@@ -28,11 +28,14 @@ schemes =
 # http://mercurial.selenic.com/wiki/ShelveExtension
 hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
 
+# bookmarks are like tags, but they move along when committing
+bookmarks =
+
 # use mercurial as a git client
 # http://hg-git.github.com/
 # in mercurial-git package
+# enabling bookmarks is highly recommended
 hgext.git =
-bookmarks = 
 
 # use mercurial as a subversion client
 # http://bitbucket.org/durin42/hgsubversion/wiki/Home
@@ -100,6 +103,10 @@ pdsvn = svn+ssh://kotta@svn.packetdigital.com/zone/subversion/
 emacs.binary = False
 emacs.args = -q --debug-init --eval "(ediff-merge-with-ancestor \"$local\" \"$other\" \"$base\" nil \"$output\")"
 emacs.check = prompt
+
+[bookmarks]
+# only move the current bookmark forward when committing
+track.current = True
 
 [tortoisehg]
 vdiff = meld
