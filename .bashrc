@@ -37,6 +37,10 @@ if [ -z "$BASH_COMPLETION" ] ; then
         && . /etc/bash_completion
 fi
 
+# ubuntu wraps this around every command, and more often than not it's
+# just annoying
+unset command_not_found_handle
+
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
 set -b
