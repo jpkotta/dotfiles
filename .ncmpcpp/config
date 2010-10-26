@@ -2,6 +2,7 @@
 
 mpd_music_dir = "/home/jpkotta/music"
 
+# switch to it with '9'
 visualizer_fifo_path = "/home/jpkotta/.mpd/fifo"
 visualizer_type = "spectrum"
 
