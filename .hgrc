@@ -77,6 +77,10 @@ hgview =
 # transplant changesets from another branch
 transplant = 
 
+# tasks are like bookmarks with extra in-progress/done metadata
+# http://bitbucket.org/alu/hgtasks
+#hgext.tasks = ~/.hgext/hgtasks/hgext/tasks.py
+
 [alias]
 summ = summary --remote
 view = hgview

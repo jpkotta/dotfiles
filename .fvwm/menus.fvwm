@@ -165,6 +165,7 @@ AddToMenu RootMisc
 + "" Nop
 + "&Firefox"                                Exec exec firefox
 + "&Chrome"                                 Exec exec google-chrome
++ "&Virtual Box"                            Exec exec VirtualBox
 + "%mini.display.xpm%Screenshot"            ScreenShotRoot
 + "%mini.display.xpm%Screenshot Window"     ScreenShotWindow
 + "%mini.perf.xpm%Top"                      StartTop
