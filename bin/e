@@ -27,7 +27,7 @@ else:
     expr = expr.replace("[", "(").replace("]", ")")
 
 res = eval(expr)
-if res.imag/abs(res) < 10*epsilon:
+if res != 0 and res.imag/abs(res) < 10*epsilon:
     res = res.real
 
 print res
