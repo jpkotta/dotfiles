@@ -1,6 +1,8 @@
 # jpkotta's .inputrc file
 # controls various look and feel type settings for interactive bash
 
+# Reload this file with C-x C-r
+
 # include the system-wide inputrc
 # if this is not included, a lot of keys won't work (in bash)
 $include /etc/inputrc
@@ -158,3 +160,29 @@ $if term=linux
     "\e[8~":    end-of-line
 $endif
 
+$if term=screen
+    # move along the line word by word
+    # doesn't work in linux console
+    # Ctrl-left_arrow
+    "\eOd":   backward-word
+    # Ctrl-right_arrow
+    "\eOc":   forward-word
+
+    # page up and page down are not equivalent to up and down arrow 
+    # this binds them to nothing
+    "\e[5~":
+    "\e[6~": 
+
+    # ctrl-backspace deletes previous word
+    #"\C-?":     backward-kill-word
+    "\C-H":     backward-kill-word
+    # ctrl-delete deletes next word
+    "\e[3^":    kill-word
+
+    # non-incremental search of history based on the text between the prompt and the cursor
+    # up arrow
+    "\e[B": history-search-forward
+    # down arrow
+    "\e[A": history-search-backward
+    
+$endif

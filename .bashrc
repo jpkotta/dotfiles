@@ -222,8 +222,24 @@ if [[ "$TERM" == 'rxvt-unicode' ]] ; then
 fi
 
 if [[ "$TERM" =~ "rxvt" \
-    || "$TERM" =~ "xterm" ]] ; then
+    || "$TERM" =~ "xterm" \
+    || "$TERM" =~ "screen" ]] ; then
     PROMPT_COMMAND='set_terminal_title "[${USER}@${HOSTNAME}][${PWD/$HOME/~}] "'
+fi
+
+if [[ "$TERM" = "screen" ]] ; then
+    DYNAMIC_TITLE="\[\033k\w\033\134\]"
+
+    function set_dynamic_screen_title ()
+    {
+        if [ "$1" -ne 0 ] ; then 
+            PS1=$DYNAMIC_TITLE$FANCY_PROMPT
+        else
+            PS1=$FANCY_PROMPT
+        fi
+    }
+
+    set_dynamic_screen_title 1
 fi
 
 ########################################################################
