@@ -457,8 +457,8 @@ ChangeMenuStyle small_menu_style WindowOpsSmall
 ################################################################################
 
 # A window movement (between pages and desks)
-DestroyMenu "WindowMove"
-AddToMenu   "WindowMove" 
+DestroyMenu WindowMove
+AddToMenu   WindowMove 
 + "Move to ..."                         Title
 + '$[desk.name0] [&1] %mini.move1.xpm%' PickAgain MoveToDesk 0 0
 + '$[desk.name1] [&2] %mini.move1.xpm%' PickAgain MoveToDesk 0 1
@@ -474,8 +474,8 @@ AddToMenu   "WindowMove"
 + 'Right Screen [&S] %mini.move1.xpm%'  PickAgain MoveToScreen $[RIGHT_SCREEN]
 ChangeMenuStyle small_menu_style WindowMove
 
-DestroyMenu "GroupMove"
-AddToMenu "GroupMove"
+DestroyMenu GroupMove
+AddToMenu GroupMove
 + "Group Move"                          Title
 + 'This &Desk%mini.move1.xpm%'          Pick All ($[w.class]) MoveToDesk
 + '$[desk.name0] [&1] %mini.move1.xpm%' Pick All ($[w.class]) MoveToDesk 0 0
