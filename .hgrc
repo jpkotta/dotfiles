@@ -35,7 +35,10 @@ bookmarks =
 # http://hg-git.github.com/
 # in mercurial-git package
 # enabling bookmarks is highly recommended
-hgext.git =
+# if using easy_install hg-git
+hgext.hggit = /usr/local/lib/python2.6/dist-packages/hg_git-0.2.5-py2.6.egg/hggit
+# if using mercurial-git debian pkg
+#hgext.git =
 
 # use mercurial as a subversion client
 # http://bitbucket.org/durin42/hgsubversion/wiki/Home
