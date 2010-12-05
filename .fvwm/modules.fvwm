@@ -18,7 +18,7 @@ DestroyModuleConfig FvwmEventSound: *
 *FvwmEventSound: StartDelay 3
 *FvwmEventSound: Delay 1
 
-*FvwmEventSound: startup        "$[FVWM_SOUNDDIR]/gong.wav"
+#*FvwmEventSound: startup        "$[FVWM_SOUNDDIR]/gong.wav"
 #*FvwmEventSound: add_window     "$[FVWM_SOUNDDIR]/wipe.wav"
 #*FvwmEventSound: destroy_window "$[FVWM_SOUNDDIR]/pook.wav"
 *FvwmEventSound: iconify        "$[FVWM_SOUNDDIR]/clong.wav"
