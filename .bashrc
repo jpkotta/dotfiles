@@ -53,7 +53,7 @@ umask 0022
 
 # this stops crtl-s from freezing the terminal
 if [ "$TERM" != "dumb" ] ; then
-    stty stop ""
+    stty -ixon
 fi
 
 # prevent CTRL-D from immediately logging out
