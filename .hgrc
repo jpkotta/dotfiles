@@ -36,7 +36,7 @@ bookmarks =
 # in mercurial-git package
 # enabling bookmarks is highly recommended
 # if using easy_install hg-git
-hgext.hggit = /usr/local/lib/python2.6/dist-packages/hg_git-0.2.5-py2.6.egg/hggit
+hgext.hggit = /usr/local/lib/python2.6/dist-packages/hggit
 # if using mercurial-git debian pkg
 #hgext.git =
 
