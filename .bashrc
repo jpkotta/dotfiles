@@ -252,7 +252,17 @@ fi
 
 # some programs' startup scipts need to know the screen res
 if [ -n "$DISPLAY" ] ; then
-    export RESOLUTION=`xdpyinfo | grep dimensions | awk '{ print $2 }'`
+    export DPY_RES=`xdpyinfo | grep dimensions | awk '{ print $2 }'`
+    export DPY_RES_X=`echo $DPY_RES | perl -lane 'split /x/ ; print @_[0]'`
+    export DPY_RES_Y=`echo $DPY_RES | perl -lane 'split /x/ ; print @_[1]'`
+    if [ $DPY_RES_X -ge $(( $DPY_RES_Y*2 )) ] ; then
+        # assume that if the x res is that much bigger, we have dual screen
+        export SCR_RES_X=$(($DPY_RES_X / 2))
+    else
+        export SCR_RES_X=$DPY_RES_X
+    fi
+    export SCR_Y_RES=$DPY_RES_Y
+    export SCR_RES=${SCR_RES_X}x${SCR_RES_Y}
 fi
 
 # used if username isn't specified
@@ -568,7 +578,7 @@ alias gkrellm='daemon gkrellm'
 # music player
 alias m=xmms
 # remote desktop
-alias rdp="rdesktop -K -g $RESOLUTION"
+alias rdp="rdesktop -K -g $SCR_RES"
 
 # vmware has been messing with X modifier keys, so start it in Xephyr
 alias startvmware="daemon Xephyr :11 -screen 1272x993 && DISPLAY=:11 daemon vmware"

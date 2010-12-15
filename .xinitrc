@@ -42,12 +42,6 @@ fi
 # turn on numlock
 numlockx
 
-# I use this in various scripts
-# it's the screen resolution in WxH format, e.g. 1280x960
-export SCREEN_RES=`xdpyinfo | grep dimensions | grep -o '[0-9]*x[0-9]*[[:space:]]*pixels' | sed -e 's/pixels//' -e 's/[[:space:]]//'`
-export SCREEN_RES_X=`echo $SCREEN_RES | sed -e 's/x.*//'`
-export SCREEN_RES_Y=`echo $SCREEN_RES | sed -e 's/.*x//'`
-
 # cd to $HOME, so that all programs started from X start there
 cd
 
