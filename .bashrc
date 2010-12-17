@@ -261,7 +261,7 @@ if [ -n "$DISPLAY" ] ; then
     else
         export SCR_RES_X=$DPY_RES_X
     fi
-    export SCR_Y_RES=$DPY_RES_Y
+    export SCR_RES_Y=$DPY_RES_Y
     export SCR_RES=${SCR_RES_X}x${SCR_RES_Y}
 fi
 
