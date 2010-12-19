@@ -5,8 +5,6 @@ echo "$@"
 echo "END OF PARAMETERS TO .xinitrc"
 echo 
 
-ubuntu_version=$(lsb_release --release | awk '{ print $2 }')
-
 # turn monitors off after 10 min
 xset dpms 0 0 600
 
@@ -40,13 +38,16 @@ if [ -r "$HOME/.Xresources" ] ; then
 fi
 
 # turn on numlock
-numlockx
+[ -x numlockx ] && numlockx
 
 # cd to $HOME, so that all programs started from X start there
 cd
 
 disp=`echo $DISPLAY | sed -e 's/://g' -e 's/[.][0-9]*//'`
-mv -f $HOME/.X-log-${disp} $HOME/.X-log-${disp}-old
+log_file=$HOME/.X-log-$disp
+if [ -e $log_file ] ; then
+    mv -f $log_file ${log_file}-old
+fi
 
 # load any machine-specific settings
 if [ -r $HOME/.xinitrc.local ] ; then
@@ -59,10 +60,10 @@ if [ -r $HOME/.xinitrc.local ] ; then
     echo
 fi
 
-#xterm
-fvwm >$HOME/.X-log-${disp} 2>&1
-#fvwm -f /dev/null >$HOME/.X-log-${disp} 2>&1
-#twm >$HOME/.X-log-${disp} 2>&1
+if [ -z "$WM_COMMAND" ] ; then
+    WM_COMMAND=fvwm
+fi
+exec $WM_COMMAND >$HOME/.X-log-${disp} 2>&1
 
 echo 
 echo "Shutting Down X..."
