@@ -5,6 +5,8 @@
 askusername = False
 # use emacs as a merge tool, special command line options elsewhere
 merge = emacs
+# use meld as a merge tool
+#merge = meld
 # ignore file for all repositories
 ignore = ~/.hgignore.global
 
