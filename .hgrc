@@ -121,6 +121,9 @@ track.current = True
 vdiff = meld
 hgtkfork = True
 
+[hgview]
+maxfilesize = 10000000
+
 # per-machine settings
 %include .hgrc.local
 
