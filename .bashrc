@@ -37,6 +37,10 @@ if [ -z "$BASH_COMPLETION" ] ; then
         && . /etc/bash_completion
 fi
 
+# autojump is a complement for cd
+# https://github.com/joelthelion/autojump
+[ -f /etc/profile.d/autojump.bash ] && . /etc/profile.d/autojump.bash
+
 # ubuntu wraps this around every command, and more often than not it's
 # just annoying
 unset command_not_found_handle
