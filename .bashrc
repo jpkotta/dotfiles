@@ -229,6 +229,8 @@ if [[ "$TERM" =~ "rxvt" \
     || "$TERM" =~ "xterm" \
     || "$TERM" =~ "screen" ]] ; then
     PROMPT_COMMAND='set_terminal_title "[${USER}@${HOSTNAME}][${PWD/$HOME/~}] "'
+else
+    PROMPT_COMMAND=
 fi
 
 if [[ "$TERM" = "screen" ]] ; then
