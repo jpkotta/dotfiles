@@ -472,6 +472,8 @@ AddToMenu   WindowMove
 + '' Nop
 + 'Left Screen [&A] %mini.move1.xpm%'   PickAgain MoveToScreen $[LEFT_SCREEN]
 + 'Right Screen [&S] %mini.move1.xpm%'  PickAgain MoveToScreen $[RIGHT_SCREEN]
++ 'All to Left Screen [&D] %mini.move1.xpm%' All (*) MoveToScreen $[LEFT_SCREEN]
++ 'All to Right Screen [&F] %mini.move1.xpm%' All (*) MoveToScreen $[RIGHT_SCREEN]
 ChangeMenuStyle small_menu_style WindowMove
 
 DestroyMenu GroupMove

@@ -288,7 +288,7 @@ Test (x dclock) \
 # a nice calendar
 Test (x gdeskcal) \
     *DesktopButtons: (8x7, Frame 0, ActionIgnoresClientWindow, \
-    Action (Mouse 1) Exec killall gdeskcal ; exec gdeskcal --first-day=7, \
+    Action (Mouse 2) Exec killall gdeskcal ; exec gdeskcal --first-day=7, \
     Swallow (NoClose, SwallowNew, UseOld) \
     "gdeskcal" "Exec exec gdeskcal --first-day=7")
 
@@ -296,7 +296,7 @@ Test (x gdeskcal) \
 Test (!EnvIsSet USE_NETBOOK) \
     Test (x gkrellm) \
     *DesktopButtons: (4x28, Frame 0, ActionIgnoresClientWindow, \
-    Action (Mouse 1) Exec killall gkrellm ; gkrellm, \
+    Action (Mouse 2) Exec killall gkrellm ; gkrellm, \
     Swallow (NoClose, SwallowNew, UseOld) \
     "gkrellm" "Exec exec gkrellm -geometry +1500+1500")
 # sometimes, gkrellm gets weird, hence the restart action
