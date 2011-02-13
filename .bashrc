@@ -751,6 +751,16 @@ function define()
     dict $@ | less
 }
 
+function wiki()
+{
+    if [ -z "$1" ] ; then
+        echo "Usage: $0 article name"
+        echo "Print the beginning of Wikipedia article."
+        return
+    fi
+    dig +short txt "$*".wp.dg.cx;
+}
+
 # if [ $TERM != "dumb" ] ; then
 #     fortune
 # fi
