@@ -734,11 +734,19 @@ function spell()
                 # *
                 echo "'$word' is spelled correctly."
             else
-                # example:
+                # example with suggestions:
                 # $ echo spel | ispell -a -m -B
                 # @(#) International Ispell Version 3.1.20 10/10/95, patch 1
                 # & spel 7 0: Opel, spec, sped, spell, spelt, spew, spiel
-                resp=$(echo $resp | sed -e 's/&.*://')
+                #
+                # example with no suggestions:
+                # $ echo asdf | ispell -a -m -B                                              
+                # @(#) International Ispell Version 3.1.20 10/10/95
+                # # asdf 0
+                resp=$(echo $resp | grep '^&' | sed -e 's/&.*://')
+                if [ -z "$resp" ] ; then
+                    resp=" <NONE>"
+                fi
                 echo "Suggestions for '$word':$resp"
             fi
         done
