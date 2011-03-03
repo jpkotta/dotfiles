@@ -76,6 +76,9 @@ hgext.caseguard = ~/.hgext/caseguard/caseguard.py
 # http://mercurial.selenic.com/wiki/FixcaseExtension
 hgext.fixcase = ~/.hgext/fixcase.py
 
+# end of line conversion
+eol = 
+
 # a replacement for hgk
 hgview = 
 
