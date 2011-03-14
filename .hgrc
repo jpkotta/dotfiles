@@ -107,6 +107,10 @@ rmorig = purge --include=**.orig
 PURGE = purge
 purge = purge --print
 
+REVERT = revert --no-backup
+
+vlog = glog -v --pager=yes
+
 [trusted]
 # 754 is packet@storagez
 users = root, 754
