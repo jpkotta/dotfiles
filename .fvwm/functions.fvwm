@@ -624,4 +624,6 @@ AddToFunc ZoomWindow
 + I Wait xmag
 + I Next (xmag) Module FvwmScroll
 
-
+DestroyFunc SshAdd
+AddToFunc SshAdd
++ I StartTerminal -geometry 80x5 -title ssh-add -e ssh-add 

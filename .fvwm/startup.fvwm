@@ -35,6 +35,7 @@ AddToFunc InitFunction
 + I Exec exec pidgin
 + I Exec pulseaudio --check || pulseaudio -D
 + I Exec if ! ps -ef | grep -v grep | grep mpd | grep -q $USER ; then mpd ; sleep 1 ; ralbumd kill ; ralbumd ; fi
++ I SshAdd
 
 ################################################################################
 # ALL STARTUPS
