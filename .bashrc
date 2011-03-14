@@ -585,6 +585,8 @@ alias gkrellm='daemon gkrellm'
 alias m=xmms
 # remote desktop
 alias rdp="rdesktop -K -g $SCR_RES"
+# fusermount
+alias fumount='fusermount -u -z'
 
 # vmware has been messing with X modifier keys, so start it in Xephyr
 alias startvmware="daemon Xephyr :11 -screen 1272x993 && DISPLAY=:11 daemon vmware"
