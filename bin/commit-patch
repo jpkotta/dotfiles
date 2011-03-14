@@ -71,7 +71,9 @@ while (!$vc{name}) {
         $vc{message_file} = sub { ("--logfile=$_[0]" ) };
     } elsif (-d "$repo/.hg") {
         $vc{name}         = 'hg';
-        $vc{diff}         = 'hg diff';
+        # because internal diff has trouble with mixed line endings
+        $vc{diff}         = 'hg extdiff';
+        #$vc{diff}         = 'hg diff';
         $vc{commit}       = 'hg commit';
         $vc{message}      = sub { ('-m', $_[0]) };
         $vc{message_file} = sub { ('--logfile', $_[0]) };

@@ -85,12 +85,16 @@ hgview =
 # transplant changesets from another branch
 transplant = 
 
+# use an external diff tool (diff by default)
+extdiff = 
+
 # tasks are like bookmarks with extra in-progress/done metadata
 # http://bitbucket.org/alu/hgtasks
 #hgext.tasks = ~/.hgext/hgtasks/hgext/tasks.py
 
 [alias]
 summ = summary --remote
+
 view = hgview
 
 shelve = shelve --all
