@@ -30,9 +30,6 @@ schemes =
 # http://mercurial.selenic.com/wiki/ShelveExtension
 hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
 
-# bookmarks are like tags, but they move along when committing
-bookmarks =
-
 # use mercurial as a git client
 # http://hg-git.github.com/
 # in mercurial-git package
