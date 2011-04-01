@@ -1,8 +1,8 @@
-9d9001de061b1cfe3295b729cdec636d729bfd6b .emacs.d/auto-complete
+400a4e3b9d022a7c89dfafa885d12874f533ed88 .emacs.d/auto-complete
 403e7d3f4fbc2205ad02c920d0eb776050cd7cf8 .emacs.d/drag-stuff
-3f9f6721285afde0a042e5841c5ccd11b0c1fccc .emacs.d/geiser
+45c397f8b58a9d26600280e17c70a1f492e74cd0 .emacs.d/geiser
 2e2a5d08efeb54b2137003e12b6d8c3219ba3368 .emacs.d/wrap-region
 d0e29f91631aac246105bbfb6ee55b3012c75954 .hgext/caseguard
-23649f81c364d5d6f52d59c3a124c4a3c23c474f .hgext/hgshelve
-4baa41e0f8adc574f85148178c83af7ce8f64697 .hgext/hgsubversion
+3d7a2a3ae9a5e8ba4b5a333acb9d5c2a12cc8793 .hgext/hgshelve
+6f0b0a47938c67fd4818487aa7721dbff06904f0 .hgext/hgsubversion
 bb46f7d7eb23eea34eac025f6639a3dabf3605bd .hgext/localbranch
