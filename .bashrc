@@ -381,7 +381,7 @@ alias kill_emacs_server="emacsclient -e '(client-save-kill-emacs)'"
 
 # grep
 # see also ack-grep
-alias srcgrp="grep -RE --include='*.[ch]' -n"
+alias srcgrp="grep -RE --include='*.[ch]' --include='*.cpp' -n"
 
 # ls aliases
 # workaround for BSD
