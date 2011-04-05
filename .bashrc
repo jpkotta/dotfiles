@@ -584,7 +584,7 @@ alias gkrellm='daemon gkrellm'
 # music player
 alias m=xmms
 # remote desktop
-alias rdp="rdesktop -K -g $SCR_RES"
+alias rdp="rdesktop -x lan -K -g $SCR_RES"
 # fusermount
 alias fumount='fusermount -u -z'
 
