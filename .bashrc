@@ -271,9 +271,6 @@ if [ -n "$DISPLAY" ] ; then
     export SCR_RES=${SCR_RES_X}x${SCR_RES_Y}
 fi
 
-# used if username isn't specified
-export HGUSER=${USER}@${HOSTNAME}
-
 ########################################################################
 # COLORS
 
@@ -454,8 +451,6 @@ function rm-rf()
 alias rmbck='/bin/rm -f ./*.bck ./.*.bck ./*?~ ./.*?~'
 # remove all data from file, or create an empty file
 alias empty='/bin/cp /dev/null'
-# delete all of the .orig files from a mercurial repo
-alias rmuntracked='hg stat -un0 $(hg root) | xargs -0r rm'
 # safer mv
 alias mv='mv -i'
 # safer cp

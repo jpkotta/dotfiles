@@ -1,20 +1,24 @@
 # Mercurial config
 
 [ui]
-# use $HGUSER for username
-askusername = False
+# username to use for commits
+# environment variables are expanded
+username = $USER@$HOSTNAME
+
 # use emacs as a merge tool, special command line options elsewhere
 merge = emacs
 # use meld as a merge tool
 #merge = meld
+
 # ignore file for all repositories
 ignore = ~/.hgignore.global
 
-[extensions]
-# TK gui distributed with mercurial
-hgk =
+# do not automatically commit changes in subrepos
+commitsubrepos = False
 
+[extensions]
 # mercurial queues
+# also enables the strip command
 mq =
 
 # color output from some commands
@@ -32,18 +36,20 @@ hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
 
 # use mercurial as a git client
 # http://hg-git.github.com/
-# in mercurial-git package
-# enabling bookmarks is highly recommended
-# if using easy_install hg-git
+# if using pip install hg-git
 hgext.hggit = /usr/local/lib/python2.6/dist-packages/hggit
 # if using mercurial-git debian pkg
 #hgext.git =
 
+# move changesets to a different (named or unnamed) branch, merging if
+# necessary
+rebase = 
+
 # use mercurial as a subversion client
 # http://bitbucket.org/durin42/hgsubversion/wiki/Home
 # requires python-subversion
+# recommends rebase extension
 hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
-rebase = 
 
 # localbranches like git
 # http://mercurial.selenic.com/wiki/LocalbranchExtension
@@ -62,7 +68,7 @@ share =
 # show a progress bar for certain operations that take a long time
 progress = 
 
-# remove all untracked files
+# remove untracked files
 purge = 
 
 # guard against committing FooBar if foobar is already tracked
@@ -76,10 +82,14 @@ hgext.fixcase = ~/.hgext/fixcase.py
 # end of line conversion
 eol = 
 
+# TK gui distributed with mercurial
+#hgk =
+
 # a replacement for hgk
+# in the hgview package
 hgview = 
 
-# transplant changesets from another branch
+# transplant (duplicate) changesets from another branch
 transplant = 
 
 # use an external diff tool (diff by default)
