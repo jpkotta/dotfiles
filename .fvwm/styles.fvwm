@@ -147,3 +147,6 @@ Style "VLC (XVideo output)" SloppyFocus
 
 # OO.o floating toolbars not sticky
 Style VCLSalFrame EWMHIgnoreWindowType
+
+# VNC viewer
+Style TightVNC:* !Title, !Borders

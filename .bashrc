@@ -591,6 +591,9 @@ alias fumount='fusermount -u -z'
 # vmware has been messing with X modifier keys, so start it in Xephyr
 alias startvmware="daemon Xephyr :11 -screen 1272x993 && DISPLAY=:11 daemon vmware"
 
+# tight vncviewer options for internet connections
+alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -compresslevel 6 -bgr233 -geometry $SCR_RES"
+
 ########################################################################
 # FUNCTIONS
 
