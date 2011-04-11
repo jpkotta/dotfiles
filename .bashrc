@@ -180,14 +180,15 @@ prompt_jobs="$cyan\j$normal"
 prompt_time="$cyan\t$normal"
 prompt_pwd="$magenta\w$normal"
 prompt_cmd_num="$blue\#$normal"
-# prompt_err_stat="\
-# \`__lasterr=\$?; \
-# if [ \$__lasterr = 0 ] ; then \
-# echo -ne '\e[1;32m' ; \
-# else echo -ne '\e[1;31m' ; \
-# fi ; \
-# echo \$__lasterr\`$normal"
-prompt_err_stat="$cyan\`echo \$?\`$normal"
+prompt_err_stat="\
+\`__lasterr=\$?; \
+if [ \$__lasterr = 0 ] ; then \
+echo -ne '$cyan' ; \
+else echo -ne '$red' ; \
+fi ; \
+echo \$__lasterr ; \
+exit $__lasterr\`$normal"
+# prompt_err_stat="$cyan\`echo \$?\`$normal"
 prompt_prompt="$blue\\\$$normal"
 prompt_dpy="$cyan\$DISPLAY$normal"
 
