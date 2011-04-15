@@ -22,8 +22,9 @@ nitrogen --restore &
 # xmodmap -e "keycode 117 = Menu"
 # xmodmap -e "add mod4 = Super_L Super_R"
 
-# ain't no good for nothin.
+# make caps lock useful
 xmodmap -e "remove lock = Caps_Lock"
+xmodmap -e "add control = Caps_Lock"
 
 # volume keys for laptop
 if [ x`hostname` = x"goedel" ] ; then
