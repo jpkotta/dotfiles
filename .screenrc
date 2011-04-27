@@ -2,9 +2,16 @@
 # Example of a user's .screenrc file
 #
 
-# set the escape character to C-4.  To send a literal 'C-4', type it twice
-defescape ^\^\
-escape ^\^\
+# Set the escape character.  To send a literal escape char, type it
+# twice.
+
+# C-4
+#defescape ^\^\
+#escape ^\^\
+        
+# C-3
+defescape ^[^[
+escape ^[^[
 
 # This is how one can set a reattach password:
 # password ODSJQf.4IJN7E    # "1234"
