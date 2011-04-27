@@ -727,12 +727,26 @@ function spell()
             word=$1
             shift
 
-            resp=$(echo $word | ispell -a -m -B | grep -v "^[@*]")
+            # from ispell man page:
+            # OK:    *
+            # Root:  + <root>
+            # Compound:
+            #        -
+            # Miss:  & <original> <count> <offset>: <miss>, <miss>, ..., <guess>, ...
+            # Guess: ? <original> 0 <offset>: <guess>, <guess>, ...
+            # None:  # <original> <offset>
+            
+            resp=$(echo $word | ispell -a -m -B | grep -v "^[@*+-]")
             if [ -z "$resp" ] ; then
                 # example:
                 # $ echo spell | ispell -a -m -B
                 # @(#) International Ispell Version 3.1.20 10/10/95, patch 1
                 # *
+                #
+                # example:
+                # $ echo spelled | ispell -a -m -B
+                # @(#) International Ispell Version 3.1.20 10/10/95
+                # + SPELL
                 echo "'$word' is spelled correctly."
             else
                 # example with suggestions:
