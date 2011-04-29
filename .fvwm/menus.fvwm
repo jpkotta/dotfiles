@@ -167,7 +167,7 @@ AddToMenu RootMisc
 + "&Chrome"                                 Exec exec chromium-browser
 + "&Virtual Box"                            Exec exec VirtualBox
 + "%mini.display.xpm%Screenshot"            ScreenShotRoot
-+ "%mini.display.xpm%Screenshot Window"     ScreenShotWindow
++ "%mini.display.xpm%Screenshot Window"     Pick ScreenShotWindow
 + "%mini.perf.xpm%Top"                      StartTop
 + "%mini.hextris.xpm%Folding@Home Log"      StartFahLogViewer
 + "%mini.nautilus.png%Nautilus"             Exec exec /usr/bin/nautilus --browser --no-desktop
