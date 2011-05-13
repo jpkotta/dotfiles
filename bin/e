@@ -13,33 +13,18 @@ are not quoted.
 import sys
 from cmath import *
 
-import optparse
-
-
-output_format = "dec"
-def set_output(option, opt_str, value, parser, *args):
-    global output_format
-    output_format = args[0]
-
-op = optparse.OptionParser()
-op.add_option("-H", "--hex", nargs=0,
-              action="callback", callback=set_output, callback_args=("hex",),
-              help="Output in hexadecimal format")
-op.add_option("-o", "--oct", nargs=0,
-              action="callback", callback=set_output, callback_args=("oct",),
-              help="Output in octal format")
-op.add_option("-b", "--bin", nargs=0,
-              action="callback", callback=set_output, callback_args=("bin",),
-              help="Output in binary format")
-    
-(opts, args) = op.parse_args()
-
 def log2(x):
     return log(x, 2)
+
+# I hate the inconsistent notation for octal numbers
+def oct(num):
+    return "0o%o" % num
 
 # the smallest number such that 1+eps != 1
 # (this is approximate)
 epsilon = pow(2, -52)
+
+args = sys.argv[1:]
 
 if len(args) < 1:
     expr = raw_input()
@@ -48,17 +33,9 @@ else:
     expr = expr.replace("[", "(").replace("]", ")")
 
 res = eval(expr)
-if res != 0 and res.imag/abs(res) < 10*epsilon:
+numeric_types = (int, long, float, complex)
+if isinstance(res, numeric_types) \
+        and res != 0 and res.imag/abs(res) < 10*epsilon:
     res = res.real
 
-if output_format == "dec":
-    print res
-elif output_format == "hex":
-    print "0x%x" % res
-elif output_format == "oct":
-    print "0o%o" % res
-elif output_format == "bin":
-    print bin(int(res))
-else:
-    print output_format
-    print res
+print res
