@@ -4,5 +4,5 @@
 2e2a5d08efeb54b2137003e12b6d8c3219ba3368 .emacs.d/wrap-region
 d0e29f91631aac246105bbfb6ee55b3012c75954 .hgext/caseguard
 3d7a2a3ae9a5e8ba4b5a333acb9d5c2a12cc8793 .hgext/hgshelve
-6f0b0a47938c67fd4818487aa7721dbff06904f0 .hgext/hgsubversion
+0b07a0c574bc71a22a3928c3e718b627ba052034 .hgext/hgsubversion
 bb46f7d7eb23eea34eac025f6639a3dabf3605bd .hgext/localbranch
