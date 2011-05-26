@@ -105,6 +105,11 @@ record =
 [alias]
 summ = summary --remote
 
+substatus = status --subrepos
+subincoming = incoming --subrepos
+suboutgoing = outgoing --subrepos
+subdiff = diff --subrepos
+
 view = hgview
 
 shelve = shelve --all
