@@ -63,6 +63,9 @@ fi
 # prevent CTRL-D from immediately logging out
 export IGNOREEOF=1
 
+# this is set but not exported by default
+export HOSTNAME
+
 ########################################################################
 # source other rc files
 
