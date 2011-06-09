@@ -150,3 +150,6 @@ Style VCLSalFrame EWMHIgnoreWindowType
 
 # VNC viewer
 Style TightVNC:* !Title, !Borders
+
+# VirtualBox
+Style "*VM VirtualBox" !Title, !Borders
