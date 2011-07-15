@@ -36,9 +36,9 @@ hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
 
 # use mercurial as a git client
 # http://hg-git.github.com/
-# if using pip install hg-git
+# if using sudo pip install hg-git
 hgext.hggit = /usr/local/lib/python2.6/dist-packages/hggit
-# if using mercurial-git debian pkg
+# if using sudo aptitude install mercurial-git
 #hgext.git =
 
 # move changesets to a different (named or unnamed) branch, merging if
