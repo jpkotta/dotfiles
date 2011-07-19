@@ -1,8 +1,9 @@
-.emacs.d/geiser = git://gitorious.org/geiser/mainline.git
-.emacs.d/auto-complete = git://github.com/m2ym/auto-complete.git
-.emacs.d/drag-stuff = git://github.com/rejeep/drag-stuff.git
-.emacs.d/wrap-region = git://github.com/rejeep/wrap-region.git
+.hgext/hg-git = http://bitbucket.org/durin42/hg-git
 .hgext/hgshelve = http://bitbucket.org/tksoh/hgshelve
 .hgext/hgsubversion = http://bitbucket.org/durin42/hgsubversion
 .hgext/localbranch = http://bitbucket.org/brendan/mercurial-extensions-localbranch
 .hgext/caseguard = http://bitbucket.org/alexandru/caseguard
+.emacs.d/geiser = git://gitorious.org/geiser/mainline.git
+.emacs.d/auto-complete = git://github.com/m2ym/auto-complete.git
+.emacs.d/drag-stuff = git://github.com/rejeep/drag-stuff.git
+.emacs.d/wrap-region = git://github.com/rejeep/wrap-region.git
