@@ -368,6 +368,26 @@ alias cds="cd $HOME/src"
 # mkdir and cd to it
 function cdmk() { mkdir -p "$1" ; cd "$1" ; }
 
+# move around dirstack more easily
+function cd() {
+    local num_dirs 
+    
+    if [ -z "$1" ] ; then
+        if [ "$PWD" != "$HOME" ] ; then
+            builtin pushd "$HOME" >/dev/null
+        fi
+        return
+    fi
+
+    num_dirs=${#DIRSTACK[@]}
+
+    case $1 in
+        "-") builtin cd - && pushd -n "$PWD" >/dev/null ;;
+        "_") [ $num_dirs -gt 1 ] && builtin popd >/dev/null || true ;;
+        *) builtin pushd "$1" >/dev/null ;;
+    esac
+}
+
 # list of processes matching a regex
 # ps[kK] should be modified to use pkill/pgrep
 alias psg="ps -e -o pid,ppid,user,%cpu,%mem,start_time,cmd \
