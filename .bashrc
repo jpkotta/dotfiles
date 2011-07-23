@@ -743,8 +743,15 @@ function spell()
 {
     local word resp
 
+    if ! which ispell >/dev/null ; then
+        echo "This requires ispell."
+        echo "Install it with 'sudo aptitude install ispell'"
+        return 1
+    fi
+    
     if [ -z "$1" ]; then
         echo "Usage: spell word1 [ word2 ... ]"
+        return 1
     else
         while [ -n "$1" ] ; do
             word=$1
