@@ -121,6 +121,7 @@ ll = unshelve -i
 
 # remove all untracked .orig files
 rmorig = purge --include=**.orig
+rmrej = purge --include=**.rej
 # safety purge (order is important)
 PURGE = purge
 purge = purge --print
@@ -128,6 +129,12 @@ purge = purge --print
 REVERT = revert --no-backup
 
 vlog = glog -v --pager=yes
+
+bm = bookmarks
+
+[diff]
+# use git's diff format, can handle binaries
+#git = True
 
 [trusted]
 # 754 is packet@storagez
