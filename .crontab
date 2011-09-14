@@ -2,8 +2,7 @@
 # min hour DoM month DoW command
 
 # dump crontab contents to ~/.crontab for version control purposes
-#0 4 * * * crontab -l > $HOME/.crontab
-* * * * * crontab -l > $HOME/.crontab
+0 4 * * * crontab -l > $HOME/.crontab
         
 # sync SpiderOak every 10 minutes
 */10 * * * * SpiderOak --batchmode
