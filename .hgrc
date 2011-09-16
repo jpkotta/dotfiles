@@ -76,7 +76,8 @@ purge =
 
 # guard against committing FooBar if foobar is already tracked
 # http://bitbucket.org/alexandru/caseguard 
-hgext.caseguard = ~/.hgext/caseguard/caseguard.py
+# FIXME broken in hg 1.9
+#hgext.caseguard = ~/.hgext/caseguard/caseguard.py
 
 # easily fix filename case changes
 # http://mercurial.selenic.com/wiki/FixcaseExtension
@@ -115,6 +116,7 @@ subdiff = diff --subrepos
 
 view = hgview
 
+# shelve extension
 shelve = shelve --all
 ls = unshelve -l
 ll = unshelve -i
