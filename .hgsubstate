@@ -4,6 +4,6 @@
 2e2a5d08efeb54b2137003e12b6d8c3219ba3368 .emacs.d/wrap-region
 d0e29f91631aac246105bbfb6ee55b3012c75954 .hgext/caseguard
 31c6154bd88d54c70175eb1840f3cc38f56406a4 .hgext/hg-git
-3d7a2a3ae9a5e8ba4b5a333acb9d5c2a12cc8793 .hgext/hgshelve
+244a50c40d93873006c875c5d2ae64fcbc987216 .hgext/hgshelve
 e30ff6d5feff1867ef9928930f6697c799c6aacd .hgext/hgsubversion
 bb46f7d7eb23eea34eac025f6639a3dabf3605bd .hgext/localbranch
