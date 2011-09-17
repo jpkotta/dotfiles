@@ -5,5 +5,5 @@
 0 4 * * * crontab -l > $HOME/.crontab
         
 # sync SpiderOak every 10 minutes
-*/10 * * * * SpiderOak --batchmode
+*/10 * * * * SpiderOak --batchmode --redirect=/dev/null
 
