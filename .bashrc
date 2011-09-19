@@ -1,12 +1,13 @@
-# JPK's .bashrc
+### jpkotta's .bashrc
 
 ########################################################################
-# NOTES
+### notes
 
 # Never start a program from here that will output text.  It screws up
 # things like ssh.  Put those in ~/.bash_profile instead.
 
 ########################################################################
+### things that must be initialized early
 
 # for profiling
 function tic()
@@ -67,7 +68,7 @@ export IGNOREEOF=1
 export HOSTNAME
 
 ########################################################################
-# source other rc files
+### source other rc files
 
 if [ -e ~/.bashrc.local ] ; then
     source ~/.bashrc.local
@@ -84,7 +85,7 @@ done
     && . $HOME/.keychain/$HOSTNAME-sh
 
 ########################################################################
-# PATH VARIABLES
+### path variables
 
 # these functions allow us to set the PATH idempotently
 
@@ -131,7 +132,7 @@ pathappend /usr/local/lib/python2.6/site-packages PYTHONPATH
 pathappend /usr/lib/python2.6/site-packages PYTHONPATH
 
 ########################################################################
-# DEFAULT APPS
+### application defaults
 
 export EDITOR="emacsclient -c -a ''"
 export BROWSER="opera -newwindow"
@@ -140,7 +141,7 @@ export PDF_READER="okular"
 export TERMINAL="urxvt --perl-lib ~/.urxvt-perl -pe tabbed"
 
 ########################################################################
-# PROMPT
+### prompt
 
 # color escape codes
 normal="\[\e[0m\]"
@@ -253,7 +254,7 @@ if [[ "$TERM" = "screen" ]] ; then
 fi
 
 ########################################################################
-# OTHER VARIABLES
+### miscellaneous environment variables
 
 # optimizations
 #CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse'
@@ -276,7 +277,7 @@ if [ -n "$DISPLAY" ] ; then
 fi
 
 ########################################################################
-# COLORS
+### colors
 
 # set up colors for ls
 if [ $is_GNU = 0 ] ; then
@@ -295,9 +296,38 @@ fi
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='01;32' # bold green
 
+function showcolors()
+{
+    esc="\033["
+    echo -e "\t  40\t   41\t   42\t    43\t      44       45\t46\t 47"
+    for fore in 30 31 32 33 34 35 36 37; do
+        line1="$fore  "
+        line2="    "
+        for back in 40 41 42 43 44 45 46 47; do
+            line1="${line1}${esc}${back};${fore}m Normal  ${esc}0m"
+            line2="${line2}${esc}${back};${fore};1m Bold    ${esc}0m"
+        done
+        echo -e "$line1\n$line2"
+    done
+
+    echo ""
+    echo "# Example:"
+    echo "#"
+    echo "# Type a Blinkin TJEENARE in Swedens colours (Yellow on Blue)"
+    echo "#"
+    echo "#           ESC"
+    echo "#            |  CD"
+    echo "#            |  | CD2"
+    echo "#            |  | | FG"
+    echo "#            |  | | |  BG + m"
+    echo "#            |  | | |  |         END-CD"
+    echo "#            |  | | |  |            |"
+    echo "# echo -e '\033[1;5;33;44mTJEENARE\033[0m'"
+    echo "#"
+}
 
 ########################################################################
-# COMMAND LINE ALIASES
+### aliases
 
 # appends a '&' to a command so it will run in the background
 # useful for aliases
@@ -614,7 +644,7 @@ alias startvmware="daemon Xephyr :11 -screen 1272x993 && DISPLAY=:11 daemon vmwa
 alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -compresslevel 6 -bgr233 -geometry $SCR_RES"
 
 ########################################################################
-# FUNCTIONS
+### functions
 
 # show the contents of some bash object, where object is a variable,
 # function, or alias.
@@ -706,37 +736,6 @@ function trash()
 
         /bin/mv --verbose --backup=numbered "$file" $HOME/.Trash
     done
-}
-
-function showcolors()
-{
-    esc="\033["
-    echo -e "\t  40\t   41\t   42\t    43\t      44       45\t46\t 47"
-    for fore in 30 31 32 33 34 35 36 37; do
-        line1="$fore  "
-        line2="    "
-        for back in 40 41 42 43 44 45 46 47; do
-            line1="${line1}${esc}${back};${fore}m Normal  ${esc}0m"
-            line2="${line2}${esc}${back};${fore};1m Bold    ${esc}0m"
-        done
-        echo -e "$line1\n$line2"
-    done
-
-    echo ""
-    echo "# Example:"
-    echo "#"
-    echo "# Type a Blinkin TJEENARE in Swedens colours (Yellow on Blue)"
-    echo "#"
-    echo "#           ESC"
-    echo "#            |  CD"
-    echo "#            |  | CD2"
-    echo "#            |  | | FG"
-    echo "#            |  | | |  BG + m"
-    echo "#            |  | | |  |         END-CD"
-    echo "#            |  | | |  |            |"
-    echo "# echo -e '\033[1;5;33;44mTJEENARE\033[0m'"
-    echo "#"
-    echo "# Sedika Signing off for now ;->"
 }
 
 function spell()
