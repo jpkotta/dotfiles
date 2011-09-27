@@ -152,4 +152,5 @@ Style VCLSalFrame EWMHIgnoreWindowType
 Style TightVNC:* !Title, !Borders
 
 # VirtualBox
-Style "*VM VirtualBox" !Title, !Borders
+Style "*VM VirtualBox" !Title, !Borders, \
+    StartsOnScreen $[LEFT_SCREEN], PositionPlacement 0 0
