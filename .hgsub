@@ -7,3 +7,4 @@
 .emacs.d/drag-stuff = git://github.com/rejeep/drag-stuff.git
 .emacs.d/wrap-region = git://github.com/rejeep/wrap-region.git
 .emacs.d/workgroups = git://github.com/tlh/workgroups.el.git
+.emacs.d/backup-walker = git://github.com/lewang/backup-walker.git
