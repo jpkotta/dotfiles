@@ -285,12 +285,14 @@ Test (x dclock) \
 # xclock can be used here instead
 #xclock -digital -update 1 -face 'New Century Schoolbook:italic:size=17' -strftime "%a, %b %d, %Y\n%T"
 
-# a nice calendar
-Test (x gdeskcal) \
-    *DesktopButtons: (8x7, Frame 0, ActionIgnoresClientWindow, \
-    Action (Mouse 2) Exec killall gdeskcal ; exec gdeskcal --first-day=7, \
-    Swallow (NoClose, SwallowNew, UseOld) \
-    "gdeskcal" "Exec exec gdeskcal --first-day=7")
+# # a nice calendar
+# Test (x gdeskcal) \
+#     *DesktopButtons: (8x7, Frame 0, ActionIgnoresClientWindow, \
+#     Action (Mouse 2) Exec killall gdeskcal ; exec gdeskcal --first-day=7, \
+#     Swallow (NoClose, SwallowNew, UseOld) \
+#     "gdeskcal" "Exec exec gdeskcal --first-day=7")
+
+#urxvt -fn 6x13 +sb -geometry 22x9 -e sh -c "cal ; sleep 1h; done"
 
 # a nice monitor
 Test (!EnvIsSet USE_NETBOOK) \
