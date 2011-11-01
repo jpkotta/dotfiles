@@ -25,7 +25,7 @@ function toc()
 
 # try to make this portable to BSD systems
 is_GNU=1
-if bash --version | grep -iq bsd ; then
+if bash --version | grep -i bsd >&/dev/null; then
     is_GNU=0
 fi
 
@@ -264,8 +264,8 @@ fi
 # some programs' startup scipts need to know the screen res
 if [ -n "$DISPLAY" ] ; then
     export DPY_RES=`xdpyinfo | grep dimensions | awk '{ print $2 }'`
-    export DPY_RES_X=`echo $DPY_RES | perl -lane 'split /x/ ; print @_[0]'`
-    export DPY_RES_Y=`echo $DPY_RES | perl -lane 'split /x/ ; print @_[1]'`
+    export DPY_RES_X=`echo $DPY_RES | sed s/x.*//`
+    export DPY_RES_Y=`echo $DPY_RES | sed s/.*x//`
     if [ $DPY_RES_X -ge $(( $DPY_RES_Y*2 )) ] ; then
         # assume that if the x res is that much bigger, we have dual screen
         export SCR_RES_X=$(($DPY_RES_X / 2))
@@ -441,7 +441,12 @@ if [ $is_GNU = 0 ] ; then
 else
     LS=ls
 fi
-alias ls="$LS -vF --color=auto"
+
+if $LS -vF --color=auto >&/dev/null ; then
+    alias ls="$LS -vF --color=auto"
+else
+    alias ls="$LS -F"
+fi
 alias l='ls'
 # long listing
 alias ll='ls -l'
