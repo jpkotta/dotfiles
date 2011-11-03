@@ -285,7 +285,7 @@ if [ $is_GNU = 0 ] ; then
 else
     DIRCOLORS=dircolors
 fi
-if which $DIRCOLORS >&/dev/null ; then
+if type $DIRCOLORS >&/dev/null ; then
     if [ ! -e ~/.dircolors ] ; then
         $DIRCOLORS --print-database > ~/.dircolors
     fi
@@ -352,10 +352,9 @@ alias EE="$EDITOR"
 # terminal
 alias T="daemon $TERMINAL"
 
-if ! which realpath >&/dev/null ; then
-    alias realpath="readlink -f"
+if type realpath >&/dev/null ; then
+    alias realpath='readlink -f'
 fi
-
 
 if [ $TERM != "dumb" ] ; then
     THIS_FILE=`realpath $BASH_SOURCE`
@@ -529,7 +528,7 @@ alias upgrade="sudo aptitude update && sudo aptitude safe-upgrade"
 export LESS="--LONG-PROMPT --RAW-CONTROL-CHARS"
 
 # configure less to page just about anything in a rational way
-if which lessfile >&/dev/null ; then
+if type lessfile >&/dev/null ; then
     eval $(lessfile)
 fi
 
@@ -537,7 +536,7 @@ fi
 function v()
 {
     if [ -d "$1" ] ; then
-        if which tree >&/dev/null ; then
+        if type tree >&/dev/null ; then
             tree -C "$@" | less -r --LONG-PROMPT
         else
             ls -R --color=always | less -r --LONG-PROMPT
@@ -554,7 +553,7 @@ alias open="daemon kfmclient exec"
 alias sdiff='/usr/bin/sdiff --expand-tabs --ignore-all-space --strip-trailing-cr --width=160'
 function dif()
 {
-    if which colordiff >&/dev/null ; then
+    if type colordiff >&/dev/null ; then
         colordiff -u "$@"
     else
         diff -u "$@"
@@ -576,7 +575,7 @@ alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
 # remake /dev/dsp
 alias mkdsp='sudo mknod /dev/dsp c 14 3 && sudo chmod 777 /dev/dsp'
 # open gqview or geeqie
-VIEWER=`if which geeqie >&/dev/null ; then echo geeqie ; else echo gqview ; fi`
+VIEWER=geeqie
 alias gq="daemon $VIEWER"
 # start a new opera window
 alias opera='daemon opera -newwindow'
@@ -747,7 +746,7 @@ function spell()
 {
     local word resp
 
-    if ! which ispell >/dev/null ; then
+    if ! type ispell >/dev/null ; then
         echo "This requires ispell."
         echo "Install it with 'sudo aptitude install ispell'"
         return 1
