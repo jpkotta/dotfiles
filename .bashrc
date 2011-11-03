@@ -353,7 +353,7 @@ alias EE="$EDITOR"
 # terminal
 alias T="daemon $TERMINAL"
 
-if type realpath >&/dev/null ; then
+if ! type realpath >&/dev/null ; then
     alias realpath='readlink -f'
 fi
 

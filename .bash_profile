@@ -1,8 +1,7 @@
-# ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
+# This is a bash-specific profile script. ~/.profile is not read by
+# bash if this file (~/.bash_profile) exists.  See
+# /usr/share/doc/bash/examples/startup-files for examples.  The files
+# are located in the bash-doc package.
 
 # the default umask is set in /etc/profile
 #umask 022
@@ -20,15 +19,8 @@ if [ -d ~/bin ] ; then
     PATH=~/bin:"${PATH}"
 fi
 
-# # set up ssh-agent, if it hasn't been done already
-# SSH_AGENT=/usr/bin/ssh-agent
-# if [ -z "$SSH_AUTH_SOCK" -a -x "$SSH_AGENT" ] ; then
-#     eval $($SSH_AGENT -s)
-#     trap "kill $SSH_AGENT_PID" 0
-# fi
-
 # keychain manages ssh-agents
-which keychain >&/dev/null \
+type keychain >&/dev/null \
     && keychain
 
 [ -x "$(which fortune)" ] && fortune
