@@ -30,6 +30,17 @@ if bash --version | grep -i bsd >&/dev/null; then
 fi
 
 ########################################################################
+### readline config
+
+function safe_bind()
+{
+    if [ $TERM != "dumb" ] ; then
+        bind "$@"
+    fi
+}
+
+########################################################################
+### miscellaneous
 
 # bash_completion has an error, that causes it to fail if you source
 # it more than once, thus we make it idempotent
@@ -56,6 +67,9 @@ set -b
 # e.g. for umask = 0022, file = 644, dir = 755
 umask 0022
 
+# allow core files to be dumped
+ulimit -c hard
+
 # this stops crtl-s from freezing the terminal
 if [ "$TERM" != "dumb" ] ; then
     stty -ixon
@@ -66,19 +80,6 @@ export IGNOREEOF=1
 
 # this is set but not exported by default
 export HOSTNAME
-
-########################################################################
-### source other rc files
-
-if [ -e ~/.bashrc.local ] ; then
-    source ~/.bashrc.local
-fi
-
-for i in ~/.bash.d/* ; do
-    if [ -r "$i" ] ; then
-        source "$i"
-    fi
-done
 
 # keychain keeps track of ssh-agents
 [ -f $HOME/.keychain/$HOSTNAME-sh ] \
@@ -820,3 +821,16 @@ function wiki()
 # if [ $TERM != "dumb" ] ; then
 #     fortune
 # fi
+
+########################################################################
+### source other rc files
+
+if [ -e ~/.bashrc.local ] ; then
+    source ~/.bashrc.local
+fi
+
+for i in ~/.bash.d/* ; do
+    if [ -r "$i" ] ; then
+        source "$i"
+    fi
+done
