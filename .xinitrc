@@ -24,7 +24,8 @@ nitrogen --restore &
 
 # make caps lock useful
 xmodmap -e "remove lock = Caps_Lock"
-xmodmap -e "add control = Caps_Lock"
+#xmodmap -e "add control = Caps_Lock"
+xmodmap -e "keysym Caps_Lock = BackSpace"
 
 # volume keys for laptop
 if [ x`hostname` = x"goedel" ] ; then
