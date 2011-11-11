@@ -7,4 +7,3 @@ e56ddd11b8d22be1b375509e84b519009e45d115 .emacs.d/auto-complete
 3f45c88100e85c9297f55b9097315582f4249ffd .hgext/hg-git
 244a50c40d93873006c875c5d2ae64fcbc987216 .hgext/hgshelve
 6c4d15d8cfbda880bf5e41cd408d49f8529f97d2 .hgext/hgsubversion
-bb46f7d7eb23eea34eac025f6639a3dabf3605bd .hgext/localbranch

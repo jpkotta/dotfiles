@@ -54,11 +54,6 @@ rebase =
 # recommends rebase extension
 hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
 
-# localbranches like git
-# http://mercurial.selenic.com/wiki/LocalbranchExtension
-# http://bitbucket.org/brendan/mercurial-extensions-localbranch
-hgext.localbranch = ~/.hgext/localbranch/localbranch.py
-
 # combines pull, update, and merge
 fetch = 
 
@@ -93,10 +88,6 @@ transplant =
 
 # use an external diff tool (diff by default)
 extdiff = 
-
-# tasks are like bookmarks with extra in-progress/done metadata
-# http://bitbucket.org/alu/hgtasks
-#hgext.tasks = ~/.hgext/hgtasks/hgext/tasks.py
 
 # simple extension to commit by diff hunk
 record = 
