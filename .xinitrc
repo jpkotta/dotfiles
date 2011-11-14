@@ -1,20 +1,17 @@
-echo "Starting X..."
-echo
-echo "PARAMETERS TO .xinitrc"
-echo "$@"
-echo "END OF PARAMETERS TO .xinitrc"
-echo 
+echo "Running .xinitrc"
+echo "Parameters to .xinitrc: ""$@"
+
+# cd to $HOME, so that all programs started from X start there
+cd
 
 # turn monitors off after 10 min
-xset dpms 0 0 600
+which xset \
+    && xset dpms 0 0 600 &
 
 # set the wallpaper
 # do this first because it can take a while
-#hsetroot -full $HOME/tmp/current_wallpaper &
-nitrogen --restore &
-
-# setup xmodmap, because certain programs (e.g. Mathematica and fvwm) require
-# certain settings
+which nitrogen \
+    && nitrogen --restore &
 
 # add some special keys
 # xmodmap -e "keycode 115 = Super_L"
@@ -35,24 +32,20 @@ if [ x`hostname` = x"goedel" ] ; then
 fi 
 
 # make sure my X resources are updated
-if [ -r "$HOME/.Xresources" ] ; then
-    xrdb -load $HOME/.Xresources
-fi
+[ -e "$HOME/.Xresources" ] \
+    && xrdb -load $HOME/.Xresources
 
 # turn on numlock
-[ -x numlockx ] && numlockx
-
-# cd to $HOME, so that all programs started from X start there
-cd
+which numlockx \
+    && numlockx on
 
 disp=`echo $DISPLAY | sed -e 's/://g' -e 's/[.][0-9]*//'`
 log_file=$HOME/.X-log-$disp
-if [ -e $log_file ] ; then
-    mv -f $log_file ${log_file}-old
-fi
+[ -e "$log_file" ] \
+    && mv -f $log_file ${log_file}-old
 
 # load any machine-specific settings
-if [ -r $HOME/.xinitrc.local ] ; then
+if [ -e "$HOME/.xinitrc.local" ] ; then
     echo
     echo "Executing machine-specific .xinitrc"
     echo
@@ -62,11 +55,12 @@ if [ -r $HOME/.xinitrc.local ] ; then
     echo
 fi
 
-if [ -z "$WM_COMMAND" ] ; then
-    WM_COMMAND=fvwm
-fi
-exec $WM_COMMAND >$HOME/.X-log-${disp} 2>&1
+# set a default if unset
+WM_COMMAND=${WM_COMMAND:=fvwm}
+
+echo "Starting window manager: $WM_COMMAND"
+exec $WM_COMMAND >$log_file 2>&1
 
 echo 
-echo "Shutting Down X..."
+echo "Window manager exit, end of .xinitrc"
 echo
