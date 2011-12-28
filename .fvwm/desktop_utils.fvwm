@@ -578,7 +578,7 @@ DestroyModuleConfig DesktopMiniPager: *
 ################################################################################
 
 #SetEnv DesktopTerminalsOptions "+sb"
-SetEnv DesktopTerminalsOptions "+sb -pe tabbed"
+SetEnv DesktopTerminalsOptions "+sb -pe tabbedex"
 
 # background color is slight transparency with a hint of blue
 Test (EnvIsSet USE_COMPOSITE) \

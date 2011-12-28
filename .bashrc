@@ -139,7 +139,7 @@ export EDITOR="emacsclient -c -a ''"
 export BROWSER="opera -newwindow"
 export PAGER="less"
 export PDF_READER="okular"
-export TERMINAL="urxvt --perl-lib ~/.urxvt-perl -pe tabbed"
+export TERMINAL="urxvt --perl-lib ~/.urxvt-perl -pe tabbedex"
 
 ########################################################################
 ### prompt

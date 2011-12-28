@@ -36,7 +36,7 @@ AddToFunc StartTerminal
 
 DestroyFunc StartTerminalTabbed
 AddToFunc StartTerminalTabbed
-+ I Exec exec urxvtcd -pe tabbed $[TerminalOptions] $*
++ I Exec exec urxvtcd -pe tabbedex $[TerminalOptions] $*
 
 DestroyFunc StartFileManager
 AddToFunc StartFileManager
