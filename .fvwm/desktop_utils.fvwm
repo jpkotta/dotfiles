@@ -271,19 +271,13 @@ Test (EnvIsSet USE_NETBOOK) \
 # xclock resources are set in ~/.Xresources
 Test (x xclock) \
     *DesktopButtons: (8x8, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
-    "xclock" "Exec exec xclock -update 1 -geometry +1500+1500")
-# rclock can also be used:
-#    "rclock" "Exec exec rclock -update 1 -nodate -fg lavender -bg black -geometry +1500+1500" \
+    "DesktopXClock" "Exec exec xclock -name DesktopXClock -update 1 -geometry +1500+1500")
 
 # a nice digital clock
 Test (x dclock) \
-    *DesktopButtons: (8x4, Frame 0, Swallow (NoClose, SwallowNew, UseOld) "dclock" "Exec exec \
-    dclock -fg lavender -bg black -led_off grey15 -miltime -seconds -noblink -fade -date '%a %b %d, %Y' \
+    *DesktopButtons: (8x4, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
+    "DesktopDClock" "Exec exec dclock -name DesktopDClock -fg lavender -bg black -led_off grey15 -miltime -seconds -noblink -fade -date '%a %b %d, %Y' \
     -font '-adobe-new century schoolbook-medium-i-normal-*-14-*-*-*-*-*-*-*' -geometry 128x64+1500+1500")
-# the alarm in dclock is buggy, don't use it
-#    -audioPlay /usr/bin/esdplay -alarmFile $FVWM_USERDIR/sounds/gong.au")
-# xclock can be used here instead
-#xclock -digital -update 1 -face 'New Century Schoolbook:italic:size=17' -strftime "%a, %b %d, %Y\n%T"
 
 # # a nice calendar
 # Test (x gdeskcal) \
@@ -378,26 +372,19 @@ Test (EnvIsSet USE_NETBOOK) SetEnv media_buttons_geom "704 147"
 *DesktopButtonsMediaPlayer: \
     (Size $[media_buttons_geom], Frame 0, ActionIgnoresClientWindow, \
     Action (Mouse 2) StartMediaPlayer, \
-    Swallow (NoClose, SwallowNew, UseOld) "ncmpc*" StartMediaPlayer)
+    Swallow (NoClose, SwallowNew, UseOld) "DesktopMediaPlayer" StartMediaPlayer)
 
 ################################################
-# ncmpc setup
-# SetEnv ncmpc_geom 120x11
-# Test (EnvIsSet USE_NETBOOK) SetEnv ncmpc_geom 100x11
+# ncmpc/ncmpcpp set up
 
-# DestroyFunc StartMediaPlayer
-# AddToFunc StartMediaPlayer
-# + I StartTerminal -geometry $[ncmpc_geom] -T ncmpc -n ncmpc +sb -fn 7x13 -e sh -c "sleep 1 ; exec ncmpc"
-
-################################################
-# ncmpcpp setup
-SetEnv ncmpcpp_geom 120x11
-Test (EnvIsSet USE_NETBOOK) SetEnv ncmpcpp_geom 100x11
+SetEnv DesktopMediaPlayerGeom 120x11
+Test (EnvIsSet USE_NETBOOK) SetEnv DesktopMediaPlayerGeom 100x11
 
 DestroyFunc StartMediaPlayer
 AddToFunc StartMediaPlayer
-+ I StartTerminal -geometry $[ncmpcpp_geom] -T ncmpc -n ncmpc +sb -fn 7x13 -e sh -c "sleep 1 ; exec ncmpcpp"
-
++ I StartTerminal -geometry $[DesktopMediaPlayerGeom] \
+    -title DesktopMediaPlayer -name DesktopMediaPlayer \
+    +sb -fn 7x13 -e sh -c "sleep 1 ; exec ncmpcpp"
 
 ################################################################################
 # DesktopPager
@@ -406,16 +393,9 @@ AddToFunc StartMediaPlayer
 DestroyModuleConfig DesktopPager: *
 
 # subtle gradients go a long way
-#Colorset $[PAGER_COLORSET]                  fg lavender, bg black, VGradient 32 #000020 black
-#Colorset $[PAGER_HILIGHT_COLORSET]          fg black, bg white, VGradient 32 white lavender
-#Colorset $[PAGER_BALLOON_COLORSET]          fg black, bg bisque
-#Colorset $[PAGER_WINDOW_COLORSET]           fg white, bg grey51, DGradient 32 grey60 grey40
-#Colorset $[PAGER_HILIGHT_WINDOW_COLORSET]   fg white, bg blue4, DGradient 32 blue2 blue4
-
 Colorset $[PAGER_COLORSET]                  fg white, bg black, VGradient 32 #020020 black
 Colorset $[PAGER_HILIGHT_COLORSET]          fg black, bg white, VGradient 32 white lavender
 Colorset $[PAGER_BALLOON_COLORSET]          fg black, bg bisque
-#Colorset $[PAGER_WINDOW_COLORSET]          fg white, bg grey51, DGradient 64 #A090A0 #666676
 Colorset $[PAGER_WINDOW_COLORSET]           fg white, bg grey51, DGradient 64 #7f757f #9fa9ad
 Colorset $[PAGER_HILIGHT_WINDOW_COLORSET]   fg white, bg blue4, DGradient 64 #800080 #3989AF
 
@@ -577,7 +557,6 @@ DestroyModuleConfig DesktopMiniPager: *
 # DesktopTerminals
 ################################################################################
 
-#SetEnv DesktopTerminalsOptions "+sb"
 SetEnv DesktopTerminalsOptions "+sb -pe tabbedex"
 
 # background color is slight transparency with a hint of blue
