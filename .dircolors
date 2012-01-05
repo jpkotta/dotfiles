@@ -95,7 +95,7 @@ EXEC 01;32
 # executable bit actually set.
 #.sh 01;32
 #.csh 01;32
- # archives or compressed (bright red)
+# archives or compressed (bright red)
 .tar 01;31
 .tgz 01;31
 .arj 01;31
@@ -105,6 +105,7 @@ EXEC 01;32
 .tlz 01;31
 .txz 01;31
 .zip 01;31
+.ZIP 01;31
 .z 01;31
 .Z 01;31
 .dz 01;31
@@ -127,9 +128,13 @@ EXEC 01;32
 .rz 01;31
 # image formats
 .jpg 01;35
+.JPG 01;35
 .jpeg 01;35
+.JPEG 01;35
 .gif 01;35
+.GIF 01;35
 .bmp 01;35
+.BMP 01;35
 .pbm 01;35
 .pgm 01;35
 .ppm 01;35
@@ -138,12 +143,16 @@ EXEC 01;32
 .xpm 01;35
 .tif 01;35
 .tiff 01;35
+.TIF 01;35
+.TIFF 01;35
 .png 01;35
+.PNG 01;35
 .svg 01;35
 .svgz 01;35
 .mng 01;35
 .pcx 01;35
 .mov 01;35
+.MOV 01;35
 .mpg 01;35
 .mpeg 01;35
 .m2v 01;35
@@ -161,6 +170,7 @@ EXEC 01;32
 .rmvb 01;35
 .flc 01;35
 .avi 01;35
+.AVI 01;35
 .fli 01;35
 .flv 01;35
 .swf 01;35
@@ -184,10 +194,12 @@ EXEC 01;32
 .midi 00;36
 .mka 00;36
 .mp3 00;36
+.MP3 00;36
 .mpc 00;36
 .ogg 00;36
 .ra 00;36
 .wav 00;36
+.WAV 00;36
 .wma 00;36
 .m4a 00;36
 # http://wiki.xiph.org/index.php/MIME_Types_and_File_Extensions
