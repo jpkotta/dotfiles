@@ -60,9 +60,6 @@ fetch =
 # use a pager with long outputs
 pager =
 
-# share metadata (.hg/) between multiple working directories
-share = 
-
 # show a progress bar for certain operations that take a long time
 progress = 
 
@@ -76,15 +73,9 @@ hgext.fixcase = ~/.hgext/fixcase.py
 # end of line conversion
 eol = 
 
-# TK gui distributed with mercurial
-#hgk =
-
 # a replacement for hgk
 # in the hgview package
 hgview = 
-
-# transplant (duplicate) changesets from another branch
-transplant = 
 
 # use an external diff tool (diff by default)
 extdiff = 
@@ -125,8 +116,8 @@ bm = bookmarks
 #git = True
 
 [trusted]
-# 754 is packet@storagez
-users = root, 754
+# use sshfs -o idmap=user <remote> <mount-point> to map remote UID to your UID
+users = root
 
 [schemes]
 pd = ssh://hg@storagez.packetdigital.com/repos/
@@ -136,10 +127,6 @@ pdsvn = svn+ssh://kotta@svn.packetdigital.com/zone/subversion/
 emacs.binary = False
 emacs.args = -q --debug-init --eval "(ediff-merge-with-ancestor \"$local\" \"$other\" \"$base\" nil \"$output\")"
 emacs.check = prompt
-
-[bookmarks]
-# only move the current bookmark forward when committing
-track.current = True
 
 [tortoisehg]
 vdiff = meld
