@@ -75,7 +75,7 @@ eol =
 
 # a replacement for hgk
 # in the hgview package
-hgview = 
+#hgview = 
 
 # use an external diff tool (diff by default)
 extdiff = 
@@ -91,7 +91,7 @@ subincoming = incoming --subrepos
 suboutgoing = outgoing --subrepos
 subdiff = diff --subrepos
 
-view = hgview
+#view = hgview
 
 # shelve extension
 shelve = shelve --all
