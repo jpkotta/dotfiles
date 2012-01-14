@@ -78,7 +78,7 @@ XClock*foreground:              lavender
 *Xm*.shadowThickness: 1
 
 ! Browser to use for opening remote files.
-*wwwBrowser: opera -newwindow %s
+*wwwBrowser: ~/browser %s
 
 ! Set these if you need to change what the FE uses for Primary (Command)
 ! and Secondary (Option) modifier keys.
@@ -111,7 +111,7 @@ URxvt.tripleclickwords:     1
 
 ! URL highlighting and clicking
 URxvt.perl-ext-common:      default,matcher
-URxvt.urlLauncher:          opera-newwindow
+URxvt.urlLauncher:          browser
 URxvt.matcher.rend.0:       Uline fg8
 
 ! tabbedex config

@@ -135,11 +135,8 @@ pathappend /usr/lib/python2.6/site-packages PYTHONPATH
 ########################################################################
 ### application defaults
 
-export EDITOR="emacsclient -c -a ''"
-export BROWSER="opera -newwindow"
+export EDITOR="~/bin/editor"
 export PAGER="less"
-export PDF_READER="okular"
-export TERMINAL="urxvt --perl-lib ~/.urxvt-perl -pe tabbedex"
 
 ########################################################################
 ### prompt
@@ -351,7 +348,10 @@ alias E="daemon $EDITOR"
 alias EE="$EDITOR"
 
 # terminal
-alias T="daemon $TERMINAL"
+alias T="daemon terminal"
+
+# browser
+alias B="daemon browser"
 
 if ! type realpath >&/dev/null ; then
     alias realpath='readlink -f'
@@ -586,11 +586,9 @@ alias ffox='daemon firefox'
 alias nautilus='bg_wrapper nautilus --no-desktop --browser'
 # start a separate acroread for every document
 alias acroread='daemon acroread -openInNewWindow'
-# kpdf is better
-alias kpdf='daemon kpdf'
 # okular is even better
 alias okular='daemon okular'
-alias pdf="$PDF_READER"
+alias pdf="daemon pdf-viewer"
 # open office
 alias ooffice='daemon ooffice'
 alias oocalc='daemon oocalc'
@@ -601,16 +599,16 @@ alias finances="oocalc ~/doc/finances.ods"
 alias kp="keepassx ~/.keepassx/keepass.kdb"
 
 # open the perl reference
-alias perlref="bg_wrapper $PDF_READER ~/doc/perlref-5.004.1.pdf"
+alias perlref="bg_wrapper pdf-viewer ~/doc/perlref-5.004.1.pdf"
 # open the bash reference
-alias bashref="bg_wrapper $BROWSER ~/doc/bashref.html"
+alias bashref="bg_wrapper browser ~/doc/bashref.html"
 # Linux kernel reference
-alias kernelref="bg_wrapper $BROWSER ~/doc/LinuxDocBook/index.html"
+alias kernelref="bg_wrapper browser ~/doc/LinuxDocBook/index.html"
 # latex reference
-alias latexref="bg_wrapper $PDF_READER ~/doc/latex/lshort.pdf"
+alias latexref="bg_wrapper pdf-viewer ~/doc/latex/lshort.pdf"
 # python reference
-alias pythonref="bg_wrapper $PDF_READER ~/doc/python_ref.pdf"
-alias pythondoc="bg_wrapper $BROWSER ~/doc/python/Python-Docs-2.4.2/html/index.html"
+alias pythonref="bg_wrapper pdf-viewer ~/doc/python_ref.pdf"
+alias pythondoc="bg_wrapper browser ~/doc/python/Python-Docs-2.4.2/html/index.html"
 
 # xine media player
 alias xine="bg_wrapper xine --enqueue"
