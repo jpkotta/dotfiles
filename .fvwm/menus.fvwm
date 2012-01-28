@@ -16,7 +16,7 @@ AddToMenu RootMenu
 + "%mini.term.xpm%Terminal"                 StartTerminalTabbed
 + "%mini.filemgr.xpm%File Manager"          StartFileManager
 + "%mini.edit.xpm%Editor"                   StartEditor
-+ "%mini.opera.png%Browser"                 StartBrowser
++ "%mini.firefox.png%Browser"               StartBrowser
 + "%mini.rainbow.xpm%Image Viewer"          StartImageViewer
 + "%mini.gimp.png%Image Editor"             StartImageEditor
 + "%mini.pysol.png%Game"                    StartPysol

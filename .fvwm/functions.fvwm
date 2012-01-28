@@ -8,15 +8,19 @@
 # FUNCTIONS TO LAUNCH APPS
 ################################################################################
 
-# opens a new opera session if no operas are open
-# otherwise it will open a new opera, in the same session
-# if you do Exec exec, it starts a new session everytime
+# # opens a new opera session if no operas are open
+# # otherwise it will open a new opera, in the same session
+# # if you do Exec exec, it starts a new session everytime
+# DestroyFunc StartBrowser
+# AddToFunc StartBrowser
+# + I None (opera) Exec export XLIB_SKIP_ARGB_VISUALS=1 ; opera $0
+# + I TestRc (!Match) Exec opera -newwindow $0
+
 DestroyFunc StartBrowser
 AddToFunc StartBrowser
-#+ I None (opera) Exec export XLIB_SKIP_ARGB_VISUALS=1 ; aoss opera $0
-+ I None (opera) Exec export XLIB_SKIP_ARGB_VISUALS=1 ; opera $0
-+ I TestRc (!Match) Exec opera -newwindow $0
-#+ I TestRc (!Match) Exec opera -newwindow opera:blank
++ I Any (Firefox) Nop #Exec exec firefox -new-tab about:blank
++ I TestRc (!Match) Exec exec firefox
++ I All (Firefox) Raise
 
 DestroyFunc StartPySol
 AddToFunc StartPySol

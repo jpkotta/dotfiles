@@ -92,7 +92,7 @@ Style gnome-panel   StaysOnBottom, GNOMEIgnoreHints
 
 Style Firefox*-bin SkipMapping, FPOverrideGrabFocus, \
 	!UsePPosition, !UseTransientPPosition, \
-	!FPGrabFocus, !FPGrabFocusTransient
+	!FPGrabFocus, !FPGrabFocusTransient, StickyAcrossDesks
 
 Style google-chrome SkipMapping, FPOverrideGrabFocus, \
 	!UsePPosition, !UseTransientPPosition, \
