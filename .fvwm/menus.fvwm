@@ -398,6 +398,7 @@ AddToMenu "WindowOps"
 + "(Un)Maximum Maximi&ze%mini.maximize1.xpm%"       PickAgain MaximumMaximize
 + "(Un)&Shade (F12)     %mini.shade1.xpm%"          PickAgain WindowShade
 + "(Un)DeskStic&k (F2)  %mini.stick1.xpm%"          PickAgain StickAcrossPages
++ "(Un)PageStick        %mini.stick1.xpm%"          PickAgain StickAcrossDesks
 + "(Un)Stick            %mini.stick1.xpm%"          PickAgain Stick
 + "R&aise (F1)          %mini.raise2.xpm%"          PickAgain Raise           
 + "&Lower (F3)          %mini.lower2.xpm%"          PickAgain Lower
