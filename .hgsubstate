@@ -1,9 +1,6 @@
 e56ddd11b8d22be1b375509e84b519009e45d115 .emacs.d/auto-complete
 14f99a8139bac6c9d25f1072d8ca2f69b04afa70 .emacs.d/backup-walker
-403e7d3f4fbc2205ad02c920d0eb776050cd7cf8 .emacs.d/drag-stuff
 060726eca1d7f64668a87c75f8df04fb5bfc25ef .emacs.d/geiser
-88bf5b722c3712c1ebb9ba6bffabb01740ccad15 .emacs.d/workgroups
-2e2a5d08efeb54b2137003e12b6d8c3219ba3368 .emacs.d/wrap-region
 3f45c88100e85c9297f55b9097315582f4249ffd .hgext/hg-git
 244a50c40d93873006c875c5d2ae64fcbc987216 .hgext/hgshelve
 6c4d15d8cfbda880bf5e41cd408d49f8529f97d2 .hgext/hgsubversion
