@@ -1,3 +1,4 @@
+
 ################################################################################
 #
 # APPLICATION DEPENDENT STYLES
@@ -90,7 +91,7 @@ Style "RadarMap <unregistered>" \
 
 Style gnome-panel   StaysOnBottom, GNOMEIgnoreHints
 
-Style Firefox*-bin SkipMapping, FPOverrideGrabFocus, \
+Style Firefox SkipMapping, FPOverrideGrabFocus, \
 	!UsePPosition, !UseTransientPPosition, \
 	!FPGrabFocus, !FPGrabFocusTransient, StickyAcrossDesks
 
