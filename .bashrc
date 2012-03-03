@@ -453,8 +453,7 @@ alias ll='ls -l'
 # list all files
 alias la='ls -A'
 # list only hidden files
-#alias lh='ls -A | egrep "^\.[^./]" | column'
-alias lh='ls -Ad .[^.]*'
+alias lh='ls -A -I "[^.]*"'
 # long listing, sort by mod date
 alias lt='ls -lt'
 # long list of all files
