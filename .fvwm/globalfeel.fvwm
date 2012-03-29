@@ -265,6 +265,8 @@ MenuStyle small_menu_style VerticalItemSpacing 1 2, VerticalTitleSpacing 1 2
 # MISCELLANEOUS SETTINGS
 ################################################################################
 
+SetEnv FvwmTerminalEmulator urxvtcd
+
 Test (EnvIsSet USE_NETBOOK) Style * TitleAtLeft
 
 Style * WindowShadeSteps 0, WindowShadeShrinks

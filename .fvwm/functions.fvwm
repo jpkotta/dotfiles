@@ -36,11 +36,11 @@ Test (EnvIsSet USE_COMPOSITE) \
 
 DestroyFunc StartTerminal
 AddToFunc StartTerminal
-+ I Exec exec urxvtcd $[TerminalOptions] $*
++ I Exec exec $[FvwmTerminalEmulator] $[TerminalOptions] $*
 
 DestroyFunc StartTerminalTabbed
 AddToFunc StartTerminalTabbed
-+ I Exec exec urxvtcd -pe tabbedex $[TerminalOptions] $*
++ I Exec exec $[FvwmTerminalEmulator] -pe tabbedex $[TerminalOptions] $*
 
 DestroyFunc StartFileManager
 AddToFunc StartFileManager
@@ -60,7 +60,7 @@ AddToFunc StartImageEditor
 
 DestroyFunc StartConsole
 AddToFunc StartConsole
-+ I FvwmConsole -terminal urxvt $[TerminalOptions]
++ I FvwmConsole -terminal $[FvwmTerminalEmulator] $[TerminalOptions]
 
 DestroyFunc StartXErrorViewer
 AddToFunc StartXErrorViewer

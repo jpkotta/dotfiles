@@ -571,7 +571,7 @@ Test (!EnvIsSet USE_NETBOOK) \
 
 DestroyFunc StartDesktopTerminal
 AddToFunc StartDesktopTerminal
-+ I Exec exec urxvt $[DesktopTerminalsOptions] $*
++ I Exec exec $[FvwmTerminalEmulator] $[DesktopTerminalsOptions] $*
 
 # during a restart, sometimes fvwm reads this file before finding old DesktopTerminals,
 # and it creates new ones when it shouldn't.  Schedules prevent that by giving it

@@ -222,7 +222,7 @@ AddToMenu   MenuBrowser
     --special-dirs \
     --links \
     --reuse \
-    --xterm "urxvt -e" \
+    --xterm "$[FvwmTerminalEmulator] -e" \
     --command-file "StartEditor \"%f\"" \
     --command-app "Exec exec \"%f\"" \
     --icon-dir mini.folder.xpm \
