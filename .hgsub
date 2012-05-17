@@ -1,7 +1,6 @@
 .hgext/hg-git = http://bitbucket.org/durin42/hg-git
 .hgext/hgshelve = http://bitbucket.org/tksoh/hgshelve
 .hgext/hgsubversion = http://bitbucket.org/durin42/hgsubversion
-.emacs.d/auto-complete = [git]git://github.com/m2ym/auto-complete.git
 .emacs.d/backup-walker = [git]git://github.com/lewang/backup-walker.git
 .emacs.d/geiser = [git]git://gitorious.org/geiser/mainline.git
 .emacs.d/yasnippet = [git]git://github.com/capitaomorte/yasnippet.git
