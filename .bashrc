@@ -16,6 +16,7 @@ function tic()
 }
 function toc()
 {
+    local stop_time
     stop_time=`date +%s%N`
     if [ -n "$1" ] ; then
         echo $1
@@ -124,7 +125,8 @@ done
 for d in $HOME/usr/local/bin $HOME/bin ; do
     pathprepend $d PATH
 done
-    
+unset d
+
 #pathappend /usr/local/lib LD_LIBRARY_PATH
 pathappend /usr/local/include C_INCLUDE_PATH
 pathappend /usr/local/include CPLUS_INCLUDE_PATH
@@ -297,7 +299,7 @@ export GREP_COLOR='01;32' # bold green
 
 function showcolors()
 {
-    esc="\033["
+    local esc="\033[" fore line1 line2
     echo -e "\t  40\t   41\t   42\t    43\t      44       45\t46\t 47"
     for fore in 30 31 32 33 34 35 36 37; do
         line1="$fore  "
@@ -359,11 +361,11 @@ if ! type realpath >&/dev/null ; then
 fi
 
 if [ $TERM != "dumb" ] ; then
-    THIS_FILE=`realpath $BASH_SOURCE`
+    BASHRC=`realpath $BASH_SOURCE`
     # source this file
-    alias jpk="source $THIS_FILE"
+    alias jpk="source $BASHRC"
     # edit this file
-    alias aka='$EDITOR $THIS_FILE'
+    alias aka='$EDITOR $BASHRC'
 fi
 
 # handy notes file
@@ -494,6 +496,7 @@ function rm-rf()
     echo "Delete these files?"
     ls -dFv --color=auto "$@"
     PS3="Please enter a number: "
+    local resp
     select resp in y n ; do
         if [ "$resp" = "y" ] ; then
             rm -rf "$@"
@@ -816,10 +819,6 @@ function wiki()
     dig +short txt "$*".wp.dg.cx;
 }
 
-# if [ $TERM != "dumb" ] ; then
-#     fortune
-# fi
-
 ########################################################################
 ### source other rc files
 
@@ -832,3 +831,4 @@ for i in ~/.bash.d/* ; do
         source "$i"
     fi
 done
+unset i
