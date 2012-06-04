@@ -68,7 +68,8 @@ set -b
 umask 0022
 
 # allow core files to be dumped
-ulimit -c hard
+#ulimit -c hard
+ulimit -c 0
 
 # this stops crtl-s from freezing the terminal
 if [ "$TERM" != "dumb" ] ; then
