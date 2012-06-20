@@ -129,7 +129,7 @@ URxvt.keysym.S-Down: perl:tabbedex:new_tab
 URxvt.keysym.S-Up: perl:tabbedex:rename_tab
 
 ! default
-URxvt.font:             9x15
+URxvt.font:             xft:DejaVu Sans Mono:pixelsize=12
 
 ! perl-lib path, must be absolute, apparently
 URxvt.perl-lib:    /home/jpkotta/.urxvt-perl
