@@ -10,8 +10,8 @@ parentheses, because many shells interpret round parentheses if they
 are not quoted.
 """
 
-from __future__ import division
-import sys
+from __future__ import division, print_function
+import sys, numbers
 from cmath import *
 
 def log2(x):
@@ -34,9 +34,9 @@ else:
     expr = expr.replace("[", "(").replace("]", ")")
 
 res = eval(expr)
-numeric_types = (int, long, float, complex)
-if isinstance(res, numeric_types) \
-        and res != 0 and res.imag/abs(res) < 10*epsilon:
+if (isinstance(res, numbers.Number)
+    and res != 0
+    and res.imag/abs(res) < 10*epsilon):
     res = res.real
 
-print res
+print(res)
