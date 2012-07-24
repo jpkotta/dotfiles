@@ -31,17 +31,12 @@ graphlog =
 schemes = 
 
 # temporarily stash changes without a commit
-# http://mercurial.selenic.com/wiki/ShelveExtension
+# hg clone https://bitbucket.org/tksoh/hgshelve ~/.hgext/hgshelve
 hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
 
 # use mercurial as a git client
-# http://hg-git.github.com/
-# if using sudo pip install hg-git
-#hgext.hggit = /usr/local/lib/python2.6/dist-packages/hggit
-# if using sudo aptitude install mercurial-git
-#hgext.git =
-# if using hg clone https://bitbucket.org/durin42/hg-git
-# also: sudo pip install dulwich
+# hg clone https://bitbucket.org/durin42/hg-git ~/.hgext/hg-git
+# sudo pip install dulwich
 hgext.hggit = ~/.hgext/hg-git/hggit
 
 # move changesets to a different (named or unnamed) branch, merging if
@@ -53,9 +48,6 @@ rebase =
 # requires python-subversion
 # recommends rebase extension
 hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
-
-# combines pull, update, and merge
-fetch = 
 
 # use a pager with long outputs
 pager =
@@ -70,13 +62,6 @@ purge =
 # http://mercurial.selenic.com/wiki/FixcaseExtension
 hgext.fixcase = ~/.hgext/fixcase.py
 
-# end of line conversion
-eol = 
-
-# a replacement for hgk
-# in the hgview package
-#hgview = 
-
 # use an external diff tool (diff by default)
 extdiff = 
 
@@ -90,8 +75,6 @@ substatus = status --subrepos
 subincoming = incoming --subrepos
 suboutgoing = outgoing --subrepos
 subdiff = diff --subrepos
-
-#view = hgview
 
 # shelve extension
 shelve = shelve --all
@@ -137,5 +120,4 @@ maxfilesize = 10000000
 
 # per-machine settings
 %include .hgrc.local
-
 
