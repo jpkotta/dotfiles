@@ -58,10 +58,6 @@ progress =
 # remove untracked files
 purge = 
 
-# easily fix filename case changes
-# http://mercurial.selenic.com/wiki/FixcaseExtension
-hgext.fixcase = ~/.hgext/fixcase.py
-
 # use an external diff tool (diff by default)
 extdiff = 
 
