@@ -138,7 +138,7 @@ pathappend /usr/lib/python2.6/site-packages PYTHONPATH
 ########################################################################
 ### application defaults
 
-export EDITOR="~/bin/editor"
+export EDITOR="$HOME/bin/editor"
 export PAGER="less"
 
 ########################################################################
@@ -287,10 +287,10 @@ else
     DIRCOLORS=dircolors
 fi
 if type $DIRCOLORS >&/dev/null ; then
-    if [ ! -e ~/.dircolors ] ; then
-        $DIRCOLORS --print-database > ~/.dircolors
+    if [ ! -e $HOME/.dircolors ] ; then
+        $DIRCOLORS --print-database > $HOME/.dircolors
     fi
-    eval `$DIRCOLORS --sh ~/.dircolors`
+    eval `$DIRCOLORS --sh $HOME/.dircolors`
 fi
 
 # grep color syntax is the same as for ls
@@ -369,7 +369,7 @@ if [ $TERM != "dumb" ] ; then
 fi
 
 # handy notes file
-alias note='$EDITOR ~/doc/notes.txt'
+alias note='$EDITOR $HOME/doc/notes.txt'
 
 # common typo, easier to type
 alias cd..='cd ..'
@@ -597,21 +597,21 @@ alias ooffice='daemon ooffice'
 alias oocalc='daemon oocalc'
 alias oowriter='daemon oowriter'
 # open my checking account spreadsheets
-alias finances="oocalc ~/doc/finances.ods"
+alias finances="oocalc $HOME/doc/finances.ods"
 # password database
-alias kp="keepassx ~/.keepassx/keepass.kdb"
+alias kp="keepassx $HOME/.keepassx/keepass.kdb"
 
 # open the perl reference
-alias perlref="bg_wrapper pdf-viewer ~/doc/perlref-5.004.1.pdf"
+alias perlref="bg_wrapper pdf-viewer $HOME/doc/perlref-5.004.1.pdf"
 # open the bash reference
-alias bashref="bg_wrapper browser ~/doc/bashref.html"
+alias bashref="bg_wrapper browser $HOME/doc/bashref.html"
 # Linux kernel reference
-alias kernelref="bg_wrapper browser ~/doc/LinuxDocBook/index.html"
+alias kernelref="bg_wrapper browser $HOME/doc/LinuxDocBook/index.html"
 # latex reference
-alias latexref="bg_wrapper pdf-viewer ~/doc/latex/lshort.pdf"
+alias latexref="bg_wrapper pdf-viewer $HOME/doc/latex/lshort.pdf"
 # python reference
-alias pythonref="bg_wrapper pdf-viewer ~/doc/python_ref.pdf"
-alias pythondoc="bg_wrapper browser ~/doc/python/Python-Docs-2.4.2/html/index.html"
+alias pythonref="bg_wrapper pdf-viewer $HOME/doc/python_ref.pdf"
+alias pythondoc="bg_wrapper browser $HOME/doc/python/Python-Docs-2.4.2/html/index.html"
 
 # xine media player
 alias xine="bg_wrapper xine --enqueue"
@@ -822,11 +822,11 @@ function wiki()
 ########################################################################
 ### source other rc files
 
-if [ -e ~/.bashrc.local ] ; then
-    source ~/.bashrc.local
+if [ -e $HOME/.bashrc.local ] ; then
+    source $HOME/.bashrc.local
 fi
 
-for i in ~/.bash.d/* ; do
+for i in $HOME/.bash.d/* ; do
     if [ -r "$i" ] ; then
         source "$i"
     fi
