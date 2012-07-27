@@ -67,13 +67,7 @@ Style DesktopTaskbar    NeverFocus, TitleAtBottom, Layer 6
 # it appears they become visible as soon as they're swallowed
 Style xclock    SkipMapping
 Style dclock    BorderWidth 0, SkipMapping
-#Style gdeskcal  SkipMapping
 Style gkrellm   SkipMapping
-#Style XPostit   Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, SkipMapping
-Style xpad      Sticky, WindowListSkip, CirculateSkip, NoTitle, StaysOnBottom, SkipMapping
-#Style xmms*     NoTitle, SkipMapping, StickyAcrossDesks
-#Style beep-media-player NoTitle, SkipMapping, StickyAcrossDesks
-#Style cmus*     NoTitle, !Borders, StickyAcrossDesks
 
 
 ################################################################################
@@ -102,8 +96,6 @@ SetEnv EDGE_LEAVE_COMMAND_E "Mouse 1 R A RootWindowBinding"
 
 SetEnv EDGE_COMMAND_W "Mouse 1 R A ToggleDesktopButtons"
 SetEnv EDGE_LEAVE_COMMAND_W "Mouse 1 R A RootWindowBinding"
-#SetEnv EDGE_COMMAND_W "Schedule 500 $[SHOW_DESKTOP_BUTTONS_SCHED_ID] ShowDesktopButtons"
-#SetEnv EDGE_LEAVE_COMMAND_W "Deschedule $[SHOW_DESKTOP_BUTTONS_SCHED_ID]"
 
 RestoreEdgeCommands
 
@@ -146,24 +138,6 @@ DestroyFunc HideDesktopPager
 AddToFunc HideDesktopPager
 + I All (DesktopPager) WindowShade True N
 + I All (DesktopPager) Lower
-
-# DestroyFunc ShowDesktopIcons
-# AddToFunc ShowDesktopIcons
-# + I All (Iconic) Raise
-
-# DestroyFunc HideDesktopIcons
-# AddToFunc HideDesktopIcons
-# + I All (Iconic) Lower
-
-# DestroyFunc ShowDesktopTaskbar
-# AddToFunc ShowDesktopTaskbar
-# + I All (DesktopTaskbar) WindowShade False
-# + I All (DesktopTaskbar) Raise
-
-# DestroyFunc HideDesktopTaskbar
-# AddToFunc HideDesktopTaskbar
-# + I All (DesktopTaskbar) WindowShade True
-# + I All (DesktopTaskbar) Lower
 
 DestroyFunc ShowDesktopTerminal
 AddToFunc ShowDesktopTerminal
@@ -245,20 +219,15 @@ AddToFunc ToggleDesktopButtonsWarp
 
 DestroyModuleConfig DesktopButtons: *
 
-#Colorset $[BUTTONS_COLORSET]    fg blue4, bg black, hi grey25, sh grey12
 Colorset $[BUTTONS_COLORSET]    fg blue4, bg black, hi black, sh black
 
-#*DesktopButtons: Font 'xft:New Century Schoolbook:Medium:Italic:pixelsize=14; \
-#    -adobe-new century schoolbook-medium-i-normal-*-14-*-*-*-*-*-*-*'
 *DesktopButtons: Geometry +-2+0@$[LEFT_SCREEN]
-#*DesktopButtons: Geometry +0+116
 *DesktopButtons: ButtonGeometry 16x16
 *DesktopButtons: BoxSize smart
 *DesktopButtons: Columns 8
 Test (EnvIsSet USE_NETBOOK) *DesktopButtons: Columns 12
 *DesktopButtons: Colorset $[BUTTONS_COLORSET]
 
-# a nice monitor
 Test (EnvIsSet USE_NETBOOK) \
     Test (x gkrellm) \
     *DesktopButtons: (4x28, Frame 0, ActionIgnoresClientWindow, \
@@ -267,28 +236,19 @@ Test (EnvIsSet USE_NETBOOK) \
     "gkrellm" "Exec exec gkrellm -geometry +1500+1500")
 # sometimes, gkrellm gets weird, hence the restart action
 
-# a nice analog clock
 # xclock resources are set in ~/.Xresources
 Test (x xclock) \
     *DesktopButtons: (8x8, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
     "DesktopXClock" "Exec exec xclock -name DesktopXClock -update 1 -geometry +1500+1500")
 
-# a nice digital clock
 Test (x dclock) \
     *DesktopButtons: (8x4, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
     "DesktopDClock" "Exec exec dclock -name DesktopDClock -fg lavender -bg black -led_off grey15 -miltime -seconds -noblink -fade -date '%a %b %d, %Y' \
     -font '-adobe-new century schoolbook-medium-i-normal-*-14-*-*-*-*-*-*-*' -geometry 128x64+1500+1500")
 
-# # a nice calendar
-# Test (x gdeskcal) \
-#     *DesktopButtons: (8x7, Frame 0, ActionIgnoresClientWindow, \
-#     Action (Mouse 2) Exec killall gdeskcal ; exec gdeskcal --first-day=7, \
-#     Swallow (NoClose, SwallowNew, UseOld) \
-#     "gdeskcal" "Exec exec gdeskcal --first-day=7")
-
+# possible calendar replacement
 #urxvt -fn 6x13 +sb -geometry 22x9 -e sh -c "cal ; sleep 1h; done"
 
-# a nice monitor
 Test (!EnvIsSet USE_NETBOOK) \
     Test (x gkrellm) \
     *DesktopButtons: (4x28, Frame 0, ActionIgnoresClientWindow, \
@@ -314,11 +274,6 @@ Test (!EnvIsSet USE_NETBOOK) \
 *DesktopButtons: (4x4, Frame 0, Icon Monitor.xpm, \
 	Action (Mouse 1) 'ToggleScreensaver')
 
-# postit notes, just drag the mouse over it to generate a new note
-#Test (x xpostit) \
-#    *DesktopButtons: (4x4, Frame 8, Swallow (NoClose, SwallowNew, UseOld) "xpostit" \
-#    "Exec exec xpostit -geometry 48x48+1500+1500")
-    
 
 ################################################################################
 # DesktopButtonsMediaPlayer
@@ -343,16 +298,6 @@ AddToFunc MediaPlayerNext
 DestroyFunc MediaPlayerPrev
 AddToFunc MediaPlayerPrev
 + I Exec mpc --no-status prev
-
-# DestroyFunc MediaPlayerButton1
-# AddToFunc MediaPlayerButton1
-# + D MediaPlayerPrev
-# + C MediaPlayerPlayPause
-
-# Mouse (DesktopButtonsMediaPlayer) 5 W N MediaPlayerDecrVol
-# Mouse (DesktopButtonsMediaPlayer) 4 W N MediaPlayerIncrVol
-# Mouse (DesktopButtonsMediaPlayer) 1 W N MediaPlayerButton1
-# Mouse (DesktopButtonsMediaPlayer) 3 W N MediaPlayerNext
 
 # swallows media player
 # works like other desktop modules, so it hides/unhides with an EdgeCommand
@@ -392,7 +337,6 @@ AddToFunc StartMediaPlayer
 
 DestroyModuleConfig DesktopPager: *
 
-# subtle gradients go a long way
 Colorset $[PAGER_COLORSET]                  fg white, bg black, VGradient 32 #020020 black
 Colorset $[PAGER_HILIGHT_COLORSET]          fg black, bg white, VGradient 32 white lavender
 Colorset $[PAGER_BALLOON_COLORSET]          fg black, bg bisque
@@ -414,20 +358,6 @@ Colorset $[PAGER_HILIGHT_WINDOW_COLORSET]   fg white, bg blue4, DGradient 64 #80
 *DesktopPager: BalloonStringFormat "%c: %i"
 *DesktopPager: UseSkipList
 
-# here's some code to generate a thumbnail of the wallpaper and make it the background of DesktopPager
-# all "*DesktopPager: Colorset" statements must be commented out
-#
-##!/bin/bash
-#cd $HOME/tmp
-#ext=`sed 's/.*\.\([a-zA-Z0-9]*\)$/\1/g' ./current_wallpaper`
-#cp -f `cat ./current_wallpaper` ./wallpaper.$ext
-#convert ./wallpaper.$ext -thumbnail 160x120 ./wallpaper_thumb.png
-#rm -f ./wallpaper.$ext
-#
-#*DesktopPager: Fore white
-#*DesktopPager: Back black
-#*DesktopPager: Pixmap $[HOME]/tmp/wallpaper_thumb.png
-
 
 ################################################################################
 # DesktopMiniPager
@@ -447,110 +377,6 @@ DestroyModuleConfig DesktopMiniPager: *
 *DesktopMiniPager: WindowColorsets $[PAGER_WINDOW_COLORSET] $[PAGER_HILIGHT_WINDOW_COLORSET]
 *DesktopMiniPager: UseSkipList
 *DesktopMiniPager: NoNames
-
-
-
-# ################################################################################
-# # DesktopIconMan
-# ################################################################################
-# 
-# # Notes:
-# # we have 2 FvwmIconMans swallowed by an FvwmButtons
-# 
-# DestroyFunc ButtonBinding1
-# AddToFunc ButtonBinding1
-# + I Iconify off
-# + I FlipFocus
-# + I Raise
-# #+ D ThisWindow (Iconic) Maximize True
-# #+ D TestRc (NoMatch) Maximize 100 100
-# #+ D Iconify False
-# 
-# XineramaPrimaryScreen $[LEFT_SCREEN]
-# 
-# Style "Left Screen" StartsOnScreen $[LEFT_SCREEN]
-# Style "Right Screen" StartsOnScreen $[RIGHT_SCREEN]
-# 
-# DestroyModuleConfig DesktopIconMan: *
-# 
-# Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: NumManagers 2
-# Test (!EnvIsSet USE_XINERAMA) *DesktopIconMan: NumManagers 1
-# 
-# *DesktopIconMan: 1 Resolution any_desk, page, screen
-# *DesktopIconMan: 2 Resolution any_desk, page, screen
-# 
-# *DesktopIconMan: Colorset $[MENU_COLORSET]
-# *DesktopIconMan: IconColorset $[MENU_COLORSET]
-# *DesktopIconMan: SelectColorset $[MENU_COLORSET]
-# *DesktopIconMan: FocusColorset $[MENU_HILIGHT_COLORSET]
-# *DesktopIconMan: FocusAndSelectColorset $[MENU_HILIGHT_COLORSET]
-# *DesktopIconMan: TipsColorset $[ICON_TITLE_COLORSET]
-# 
-# *DesktopIconMan: 1 ManagerGeometry 1x1
-# *DesktopIconMan: 2 ManagerGeometry 1x1
-# *DesktopIconMan: MaxButtonWidthByColumns 4
-# 
-# *DesktopIconMan: Font 'Shadow=0:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
-#     -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
-# *DesktopIconMan: TipsFont 'Shadow=1:xft:Century Schoolbook L:Medium:Italic:pixelsize=14; \
-#     -adobe-new century schoolbook-medium-r-normal-*-14-*-*-*-*-*-*-*'
-# 
-# *DesktopIconMan: PlainButton flat
-# *DesktopIconMan: SelectButton flat
-# *DesktopIconMan: IconButton down
-# 
-# *DesktopIconMan: Sort id
-# Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: 1 Title "Left Screen"
-# Test (EnvIsSet USE_XINERAMA) *DesktopIconMan: 2 Title "Right Screen"
-# Test (!EnvIsSet USE_XINERAMA) *DesktopIconMan: 1 Title "Taskbar"
-# *DesktopIconMan: DrawIcons always
-# *DesktopIconMan: UseWinList true
-# *DesktopIconMan: FollowFocus true
-# 
-# *DesktopIconMan: Tips always
-# *DesktopIconMan: TipsDelays 0 0
-# 
-# *DesktopIconMan: Action Mouse 0 N sendcommand Nop
-# *DesktopIconMan: Action Mouse 1 N sendcommand ButtonBinding1
-# *DesktopIconMan: Action Mouse 2 N sendcommand Iconify
-# *DesktopIconMan: Action Mouse 3 N sendcommand WindowMenuOrCloseIcon
-# #*DesktopIconMan: NoIconAction SendToModule FvwmAnimate animate
-# 
-# 
-# ################################################################################
-# # swallowing buttons
-# 
-# DestroyModuleConfig DesktopTaskbar: *
-# 
-# SetEnv __height__ 27
-# #SetEnv __window_height__ 81
-# SetEnv __window_height__ 27
-# 
-# *DesktopTaskbar: ButtonGeometry $[vp.width]x$[__height__]
-# *DesktopTaskbar: BoxSize smart
-# Test (EnvIsSet USE_XINERAMA) *DesktopTaskbar: Columns 2
-# Test (!EnvIsSet USE_XINERAMA) *DesktopTaskbar: Columns 1
-# #*DesktopTaskbar: Rows 3
-# *DesktopTaskbar: Rows 1
-# *DesktopTaskbar: Colorset $[BUTTONS_COLORSET]
-# 
-# *DesktopTaskbar: Geometry $[vp.width]x$[__window_height__]+0--1@$[LEFT_SCREEN]
-# 
-# Test (EnvIsSet USE_XINERAMA) \
-# *DesktopTaskbar: (1x1, Frame 1, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
-#     "Left Screen" "Nop")
-# Test (EnvIsSet USE_XINERAMA) \
-# *DesktopTaskbar: (1x1, Frame 0, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
-#     "Right Screen" "Nop")
-# 
-# Test (!EnvIsSet USE_XINERAMA) \
-# *DesktopTaskbar: (1x1, Frame 0, Swallow (NoClose, SwallowNew, UseOld, FvwmModule) \
-#     "Taskbar" "Nop")
-# 
-# 
-# UnSetEnv __height__
-# UnSetEnv __window_height__
-
 
 
 ################################################################################
