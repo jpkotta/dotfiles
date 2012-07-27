@@ -309,8 +309,8 @@ Test (EnvIsSet USE_NETBOOK) \
 *DesktopButtonsMediaPlayer: BoxSize smart
 *DesktopButtonsMediaPlayer: Colorset $[BUTTONS_COLORSET]
 
-SetEnv media_buttons_geom "844 147"
-Test (EnvIsSet USE_NETBOOK) SetEnv media_buttons_geom "704 147"
+SetEnv media_buttons_geom "844 158"
+Test (EnvIsSet USE_NETBOOK) SetEnv media_buttons_geom "704 158"
 
 # if the media player doesn't start up, middle click on the button
 # middle click is the only mouse button left, and is useless when ncmpc is running
@@ -329,7 +329,7 @@ DestroyFunc StartMediaPlayer
 AddToFunc StartMediaPlayer
 + I StartTerminal -geometry $[DesktopMediaPlayerGeom] \
     -title DesktopMediaPlayer -name DesktopMediaPlayer \
-    +sb -fn 7x13 -e sh -c "sleep 1 ; exec ncmpcpp"
+    +sb -fade 0 -fn "xft:DejaVu Sans Mono:pixelsize=11" -e sh -c "sleep 1 ; exec ncmpcpp"
 
 ################################################################################
 # DesktopPager
