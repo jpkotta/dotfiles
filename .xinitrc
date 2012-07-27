@@ -5,13 +5,11 @@ echo "Parameters to .xinitrc: ""$@"
 cd
 
 # turn monitors off after 10 min
-which xset \
-    && xset dpms 0 0 600 &
+xset dpms 0 0 600 &
 
 # set the wallpaper
 # do this first because it can take a while
-which nitrogen \
-    && nitrogen --restore &
+nitrogen --restore &
 
 # add some special keys
 # xmodmap -e "keycode 115 = Super_L"
@@ -36,8 +34,7 @@ fi
     && xrdb -load $HOME/.Xresources
 
 # turn on numlock
-which numlockx \
-    && numlockx on
+numlockx on
 
 disp=`echo $DISPLAY | sed -e 's/://g' -e 's/[.][0-9]*//'`
 log_file=$HOME/.X-log-$disp
