@@ -164,7 +164,7 @@ AddToMenu RootMisc
 + "%mini.fractal.xpm%Science"               Popup Science
 + "" Nop
 + "&Firefox"                                Exec exec firefox
-+ "&Chrome"                                 Exec exec chromium-browser
++ "&Chrome"                                 Exec exec chromium
 + "&Opera"                                  Exec exec opera
 + "&Virtual Box"                            Exec exec VirtualBox
 + "%mini.display.xpm%Screenshot"            ScreenShotRoot
