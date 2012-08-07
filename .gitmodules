@@ -1,6 +1,3 @@
-[submodule ".emacs.d/backup-walker"]
-	path = .emacs.d/backup-walker
-	url = git://github.com/lewang/backup-walker.git
 [submodule ".emacs.d/geiser"]
 	path = .emacs.d/geiser
 	url = git://gitorious.org/geiser/mainline.git
