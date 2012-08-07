@@ -263,7 +263,7 @@ fi
 #CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse,387'
 
 # some programs' startup scipts need to know the screen res
-if [ -n "$DISPLAY" ] ; then
+if [ -n "$DISPLAY" ] && which xdpyinfo 2>/dev/null ; then
     export DPY_RES=`xdpyinfo | grep dimensions | awk '{ print $2 }'`
     export DPY_RES_X=`echo $DPY_RES | sed s/x.*//`
     export DPY_RES_Y=`echo $DPY_RES | sed s/.*x//`
