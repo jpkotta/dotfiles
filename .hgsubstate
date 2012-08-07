@@ -1,4 +1,4 @@
-30231d54fb2801f4c10a952ab5e257cdd5205491 .emacs.d/geiser
-dfb2b7b5d586e584280c6640652dc939b4b9120a .hgext/hg-git
+540293601e7dcac9eb193d529d7b2413765f3c72 .emacs.d/geiser
+ad15a2ecf989077f497c044315496f487637a98a .hgext/hg-git
 244a50c40d93873006c875c5d2ae64fcbc987216 .hgext/hgshelve
-173065f9b7154e6b8793f1ade648f2ccd86f23b2 .hgext/hgsubversion
+8faa91951bb10b580cbfc2ad065cd26aae47c618 .hgext/hgsubversion
