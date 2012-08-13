@@ -7,22 +7,22 @@ pid_file		"~/.mpd/pid"
 state_file		"~/.mpd/state"
 mixer_type		"software"
 
-# audio_output {
-# 	type	"pulse"
-# 	name	"PulseAudio"
-# }
+audio_output {
+	type	"pulse"
+	name	"PulseAudio"
+}
 
 # audio_output {
 # 	type	"alsa"
 # 	name	"ALSA"
 # }
         
-audio_output {
-	type           "alsa"
-	name           "MPD"
-	device         "pulse"
-	mixer_control  "Master"
-}
+# audio_output {
+# 	type           "alsa"
+# 	name           "MPD"
+# 	device         "pulse"
+# 	mixer_control  "Master"
+# }
         
 audio_output {
     type    "fifo"
