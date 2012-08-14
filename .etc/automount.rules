@@ -23,10 +23,11 @@ ACTION=="add", ENV{ID_FS_TYPE}=="vfat|ntfs", \
     ENV{mount_options}="$env{mount_options},gid=storage,dmask=007,fmask=117,utf8"
 
 # automount ntfs filesystems using ntfs-3g driver
-ACTION=="add", ENV{ID_FS_TYPE}=="ntfs", \
+# UDISKS_PRESENTATION_HIDE tests for hidden partitions
+ACTION=="add", ENV{ID_FS_TYPE}=="ntfs", ENV{UDISKS_PRESENTATION_HIDE}!="1", \
     RUN+="/bin/mount -t ntfs-3g -o %E{mount_options} /dev/%k '/media/%E{dir_name}'"
 # automount all other filesystems
-ACTION=="add", ENV{ID_FS_TYPE}!="ntfs", \
+ACTION=="add", ENV{ID_FS_TYPE}!="ntfs", ENV{UDISKS_PRESENTATION_HIDE}!="1", \
     RUN+="/bin/mount -t auto -o %E{mount_options} /dev/%k '/media/%E{dir_name}'"
 
 # clean up after device removal
