@@ -19,15 +19,20 @@ ACTION=="add", RUN+="/bin/mkdir -p '/media/%E{dir_name}'"
 # global mount options
 ACTION=="add", ENV{mount_options}="relatime"
 # filesystem-specific mount options (777/666 dir/file perms for ntfs/vfat) 
-ACTION=="add", ENV{ID_FS_TYPE}=="vfat|ntfs", ENV{mount_options}="$env{mount_options},gid=storage,dmask=007,fmask=117,utf8"
+ACTION=="add", ENV{ID_FS_TYPE}=="vfat|ntfs", \
+    ENV{mount_options}="$env{mount_options},gid=storage,dmask=007,fmask=117,utf8"
 
 # automount ntfs filesystems using ntfs-3g driver
-ACTION=="add", ENV{ID_FS_TYPE}=="ntfs", RUN+="/bin/mount -t ntfs-3g -o %E{mount_options} /dev/%k '/media/%E{dir_name}'"
+ACTION=="add", ENV{ID_FS_TYPE}=="ntfs", \
+    RUN+="/bin/mount -t ntfs-3g -o %E{mount_options} /dev/%k '/media/%E{dir_name}'"
 # automount all other filesystems
-ACTION=="add", ENV{ID_FS_TYPE}!="ntfs", RUN+="/bin/mount -t auto -o %E{mount_options} /dev/%k '/media/%E{dir_name}'"
+ACTION=="add", ENV{ID_FS_TYPE}!="ntfs", \
+    RUN+="/bin/mount -t auto -o %E{mount_options} /dev/%k '/media/%E{dir_name}'"
 
 # clean up after device removal
-ACTION=="remove", ENV{dir_name}!="", RUN+="/bin/umount -l '/media/%E{dir_name}'", RUN+="/bin/rmdir '/media/%E{dir_name}'"
+ACTION=="remove", ENV{dir_name}!="", \
+    RUN+="/bin/umount -l '/media/%E{dir_name}'", \
+    RUN+="/bin/rmdir '/media/%E{dir_name}'"
 
 # exit
 LABEL="automount_end"
