@@ -1,0 +1,106 @@
+#!/usr/bin/env python2.7
+# -*- coding:utf-8 -*-
+
+from __future__ import print_function
+
+from mpd import MPDClient, CommandError
+from socket import error as SocketError
+from random import choice
+import time
+import os
+from signal import SIGTERM
+import sys
+import daemon
+from lockfile.pidlockfile import PIDLockFile
+
+########################################################################
+
+def connect():
+    HOST = "localhost"
+    PORT = 6600
+    PASSWD = None
+
+    c = MPDClient()
+    try:
+        c.connect(host=HOST, port=PORT)
+    except SocketError:
+        exit(1)
+
+    if PASSWD is not None:
+        try:
+            c.password(PASSWD)
+        except CommandError:
+            exit(1)
+
+    return c
+
+def kill_old(pid_file):
+    try:
+        with open(pid_file, "r") as f:
+            pid = int(f.readline())
+        os.kill(pid, SIGTERM)
+        try:
+            os.unlink(pid_file)
+        except IOError:
+            pass
+
+    except IOError as inst:
+        print("Could not open %s for reading: %s" %
+              (pid_file, inst),
+              file=sys.stderr)
+        exit(1)
+
+    except ValueError as inst:
+        print("Invalid pid file: %s" % inst,
+              file=sys.stderr)
+        exit(1)
+
+def main():
+    c = connect()
+    
+    delay = 1
+    playlist_finished = False
+    while True:
+        status = c.status()
+
+        if playlist_finished and status["state"] == "stop":
+            album = choice(c.list("album"))
+            songs = c.find("album", album)
+
+            c.clear()
+            for song in songs:
+                c.add(song["file"])
+            playlist_finished = False
+
+            c.play()
+
+        if ("song" in status
+            and int(status["playlistlength"]) - 1 == int(status["song"])):
+
+            elapsed,total = [float(x) for x in status["time"].split(":")]
+            if (total - elapsed) <= 2*delay:
+                playlist_finished = True
+
+        time.sleep(delay)
+
+########################################################################
+
+if __name__ == '__main__':
+
+    pid_file = "/tmp/%s-ralbumd.pid" % os.environ["USER"]
+    debug = False
+
+    if "kill" in sys.argv[1:]:
+        kill_old(pid_file)
+        exit(0)
+
+    if "debug" in sys.argv[1:]:
+        debug = True
+
+    with daemon.DaemonContext(
+            pidfile=PIDLockFile(pid_file),
+            detach_process=(None if not debug else False),
+            stdout=(None if not debug else sys.stdout),
+            stderr=(None if not debug else sys.stderr),
+            ):
+        main()
