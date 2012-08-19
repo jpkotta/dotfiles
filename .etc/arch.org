@@ -1,0 +1,179 @@
+* MISCELLANEOUS
+** files
+*** /etc/rc.conf
+default DAEMONS=(syslog-ng network crond)
+*** /etc/fstab
+*** /etc/modprobe.d/nobeep.conf
+blacklist pcspkr
+*** /etc/hostname
+*** /etc/hosts
+*** /etc/locale.gen
+*** /etc/locale.conf
+LANG=en_US.UTF-8
+*** ln -s /usr/share/zoneinfo/America/North_Dakota/Center /etc/localtime
+*** /etc/timezone
+*** hwclock --systohc --utc
+*** /etc/vconsole.conf
+*** /etc/cron.daily/download-updates
+pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
+** adduser jpkotta
+groups += games optical storage power users 
+** broken packages
+*** ufraw-cvs
+*** gkrellweather
+* abcde
+* TODO acroread
+* alsa-utils
+* apg
+* aspell
+* aspell-en
+* avr-gcc
+* avr-libc
+* avrdude
+* base-devel
+* bash-completion
+/usr/share/bash-completion/bash_completion
+* chromium
+* colordiff
+* cups
+DAEMONS += cupsd
+used the C3070i/postscript driver
+* cups-pdf
+* dbus
+DAEMONS += dbus
+* dclock
+* emacs-lucid
+* flashplugin
+/etc/adobe/mms.cfg
+* foldingathome-smp
+DAEMONS += foldingathome-smp
+/etc/conf.d/foldingathome-smp
+useradd -m -g users -s /bin/sh folding
+cd /opt/fah-smp/folding ; ../fah6 -configonly
+* font-mathematica
+* foomatic-db
+* foomatic-db-engine
+* foomatic-db-nonfree
+* foomatic-filters
+* fortune-mod
+* fvwm
+* geeqie
+* gimp
+* git
+* gkrellm
+* gkrellweather
+* hdparm
+* hg-git-hg
+* htop
+* iftop
+* imagemagick
+* imagemagick-doc
+* inetutils
+* iotop
+* ipython
+* ipython-ipdb
+* ipython2
+* ispell
+* jdk7-openjdk
+* kdegraphics-okular
+* keepassx
+* keychain
+* libreoffice
+* libreoffice-en-US
+* lsof
+* lyx
+* mercurial
+* mesa-demos
+* mlocate
+* mpc
+* mpd
+* mutt
+* ncmpcpp
+* nfs-utils
+  DAEMONS += rpcbind
+* nitrogen
+* ntp
+DAEMONS += ntp
+* numlockx
+* nvclock
+* nvidia
+* nvidia-utils
+* openssh
+DAEMONS += sshd
+* opera
+* p7zip
+* pavucontrol
+* perl-term-readline-gnu
+* pidgin
+* pkgfile
+** /etc/cron.monthly/pkgfile
+pkgfile --update >/dev/null 
+* pmount
+* TODO postfix
+add mail.cableone.net to relay_domains in /etc/postfix/main.cf
+DAEMONS += postfix
+* pulseaudio
+groups += audio
+* pulseaudio-alsa
+* pulseaudio-equalizer
+* pysolfc
+* python2 
+* python2-matplotlib
+* python-mpd
+* python2-numpy
+* python2-scipy
+* rxvt-unicode
+* samba
+/etc/smb.conf
+DAEMONS += samba netfs
+* sshfs
+* strace
+* subversion
+* sudo
+groups += wheel
+* texlive-most
+* tmux
+* tree
+* tremulous
+* ttf-dejavu
+* ttf-indic-otf
+look of disapproval
+* ttf-mathtype
+* ttf-ms-fonts
+* urxvtcd
+* virtualbox
+groups += vboxusers
+** /etc/modules-load.d/virtualbox.conf
+vboxdrv
+vboxnetadp
+vboxnetflt
+* virtualbox-additions
+* virtualbox-ext-oracle
+* vlc
+* wicd
+DAEMONS += wicd
+* wine
+need multilib repo
+* x11vnc
+* xclip
+* xorg-xclock
+* xorg-xdpyinfo
+* xorg-xinit 
+* xorg-xmodmap
+* xorg-xrandr
+* xorg-xrdb
+* xorg-xwd
+* xscreensaver
+* yaourt
+wget http://aur.archlinux.org/packages/package-query/package-query.tar.gz
+tar xf package-query.tar.gz
+cd package-query
+makepkg -si
+cd ..
+wget http://aur.archlinux.org/packages/yaourt/yaourt.tar.gz
+tar xf yaourt.tar.gz
+cd yaourt
+makepkg -si
+cd ..
+
+echo EDITFILES=0 >> ~/.yaourtrc
