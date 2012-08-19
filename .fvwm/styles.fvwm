@@ -127,7 +127,7 @@ Style "Buddy List" \
     NeverFocus
 Style Pidgin Sticky, !FPGrabFocus, !FPFocusByProgram
 
-Style Tremulous !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
+Style Tremulous* !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
 Style OpenArena !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
 Style doomsday* !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
 
