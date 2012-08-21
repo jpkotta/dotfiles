@@ -520,6 +520,8 @@ alias rmbck='/bin/rm -f ./*.bck ./.*.bck ./*?~ ./.*?~'
 alias empty='/bin/cp /dev/null'
 # safer mv
 alias mv='mv -i'
+# swiss army chainsaw of file naming
+alias ren="perl-rename"
 # safer cp
 alias cp='cp -i'
 # creates parent dirs if they do not exist

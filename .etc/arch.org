@@ -103,6 +103,7 @@ DAEMONS += sshd
 * opera
 * p7zip
 * pavucontrol
+* perl-rename
 * perl-term-readline-gnu
 * pidgin
 * pkgfile
