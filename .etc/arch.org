@@ -90,6 +90,7 @@ cd /opt/fah-smp/folding ; ../fah6 -configonly
 * ispell
 * jdk7-openjdk
 * kdegraphics-okular
+for i in /usr/share/applications/kde4/okular*.desktop ; do sudo sed -i 's/Exec=okular %U %i -caption "%c"/Exec=okular %U/' $i ; done
 * keepassx
 * keychain
 * libreoffice

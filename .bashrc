@@ -558,7 +558,7 @@ function v()
 }
 
 # this is another way to open just about any file the right way
-alias open="daemon kfmclient exec"
+alias open="daemon xdg-open"
 
 # sdiff the way it was at IBM
 alias sdiff='/usr/bin/sdiff --expand-tabs --ignore-all-space --strip-trailing-cr --width=160'
