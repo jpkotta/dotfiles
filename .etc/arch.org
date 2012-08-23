@@ -50,6 +50,7 @@ DAEMONS += foldingathome-smp
 /etc/conf.d/foldingathome-smp
 useradd -m -g users -s /bin/sh folding
 cd /opt/fah-smp/folding ; ../fah6 -configonly
+* font-bh-ttf
 * font-mathematica
 * foomatic-db
 * foomatic-db-engine
@@ -118,9 +119,9 @@ groups += audio
 * pulseaudio-alsa
 * pulseaudio-equalizer
 * pysolfc
-* python2 
+* python2
 * python2-matplotlib
-* python-mpd
+* python2-mpd2
 * python2-numpy
 * python2-scipy
 * rxvt-unicode
@@ -139,8 +140,10 @@ groups += wheel
 * ttf-dejavu
 * ttf-indic-otf
 look of disapproval
+* ttf-liberation
 * ttf-mathtype
 * ttf-ms-fonts
+* ttf-vista-fonts
 * urxvtcd
 * virtualbox
 groups += vboxusers
