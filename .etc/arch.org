@@ -16,6 +16,18 @@ LANG=en_US.UTF-8
 *** /etc/vconsole.conf
 *** /etc/cron.daily/download-updates
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
+*** /etc/cron.weekly/updatedb-network
+LOCATE_PATH=""
+for share in nfs engineering storagez ; do
+    ${UPDATEDB} \
+        --prunefs "" \
+        --database-root /media/$share \
+        --output /var/lib/mlocate/mlocate-${share}.db
+
+    LOCATE_PATH=$LOCATE_PATH:/var/lib/mlocate/mlocate-${share}.db
+done
+
+# add LOCATE_PATH to your ~/.bashrc to have locate search these databases
 ** adduser jpkotta
 groups += games optical storage power users 
 ** broken packages
@@ -42,6 +54,7 @@ used the C3070i/postscript driver
 * dbus
 DAEMONS += dbus
 * dclock
+* dictd
 * emacs-lucid
 * flashplugin
 /etc/adobe/mms.cfg
@@ -110,6 +123,7 @@ DAEMONS += sshd
 * pkgfile
 ** /etc/cron.monthly/pkgfile
 pkgfile --update >/dev/null 
+* pkgtools
 * pmount
 * TODO postfix
 add mail.cableone.net to relay_domains in /etc/postfix/main.cf
@@ -154,6 +168,7 @@ vboxnetflt
 * virtualbox-additions
 * virtualbox-ext-oracle
 * vlc
+* wcalc
 * wicd
 DAEMONS += wicd
 * wine
