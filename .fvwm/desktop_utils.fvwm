@@ -443,7 +443,7 @@ StartDesktopTerminals
 DestroyFunc OnMapDesktopPager
 AddToFunc OnMapDesktopPager
 + I HideDesktopPager
-+ I IncTranslucency
++ I Test (EnvIsSet USE_COMPOSITE) IncTranslucency
 
 Style DesktopPager InitialMapCommand OnMapDesktopPager
 Style DesktopTerminal* InitialMapCommand HideDesktopTerminal

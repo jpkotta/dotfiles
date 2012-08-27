@@ -123,17 +123,6 @@
 # HOST SPECIFIC SETTINGS
 ################################################################################
 
-# set the hostname, since for some reason it isn't set already
-PipeRead 'echo SetEnv HOSTNAME `hostname`'
-
-DestroyFunc IfHost
-AddToFunc IfHost
-+ I Test (EnvMatch HOSTNAME $[0]) $[*]
-
-DestroyFunc IfNotHost
-AddToFunc IfNotHost
-+ I Test (!EnvMatch HOSTNAME $[0]) $[*]
-
 # Various differences between my machines are handled by these env
 # vars.  These are the defaults.  A host-specific local.fvwm can set
 # this or anything else meant for that specific host.
@@ -196,6 +185,9 @@ Read modules.fvwm
 # these are add ons, and may have dependencies (or assumptions) on the general config files
 # however, each is fairly independent, and designed to load like a module
 
+# xcompgr functions
+Test (EnvIsSet USE_COMPOSITE) Read xcompmgr.fvwm
+
 # there are 4 "desktop utilities": DesktopPager*, DesktopButtons*, DesktopTerminal*, and DesktopIconMan
 # these utilities are designed to work together and improve the fvwm experience
 # since there's a lot of stuff devoted specifially to these, all of the configuration and setup goes into this file
@@ -218,6 +210,3 @@ Read scroll_mode.fvwm
 # makes a screenshot thumbnail of a window whenever it's raised
 # and provides a winlist-like menu using the thumbnails
 Test (EnvIsSet USE_SCREENSHOT_THUMBS) Read screenshot_thumbnail.fvwm
-
-# xcompgr functions
-Test (EnvIsSet USE_COMPOSITE)   Read xcompmgr.fvwm
