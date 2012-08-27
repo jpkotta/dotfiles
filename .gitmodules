@@ -1,4 +1,0 @@
-[submodule ".emacs.d/geiser"]
-	path = .emacs.d/geiser
-	url = git://gitorious.org/geiser/mainline.git
-
