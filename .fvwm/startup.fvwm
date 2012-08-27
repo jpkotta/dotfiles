@@ -31,7 +31,7 @@ AddToFunc InitFunction
 #+ I Exec exec gnome-panel
 #+ I Exec exec gnome-settings-daemon
 + I Test (EnvIsSet USE_COMPOSITE) RestartXcompmgr
-#+ I Exec exec $[FVWM_SCRIPTDIR]/rotate_wallpaper
+#+ I Exec exec $[infostore.script_dir]/rotate_wallpaper
 + I Exec exec pidgin
 + I Exec pulseaudio --check || pulseaudio -D && pulseaudio-equalizer enable
 + I Exec if ! ps -ef | grep -v grep | grep mpd | grep -q $USER ; then mpd ; sleep 1 ; ralbumd kill ; ralbumd ; fi

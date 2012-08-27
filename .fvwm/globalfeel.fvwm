@@ -11,9 +11,9 @@
 # ModulePath is builtin, you may add some directories here
 ModulePath $[FVWM_USERDIR]/modules:+
 
-SetEnv FVWM_IMAGEDIR $[FVWM_USERDIR]/data/icons
-SetEnv FVWM_SOUNDDIR $[FVWM_USERDIR]/data/sounds
-SetEnv FVWM_SCRIPTDIR $[FVWM_USERDIR]/scripts
+InfoStoreAdd image_dir "$[FVWM_USERDIR]/data/icons"
+InfoStoreAdd sound_dir "$[FVWM_USERDIR]/data/sounds"
+InfoStoreAdd script_dir "$[FVWM_USERDIR]/scripts"
 
 SetEnv SCREEN_RES $[vp.width]x$[vp.height]
 SetEnv SCREEN_RES_X $[vp.width]
@@ -49,7 +49,7 @@ DesktopName -1 hidden
 
 # the number of the last desktop
 # numbering starts at 0, so the number of desktops is one more than this
-SetEnv LAST_DESKTOP 3
+InfoStoreAdd last_desktop 3
 
 
 ########################################################################
@@ -140,26 +140,26 @@ EdgeThickness 1
 
 # these variables are always used to set the edge commands,
 # because some functions change them for a brief time
-SetEnv EDGE_COMMAND_N Nop
-SetEnv EDGE_COMMAND_S Nop
-SetEnv EDGE_COMMAND_E Nop
-SetEnv EDGE_COMMAND_W Nop
-SetEnv EDGE_LEAVE_COMMAND_N Nop
-SetEnv EDGE_LEAVE_COMMAND_S Nop
-SetEnv EDGE_LEAVE_COMMAND_E Nop
-SetEnv EDGE_LEAVE_COMMAND_W Nop
+InfoStoreAdd edge_cmd.enter.n Nop
+InfoStoreAdd edge_cmd.enter.s Nop
+InfoStoreAdd edge_cmd.enter.e Nop
+InfoStoreAdd edge_cmd.enter.w Nop
+InfoStoreAdd edge_cmd.leave.n Nop
+InfoStoreAdd edge_cmd.leave.s Nop
+InfoStoreAdd edge_cmd.leave.e Nop
+InfoStoreAdd edge_cmd.leave.w Nop
 
-# sets the edge commands to the variables EDGE_COMMAND_{N,S,E,W}
+# sets the edge commands to the variables edge_cmd.{enter,leave}.{n,s,e,w}
 DestroyFunc RestoreEdgeCommands
 AddToFunc RestoreEdgeCommands
-+ I EdgeCommand North   $[EDGE_COMMAND_N]
-+ I EdgeCommand South   $[EDGE_COMMAND_S]
-+ I EdgeCommand East    $[EDGE_COMMAND_E]
-+ I EdgeCommand West    $[EDGE_COMMAND_W]
-+ I EdgeLeaveCommand North   $[EDGE_LEAVE_COMMAND_N]
-+ I EdgeLeaveCommand South   $[EDGE_LEAVE_COMMAND_S]
-+ I EdgeLeaveCommand East    $[EDGE_LEAVE_COMMAND_E]
-+ I EdgeLeaveCommand West    $[EDGE_LEAVE_COMMAND_W]
++ I EdgeCommand North   $[infostore.edge_cmd.enter.n]
++ I EdgeCommand South   $[infostore.edge_cmd.enter.s]
++ I EdgeCommand East    $[infostore.edge_cmd.enter.e]
++ I EdgeCommand West    $[infostore.edge_cmd.enter.w]
++ I EdgeLeaveCommand North   $[infostore.edge_cmd.leave.n]
++ I EdgeLeaveCommand South   $[infostore.edge_cmd.leave.s]
++ I EdgeLeaveCommand East    $[infostore.edge_cmd.leave.e]
++ I EdgeLeaveCommand West    $[infostore.edge_cmd.leave.w]
 
 DeskTopSize 2x2
 
@@ -265,7 +265,7 @@ MenuStyle small_menu_style VerticalItemSpacing 1 2, VerticalTitleSpacing 1 2
 # MISCELLANEOUS SETTINGS
 ################################################################################
 
-SetEnv FvwmTerminalEmulator urxvtcd
+InfoStoreAdd terminal_prog urxvtcd
 
 Test (EnvIsSet USE_NETBOOK) Style * TitleAtLeft
 

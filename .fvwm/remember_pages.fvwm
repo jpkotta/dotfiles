@@ -13,7 +13,7 @@
 
 # updated for nested variable expansion (needs fvwm >= 2.5.15)
 
-# This file uses the global LAST_DESKTOP (= number of desks - 1)
+# This file uses the global last_desktop (= number of desks - 1)
 
 
 ################################################################################
@@ -24,26 +24,22 @@
 DestroyFunc SetupPageRecall
 AddToFunc SetupPageRecall
 + I PipeRead \
-    'for desk in `seq 0 $[LAST_DESKTOP]` ; do \
-         echo SetEnv x_prev_page_of_desk${desk} 0 ; \
-         echo SetEnv y_prev_page_of_desk${desk} 0 ; \
+    'for desk in `seq 0 $[infostore.last_desktop]` ; do \
+         echo InfoStoreAdd prev_page.${desk}.x 0 ; \
+         echo InfoStoreAdd prev_page.${desk}.y 0 ; \
      done'
 
 # store the current page to prev_page_of_deskN, N = desk.n
 DestroyFunc RememberPage
 AddToFunc RememberPage
-+ I SetEnv x_prev_page_of_desk$[desk.n] $[page.nx]
-+ I SetEnv y_prev_page_of_desk$[desk.n] $[page.ny]
-#+ I Echo x_prev_page_of_desk$[desk.n] = $[x_prev_page_of_desk$[desk.n]]
-#+ I Echo y_prev_page_of_desk$[desk.n] = $[y_prev_page_of_desk$[desk.n]]
++ I InfoStoreAdd prev_page.$[desk.n].x $[page.nx]
++ I InfoStoreAdd prev_page.$[desk.n].y $[page.ny]
 
 # store the value of prev_page_deskN (N = desk.n) to prev_page_desk
 DestroyFunc RecallPage
 AddToFunc RecallPage
-+ I SetEnv x_prev_page_of_desk $[x_prev_page_of_desk$[desk.n]]
-+ I SetEnv y_prev_page_of_desk $[y_prev_page_of_desk$[desk.n]]
-#+ I Echo x_prev_page_of_desk = $[x_prev_page_of_desk]
-#+ I Echo y_prev_page_of_desk = $[y_prev_page_of_desk]
++ I InfoStoreAdd prev_page.x $[infostore.prev_page.$[desk.n].x]
++ I InfoStoreAdd prev_page.y $[infostore.prev_page.$[desk.n].y]
 
 # goes to Nth page
 # arg0: N
@@ -61,7 +57,7 @@ DestroyFunc GotoDeskAndRecallPage
 AddToFunc GotoDeskAndRecallPage
 + I GotoDesk $0 $1 $2 $3
 + I RecallPage
-+ I GotoPage $[x_prev_page_of_desk] $[y_prev_page_of_desk]
++ I GotoPage $[infostore.prev_page.x] $[infostore.prev_page.y]
 
 
 ################################################################################
@@ -78,8 +74,8 @@ DestroyModuleConfig FvwmEventRecallPage: *
 # BINDINGS
 ################################################################################
 
-#Key     Down    A       4       GotoDeskAndRecallPage -1 0 $[LAST_DESKTOP]
-#Key     Up      A       4       GotoDeskAndRecallPage +1 0 $[LAST_DESKTOP]
+#Key     Down    A       4       GotoDeskAndRecallPage -1 0 $[infostore.last_desktop]
+#Key     Up      A       4       GotoDeskAndRecallPage +1 0 $[infostore.last_desktop]
 #Key     1       A       4       GotoDeskAndRecallPage 0 0
 #Key     2       A       4       GotoDeskAndRecallPage 0 1
 #Key     3       A       4       GotoDeskAndRecallPage 0 2

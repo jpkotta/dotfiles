@@ -12,7 +12,7 @@
 # nearly everything specific to them is defined in this file
 
 # this file uses the following globals:
-#   LAST_DESKTOP
+#   last_desktop
 
 # this file sets EdgeCommands and EdgeLeaveCommands
 
@@ -34,9 +34,6 @@ AddColorset PAGER_BALLOON_COLORSET
 AddColorset PAGER_WINDOW_COLORSET
 AddColorset PAGER_HILIGHT_WINDOW_COLORSET
 
-# EDGE_COMMAND_? are set later
-
-
 ################################################################################
 # STYLES
 ################################################################################
@@ -49,7 +46,7 @@ Style Desktop* !Borders, NoIcon, NoTitle, \
 # INDIVIDUAL STYLES
 
 Style DesktopTerminal*  TitleAtRight, SloppyFocus, FPLeaveToUnfocus, Layer 6, \
-                        StartsOnScreen $[RIGHT_SCREEN]
+                        StartsOnScreen $[infostore.right_screen]
 
 Style DesktopButtons*   NeverFocus, TitleAtLeft, Layer 6
 Style DesktopButtonsMediaPlayer TitleAtTop
@@ -88,14 +85,14 @@ Style gkrellm   SkipMapping
 # (I think it was related to the fact that none of these have borders)
 # Anyway, I think this is easier to understand and more robust, although more limiting
 
-SetEnv EDGE_COMMAND_N "Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager"
-SetEnv EDGE_LEAVE_COMMAND_N "Deschedule $[SHOW_DESKTOP_PAGER_SCHED_ID]"
+InfoStoreAdd edge_cmd.enter.n "Schedule 500 $[SHOW_DESKTOP_PAGER_SCHED_ID] ShowDesktopPager"
+InfoStoreAdd edge_cmd.leave.n "Deschedule $[SHOW_DESKTOP_PAGER_SCHED_ID]"
 
-SetEnv EDGE_COMMAND_E "Mouse 1 R A ToggleDesktopTerminal"
-SetEnv EDGE_LEAVE_COMMAND_E "Mouse 1 R A RootWindowBinding"
+InfoStoreAdd edge_cmd.enter.e "Mouse 1 R A ToggleDesktopTerminal"
+InfoStoreAdd edge_cmd.leave.e "Mouse 1 R A RootWindowBinding"
 
-SetEnv EDGE_COMMAND_W "Mouse 1 R A ToggleDesktopButtons"
-SetEnv EDGE_LEAVE_COMMAND_W "Mouse 1 R A RootWindowBinding"
+InfoStoreAdd edge_cmd.enter.w "Mouse 1 R A ToggleDesktopButtons"
+InfoStoreAdd edge_cmd.leave.w "Mouse 1 R A RootWindowBinding"
 
 RestoreEdgeCommands
 
@@ -221,7 +218,7 @@ DestroyModuleConfig DesktopButtons: *
 
 Colorset $[BUTTONS_COLORSET]    fg blue4, bg black, hi black, sh black
 
-*DesktopButtons: Geometry +-2+0@$[LEFT_SCREEN]
+*DesktopButtons: Geometry +-2+0@$[infostore.left_screen]
 *DesktopButtons: ButtonGeometry 16x16
 *DesktopButtons: BoxSize smart
 *DesktopButtons: Columns 8
@@ -302,32 +299,32 @@ AddToFunc MediaPlayerPrev
 # swallows media player
 # works like other desktop modules, so it hides/unhides with an EdgeCommand
 DestroyModuleConfig DesktopButtonsMediaPlayer: *
-*DesktopButtonsMediaPlayer: Geometry +128+-1@$[LEFT_SCREEN]
+*DesktopButtonsMediaPlayer: Geometry +128+-1@$[infostore.left_screen]
 Test (EnvIsSet USE_NETBOOK) \
-    *DesktopButtonsMediaPlayer: Geometry +192+-1@$[LEFT_SCREEN]
+    *DesktopButtonsMediaPlayer: Geometry +192+-1@$[infostore.left_screen]
 *DesktopButtonsMediaPlayer: Columns 1
 *DesktopButtonsMediaPlayer: BoxSize smart
 *DesktopButtonsMediaPlayer: Colorset $[BUTTONS_COLORSET]
 
-SetEnv media_buttons_geom "844 158"
-Test (EnvIsSet USE_NETBOOK) SetEnv media_buttons_geom "704 158"
+InfoStoreAdd media_buttons_geometry "844 158"
+Test (EnvIsSet USE_NETBOOK) InfoStoreAdd media_buttons_geometry "704 158"
 
 # if the media player doesn't start up, middle click on the button
 # middle click is the only mouse button left, and is useless when ncmpc is running
 *DesktopButtonsMediaPlayer: \
-    (Size $[media_buttons_geom], Frame 0, ActionIgnoresClientWindow, \
+    (Size $[infostore.media_buttons_geometry], Frame 0, ActionIgnoresClientWindow, \
     Action (Mouse 2) StartMediaPlayer, \
     Swallow (NoClose, SwallowNew, UseOld) "DesktopMediaPlayer" StartMediaPlayer)
 
 ################################################
 # ncmpc/ncmpcpp set up
 
-SetEnv DesktopMediaPlayerGeom 120x11
-Test (EnvIsSet USE_NETBOOK) SetEnv DesktopMediaPlayerGeom 100x11
+InfoStoreAdd media_player_geometry 120x11
+Test (EnvIsSet USE_NETBOOK) InfoStoreAdd media_player_geometry 100x11
 
 DestroyFunc StartMediaPlayer
 AddToFunc StartMediaPlayer
-+ I StartTerminal -geometry $[DesktopMediaPlayerGeom] \
++ I StartTerminal -geometry $[infostore.media_player_geometry] \
     -title DesktopMediaPlayer -name DesktopMediaPlayer \
     +sb -fade 0 -fn "xft:DejaVu Sans Mono:pixelsize=11" -e sh -c "sleep 1 ; exec ncmpcpp"
 
@@ -344,7 +341,7 @@ Colorset $[PAGER_WINDOW_COLORSET]           fg white, bg grey51, DGradient 64 #7
 Colorset $[PAGER_HILIGHT_WINDOW_COLORSET]   fg white, bg blue4, DGradient 64 #800080 #3989AF
 
 *DesktopPager: Cols 4
-*DesktopPager: Geometry +0+-1@$[LEFT_SCREEN]
+*DesktopPager: Geometry +0+-1@$[infostore.left_screen]
 *DesktopPager: DesktopScale 8
 *DesktopPager: Font 'xft:Century Schoolbook L:Bold:Italic:pixelsize=14; \
     -adobe-new century schoolbook-medium-i-normal-*-14-*-*-*-*-*-*-*'
@@ -367,7 +364,7 @@ Colorset $[PAGER_HILIGHT_WINDOW_COLORSET]   fg white, bg blue4, DGradient 64 #80
 DestroyModuleConfig DesktopMiniPager: *
 
 *DesktopMiniPager: Cols 4
-*DesktopMiniPager: Geometry -0+0@$[RIGHT_SCREEN]
+*DesktopMiniPager: Geometry -0+0@$[infostore.right_screen]
 *DesktopMiniPager: DesktopScale 64
 *DesktopMiniPager: Font none
 *DesktopMiniPager: SmallFont none
@@ -383,21 +380,21 @@ DestroyModuleConfig DesktopMiniPager: *
 # DesktopTerminals
 ################################################################################
 
-SetEnv DesktopTerminalsOptions "+sb -pe tabbedex"
+InfoStoreAdd terminal_options.desktop "+sb -pe tabbedex"
 
 # background color is slight transparency with a hint of blue
 Test (EnvIsSet USE_COMPOSITE) \
-    SetEnv DesktopTerminalsOptions \
-        "$[DesktopTerminalsOptions] -depth 32 -bg rgba:0200/0000/1000/f400"
+    InfoStoreAdd terminal_options.desktop \
+        "$[infostore.terminal_options.desktop] -depth 32 -bg rgba:0200/0000/1000/f400"
 
 # use a larger geometry on large screens
 Test (!EnvIsSet USE_NETBOOK) \
-    SetEnv DesktopTerminalsOptions \
-        "$[DesktopTerminalsOptions] -geometry 120x25"
+    InfoStoreAdd terminal_options.desktop \
+        "$[infostore.terminal_options.desktop] -geometry 120x25"
 
 DestroyFunc StartDesktopTerminal
 AddToFunc StartDesktopTerminal
-+ I Exec exec $[FvwmTerminalEmulator] $[DesktopTerminalsOptions] $*
++ I Exec exec $[infostore.terminal_prog] $[infostore.terminal_options.desktop] $*
 
 # during a restart, sometimes fvwm reads this file before finding old DesktopTerminals,
 # and it creates new ones when it shouldn't.  Schedules prevent that by giving it
@@ -437,8 +434,8 @@ KillModule FvwmAuto
 
 Module FvwmButtons DesktopButtons
 Module FvwmButtons DesktopButtonsMediaPlayer
-Module FvwmPager DesktopPager 0 $[LAST_DESKTOP]
-Module FvwmPager DesktopMiniPager 0 $[LAST_DESKTOP]
+Module FvwmPager DesktopPager 0 $[infostore.last_desktop]
+Module FvwmPager DesktopMiniPager 0 $[infostore.last_desktop]
 Module FvwmAuto 0 -passid -menter EnterWindowHandler LeaveWindowHandler
 StartDesktopTerminals
 

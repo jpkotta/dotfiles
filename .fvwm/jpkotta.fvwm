@@ -140,8 +140,8 @@ AddToFunc IfNotHost
 
 # set to enable dual screens
 UnSetEnv USE_XINERAMA
-UnSetEnv LEFT_SCREEN
-UnSetEnv RIGHT_SCREEN
+InfoStoreAdd left_screen 0
+InfoStoreAdd right_screen 1
 # set to enable xcompmgr
 UnSetEnv USE_COMPOSITE
 # volume, mute, etc.

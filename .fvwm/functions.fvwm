@@ -34,17 +34,17 @@ DestroyFunc StartEditor
 AddToFunc StartEditor
 + I Exec exec $[EDITOR] $*
 
-SetEnv TerminalOptions
+InfoStoreAdd infostore.terminal_options " "
 Test (EnvIsSet USE_COMPOSITE) \
-    SetEnv TerminalOptions "-depth 32 -bg rgba:0200/0000/1000/f400"
+    InfoStoreAdd terminal_options "-depth 32 -bg rgba:0200/0000/1000/f400"
 
 DestroyFunc StartTerminal
 AddToFunc StartTerminal
-+ I Exec exec $[FvwmTerminalEmulator] $[TerminalOptions] $*
++ I Exec exec $[infostore.terminal_prog] $[infostore.terminal_options] $*
 
 DestroyFunc StartTerminalTabbed
 AddToFunc StartTerminalTabbed
-+ I Exec exec $[FvwmTerminalEmulator] -pe tabbedex $[TerminalOptions] $*
++ I Exec exec $[infostore.terminal_prog] -pe tabbedex $[infostore.terminal_options] $*
 
 DestroyFunc StartFileManager
 AddToFunc StartFileManager
@@ -64,7 +64,7 @@ AddToFunc StartImageEditor
 
 DestroyFunc StartConsole
 AddToFunc StartConsole
-+ I FvwmConsole -terminal $[FvwmTerminalEmulator] $[TerminalOptions]
++ I FvwmConsole -terminal $[infostore.terminal_prog] $[infostore.terminal_options]
 
 DestroyFunc StartXErrorViewer
 AddToFunc StartXErrorViewer
@@ -401,7 +401,7 @@ AddToFunc MoveOrMaximize
 # maximize across dual screens
 DestroyFunc MaximumMaximize
 AddToFunc MaximumMaximize
-+ I MoveToScreen $[LEFT_SCREEN]
++ I MoveToScreen $[infostore.left_screen]
 + I Maximize 200 100
 
 DestroyFunc IconifyOrResize
@@ -484,17 +484,15 @@ AddState SWAP_SCREENS_STATE
 
 DestroyFunc SwapScreens
 AddToFunc SwapScreens
-+ I SetEnv old_pointer_x $[pointer.x]
-+ I SetEnv old_pointer_y $[pointer.y]
++ I InfoStoreAdd old_pointer.x $[pointer.x]
++ I InfoStoreAdd old_pointer.y $[pointer.y]
 + I All State $[SWAP_SCREENS_STATE] off
-+ I WindowId root $[LEFT_SCREEN] WarpToWindow 50 50
++ I WindowId root $[infostore.left_screen] WarpToWindow 50 50
 + I All (CurrentPage) State $[SWAP_SCREENS_STATE] on
-+ I All (State $[SWAP_SCREENS_STATE]) MoveToScreen $[RIGHT_SCREEN]
++ I All (State $[SWAP_SCREENS_STATE]) MoveToScreen $[infostore.right_screen]
 + I All (CurrentPage, AnyScreen, !State $[SWAP_SCREENS_STATE]) \
-    MoveToScreen $[LEFT_SCREEN]
-+ I WindowId root WarpToWindow $[old_pointer_x]p $[old_pointer_y]p
-+ I UnSetEnv old_pointer_x
-+ I UnSetEnv old_pointer_y
+    MoveToScreen $[infostore.left_screen]
++ I WindowId root WarpToWindow $[infostore.old_pointer.x]p $[infostore.old_pointer.y]p
 
 ################################################################################
 # MISC FUNCTIONS

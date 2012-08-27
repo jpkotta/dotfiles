@@ -19,17 +19,17 @@ DestroyModuleConfig FvwmEventSound: *
 *FvwmEventSound: StartDelay 3
 *FvwmEventSound: Delay 1
 
-#*FvwmEventSound: startup        "$[FVWM_SOUNDDIR]/gong.wav"
-#*FvwmEventSound: add_window     "$[FVWM_SOUNDDIR]/wipe.wav"
-#*FvwmEventSound: destroy_window "$[FVWM_SOUNDDIR]/pook.wav"
-*FvwmEventSound: iconify        "$[FVWM_SOUNDDIR]/clong.wav"
-*FvwmEventSound: deiconify      "$[FVWM_SOUNDDIR]/clong.wav"
-*FvwmEventSound: windowshade    "$[FVWM_SOUNDDIR]/slide.wav"
-*FvwmEventSound: dewindowshade  "$[FVWM_SOUNDDIR]/slide.wav"
-*FvwmEventSound: new_page       "$[FVWM_SOUNDDIR]/slide.wav"
-*FvwmEventSound: new_desk       "$[FVWM_SOUNDDIR]/slide.wav"
-#*FvwmEventSound: error          "$[FVWM_SOUNDDIR]/hal.wav"
-#*FvwmEventSound: unknown        "$[FVWM_SOUNDDIR]/hal.wav"
+#*FvwmEventSound: startup        "$[infostore.sound_dir]/gong.wav"
+#*FvwmEventSound: add_window     "$[infostore.sound_dir]/wipe.wav"
+#*FvwmEventSound: destroy_window "$[infostore.sound_dir]/pook.wav"
+*FvwmEventSound: iconify        "$[infostore.sound_dir]/clong.wav"
+*FvwmEventSound: deiconify      "$[infostore.sound_dir]/clong.wav"
+*FvwmEventSound: windowshade    "$[infostore.sound_dir]/slide.wav"
+*FvwmEventSound: dewindowshade  "$[infostore.sound_dir]/slide.wav"
+*FvwmEventSound: new_page       "$[infostore.sound_dir]/slide.wav"
+*FvwmEventSound: new_desk       "$[infostore.sound_dir]/slide.wav"
+#*FvwmEventSound: error          "$[infostore.sound_dir]/hal.wav"
+#*FvwmEventSound: unknown        "$[infostore.sound_dir]/hal.wav"
 
 
 ################################################################################
@@ -96,8 +96,8 @@ AddToFunc ProxyBinding3
 + I Raise
 + I Focus
 
-SetEnv EDGE_COMMAND_S "Mouse 1 R A SendToModule FvwmProxy ShowToggle"
-SetEnv EDGE_LEAVE_COMMAND_S "Mouse 1 R A RootWindowBinding"
+InfoStoreAdd edge.enter.s "Mouse 1 R A SendToModule FvwmProxy ShowToggle"
+InfoStoreAdd edge.leave.s "Mouse 1 R A RootWindowBinding"
 RestoreEdgeCommands
 
 #DestroyFunc ProxyShowDelayed

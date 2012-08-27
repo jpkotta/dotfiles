@@ -103,12 +103,12 @@ Style google-chrome SkipMapping, FPOverrideGrabFocus, \
 # sometimes, you just need to plot a ton of things
 # this helps keep things organized
 Style "gplt*" !FPGrabFocus, CascadePlacement, SkipMapping, \
-	StartsLowered, StartsOnScreen $[LEFT_SCREEN]
+	StartsLowered, StartsOnScreen $[infostore.left_screen]
 Style "Gnuplot" !FPGrabFocus, CascadePlacement, SkipMapping, \
-	StartsLowered, StartsOnScreen $[LEFT_SCREEN]
+	StartsLowered, StartsOnScreen $[infostore.left_screen]
 Style "Figure *" !FPGrabFocus, CascadePlacement, SkipMapping
 Style "Figure?? *" !FPGrabFocus, CascadePlacement, SkipMapping, \
-	StartsLowered, StartsOnScreen $[LEFT_SCREEN]
+	StartsLowered, StartsOnScreen $[infostore.left_screen]
 Style "Figure00 *" StartsOnPage 1 0 0
 Style "Figure10 *" StartsOnPage 1 1 0
 Style "Figure01 *" StartsOnPage 1 0 1
@@ -127,9 +127,9 @@ Style "Buddy List" \
     NeverFocus
 Style Pidgin Sticky, !FPGrabFocus, !FPFocusByProgram
 
-Style Tremulous* !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
-Style OpenArena !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
-Style doomsday* !Title, !Borders, StartsOnScreen $[LEFT_SCREEN]
+Style Tremulous* !Title, !Borders, StartsOnScreen $[infostore.left_screen]
+Style OpenArena !Title, !Borders, StartsOnScreen $[infostore.left_screen]
+Style doomsday* !Title, !Borders, StartsOnScreen $[infostore.left_screen]
 
 Style rdesktop !Title, !Borders, PositionPlacement
 
@@ -143,7 +143,7 @@ Style Xephyr* MouseFocus
 Key (Xephyr*) Super_L W A Nop
 Key (Xephyr*) Super_R W A Nop
 
-Style "*VLC*" StartsOnScreen $[LEFT_SCREEN], Sticky
+Style "*VLC*" StartsOnScreen $[infostore.left_screen], Sticky
 Style "VLC (XVideo output)" SloppyFocus
 
 # OO.o floating toolbars not sticky
@@ -154,4 +154,4 @@ Style TightVNC:* !Title, !Borders
 
 # VirtualBox
 Style "*VM VirtualBox" !Title, !Borders, \
-    StartsOnScreen $[LEFT_SCREEN], PositionPlacement 0 0
+    StartsOnScreen $[infostore.left_screen], PositionPlacement 0 0

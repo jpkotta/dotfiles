@@ -11,7 +11,7 @@
 # this file contains code to screen capture individual windows, shrink the image
 # to a thumbnail and build a windowlist-like menu with the screenshots
 # Also, it periodically takes a screenshot of the current window.
-# You can change the delay with PERIODIC_THUMBNAIL_DELAY
+# You can change the delay with periodic_thumbnail_delay.
 
 # the idea is based on taviso's FvwmExpose, and the code is derived from that
 
@@ -23,11 +23,10 @@
 ################################################################################
 
 # this needs to be set in the script as well
-#SetEnv SCREENSHOT_ICONDIR $[FVWM_USERDIR]/cache/screenshot_icons
-SetEnv SCREENSHOT_ICONDIR /dev/shm
+InfoStoreAdd screenshot_icon_dir /dev/shm
 
 # in seconds
-SetEnv PERIODIC_THUMBNAIL_DELAY 15
+InfoStoreAdd periodic_thumbnail_delay 15
 
 AddSchedId PERIODIC_THUMBNAIL_SCHED_ID
 
@@ -48,15 +47,16 @@ MenuStyle screenshot_menu_style SelectOnRelease Super_L
 DestroyFunc ScreenShotThumbnail
 AddToFunc ScreenShotThumbnail
 + I ThisWindow (Visible, !Iconic, Iconifiable) \
-    WindowStyle IconOverride, Icon $[SCREENSHOT_ICONDIR]/$[w.id]_big.png
+    WindowStyle IconOverride, Icon $[infostore.screenshot_icon_dir]/$[w.id]_big.png
 + I TestRc (Match) Exec \
     nice -n 19 xwd -silent -id $[w.id] | \
     convert -size 256x192 -thumbnail '252x188>' \
         -bordercolor transparent -border 128 \
         -gravity center -crop 256x192+0+0 \
-        xwd:- png:$[SCREENSHOT_ICONDIR]/$[w.id]_big.png >/dev/null 2>&1 & \
+        xwd:- png:$[infostore.screenshot_icon_dir]/$[w.id]_big.png >/dev/null 2>&1 & \
     nice -n 19 convert -filter sinc -resize '128x96!' \
-        png:$[SCREENSHOT_ICONDIR]/$[w.id]_big.png png:$[SCREENSHOT_ICONDIR]/$[w.id].png >/dev/null 2>&1 &
+        png:$[infostore.screenshot_icon_dir]/$[w.id]_big.png \
+        png:$[infostore.screenshot_icon_dir]/$[w.id].png >/dev/null 2>&1 &
 #+ I Echo debug: ScreenShotThumbnail $[w.name]:$[w.id]
 
 # rearranges iconified windows, called when an icon is added or removed
@@ -84,16 +84,16 @@ AddToFunc ShowScreenShotMenu
 # this will add a menu entry for each non-iconic window
 # the window name is shortened if longer than 50 chars
 + I All (!Iconic, !Shaded, CurrentDesk, AcceptsFocus, !CirculateHit) \
-    PipeRead '$[FVWM_SCRIPTDIR]/screenshot_winlist.sh $[w.id]'
+    PipeRead '$[infostore.script_dir]/screenshot_winlist.sh $[w.id]'
 # this does the same for all iconic windows
 # the only difference is that the name now has parens around it (and the iconic windows go at the end of the menu)
 + I All (Iconic, !Shaded, CurrentDesk, AcceptsFocus, !CirculateHit) \
-    PipeRead '$[FVWM_SCRIPTDIR]/screenshot_winlist.sh $[w.id] iconic'
+    PipeRead '$[infostore.script_dir]/screenshot_winlist.sh $[w.id] iconic'
 # show the menu
 + I Menu ScreenShotMenu
 
 
-# this function calles itself every PERIODIC_THUMBNAIL_DELAY seconds 
+# this function calles itself every periodic_thumbnail_delay seconds 
 #   and calls the screenshot function
 # needs 2.5.17
 DestroyFunc PeriodicThumbnail
@@ -101,13 +101,13 @@ AddToFunc PeriodicThumbnail
 # Deschedule for idempotency
 + I Deschedule $[PERIODIC_THUMBNAIL_SCHED_ID]
 # Current is necessary, otherwise ThisWindow doesn't work
-+ I Schedule periodic $[PERIODIC_THUMBNAIL_DELAY]000 $[PERIODIC_THUMBNAIL_SCHED_ID] \
++ I Schedule periodic $[infostore.periodic_thumbnail_delay]000 $[PERIODIC_THUMBNAIL_SCHED_ID] \
     Current ScreenShotThumbnail
 
 # this tries to cleanup thumbnail pngs after the window is closed
 DestroyFunc SSTNOnClose
 AddToFunc SSTNOnClose
-+ I Schedule 5000 Exec exec /bin/rm -f $[SCREENSHOT_ICONDIR]/$[w.id].png $[SCREENSHOT_ICONDIR]/$[w.id]_big.png
++ I Schedule 5000 Exec exec /bin/rm -f $[infostore.screenshot_icon_dir]/$[w.id].png $[infostore.screenshot_icon_dir]/$[w.id]_big.png
 + I NoWindow RearrangeIcons
 
 
@@ -146,5 +146,5 @@ Module FvwmEvent FvwmEventThumbnail
 PeriodicThumbnail
 
 AddToFunc StartFunction
-+ I Exec exec rm -f $[SCREENSHOT_ICONDIR]/0x*.png
++ I Exec exec rm -f $[infostore.screenshot_icon_dir]/0x*.png
 

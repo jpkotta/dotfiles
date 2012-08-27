@@ -95,9 +95,9 @@ Mouse   5       SWTF   4       IncTranslucency
 
 ########################################
 # ANY CONTEXT 
-#Mouse   1       A       4C      GotoDesk -1 0 $[LAST_DESKTOP]
+#Mouse   1       A       4C      GotoDesk -1 0 $[infostore.last_desktop]
 #Mouse   2       A       4C      All (CurrentPage, AnyScreen) Iconify On
-#Mouse   3       A       4C      GotoDesk +1 0 $[LAST_DESKTOP]
+#Mouse   3       A       4C      GotoDesk +1 0 $[infostore.last_desktop]
 Mouse   4       A       4C      CyclePages down
 Mouse   5       A       4C      CyclePages up
 
@@ -151,8 +151,8 @@ Key     Right   A       4S      MoveAndGotoPage up
 # Key     4       A       4S      MoveToDesk 0 3
 
 # move windows between screens
-Key     Left    A       4C      MoveToScreen $[LEFT_SCREEN]
-Key     Right   A       4C      MoveToScreen $[RIGHT_SCREEN]
+Key     Left    A       4C      MoveToScreen $[infostore.left_screen]
+Key     Right   A       4C      MoveToScreen $[infostore.right_screen]
 Key     Up      A       4C      SwapScreens
 
 # launcher, works like emacs multikey bindings ("Super-S T" starts terminal, etc.)
@@ -191,13 +191,13 @@ Key	Menu	A	S	ShowDesktop
 # for extra special keys
 Test (EnvIsSet USE_MEDIA_KEYS) \
     Key     XF86AudioMute           A   N \
-    Exec $[FVWM_SCRIPTDIR]/mixer.sh toggle 
+    Exec $[infostore.script_dir]/mixer.sh toggle 
 Test (EnvIsSet USE_MEDIA_KEYS) \
     Key     XF86AudioRaiseVolume    A   N \
-    Exec $[FVWM_SCRIPTDIR]/mixer.sh incr
+    Exec $[infostore.script_dir]/mixer.sh incr
 Test (EnvIsSet USE_MEDIA_KEYS) \
     Key     XF86AudioLowerVolume    A   N \
-    Exec $[FVWM_SCRIPTDIR]/mixer.sh decr
+    Exec $[infostore.script_dir]/mixer.sh decr
 
 Test (EnvIsSet USE_MEDIA_KEYS) \
     Key     XF86AudioPlay           A   N \
