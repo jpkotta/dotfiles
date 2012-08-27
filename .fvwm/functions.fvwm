@@ -86,26 +86,6 @@ DestroyFunc StartCalculator
 AddToFunc StartCalculator
 + I StartTerminal -e wcalc
 
-DestroyFunc LoadMusicCD
-AddToFunc LoadMusicCD
-+ I Test (EnvIsSet CDROM_DEVICE) \
-    Exec eject -t $[CDROM_DEVICE] ; xmms --play /media/$[CDROM_DEVICE]
-        
-DestroyFunc EjectMusicCD
-AddToFunc EjectMusicCD
-+ I Test (EnvIsSet CDROM_DEVICE) \
-    Exec xmms --stop ; eject $[CDROM_DEVICE]
-
-DestroyFunc LoadMovieDVD
-AddToFunc LoadMovieDVD
-+ I Test (EnvIsSet DVD_DEVICE) \
-    Exec eject -t $[DVD_DEVICE] ; xine --auto-play --auto-scan dvd
-
-DestroyFunc EjectMovieDVD
-AddToFunc EjectMovieDVD
-+ I Test (EnvIsSet DVD_DEVICE) \
-    Exec xine --session quit ; eject $[DVD_DEVICE]
-
 
 ################################################################################
 # SCREENSAVER FUNCTIONS

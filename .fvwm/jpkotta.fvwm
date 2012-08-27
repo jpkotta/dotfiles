@@ -146,9 +146,6 @@ InfoStoreAdd right_screen 1
 UnSetEnv USE_COMPOSITE
 # volume, mute, etc.
 UnSetEnv USE_MEDIA_KEYS
-# should be similar amongst machines
-SetEnv CDROM_DEVICE cdrom0
-SetEnv DVD_DEVICE cdrom0
 # take screenshots of windows periodically and use them as the icon image
 SetEnv USE_SCREENSHOT_THUMBS
 # settings for small, wide screens

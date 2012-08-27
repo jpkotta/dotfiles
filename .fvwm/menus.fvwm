@@ -23,7 +23,6 @@ AddToMenu RootMenu
 + "" Nop
 + "%mini.question.xpm%Miscellaneous"        Popup RootMisc
 #+ "%mini.start.xpm%MenuMaker"               Popup MenuMaker
-+ "%mini.cd.xpm%Media"                      Popup RootMedia
 + "%mini.debian.png%Debian Menu"            Popup /Debian
 + "%mini.desktop.xpm%Config"                Popup FvwmConfig
 + "" Nop
@@ -136,21 +135,6 @@ AddToFunc UpdateDebianMenu
 + I     Read /etc/X11/fvwm/DebianMenu
 #+ I     Read /etc/X11/fvwm/menudefs.hook
 UpdateDebianMenu
-
-################################################################################
-# ROOT MEDIA MENU
-################################################################################
-
-DestroyMenu RootMedia
-AddToMenu RootMedia
-+ "%mini.diskette.xpm%Mount Key Drive"      MountKeyDrive
-+ "%mini.diskette.xpm%Unmount Key Drive"    UnmountKeyDrive
-+ "" Nop
-+ "%mini.cdlabel.xpm%Load CD"               LoadMusicCD
-+ "%mini.cdlabel.xpm%Eject CD"              EjectMusicCD
-+ "" Nop
-+ "%mini.cd.xpm%Load DVD"                   LoadMovieDVD
-+ "%mini.cd.xpm%Eject DVD"                  EjectMovieDVD
 
 
 ################################################################################
