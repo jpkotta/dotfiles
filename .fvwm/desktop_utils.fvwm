@@ -306,8 +306,9 @@ Test (EnvIsSet USE_NETBOOK) \
 *DesktopButtonsMediaPlayer: BoxSize smart
 *DesktopButtonsMediaPlayer: Colorset $[BUTTONS_COLORSET]
 
-InfoStoreAdd media_buttons_geometry "844 158"
-Test (EnvIsSet USE_NETBOOK) InfoStoreAdd media_buttons_geometry "704 158"
+# pix.x = char.x*7+4, pix.y = char.x*13+4
+InfoStoreAdd media_buttons_geometry "844 147"
+Test (EnvIsSet USE_NETBOOK) InfoStoreAdd media_buttons_geometry "704 147"
 
 # if the media player doesn't start up, middle click on the button
 # middle click is the only mouse button left, and is useless when ncmpc is running
