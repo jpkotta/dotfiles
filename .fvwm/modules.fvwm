@@ -96,8 +96,8 @@ AddToFunc ProxyBinding3
 + I Raise
 + I Focus
 
-InfoStoreAdd edge.enter.s "Mouse 1 R A SendToModule FvwmProxy ShowToggle"
-InfoStoreAdd edge.leave.s "Mouse 1 R A RootWindowBinding"
+InfoStoreAdd edge_cmd.enter.s "Mouse 1 R A SendToModule FvwmProxy ShowToggle"
+InfoStoreAdd edge_cmd.leave.s "Mouse 1 R A RootWindowBinding"
 RestoreEdgeCommands
 
 #DestroyFunc ProxyShowDelayed
