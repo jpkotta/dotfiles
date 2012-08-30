@@ -90,7 +90,7 @@
 #  and a window ops menu on the left.  One thing that is original is my
 #  mouse wheel resize function, which resizes a window when the mouse wheel is
 #  rolled while the pointer is on the title bar.  It's very efficient and
-#  fun.  With xcompmgr, I can do the same with translucency too.
+#  fun.  With xcompmgr or compton, I can do the same with translucency too.
 #  
 #  PickAgain is a generalized Pick.   One can select as many windows as
 #  necessary and click the root window or hit Esc to stop.  It's a bit buggy
@@ -131,7 +131,7 @@
 UnSetEnv USE_XINERAMA
 InfoStoreAdd left_screen 0
 InfoStoreAdd right_screen 1
-# set to enable xcompmgr
+# set to enable compositing
 UnSetEnv USE_COMPOSITE
 # volume, mute, etc.
 UnSetEnv USE_MEDIA_KEYS
@@ -186,7 +186,7 @@ Read modules.fvwm
 # however, each is fairly independent, and designed to load like a module
 
 # xcompgr functions
-Test (EnvIsSet USE_COMPOSITE) Read xcompmgr.fvwm
+Test (EnvIsSet USE_COMPOSITE) Read compositor.fvwm
 
 # there are 4 "desktop utilities": DesktopPager*, DesktopButtons*, DesktopTerminal*, and DesktopIconMan
 # these utilities are designed to work together and improve the fvwm experience
