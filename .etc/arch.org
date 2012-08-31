@@ -47,6 +47,7 @@ groups += games optical storage power users
 /usr/share/bash-completion/bash_completion
 * chromium
 * colordiff
+* compton
 * cups
 DAEMONS += cupsd
 used the C3070i/postscript driver
@@ -56,6 +57,7 @@ DAEMONS += dbus
 * dclock
 * dictd
 * emacs-lucid
+* figlet
 * flashplugin
 /etc/adobe/mms.cfg
 * foldingathome-smp
@@ -133,12 +135,24 @@ DAEMONS += postfix
 groups += audio
 * pulseaudio-alsa
 * pulseaudio-equalizer
+* pymysql
 * pysolfc
+* python-matplotlib-git
+** python-dateutil
+** pyqt
+* python-numpy
+* python-pyserial
+* python-scipy
+* python-sqlalchemy
 * python2
 * python2-matplotlib
 * python2-mpd2
 * python2-numpy
+* python2-pymysql
 * python2-scipy
+* python2-pyserial
+* python2-sqlalchemy
+* rdesktop
 * rxvt-unicode
 * samba
 /etc/smb.conf
@@ -150,6 +164,7 @@ DAEMONS += samba netfs
 groups += wheel
 * texlive-most
 * tmux
+* transset-df
 * tree
 * tremulous
 * ttf-dejavu
