@@ -22,7 +22,7 @@ SetEnv SCREEN_RES_Y $[vp.height]
 # The default image path is:
 #         /usr/include/X11/bitmaps:/usr/include/X11/pixmaps
 # a plus in the path definition expands to the current value of the path
-ImagePath $[FVWM_IMAGEDIR]:+
+ImagePath $[infostore.image_dir]:+
 #K_M 1 for KDE Styles and menus
 ImagePath +:/usr/share/icons
 #G_M_G 1 for FvwmGtk menus
