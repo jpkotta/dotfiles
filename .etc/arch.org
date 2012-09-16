@@ -1,5 +1,7 @@
 * MISCELLANEOUS
 ** files
+*** /etc/pacman.d/mirrorlist
+reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 *** /etc/rc.conf
 default DAEMONS=(syslog-ng network crond)
 *** /etc/fstab
@@ -29,7 +31,7 @@ done
 
 # add LOCATE_PATH to your ~/.bashrc to have locate search these databases
 ** adduser jpkotta
-groups += games optical storage power users 
+groups += games optical storage power users uucp
 ** broken packages
 *** ufraw-cvs
 *** gkrellweather
@@ -57,6 +59,7 @@ DAEMONS += dbus
 * dclock
 * dictd
 * emacs-lucid
+* etc-update
 * figlet
 * flashplugin
 /etc/adobe/mms.cfg
@@ -78,6 +81,7 @@ cd /opt/fah-smp/folding ; ../fah6 -configonly
 * git
 * gkrellm
 * gkrellweather
+* gstreamer0.10-plugins
 * hdparm
 * hg-git-hg
 * htop
@@ -153,6 +157,7 @@ groups += audio
 * python2-pyserial
 * python2-sqlalchemy
 * rdesktop
+* reflector
 * rxvt-unicode
 * samba
 /etc/smb.conf
