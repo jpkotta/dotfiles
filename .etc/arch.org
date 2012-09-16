@@ -15,7 +15,6 @@ LANG=en_US.UTF-8
 *** ln -s /usr/share/zoneinfo/America/North_Dakota/Center /etc/localtime
 *** /etc/timezone
 *** hwclock --systohc --utc
-*** /etc/vconsole.conf
 *** /etc/cron.daily/download-updates
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 *** /etc/cron.weekly/updatedb-network
@@ -49,7 +48,7 @@ groups += games optical storage power users uucp
 /usr/share/bash-completion/bash_completion
 * chromium
 * colordiff
-* compton
+* compton-git
 * cups
 DAEMONS += cupsd
 used the C3070i/postscript driver
@@ -81,6 +80,8 @@ cd /opt/fah-smp/folding ; ../fah6 -configonly
 * git
 * gkrellm
 * gkrellweather
+* gpm
+DAEMONS += gpm
 * gstreamer0.10-plugins
 * hdparm
 * hg-git-hg
@@ -111,7 +112,7 @@ for i in /usr/share/applications/kde4/okular*.desktop ; do sudo sed -i 's/Exec=o
 * mutt
 * ncmpcpp
 * nfs-utils
-  DAEMONS += rpcbind
+DAEMONS += rpcbind
 * nitrogen
 * ntp
 DAEMONS += ntp
@@ -193,16 +194,19 @@ vboxnetflt
 * wicd
 DAEMONS += wicd
 * wine
-need multilib repo
+need multilib repo if on 64-bit
 * x11vnc
 * xclip
+* xf86-video-intel
+* xorg-apps
+** xorg-xdpyinfo
+** xorg-xmodmap
+** xorg-xrandr
+** xorg-xrdb
+** xorg-xwd
+* xorg-server
 * xorg-xclock
-* xorg-xdpyinfo
 * xorg-xinit 
-* xorg-xmodmap
-* xorg-xrandr
-* xorg-xrdb
-* xorg-xwd
 * xscreensaver
 * yaourt
 wget http://aur.archlinux.org/packages/package-query/package-query.tar.gz
