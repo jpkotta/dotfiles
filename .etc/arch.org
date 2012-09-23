@@ -35,6 +35,11 @@ groups += games optical storage power users uucp
 *** ufraw-cvs
 *** gkrellweather
 * abcde
+* acpi-eeepc-generic
+** /etc/conf.d/acpi-eeepc-generic.conf
+(look at the wiki page, but at least SUSPEND2RAM and WIFI_DRIVERS)
+* acpid
+DAEMONS += acpid
 * TODO acroread
 * alsa-utils
 * apg
@@ -46,6 +51,7 @@ groups += games optical storage power users uucp
 * base-devel
 * bash-completion
 /usr/share/bash-completion/bash_completion
+* btrfs-progs
 * chromium
 * colordiff
 * compton-git
@@ -100,6 +106,24 @@ DAEMONS += gpm
 for i in /usr/share/applications/kde4/okular*.desktop ; do sudo sed -i 's/Exec=okular %U %i -caption "%c"/Exec=okular %U/' $i ; done
 * keepassx
 * keychain
+* laptop-mode-tools
+DAEMONS += laptop-mode
+** /etc/laptop-mode/conf.d/lcd-brightness.conf
+
+#
+# Should laptop mode tools control LCD brightness?
+#
+CONTROL_BRIGHTNESS=1
+
+
+#
+# Commands to execute to set the brightness on your LCD
+#
+BATT_BRIGHTNESS_COMMAND="echo 3"
+LM_AC_BRIGHTNESS_COMMAND="echo 15"
+NOLM_AC_BRIGHTNESS_COMMAND="echo 15"
+BRIGHTNESS_OUTPUT="/sys/devices/platform/eeepc/backlight/eeepc/brightness"
+
 * libreoffice
 * libreoffice-en-US
 * lsof
@@ -112,10 +136,10 @@ for i in /usr/share/applications/kde4/okular*.desktop ; do sudo sed -i 's/Exec=o
 * mutt
 * ncmpcpp
 * nfs-utils
-DAEMONS += rpcbind
+DAEMONS += rpcbind netfs
 * nitrogen
 * ntp
-DAEMONS += ntp
+DAEMONS += ntpd
 * numlockx
 * nvclock
 * nvidia
@@ -132,6 +156,10 @@ DAEMONS += sshd
 ** /etc/cron.monthly/pkgfile
 pkgfile --update >/dev/null 
 * pkgtools
+* pm-utils
+** /etc/sudoers
+# give the power group the ability to suspend
+%power ALL = NOPASSWD: /usr/sbin/pm-suspend
 * pmount
 * TODO postfix
 add mail.cableone.net to relay_domains in /etc/postfix/main.cf
@@ -163,6 +191,13 @@ groups += audio
 * samba
 /etc/smb.conf
 DAEMONS += samba netfs
+* smbclient
+DAEMONS += netfs
+** /etc/samba/private/*.cred
+username=USERNAME
+password=PASSWORD
+** /etc/fstab
+//SERVER/SHARE    /media/MOUNTPOINT      cifs    credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,mapchars 0 0
 * sshfs
 * strace
 * subversion
@@ -197,7 +232,18 @@ DAEMONS += wicd
 need multilib repo if on 64-bit
 * x11vnc
 * xclip
+* xf86-input-synaptics
+
 * xf86-video-intel
+** /etc/X11/xorg.conf.d/20-intel.conf
+Section "Device"
+   Identifier  "Intel Graphics"
+   Driver      "intel"
+   Option      "AccelMethod"  "sna"
+   Option      "XvMC" "true"
+EndSection
+** /etc/X11/XvMCConfig
+/usr/lib/libIntelXvMC.so
 * xorg-apps
 ** xorg-xdpyinfo
 ** xorg-xmodmap
@@ -206,6 +252,8 @@ need multilib repo if on 64-bit
 ** xorg-xwd
 * xorg-server
 * xorg-xclock
+* xorg-xdm
+echo > #!/bin/sh > /etc/rc.d/xdm; echo xdm >> /etc/rc.d/xdm
 * xorg-xinit 
 * xscreensaver
 * yaourt
