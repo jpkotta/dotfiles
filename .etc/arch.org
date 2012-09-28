@@ -200,6 +200,7 @@ username=USERNAME
 password=PASSWORD
 ** /etc/fstab
 //SERVER/SHARE    /media/MOUNTPOINT      cifs    credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,mapchars 0 0
+* spideroak
 * sshfs
 * strace
 * subversion
@@ -224,14 +225,16 @@ groups += vboxusers
 vboxdrv
 vboxnetadp
 vboxnetflt
-* virtualbox-additions
 * virtualbox-ext-oracle
+* virtualbox-guest-iso
+* virtualbox-host-modules
 * vlc
 * wcalc
 * wicd
 DAEMONS += wicd
 * wine
 need multilib repo if on 64-bit
+* words
 * x11vnc
 * xclip
 * xf86-input-synaptics
@@ -253,6 +256,7 @@ EndSection
 ** xorg-xrdb
 ** xorg-xwd
 * xorg-server
+* xorg-server-xephyr
 * xorg-xclock
 * xorg-xdm
 echo > #!/bin/sh > /etc/rc.d/xdm; echo xdm >> /etc/rc.d/xdm
