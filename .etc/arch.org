@@ -12,8 +12,9 @@ blacklist pcspkr
 *** /etc/locale.gen
 *** /etc/locale.conf
 LANG=en_US.UTF-8
-*** ln -s /usr/share/zoneinfo/America/North_Dakota/Center /etc/localtime
+*** ln -s /usr/share/zoneinfo/CST6CDT /etc/localtime
 *** /etc/timezone
+basename $(readlink /etc/localtime)
 *** hwclock --systohc --utc
 *** /etc/cron.daily/download-updates
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
@@ -178,6 +179,7 @@ groups += audio
 * python-scipy
 * python-sqlalchemy
 * python2
+* python2-daemon
 * python2-matplotlib
 * python2-mpd2
 * python2-numpy
@@ -190,7 +192,7 @@ groups += audio
 * rxvt-unicode
 * samba
 /etc/smb.conf
-DAEMONS += samba netfs
+DAEMONS += samba
 * smbclient
 DAEMONS += netfs
 ** /etc/samba/private/*.cred
