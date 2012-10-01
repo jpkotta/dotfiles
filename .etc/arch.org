@@ -14,7 +14,7 @@ blacklist pcspkr
 LANG=en_US.UTF-8
 *** ln -s /usr/share/zoneinfo/CST6CDT /etc/localtime
 *** /etc/timezone
-basename $(readlink /etc/localtime)
+CST6CDT
 *** hwclock --systohc --utc
 *** /etc/cron.daily/download-updates
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
@@ -147,6 +147,8 @@ DAEMONS += ntpd
 * nvidia-utils
 * openssh
 DAEMONS += sshd
+** /etc/ssh/sshd_config
+X11Forwarding yes
 * opera
 * p7zip
 * pavucontrol
@@ -167,6 +169,8 @@ add mail.cableone.net to relay_domains in /etc/postfix/main.cf
 DAEMONS += postfix
 * pulseaudio
 groups += audio
+** ~/.pulse/default.pa
+.include /etc/pulse/default.pa
 * pulseaudio-alsa
 * pulseaudio-equalizer
 * pymysql
@@ -195,7 +199,7 @@ groups += audio
 DAEMONS += samba
 * smbclient
 DAEMONS += netfs
-** /etc/samba/private/*.cred
+** /etc/samba/private/SERVER.cred
 username=USERNAME
 password=PASSWORD
 ** /etc/fstab
@@ -213,7 +217,6 @@ groups += wheel
 * tremulous
 * ttf-dejavu
 * ttf-indic-otf
-look of disapproval
 * ttf-liberation
 * ttf-mathtype
 * ttf-ms-fonts
@@ -238,7 +241,6 @@ need multilib repo if on 64-bit
 * x11vnc
 * xclip
 * xf86-input-synaptics
-
 * xf86-video-intel
 ** /etc/X11/xorg.conf.d/20-intel.conf
 Section "Device"
@@ -259,7 +261,9 @@ EndSection
 * xorg-server-xephyr
 * xorg-xclock
 * xorg-xdm
-echo > #!/bin/sh > /etc/rc.d/xdm; echo xdm >> /etc/rc.d/xdm
+** /etc/rc.d/xdm
+#!/bin/sh
+xdm
 * xorg-xinit 
 * xscreensaver
 * yaourt
@@ -273,5 +277,5 @@ tar xf yaourt.tar.gz
 cd yaourt
 makepkg -si
 cd ..
-
-echo EDITFILES=0 >> ~/.yaourtrc
+** ~/.yaourtrc
+EDITFILES=0
