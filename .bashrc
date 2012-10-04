@@ -268,18 +268,18 @@ fi
 #CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse,387'
 
 # some programs' startup scipts need to know the screen res
-if [ -n "$DISPLAY" ] && is_in_path xdpyinfo ; then
+if xdpyinfo >& /dev/null ; then
     export DPY_RES=`xdpyinfo | grep dimensions | awk '{ print $2 }'`
-    export DPY_RES_X=`echo $DPY_RES | sed s/x.*//`
-    export DPY_RES_Y=`echo $DPY_RES | sed s/.*x//`
-    if [ $DPY_RES_X -ge $(( $DPY_RES_Y*2 )) ] ; then
+    dpy_res_x=`echo $DPY_RES | sed s/x.*//`
+    dpy_res_y=`echo $DPY_RES | sed s/.*x//`
+    if [ $dpy_res_x -ge $(( $dpy_res_y*2 )) ] ; then
         # assume that if the x res is that much bigger, we have dual screen
-        export SCR_RES_X=$(($DPY_RES_X / 2))
+        scr_res_x=$(($dpy_res_x / 2))
     else
-        export SCR_RES_X=$DPY_RES_X
+        scr_res_x=$dpy_res_x
     fi
-    export SCR_RES_Y=$DPY_RES_Y
-    export SCR_RES=${SCR_RES_X}x${SCR_RES_Y}
+    export SCR_RES=${scr_res_x}x${dpy_res_y}
+    unset scr_res_x scr_res_y dpy_res_x dpy_res_y
 fi
 
 ########################################################################
