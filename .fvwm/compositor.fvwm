@@ -23,7 +23,7 @@
 
 DestroyFunc RestartCompositor
 AddToFunc RestartCompositor
-+ I Exec killall compton || killall -KILL compton ; exec compton &
++ I Exec killall compton || killall -KILL compton ; exec compton >/dev/null &
 #+ I Restart
 
 # increases or decreases translucency
