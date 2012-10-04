@@ -1,3 +1,7 @@
+#!/bin/bash
+
+[ -e $HOME/.bashrc ] && . $HOME/.bashrc
+
 echo "Running .xinitrc"
 echo "Parameters to .xinitrc: ""$@"
 
