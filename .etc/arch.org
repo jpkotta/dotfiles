@@ -4,6 +4,7 @@
 reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 *** /etc/rc.conf
 default DAEMONS=(syslog-ng network crond)
+systemctl enable cronie.service
 *** /etc/fstab
 *** /etc/modprobe.d/nobeep.conf
 blacklist pcspkr
@@ -30,6 +31,8 @@ for share in nfs engineering storagez ; do
 done
 
 # add LOCATE_PATH to your ~/.bashrc to have locate search these databases
+*** /etc/systemd/logind.conf
+HandleLidSwitch=ignore
 ** adduser jpkotta
 groups += games optical storage power users uucp
 ** broken packages
@@ -62,6 +65,7 @@ used the C3070i/postscript driver
 * cups-pdf
 * dbus
 DAEMONS += dbus
+(dbus is automatically enabled in systemd)
 * dclock
 * dictd
 * emacs-lucid
@@ -89,6 +93,7 @@ cd /opt/fah-smp/folding ; ../fah6 -configonly
 * gkrellweather
 * gpm
 DAEMONS += gpm
+systemctl enable gpm.service
 * gstreamer0.10-plugins
 * hdparm
 * hg-git-hg
@@ -109,6 +114,7 @@ for i in /usr/share/applications/kde4/okular*.desktop ; do sudo sed -i 's/Exec=o
 * keychain
 * laptop-mode-tools
 DAEMONS += laptop-mode
+systemctl enable laptop-mode-tools.service
 ** /etc/laptop-mode/conf.d/lcd-brightness.conf
 
 #
@@ -138,15 +144,18 @@ BRIGHTNESS_OUTPUT="/sys/devices/platform/eeepc/backlight/eeepc/brightness"
 * ncmpcpp
 * nfs-utils
 DAEMONS += rpcbind netfs
+must be auto for systemd to mount/unmount it
 * nitrogen
 * ntp
 DAEMONS += ntpd
+systemctl enable ntpd.service
 * numlockx
 * nvclock
 * nvidia
 * nvidia-utils
 * openssh
 DAEMONS += sshd
+systemctl enable sshd.service
 * opera
 * p7zip
 * pavucontrol
@@ -199,13 +208,17 @@ DAEMONS += netfs
 username=USERNAME
 password=PASSWORD
 ** /etc/fstab
-//SERVER/SHARE    /media/MOUNTPOINT      cifs    credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,mapchars 0 0
+//SERVER/SHARE    /media/MOUNTPOINT      cifs    credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,mapchars,auto 0 0
 * spideroak
 * sshfs
 * strace
 * subversion
 * sudo
 groups += wheel
+* systemd
+** redundant/incompatible packages
+acpid
+acpi-eeepc-generic
 * texlive-most
 * tmux
 * transset-df
@@ -232,6 +245,7 @@ vboxnetflt
 * wcalc
 * wicd
 DAEMONS += wicd
+systemctl enable wicd.service
 * wine
 need multilib repo if on 64-bit
 * words
@@ -259,7 +273,11 @@ EndSection
 * xorg-server-xephyr
 * xorg-xclock
 * xorg-xdm
-echo > #!/bin/sh > /etc/rc.d/xdm; echo xdm >> /etc/rc.d/xdm
+DAEMONS += xdm # must be last and not backgrounded
+systemctl enable xdm.service
+** /etc/rc.d/xdm
+#!/bin/sh
+xdm
 * xorg-xinit 
 * xscreensaver
 * yaourt
