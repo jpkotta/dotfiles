@@ -23,7 +23,7 @@ def oct(num):
 
 # the smallest number such that 1+eps != 1
 # (this is approximate)
-epsilon = pow(2, -52)
+epsilon = sys.float_info.epsilon
 
 args = sys.argv[1:]
 
