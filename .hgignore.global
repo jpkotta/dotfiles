@@ -1,11 +1,12 @@
 syntax: glob
 
+# generated files
+*.o
+*.pyc
+
 # for commit-patch
 non_committed.patch.*
 working.patch.*
-
-*.o
-*.pyc
 
 # emacs lock files
 .\#*
