@@ -1,5 +1,6 @@
 #!/bin/bash
 
+[ -e $HOME/.bash_profile ] && . $HOME/.bash_profile
 [ -e $HOME/.bashrc ] && . $HOME/.bashrc
 
 echo "Running .xinitrc"
