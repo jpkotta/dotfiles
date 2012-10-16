@@ -145,6 +145,7 @@ pathappend /usr/lib/python2.6/site-packages PYTHONPATH
 
 export EDITOR="$HOME/bin/editor"
 export PAGER="less"
+export DE=kde # workaround for xdg-open
 
 ########################################################################
 ### prompt
@@ -531,8 +532,6 @@ alias mkdir='mkdir -p'
 alias rmdir='rmdir -p'
 # rsync for updating usb drives
 alias rsync='rsync -auv'
-# the most common apt incantation
-alias upgrade="sudo aptitude update && sudo aptitude safe-upgrade"
 
 ####################################
 # less is more
@@ -575,6 +574,8 @@ function dif()
 alias df='df -h -x supermount'
 # displays disk usage by directory, in human readable format
 alias du='du -h'
+# du on files and dirs in pwd, sorted by size
+alias dusrt="du --max-depth=1 --all --one-file-system 2>/dev/null | sort -h"
 # display the processes that are using the most CPU time and memory
 alias hogc="ps -e -o %cpu,pid,ppid,user,cmd | sort -nr | head"
 alias hogm="ps -e -o %mem,pid,ppid,user,cmd | sort -nr | head"
@@ -584,75 +585,19 @@ alias hogm="ps -e -o %mem,pid,ppid,user,cmd | sort -nr | head"
 alias ping='ping -c 5 -A'
 # screenshot
 alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
-# remake /dev/dsp
-alias mkdsp='sudo mknod /dev/dsp c 14 3 && sudo chmod 777 /dev/dsp'
-# open gqview or geeqie
-VIEWER=geeqie
-alias gq="daemon $VIEWER"
-# start a new opera window
-alias opera='daemon opera -newwindow'
-# start a new firefox window
-alias ffox='daemon firefox'
-# by default, nautilus manages the desktop (icons and such)
-alias nautilus='bg_wrapper nautilus --no-desktop --browser'
-# start a separate acroread for every document
-alias acroread='daemon acroread -openInNewWindow'
-# okular is even better
-alias okular='daemon okular'
-alias pdf="daemon pdf-viewer"
-# open office
-alias ooffice='daemon ooffice'
-alias oocalc='daemon oocalc'
-alias oowriter='daemon oowriter'
-# open my checking account spreadsheets
-alias finances="oocalc $HOME/doc/finances.ods"
+# image viewer
+alias gq="daemon geeqie"
 # password database
 alias kp="keepassx $HOME/.keepassx/keepass.kdb"
 
-# open the perl reference
-alias perlref="bg_wrapper pdf-viewer $HOME/doc/perlref-5.004.1.pdf"
-# open the bash reference
-alias bashref="bg_wrapper browser $HOME/doc/bashref.html"
-# Linux kernel reference
-alias kernelref="bg_wrapper browser $HOME/doc/LinuxDocBook/index.html"
-# latex reference
-alias latexref="bg_wrapper pdf-viewer $HOME/doc/latex/lshort.pdf"
-# python reference
-alias pythonref="bg_wrapper pdf-viewer $HOME/doc/python_ref.pdf"
-alias pythondoc="bg_wrapper browser $HOME/doc/python/Python-Docs-2.4.2/html/index.html"
-
 # xine media player
 alias xine="bg_wrapper xine --enqueue"
-# xsnow
-alias xsnow="(killall xsnow ; sleep 3 ; exec xsnow -nosanta -notrees -norudolf -nokeepsnow >& /dev/null &)"
-# view Folding@Home progress
-export fah_log_file=/var/lib/origami/foldingathome/CPU1/FAHlog.txt
-alias fah_log="less $fah_log_file"
-alias fah_tail="tail -f $fah_log_file"
-# descent
-alias descent="d1x-rebirth-gl -window -grabmouse"
-# azureus
-alias azureus='daemon azureus'
-# ntpdate
-alias ntpdate='sudo ntpdate -u -v ntp.ubuntu.com'
-# du on files and dirs in pwd, sorted by size
-alias dusrt="du --max-depth=1 --all --one-file-system 2>/dev/null | sort -h"
 # mathematica needs this env var when using Composite extension on X.org
 alias mathematica='(export XLIB_SKIP_ARGB_VISUALS=1 ; mathematica &)'
-# Gaim instant messenger
-alias gaim='daemon gaim'
-alias pidgin='daemon pidgin'
-# gkrellm system monitor
-alias gkrellm='daemon gkrellm'
-# music player
-alias m=xmms
 # remote desktop
 alias rdp="rdesktop -x lan -K -g $SCR_RES"
 # fusermount
 alias fumount='fusermount -u -z'
-
-# vmware has been messing with X modifier keys, so start it in Xephyr
-alias startvmware="daemon Xephyr :11 -screen 1272x993 && DISPLAY=:11 daemon vmware"
 
 # tight vncviewer options for internet connections
 alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -compresslevel 6 -bgr233 -geometry $SCR_RES"
