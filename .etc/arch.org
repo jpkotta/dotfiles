@@ -1,5 +1,8 @@
 * MISCELLANEOUS
 ** files
+*** /etc/pacman.conf
+IgnorePkg += linux
+ILoveCandy
 *** /etc/pacman.d/mirrorlist
 reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 *** /etc/rc.conf
@@ -30,6 +33,7 @@ groups += games optical storage power users uucp video log
 DAEMONS += acpid
 * TODO acroread
 * alsa-utils
+* android-sdk-platform-tools
 * apg
 * aspell
 * aspell-en
@@ -46,6 +50,7 @@ DAEMONS += acpid
 * cups
 groups += lp sys
 DAEMONS += cupsd
+systemctl enable cups.service
 used the C3070i/postscript driver
 * cups-pdf
 * dbus
@@ -63,6 +68,18 @@ DAEMONS += foldingathome-smp
 /etc/conf.d/foldingathome-smp
 useradd -m -g users -s /bin/sh folding
 cd /opt/fah-smp/folding ; ../fah6 -configonly
+** /etc/systemd/system/foldingathome-smp.service
+[Unit]
+Description=Folding@home distributed computing client
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/fah-smp
+ExecStart=/opt/fah-smp/fah6 -smp -verbosity 9 -forceasm
+
+[Install]
+WantedBy=multi-user.target
 * font-bh-ttf
 * font-mathematica
 * foomatic-db
@@ -83,6 +100,7 @@ systemctl enable gpm.service
 * hdparm
 * hg-git-hg
 * htop
+* hugin
 * iftop
 * imagemagick
 * imagemagick-doc
@@ -157,8 +175,15 @@ X11Forwarding yes
 systemctl enable sshd.service
 * opera
 * p7zip
+* pacserve
+DAEMONS += pacserved
+systemctl enable pacserve.service
+** /etc/pacman.conf/mirrorlist
+Server = http://localhost:15678/request/$repo/$arch
+* patchutils
 * pavucontrol
 * pbzip2
+* perl-ipc-run
 * perl-rename
 * perl-term-readline-gnu
 * pidgin
@@ -203,6 +228,9 @@ groups += audio
 * rxvt-unicode
 * samba
 DAEMONS += samba
+systemctl enable smbd.service
+systemctl enable nmbd.service
+systemctl enable winbindd.service
 sudo pdbedit -a -u jpkotta
 /etc/smb.conf
 * smbclient
