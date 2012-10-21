@@ -5,9 +5,6 @@ IgnorePkg += linux
 ILoveCandy
 *** /etc/pacman.d/mirrorlist
 reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist
-*** /etc/rc.conf
-default DAEMONS=(syslog-ng network crond)
-systemctl enable cronie.service
 *** /etc/fstab
 *** /etc/modprobe.d/nobeep.conf
 blacklist pcspkr
@@ -21,17 +18,11 @@ LANG=en_US.UTF-8
 *** /etc/cron.daily/download-updates
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 ** adduser jpkotta
-groups += games optical storage power users uucp video log
+groups += adm games log optical power storage users uucp video 
 ** broken packages
 *** ufraw-cvs
 *** gkrellweather
 * abcde
-* acpi-eeepc-generic
-** /etc/conf.d/acpi-eeepc-generic.conf
-(look at the wiki page, but at least SUSPEND2RAM and WIFI_DRIVERS)
-* acpid
-DAEMONS += acpid
-* TODO acroread
 * alsa-utils
 * android-sdk-platform-tools
 * apg
@@ -49,12 +40,10 @@ DAEMONS += acpid
 * compton-git
 * cups
 groups += lp sys
-DAEMONS += cupsd
 systemctl enable cups.service
 used the C3070i/postscript driver
 * cups-pdf
 * dbus
-DAEMONS += dbus
 (dbus is automatically enabled in systemd)
 * dclock
 * dictd
@@ -64,18 +53,20 @@ DAEMONS += dbus
 * flashplugin
 /etc/adobe/mms.cfg
 * foldingathome-smp
-DAEMONS += foldingathome-smp
-/etc/conf.d/foldingathome-smp
 useradd -m -g users -s /bin/sh folding
-cd /opt/fah-smp/folding ; ../fah6 -configonly
+mkdir /opt/fah-smp/folding
+chown folding:users /opt/fah-smp/folding
+cd /opt/fah-smp/folding ; sudo -u folding ../fah6 -configonly
+systemctl enable foldingathome-smp.service
 ** /etc/systemd/system/foldingathome-smp.service
 [Unit]
 Description=Folding@home distributed computing client
 After=network.target
 
 [Service]
+User=folding
 Type=simple
-WorkingDirectory=/opt/fah-smp
+WorkingDirectory=/opt/fah-smp/folding
 ExecStart=/opt/fah-smp/fah6 -smp -verbosity 9 -forceasm
 
 [Install]
@@ -94,7 +85,6 @@ WantedBy=multi-user.target
 * gkrellm
 * gkrellweather
 * gpm
-DAEMONS += gpm
 systemctl enable gpm.service
 * gstreamer0.10-plugins
 * hdparm
@@ -112,11 +102,9 @@ systemctl enable gpm.service
 * ispell
 * jdk7-openjdk
 * kdegraphics-okular
-for i in /usr/share/applications/kde4/okular*.desktop ; do sudo sed -i 's/Exec=okular %U %i -caption "%c"/Exec=okular %U/' $i ; done
 * keepassx
 * keychain
 * laptop-mode-tools
-DAEMONS += laptop-mode
 systemctl enable laptop-mode-tools.service
 ** /etc/laptop-mode/conf.d/lcd-brightness.conf
 
@@ -158,25 +146,23 @@ done
 * mutt
 * ncmpcpp
 * nfs-utils
-DAEMONS += rpcbind netfs
-must be auto for systemd to mount/unmount it
+systemctl enable rpcbind.service
+** /etc/fstab
+SERVER:/server/path     /media/nfs  nfs  ro,rsize=8192,wsize=8192,soft,intr
 * nitrogen
 * ntp
-DAEMONS += ntpd
 systemctl enable ntpd.service
 * numlockx
 * nvclock
 * nvidia
 * nvidia-utils
 * openssh
-DAEMONS += sshd
+systemctl enable sshd.service
 ** /etc/ssh/sshd_config
 X11Forwarding yes
-systemctl enable sshd.service
 * opera
 * p7zip
 * pacserve
-DAEMONS += pacserved
 systemctl enable pacserve.service
 ** /etc/pacman.conf/mirrorlist
 Server = http://localhost:15678/request/$repo/$arch
@@ -196,9 +182,6 @@ pkgfile --update >/dev/null
 # give the power group the ability to suspend
 %power ALL = NOPASSWD: /usr/sbin/pm-suspend
 * pmount
-* TODO postfix
-add mail.cableone.net to relay_domains in /etc/postfix/main.cf
-DAEMONS += postfix
 * pulseaudio
 groups += audio
 ** ~/.pulse/default.pa
@@ -227,19 +210,17 @@ groups += audio
 * reflector
 * rxvt-unicode
 * samba
-DAEMONS += samba
 systemctl enable smbd.service
 systemctl enable nmbd.service
 systemctl enable winbindd.service
 sudo pdbedit -a -u jpkotta
-/etc/smb.conf
+** /etc/smb.conf
 * smbclient
-DAEMONS += netfs
 ** /etc/samba/private/SERVER.cred
 username=USERNAME
 password=PASSWORD
 ** /etc/fstab
-//SERVER/SHARE    /media/MOUNTPOINT      cifs    credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,mapchars,auto 0 0
+//SERVER/SHARE    /media/MOUNTPOINT      cifs    uid=USER,gid=GROUP,credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,filemode=0644,dirmode=0755 0 0
 * spideroak
 * sshfs
 * strace
@@ -247,6 +228,8 @@ password=PASSWORD
 * sudo
 groups += wheel
 * systemd
+systemctl enable cronie.service
+systemctl enable dhcpcd@.service
 ** redundant/incompatible packages
 acpid
 acpi-eeepc-generic
@@ -274,7 +257,6 @@ vboxnetflt
 * vlc
 * wcalc
 * wicd
-DAEMONS += wicd
 systemctl enable wicd.service
 * wine
 need multilib repo if on 64-bit
@@ -302,11 +284,7 @@ EndSection
 * xorg-server-xephyr
 * xorg-xclock
 * xorg-xdm
-DAEMONS += xdm # must be last and not backgrounded
 systemctl enable xdm.service
-** /etc/rc.d/xdm
-#!/bin/sh
-xdm
 * xorg-xinit 
 * xscreensaver
 * yaourt
