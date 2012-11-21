@@ -4,61 +4,43 @@ set -e # bail out quickly on failure
 
 # choose your emacs executable
 # e.g. EMACS=emacsclient or EMACS=xemacs
-EMACS=emacs-snapshot
+EMACS=emacs
 
 # choose your emacs options
 # e.g. EMACS_OPTIONS="-q"
 # note there will be an --eval option to invoke ediff mode
-EMACS_OPTIONS="--debug-init"
+EMACS_OPTIONS="--debug-init -q"
 
 LOCAL="$1"
 BASE="$2"
 OTHER="$3"
+OUTPUT="$4"
+
+[ -z "$OUTPUT" ] && OUTPUT="$LOCAL"
 
 if [ ! -f "$LOCAL" \
     -o ! -f "$BASE" \
     -o ! -f "$OTHER" ] ; then
     bin_name=$(basename $0)
-    echo "Usage: $bin_name LOCAL BASE OTHER"
+    echo "Usage: $bin_name LOCAL BASE OTHER OUTPUT"
     echo "Does a 3-way merge on the specified files."
     echo "    BASE is considered as a common ancestor, the others are modified versions of it."
     echo "    LOCAL is the version you have changed."
     echo "    OTHER is the version someone else has changed."
+    echo "    OUTPUT is where the merged version should be written."
     exit 1
 fi
-
-BACKUP="$LOCAL.orig"
-
-Restore ()
-{
-    cp "$BACKUP" "$LOCAL" 
-}
 
 ExitOK ()
 {
     exit $?
 }
 
-# Back up our file
-cp "$LOCAL" "$BACKUP"
-
-# Attempt to do a non-interactive merge
-if which merge > /dev/null 2>&1 ; then
-    if merge "$LOCAL" "$BASE" "$OTHER" 2> /dev/null; then
-       # success!
-	ExitOK 
-    fi
-    Restore
-elif which diff3 > /dev/null 2>&1 ; then
-    if diff3 -m "$BACKUP" "$BASE" "$OTHER" > "$LOCAL" ; then
-       # success
-	ExitOK
-    fi
-    Restore
-fi
-
 if $EMACS $EMACS_OPTIONS \
-    --eval "(ediff-merge-with-ancestor \"$BACKUP\" \"$OTHER\" \"$BASE\" nil \"$LOCAL\")"
+    --eval "(require 'ediff)" \
+    --eval "(setq ediff-window-setup-function 'ediff-setup-windows-plain)" \
+    --eval "(add-hook 'ediff-quit-hook 'save-buffers-kill-emacs)" \
+    --eval "(ediff-merge-with-ancestor \"$LOCAL\" \"$OTHER\" \"$BASE\" nil \"$OUTPUT\")"
     then       
     ExitOK
 fi
