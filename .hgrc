@@ -7,6 +7,8 @@ username = $USER@$HOSTNAME
 
 # use emacs as a merge tool, special command line options elsewhere
 merge = emacs
+# wrapper script
+#merge = emacs-merge
 # use meld as a merge tool
 #merge = meld
 
@@ -99,8 +101,12 @@ pdsvn = svn+ssh://kotta@svn.packetdigital.com/zone/subversion/
 
 [merge-tools]
 emacs.binary = False
-emacs.args = -q --debug-init --eval "(setq ediff-window-setup-function 'ediff-setup-windows-plain) (add-hook 'ediff-quit-hook 'save-buffers-kill-emacs) (ediff-merge-with-ancestor \"$local\" \"$other\" \"$base\" nil \"$output\")"
+emacs.args = -q --eval "(require 'ediff)" --eval "(setq ediff-window-setup-function 'ediff-setup-windows-plain)" --eval "(add-hook 'ediff-quit-hook 'save-buffers-kill-emacs)" --eval "(ediff-merge-with-ancestor \""$local"\" \""$other"\" \""$base"\" nil \""$output"\")"
 emacs.check = prompt
+
+emacs-merge.binary = False
+emacs-merge.args = $local $base $other $output
+emacs-merge.check = prompt
 
 [tortoisehg]
 vdiff = meld
