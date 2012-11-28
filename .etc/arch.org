@@ -90,6 +90,8 @@ systemctl enable gpm.service
 * gstreamer0.10-plugins
 * hdparm
 * hg-git-hg
+* hgview
+** python2-qscintilla
 * htop
 * hugin
 * iftop
@@ -132,7 +134,7 @@ BRIGHTNESS_OUTPUT="/sys/devices/platform/eeepc/backlight/eeepc/brightness"
 * mlocate
 ** /etc/cron.weekly/updatedb-network
 LOCATE_PATH=""
-for share in nfs engineering storagez ; do
+for share in nfs engineering hardware ; do
     ${UPDATEDB} \
         --prunefs "" \
         --database-root /media/$share \
@@ -303,3 +305,4 @@ makepkg -si
 cd ..
 ** ~/.yaourtrc
 EDITFILES=0
+#DETAILUPGRADE=0 # workaround for not displaying ignored updates
