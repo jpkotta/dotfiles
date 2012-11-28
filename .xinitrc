@@ -41,6 +41,12 @@ fi
 # turn on numlock
 numlockx on
 
+# start automounter
+udiskie &
+
+# start rxvt-unicode daemon
+urxvtd -q -o -f
+
 disp=`echo $DISPLAY | sed -e 's/://g' -e 's/[.][0-9]*//'`
 log_file=$HOME/.X-log-$disp
 [ -e "$log_file" ] \

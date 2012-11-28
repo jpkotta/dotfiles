@@ -245,6 +245,7 @@ acpi-eeepc-generic
 * ttf-mathtype
 * ttf-ms-fonts
 * ttf-vista-fonts
+* udiskie
 * urxvtcd
 * virtualbox
 groups += vboxusers
