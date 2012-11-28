@@ -497,7 +497,11 @@ alias clc='clear'
 alias ln='/bin/ln -sni'
 
 # a kinder, safer rm
-alias rm='/bin/rm -i'
+if is_in_path trash-put ; then
+    alias rm="trash-put"
+else
+    alias rm="rm -i"
+fi
 function rm-rf()
 {
     echo "Delete these files?"
@@ -506,7 +510,7 @@ function rm-rf()
     local resp
     select resp in y n ; do
         if [ "$resp" = "y" ] ; then
-            rm -rf "$@"
+            /bin/rm -rf "$@"
             break
         elif [ "$resp" = "n" ] ; then
             echo "Cancel."
@@ -674,27 +678,6 @@ function tarball()
     name=$1
     shift
     tar zcf $name-`date +%Y%m%d`.tar.gz "$@"
-}
-
-# moves specified files to ~/.Trash
-# will not overwrite files that have the same name
-function trash()
-{
-    local trash_dir file already_trashed count
-    trash_dir=$HOME/.Trash
-    for file in "$@" ; do
-        if [[ -d $file ]] ; then
-            already_trashed=$trash_dir/`basename $file`
-            if [[ -n `/bin/ls -d $already_trashed*` ]] ; then
-                count=`/bin/ls -d $already_trashed* | /usr/bin/wc -l`
-                count=$((++count))
-                /bin/mv --verbose "$file" "$trash_dir/$file$count"
-                continue
-            fi
-        fi
-
-        /bin/mv --verbose --backup=numbered "$file" $HOME/.Trash
-    done
 }
 
 function spell()

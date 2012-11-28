@@ -236,6 +236,7 @@ acpi-eeepc-generic
 * texlive-most
 * tmux
 * transset-df
+* trash-cli
 * tree
 * tremulous
 * ttf-dejavu
