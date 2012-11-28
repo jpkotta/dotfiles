@@ -41,6 +41,7 @@ groups += adm games log optical power storage users uucp video
 * cups
 groups += lp sys
 systemctl enable cups.service
+lpadmin -d PRINTER_NAME
 used the C3070i/postscript driver
 * cups-pdf
 * dbus
