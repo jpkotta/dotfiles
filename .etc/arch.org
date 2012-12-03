@@ -1,7 +1,7 @@
 * MISCELLANEOUS
 ** files
 *** /etc/pacman.conf
-IgnorePkg += linux
+IgnorePkg += linux linux-headers
 ILoveCandy
 *** /etc/pacman.d/mirrorlist
 reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist
@@ -20,7 +20,6 @@ pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 ** adduser jpkotta
 groups += adm games log optical power storage users uucp video 
 ** broken packages
-*** ufraw-cvs
 *** gkrellweather
 * abcde
 * alsa-utils
@@ -39,7 +38,8 @@ groups += adm games log optical power storage users uucp video
 * colordiff
 * compton-git
 * cups
-groups += lp sys
+gpasswd -a $USER lp
+gpasswd -a $USER sys
 systemctl enable cups.service
 lpadmin -d PRINTER_NAME
 used the C3070i/postscript driver
@@ -186,7 +186,7 @@ pkgfile --update >/dev/null
 %power ALL = NOPASSWD: /usr/sbin/pm-suspend
 * pmount
 * pulseaudio
-groups += audio
+gpasswd -a $USER audio
 ** ~/.pulse/default.pa
 .include /etc/pulse/default.pa
 * pulseaudio-alsa
@@ -218,6 +218,8 @@ systemctl enable nmbd.service
 systemctl enable winbindd.service
 sudo pdbedit -a -u jpkotta
 ** /etc/smb.conf
+* slim
+systemctl enable slim.service
 * smbclient
 ** /etc/samba/private/SERVER.cred
 username=USERNAME
@@ -229,13 +231,12 @@ password=PASSWORD
 * strace
 * subversion
 * sudo
-groups += wheel
+gpasswd -a $USER wheel
+** /etc/sudoers
+%wheel ALL=(ALL) ALL
 * systemd
 systemctl enable cronie.service
 systemctl enable dhcpcd@.service
-** redundant/incompatible packages
-acpid
-acpi-eeepc-generic
 * texlive-most
 * tmux
 * transset-df
@@ -251,7 +252,7 @@ acpi-eeepc-generic
 * udiskie
 * urxvtcd
 * virtualbox
-groups += vboxusers
+gpasswd -a $USER vboxusers
 ** /etc/modules-load.d/virtualbox.conf
 vboxdrv
 vboxnetadp
@@ -288,8 +289,6 @@ EndSection
 * xorg-server
 * xorg-server-xephyr
 * xorg-xclock
-* xorg-xdm
-systemctl enable xdm.service
 * xorg-xinit 
 * xscreensaver
 * yaourt
