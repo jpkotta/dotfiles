@@ -536,6 +536,8 @@ alias mkdir='mkdir -p'
 alias rmdir='rmdir -p'
 # rsync for updating usb drives
 alias rsync='rsync -auv'
+# use additional locate databases
+alias network_locate='LOCATE_PATH=$_LOCATE_PATH locate'
 
 ####################################
 # less is more
