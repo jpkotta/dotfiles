@@ -321,7 +321,7 @@ class ObliqueStrategies:
 	
 	def PrintCard(self):
 		# print a random entry from our list
-		print '\nOblique Strategy v.%s:\n>> %s <<' % (__version__, self.GetCard())
+		print('\nOblique Strategy v.%s:\n>> %s <<' % (__version__, self.GetCard()))
 
 if __name__ == '__main__':
 	parser = OptionParser()
