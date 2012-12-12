@@ -97,7 +97,7 @@ users = root
 
 [schemes]
 pd = ssh://hg@storagez.packetdigital.com/repos/
-pdsvn = svn+ssh://kotta@svn.packetdigital.com/zone/subversion/
+pdsvn = svn+ssh://svn.packetdigital.com/svn/
 
 [merge-tools]
 emacs.binary = False
