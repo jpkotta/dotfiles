@@ -2,8 +2,7 @@
 
 [ui]
 # username to use for commits
-# environment variables are expanded
-username = $USER@$HOSTNAME
+username = Jonathan Kotta <jpkotta@gmail.com>
 
 # use emacs as a merge tool, special command line options elsewhere
 merge = emacs
