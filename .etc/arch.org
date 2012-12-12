@@ -25,6 +25,7 @@ groups += adm games log optical power storage users uucp video
 * alsa-utils
 * android-sdk-platform-tools
 * apg
+* ascii
 * aspell
 * aspell-en
 * avr-gcc
@@ -146,8 +147,10 @@ done
 # add LOCATE_PATH to your ~/.bashrc to have locate search these databases
 * mpc
 * mpd
+gpasswd -a mpd audio
 * mutt
 * ncmpcpp
+* net-tools
 * nfs-utils
 systemctl enable rpcbind.service
 ** /etc/fstab
@@ -165,6 +168,8 @@ systemctl enable sshd.service
 X11Forwarding yes
 * opera
 * p7zip
+* pacaur
+** pacman-color
 * pacserve
 systemctl enable pacserve.service
 ** /etc/pacman.conf/mirrorlist
