@@ -19,34 +19,15 @@ ignore = ~/.hgignore.global
 commitsubrepos = False
 
 [extensions]
-# mercurial queues
-# also enables the strip command
-mq =
-
 # color output from some commands
 color = 
 
-# allows custom URI schemes, like pd:// = ssh://hg@storagez/repos/
-schemes = 
+# use an external diff tool (diff by default)
+extdiff = 
 
-# temporarily stash changes without a commit
-# hg clone https://bitbucket.org/tksoh/hgshelve ~/.hgext/hgshelve
-hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
-
-# use mercurial as a git client
-# hg clone https://bitbucket.org/durin42/hg-git ~/.hgext/hg-git
-# sudo pip install dulwich
-hgext.hggit = ~/.hgext/hg-git/hggit
-
-# move changesets to a different (named or unnamed) branch, merging if
-# necessary
-rebase = 
-
-# use mercurial as a subversion client
-# http://bitbucket.org/durin42/hgsubversion/wiki/Home
-# requires python-subversion
-# recommends rebase extension
-hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
+# mercurial queues
+# also enables the strip command
+mq =
 
 # use a pager with long outputs
 pager =
@@ -57,11 +38,30 @@ progress =
 # remove untracked files
 purge = 
 
-# use an external diff tool (diff by default)
-extdiff = 
+# move changesets to a different (named or unnamed) branch, merging if
+# necessary
+rebase = 
 
 # simple extension to commit by diff hunk
 record = 
+
+# allows custom URI schemes, like pd:// = ssh://hg@storagez/repos/
+schemes = 
+
+# use mercurial as a git client
+# hg clone https://bitbucket.org/durin42/hg-git ~/.hgext/hg-git
+# sudo pip install dulwich
+hgext.hggit = ~/.hgext/hg-git/hggit
+
+# temporarily stash changes without a commit
+# hg clone https://bitbucket.org/tksoh/hgshelve ~/.hgext/hgshelve
+hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
+
+# use mercurial as a subversion client
+# http://bitbucket.org/durin42/hgsubversion/wiki/Home
+# requires python-subversion
+# recommends rebase extension
+hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
 
 [alias]
 summ = summary --remote
