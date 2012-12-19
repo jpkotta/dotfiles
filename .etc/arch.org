@@ -154,7 +154,7 @@ gpasswd -a mpd audio
 * nfs-utils
 systemctl enable rpcbind.service
 ** /etc/fstab
-SERVER:/server/path     /media/nfs  nfs  ro,rsize=8192,wsize=8192,soft,intr
+SERVER:/path/on/server /media/MOUNTPOINT nfs ro,soft,intr
 * nitrogen
 * ntp
 systemctl enable ntpd.service
@@ -208,7 +208,7 @@ gpasswd -a $USER audio
 * python2
 * python2-daemon
 * python2-matplotlib
-* python2-mpd2
+* python2-mpd
 * python2-numpy
 * python2-pymysql
 * python2-scipy
