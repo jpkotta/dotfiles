@@ -95,7 +95,7 @@ bm = bookmarks
 users = root
 
 [schemes]
-pd = ssh://hg@storagez.packetdigital.com/repos/
+pd = ssh://hg@hg.packetdigital.com/repos/
 pdsvn = svn+ssh://svn.packetdigital.com/svn/
 
 [merge-tools]
