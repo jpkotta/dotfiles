@@ -87,11 +87,6 @@ export HOSTNAME
 [ -f $HOME/.keychain/$HOSTNAME-sh ] \
     && . $HOME/.keychain/$HOSTNAME-sh
 
-function is_in_path()
-{
-    which "$1" >/dev/null 2>/dev/null
-}
-
 ########################################################################
 ### path variables
 
@@ -497,7 +492,7 @@ alias clc='clear'
 alias ln='/bin/ln -sni'
 
 # a kinder, safer rm
-if is_in_path trash-put ; then
+if type trash-put >&/dev/null ; then
     alias rm="trash-put"
 else
     alias rm="rm -i"
@@ -610,42 +605,6 @@ alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -
 
 ########################################################################
 ### functions
-
-# show the contents of some bash object, where object is a variable,
-# function, or alias.
-function show()
-{
-    local usage name
-    name="show"
-    usage="Usage: $name <type> <obj>\n\
-  type may be one of 'var', 'func', 'alias'\n\
-  obj is some object that has been defined in the shell\n\
-E.g. 'foo=blah ; $name var foo'\n\
-  prints 'blah'\n\
-E.g. '$name func $name'\n\
-  prints the definition of this function"
-
-    if [ -n "$3" -o -z "$2" ] ; then
-        echo -e $usage
-        return 1
-    fi
-
-    case "$1" in
-        "func")
-            declare -f "$2"
-            ;;
-        "var")
-            echo "$2=${!2}"
-            ;;
-        "alias")
-            alias "$2"
-            ;;
-        *)
-            echo -e $usage
-            return 1
-            ;;
-    esac
-}
 
 # rsync with delete and confirmation
 function synchronize()
