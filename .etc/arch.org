@@ -9,7 +9,6 @@ reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 *** /etc/modprobe.d/nobeep.conf
 blacklist pcspkr
 *** /etc/hostname
-*** /etc/hosts
 *** /etc/locale.gen
 *** /etc/locale.conf
 LANG=en_US.UTF-8
@@ -19,6 +18,9 @@ LANG=en_US.UTF-8
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 ** adduser jpkotta
 groups += adm games log optical power storage users uucp video 
+** systemd
+systemctl enable cronie.service
+systemctl enable dhcpcd@.service
 ** broken packages
 *** gkrellweather
 * abcde
@@ -45,8 +47,6 @@ systemctl enable cups.service
 lpadmin -d PRINTER_NAME
 used the C3070i/postscript driver
 * cups-pdf
-* dbus
-(dbus is automatically enabled in systemd)
 * dclock
 * dictd
 * emacs-lucid
@@ -101,7 +101,6 @@ systemctl enable gpm.service
 * inetutils
 * iotop
 * ipython
-* ipython-ipdb
 * ipython2
 * ispell
 * jdk7-openjdk
@@ -170,6 +169,10 @@ X11Forwarding yes
 * p7zip
 * pacaur
 ** pacman-color
+** ~/.config/pacaur/config
+editpkgbuild=false
+editinstall=false
+color=true
 * pacserve
 systemctl enable pacserve.service
 ** /etc/pacman.conf/mirrorlist
@@ -198,9 +201,7 @@ gpasswd -a $USER audio
 * pulseaudio-equalizer
 * pymysql
 * pysolfc
-* python-matplotlib-git
-** python-dateutil
-** pyqt
+* python-matplotlib
 * python-numpy
 * python-pyserial
 * python-scipy
@@ -230,7 +231,7 @@ systemctl enable slim.service
 username=USERNAME
 password=PASSWORD
 ** /etc/fstab
-//SERVER/SHARE    /media/MOUNTPOINT      cifs    uid=USER,gid=GROUP,credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,filemode=0644,dirmode=0755 0 0
+//SERVER/SHARE    /media/MOUNTPOINT      cifs    uid=USER,gid=GROUP,credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,file_mode=0644,dir_mode=0755 0 0
 * spideroak
 * sshfs
 * strace
@@ -239,9 +240,6 @@ password=PASSWORD
 gpasswd -a $USER wheel
 ** /etc/sudoers
 %wheel ALL=(ALL) ALL
-* systemd
-systemctl enable cronie.service
-systemctl enable dhcpcd@.service
 * texlive-most
 * tmux
 * transset-df
@@ -297,13 +295,13 @@ EndSection
 * xorg-xinit 
 * xscreensaver
 * yaourt
-wget http://aur.archlinux.org/packages/package-query/package-query.tar.gz
-tar xf package-query.tar.gz
+curl -O https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz
+tar zxvf package-query.tar.gz
 cd package-query
 makepkg -si
 cd ..
-wget http://aur.archlinux.org/packages/yaourt/yaourt.tar.gz
-tar xf yaourt.tar.gz
+curl -O https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz
+tar zxvf yaourt.tar.gz
 cd yaourt
 makepkg -si
 cd ..
