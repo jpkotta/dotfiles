@@ -6,6 +6,11 @@
 # the default umask is set in /etc/profile
 #umask 022
 
+# set PATH so it includes user's private bin if it exists
+if [ -d ~/bin ] ; then
+    PATH=~/bin:"${PATH}"
+fi
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -14,13 +19,10 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d ~/bin ] ; then
-    PATH=~/bin:"${PATH}"
-fi
-
 # keychain manages ssh-agents
 type keychain >&/dev/null \
     && keychain
 
-[ -x "$(which fortune)" ] && fortune
+# a fun message
+type fortune >&/dev/null \
+    && fortune
