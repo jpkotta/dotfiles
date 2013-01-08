@@ -95,8 +95,11 @@ bm = bookmarks
 users = root
 
 [schemes]
-pd = ssh://hg@hg.packetdigital.com/repos/
+pd = ssh://hg.packetdigital.com/hg/
 pdsvn = svn+ssh://svn.packetdigital.com/svn/
+
+[subpaths]
+#ssh://hg@storagez(\.packetdigital\.com)?/repos = ssh://hg/hg
 
 [merge-tools]
 emacs.binary = False
