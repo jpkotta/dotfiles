@@ -1,0 +1,4 @@
+editpkgbuild=false
+editinstall=false
+color=true
+clean=false
