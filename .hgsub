@@ -1,3 +1,3 @@
 .hgext/hg-git = http://bitbucket.org/durin42/hg-git
-.hgext/hgshelve = http://bitbucket.org/tksoh/hgshelve
+.hgext/hgshelve = http://bitbucket.org/astiob/hgshelve
 .hgext/hgsubversion = http://bitbucket.org/durin42/hgsubversion
