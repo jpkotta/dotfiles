@@ -16,11 +16,12 @@ LANG=en_US.UTF-8
 *** hwclock --systohc --utc
 *** /etc/cron.daily/download-updates
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
-** adduser jpkotta
-groups += adm games log optical power storage users uucp video 
+*** useradd -m -g users -G adm,games,log,optical,power,storage,users,uucp,video -s /bin/bash $USER ; chfn
 ** systemd
 systemctl enable cronie.service
 systemctl enable dhcpcd@.service
+*** /etc/systemd/journald.conf
+SystemMaxUse=100M # max journal size
 ** broken packages
 *** gkrellweather
 * abcde
@@ -83,6 +84,7 @@ WantedBy=multi-user.target
 * fvwm
 * geeqie
 * gimp
+* gimp-plugin-gmic
 * git
 * gkrellm
 * gkrellweather
@@ -128,6 +130,7 @@ BRIGHTNESS_OUTPUT="/sys/devices/platform/eeepc/backlight/eeepc/brightness"
 * libreoffice
 * libreoffice-en-US
 * lsof
+* luminancehdr
 * lyx
 * mercurial
 * mesa-demos
@@ -168,11 +171,12 @@ X11Forwarding yes
 * opera
 * p7zip
 * pacaur
-** pacman-color
 ** ~/.config/pacaur/config
 editpkgbuild=false
 editinstall=false
 color=true
+clean=false
+* pacman-color
 * pacserve
 systemctl enable pacserve.service
 ** /etc/pacman.conf/mirrorlist
@@ -222,7 +226,7 @@ gpasswd -a $USER audio
 systemctl enable smbd.service
 systemctl enable nmbd.service
 systemctl enable winbindd.service
-sudo pdbedit -a -u jpkotta
+sudo pdbedit -a -u $USER
 ** /etc/smb.conf
 * slim
 systemctl enable slim.service
