@@ -7,3 +7,4 @@ if [ -z "$1" ] ; then
 fi
 
 infocmp rxvt-unicode | ssh "$1" "mkdir -p .terminfo && cat > /tmp/ti && tic /tmp/ti"
+infocmp rxvt-unicode-256color | ssh "$1" "mkdir -p .terminfo && cat > /tmp/ti && tic /tmp/ti"
