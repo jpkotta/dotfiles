@@ -299,6 +299,19 @@ EndSection
 * xorg-xclock
 * xorg-xinit 
 * xscreensaver
+** /etc/systemd/system/xscreensaver.service
+[Unit]
+Description=Lock X session using xscreensaver
+Before=sleep.target
+
+[Service]
+User=jpkotta
+Type=oneshot
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/xscreensaver-command -lock
+
+[Install]
+WantedBy=sleep.target
 * yaourt
 curl -O https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz
 tar zxvf package-query.tar.gz
