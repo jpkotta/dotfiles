@@ -16,7 +16,7 @@ LANG=en_US.UTF-8
 *** hwclock --systohc --utc
 *** /etc/cron.daily/download-updates
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
-*** useradd -m -g users -G adm,games,log,optical,power,storage,users,uucp,video -s /bin/bash $USER ; chfn
+*** useradd -m -g users -G adm,games,log,optical,power,storage,users,uucp,video -s /bin/bash $USER ; chfn $USER ; passwd $USER
 ** systemd
 systemctl enable cronie.service
 systemctl enable dhcpcd@.service
@@ -27,6 +27,9 @@ SystemMaxUse=100M # max journal size
 * abcde
 * alsa-utils
 * android-sdk-platform-tools
+for i in adb fastboot ; do
+    ln -s /opt/android-sdk/platform-tools/$i /usr/local/bin/
+done
 * apg
 * ascii
 * aspell
@@ -39,6 +42,7 @@ SystemMaxUse=100M # max journal size
 * bash-completion
 /usr/share/bash-completion/bash_completion
 * btrfs-progs
+ln -s /bin/true /sbin/fsck.btrfs
 * chromium
 * colordiff
 * compton-git
@@ -107,11 +111,12 @@ systemctl enable gpm.service
 * ipython2
 * ispell
 * jdk7-openjdk
+* k3b
 * kdegraphics-okular
 * keepassx
 * keychain
 * laptop-mode-tools
-systemctl enable laptop-mode-tools.service
+systemctl enable laptop-mode.service
 ** /etc/laptop-mode/conf.d/lcd-brightness.conf
 
 #
@@ -123,10 +128,16 @@ CONTROL_BRIGHTNESS=1
 #
 # Commands to execute to set the brightness on your LCD
 #
-BATT_BRIGHTNESS_COMMAND="echo 3"
-LM_AC_BRIGHTNESS_COMMAND="echo 15"
-NOLM_AC_BRIGHTNESS_COMMAND="echo 15"
-BRIGHTNESS_OUTPUT="/sys/devices/platform/eeepc/backlight/eeepc/brightness"
+# # feynman
+# BATT_BRIGHTNESS_COMMAND="echo 3"
+# LM_AC_BRIGHTNESS_COMMAND="echo 15"
+# NOLM_AC_BRIGHTNESS_COMMAND="echo 15"
+# BRIGHTNESS_OUTPUT="/sys/devices/platform/eeepc/backlight/eeepc/brightness"
+# # mandelbrot
+# BATT_BRIGHTNESS_COMMAND="echo 1000"
+# LM_AC_BRIGHTNESS_COMMAND="echo 4437"
+# NOLM_AC_BRIGHTNESS_COMMAND="echo 4437"
+# BRIGHTNESS_OUTPUT="/sys/class/backlight/intel_backlight/brightness"
 
 * libreoffice
 * libreoffice-en-US
@@ -172,6 +183,12 @@ X11Forwarding yes
 * opera
 * p7zip
 * pacaur
+cd /tmp
+for i in cower pacaur ; do
+    curl -O https://aur.archlinux.org/packages/${i:0:2}/$i/$i.tar.gz
+    tar xf $i.tar.gz
+    (cd $i ; makepkg -si)
+done
 ** ~/.config/pacaur/config
 editpkgbuild=false
 editinstall=false
@@ -258,7 +275,6 @@ gpasswd -a $USER wheel
 * ttf-ms-fonts
 * ttf-vista-fonts
 * udiskie
-* urxvtcd
 * virtualbox
 gpasswd -a $USER vboxusers
 ** /etc/modules-load.d/virtualbox.conf
@@ -312,17 +328,4 @@ ExecStart=/usr/bin/xscreensaver-command -lock
 
 [Install]
 WantedBy=sleep.target
-* yaourt
-curl -O https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz
-tar zxvf package-query.tar.gz
-cd package-query
-makepkg -si
-cd ..
-curl -O https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz
-tar zxvf yaourt.tar.gz
-cd yaourt
-makepkg -si
-cd ..
-** ~/.yaourtrc
-EDITFILES=0
-#DETAILUPGRADE=0 # workaround for not displaying ignored updates
+
