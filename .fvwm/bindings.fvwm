@@ -188,33 +188,22 @@ Key     Menu    A       N       HideDesktop
 Key	Menu	A	S	ShowDesktop
 
 # for extra special keys
-Test (EnvIsSet USE_MEDIA_KEYS) \
-    Key     XF86AudioMute           A   N \
-    Exec $[infostore.script_dir]/mixer.sh toggle 
-Test (EnvIsSet USE_MEDIA_KEYS) \
-    Key     XF86AudioRaiseVolume    A   N \
-    Exec $[infostore.script_dir]/mixer.sh incr
-Test (EnvIsSet USE_MEDIA_KEYS) \
-    Key     XF86AudioLowerVolume    A   N \
-    Exec $[infostore.script_dir]/mixer.sh decr
 
-Test (EnvIsSet USE_MEDIA_KEYS) \
-    Key     XF86AudioPlay           A   N \
-    MediaPlayerPlayPause
-Test (EnvIsSet USE_MEDIA_KEYS) \
-    Key     XF86AudioNext           A   N \
-    MediaPlayerNext
-Test (EnvIsSet USE_MEDIA_KEYS) \
-    Key     XF86AudioPrev           A   N \
-    MediaPlayerPrev
-Test (EnvIsSet USE_MEDIA_KEYS) \
-    Key     XF86Tools               A   N \
-    Exec exec next_album
+DestroyFunc SetUpMediaKeys
+AddToFunc SetUpMediaKeys
++ I Key XF86AudioMute         A N Exec $[infostore.script_dir]/mixer.sh toggle 
++ I Key XF86AudioRaiseVolume  A N Exec pactl set-sink-volume 0 -- +5%
++ I Key XF86AudioLowerVolume  A N Exec pactl set-sink-volume 0 -- -5%
++ I Key XF86AudioPlay         A N MediaPlayerPlayPause
++ I Key XF86AudioNext         A N MediaPlayerNext
++ I Key XF86AudioPrev         A N MediaPlayerPrev
++ I Key XF86Tools             A N Exec exec next_album
++ I Key XF86Calculator        A N StartCalculator
++ I Key XF86MonBrightnessUp   A N Exec exec xbacklight -inc 10 -time 0
++ I Key XF86MonBrightnessDown A N Exec exec xbacklight -dec 10 -time 0
 
-Test (EnvIsSet USE_MEDIA_KEYS) \
-    Key     XF86Calculator          A   N \
-    StartCalculator
-    
+Test (EnvIsSet USE_MEDIA_KEYS) SetUpMediaKeys
+
 # X also has some builtin bindings:
 #   Ctrl-Alt-Backspace quits immediately
 #   Ctrl-Alt-KP_Plus/KP_Minus decreases/increases resolution
