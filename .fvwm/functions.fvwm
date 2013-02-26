@@ -34,7 +34,7 @@ DestroyFunc StartEditor
 AddToFunc StartEditor
 + I Exec exec $[EDITOR] $*
 
-InfoStoreAdd infostore.terminal_options " "
+InfoStoreAdd terminal_options " "
 Test (EnvIsSet USE_COMPOSITE) \
     InfoStoreAdd terminal_options "-depth 32 -bg rgba:0200/0000/1000/f400"
 
