@@ -3,6 +3,7 @@
 *** /etc/pacman.conf
 IgnorePkg += linux linux-headers
 ILoveCandy
+Color
 *** /etc/pacman.d/mirrorlist
 reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 *** /etc/fstab
@@ -16,7 +17,13 @@ LANG=en_US.UTF-8
 *** hwclock --systohc --utc
 *** /etc/cron.daily/download-updates
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
-*** useradd -m -g users -G adm,games,log,optical,power,storage,users,uucp,video -s /bin/bash $USER ; chfn $USER ; passwd $USER
+*** useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
+*** for g in adm games log optical power storage systemd-journal users uucp video ; do gpasswd -a $USER $g ; done
+*** /etc/dhcpcd.config
+# prevents check for IP addr conflict (that should be DHCP server's job)
+# can significantly speed up network config
+noarp
+noipv6rs
 ** systemd
 systemctl enable cronie.service
 systemctl enable dhcpcd@.service
@@ -110,9 +117,12 @@ systemctl enable gpm.service
 * ipython
 * ipython2
 * ispell
-* jdk7-openjdk
+* jre7-openjdk
+** icedtea-web-java7
 * k3b
+pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 * kdegraphics-okular
+** kpartsplugin
 * keepassx
 * keychain
 * laptop-mode-tools
@@ -189,12 +199,17 @@ for i in cower pacaur ; do
     tar xf $i.tar.gz
     (cd $i ; makepkg -si)
 done
+
+mkdir -p /var/cache/pacaur/pkg
+chgrp wheel /var/cache/pacaur/pkg
+chmod g+rwx /var/cache/pacaur/pkg
+** /etc/makepkg.conf
+PKGDEST=/var/cache/pacaur/pkg/
 ** ~/.config/pacaur/config
 editpkgbuild=false
 editinstall=false
-color=true
 clean=false
-* pacman-color
+* pacman-contrib
 * pacserve
 systemctl enable pacserve.service
 ** /etc/pacman.conf/mirrorlist
@@ -225,6 +240,8 @@ gpasswd -a $USER audio
 * pysolfc
 * python-matplotlib
 * python-numpy
+* python-pylint
+* python-pymysql-git
 * python-pyserial
 * python-scipy
 * python-sqlalchemy
@@ -233,6 +250,7 @@ gpasswd -a $USER audio
 * python2-matplotlib
 * python2-mpd
 * python2-numpy
+* python2-pylint
 * python2-pymysql
 * python2-scipy
 * python2-pyserial
