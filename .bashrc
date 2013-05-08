@@ -72,12 +72,12 @@ umask 0022
 #ulimit -c hard
 ulimit -c 0
 
-# this stops crtl-s from freezing the terminal
+# this stops C-s from freezing the terminal
 if [ "$TERM" != "dumb" ] ; then
     stty -ixon
 fi
 
-# prevent CTRL-D from immediately logging out
+# prevent C-d from immediately logging out
 export IGNOREEOF=1
 
 # this is set but not exported by default
@@ -331,13 +331,6 @@ function showcolors()
 ########################################################################
 ### aliases
 
-# appends a '&' to a command so it will run in the background
-# useful for aliases
-function bg_wrapper
-{
-    "$@" &
-}
-
 # super stealth background launch
 # disconnects from launching shell, keeps running until killed
 function daemon
@@ -495,7 +488,7 @@ alias ln='/bin/ln -sni'
 if type trash-put >&/dev/null ; then
     alias rm="trash-put"
 else
-    alias rm="rm -i"
+    alias rm="rm -I"
 fi
 function rm-rf()
 {
@@ -587,14 +580,12 @@ alias ping='ping -c 5 -A'
 # screenshot
 alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
 # image viewer
-alias gq="daemon geeqie"
+alias gq="geeqie"
 # password database
 alias kp="keepassx $HOME/.keepassx/keepass.kdb"
 
 # xine media player
-alias xine="bg_wrapper xine --enqueue"
-# mathematica needs this env var when using Composite extension on X.org
-alias mathematica='(export XLIB_SKIP_ARGB_VISUALS=1 ; mathematica &)'
+alias xine="daemon xine --enqueue"
 # remote desktop
 alias rdp="rdesktop -x lan -K -g $SCR_RES"
 # fusermount
