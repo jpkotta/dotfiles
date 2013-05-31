@@ -32,6 +32,7 @@ SystemMaxUse=100M # max journal size
 ** broken packages
 *** gkrellweather
 * abcde
+** atomicparsley
 * alsa-utils
 * android-sdk-platform-tools
 for i in adb fastboot ; do
@@ -40,11 +41,10 @@ done
 * apg
 * ascii
 * aspell
-* aspell-en
-* atomicparsley
+** aspell-en
 * avr-gcc
-* avr-libc
-* avrdude
+** avr-libc
+** avrdude
 * base-devel
 * bash-completion
 /usr/share/bash-completion/bash_completion
@@ -59,12 +59,17 @@ gpasswd -a $USER sys
 systemctl enable cups.service
 lpadmin -d PRINTER_NAME
 used the C3070i/postscript driver
-* cups-pdf
+** cups-pdf
+** foomatic-db
+** foomatic-db-engine
+** foomatic-db-nonfree
+** foomatic-filters
 * dclock
 * dictd
 * emacs-lucid
 * etc-update
 * figlet
+* firefox
 * flashplugin
 /etc/adobe/mms.cfg
 * foldingathome-smp
@@ -88,34 +93,25 @@ ExecStart=/opt/fah-smp/fah6 -smp -verbosity 9 -forceasm
 WantedBy=multi-user.target
 * font-bh-ttf
 * font-mathematica
-* foomatic-db
-* foomatic-db-engine
-* foomatic-db-nonfree
-* foomatic-filters
 * fortune-mod
 * fvwm
 * geeqie
 * gimp
-* gimp-plugin-gmic
+** gimp-plugin-gmic
 * git
 * gkrellm
-* gkrellweather
+** gkrellweather
 * gpm
 systemctl enable gpm.service
 * gstreamer0.10-plugins
 * hdparm
-* hg-git-hg
-* hgview
-** python2-qscintilla
 * htop
 * hugin
 * iftop
 * imagemagick
-* imagemagick-doc
+** imagemagick-doc
 * inetutils
 * iotop
-* ipython
-* ipython2
 * ispell
 * jre7-openjdk
 ** icedtea-web-java7
@@ -124,7 +120,6 @@ pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 * kdegraphics-okular
 ** kpartsplugin
 * keepassx
-* keychain
 * laptop-mode-tools
 systemctl enable laptop-mode.service
 ** /etc/laptop-mode/conf.d/lcd-brightness.conf
@@ -150,11 +145,14 @@ CONTROL_BRIGHTNESS=1
 # BRIGHTNESS_OUTPUT="/sys/class/backlight/intel_backlight/brightness"
 
 * libreoffice
-* libreoffice-en-US
+** libreoffice-en-US
 * lsof
 * luminancehdr
 * lyx
 * mercurial
+** hg-git-hg
+** hgview
+*** python2-qscintilla
 * mesa-demos
 * mlocate
 ** /etc/cron.weekly/updatedb-network
@@ -169,9 +167,9 @@ for share in nfs engineering hardware ; do
 done
 
 # add LOCATE_PATH to your ~/.bashrc to have locate search these databases
-* mpc
 * mpd
 gpasswd -a mpd audio
+** mpc
 * mutt
 * ncmpcpp
 * net-tools
@@ -183,13 +181,15 @@ SERVER:/path/on/server /media/MOUNTPOINT nfs ro,soft,intr
 * ntp
 systemctl enable ntpd.service
 * numlockx
-* nvclock
 * nvidia
-* nvidia-utils
+** nvclock
+** nvidia-utils
 * openssh
 systemctl enable sshd.service
 ** /etc/ssh/sshd_config
 X11Forwarding yes
+** keychain
+** sshfs
 * opera
 * p7zip
 * pacaur
@@ -215,7 +215,6 @@ systemctl enable pacserve.service
 ** /etc/pacman.conf/mirrorlist
 Server = http://localhost:15678/request/$repo/$arch
 * patchutils
-* pavucontrol
 * pbzip2
 * perl-ipc-run
 * perl-rename
@@ -234,27 +233,31 @@ pkgfile --update >/dev/null
 gpasswd -a $USER audio
 ** ~/.pulse/default.pa
 .include /etc/pulse/default.pa
-* pulseaudio-alsa
-* pulseaudio-equalizer
-* pymysql
+** pavucontrol
+** pulseaudio-alsa
+** pulseaudio-equalizer
 * pysolfc
-* python-matplotlib
-* python-numpy
-* python-pylint
-* python-pymysql-git
-* python-pyserial
-* python-scipy
-* python-sqlalchemy
+* python
+** ipython
+** pymysql
+** python-matplotlib
+** python-numpy
+** python-pylint
+** python-pymysql-git
+** python-pyserial
+** python-scipy
+** python-sqlalchemy
 * python2
-* python2-daemon
-* python2-matplotlib
-* python2-mpd
-* python2-numpy
-* python2-pylint
-* python2-pymysql
-* python2-scipy
-* python2-pyserial
-* python2-sqlalchemy
+** ipython2
+** python2-daemon
+** python2-matplotlib
+** python2-mpd
+** python2-numpy
+** python2-pylint
+** python2-pymysql
+** python2-scipy
+** python2-pyserial
+** python2-sqlalchemy
 * rdesktop
 * reflector
 * rxvt-unicode
@@ -273,7 +276,6 @@ password=PASSWORD
 ** /etc/fstab
 //SERVER/SHARE    /media/MOUNTPOINT      cifs    uid=USER,gid=GROUP,credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,file_mode=0644,dir_mode=0755 0 0
 * spideroak
-* sshfs
 * strace
 * subversion
 * sudo
@@ -282,7 +284,6 @@ gpasswd -a $USER wheel
 %wheel ALL=(ALL) ALL
 * texlive-most
 * tmux
-* transset-df
 * trash-cli
 * tree
 * tremulous
@@ -299,9 +300,9 @@ gpasswd -a $USER vboxusers
 vboxdrv
 vboxnetadp
 vboxnetflt
-* virtualbox-ext-oracle
-* virtualbox-guest-iso
-* virtualbox-host-modules
+** virtualbox-ext-oracle
+** virtualbox-guest-iso
+** virtualbox-host-modules
 * vlc
 * wcalc
 * wicd
