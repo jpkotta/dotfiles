@@ -21,7 +21,7 @@ DestroyFunc FocusPrev
 AddToFunc FocusPrev
 #+ I Echo func.context = $[func.context]
 + I None (CurrentPage, Focused, AnyScreen) \
-    Prev (CurrentPage, !Iconic, !Shaded, Visible, AcceptsFocus, AnyScreen) \
+    Prev (CurrentPage, !StickyAcrossDesks, !Iconic, !Shaded, Visible, AcceptsFocus, AnyScreen) \
     Focus NoWarp
 
 ################################################################################

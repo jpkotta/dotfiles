@@ -60,7 +60,7 @@ BorderStyle Colorset $[DEFAULT_COLORSET] -- !HiddenHandles !NoInset
 TitleStyle Active Colorset $[ACTIVE_TITLE_COLORSET] -- Flat
 TitleStyle Inactive Colorset $[INACTIVE_TITLE_COLORSET] -- Flat
 TitleStyle LeftJustified 
-TitleStyle Height 23
+TitleStyle Height 21
 
 #ButtonStyle all Active (Solid blue2 -- Flat)
 ButtonStyle Left Active (Solid #800080 -- Flat)

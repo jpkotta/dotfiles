@@ -151,6 +151,7 @@ AddToMenu RootMisc
 + "&Chrome"                                 Exec exec chromium
 + "&Opera"                                  Exec exec opera
 + "&Virtual Box"                            Exec exec VirtualBox
++ "&Rxvt"                                   Exec exec urxvt
 + "%mini.display.xpm%Screenshot"            ScreenShotRoot
 + "%mini.display.xpm%Screenshot Window"     Pick ScreenShotWindow
 + "%mini.perf.xpm%Top"                      StartTop
