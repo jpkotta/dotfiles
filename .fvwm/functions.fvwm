@@ -24,7 +24,7 @@ AddToFunc StartFirefox
 
 DestroyFunc StartBrowser
 AddToFunc StartBrowser
-+ I StartOpera $0
++ I StartFirefox $0
 
 DestroyFunc StartPySol
 AddToFunc StartPySol
