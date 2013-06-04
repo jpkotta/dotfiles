@@ -24,6 +24,8 @@ pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 # can significantly speed up network config
 noarp
 noipv6rs
+*** /etc/udev/rules.d/lowbatt.rules
+SUBSYSTEM=="power supply", ATTR{status}=="Discharging", ATTR{capacity}=="2", RUN+="/usr/bin/systemctl suspend"
 ** systemd
 systemctl enable cronie.service
 systemctl enable dhcpcd@.service
@@ -50,6 +52,15 @@ done
 /usr/share/bash-completion/bash_completion
 * btrfs-progs
 ln -s /bin/true /sbin/fsck.btrfs
+* bumblebee
+gpasswd -a $USER bumblebee
+systemctl enable bumblebeed
+** nvidia
+** bbswitch
+* cacheclean
+** /etc/cron.weekly/cacheclean
+#!/bin/sh
+/usr/bin/cacheclean -v 2
 * chromium
 * colordiff
 * compton-git
@@ -105,6 +116,8 @@ WantedBy=multi-user.target
 systemctl enable gpm.service
 * gstreamer0.10-plugins
 * hdparm
+** /etc/udev/rules.d/hdparm.rules
+ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm -B 254 /dev/$kernel"
 * htop
 * hugin
 * iftop
@@ -334,16 +347,15 @@ EndSection
 * xorg-xclock
 * xorg-xinit 
 * xscreensaver
+** xuserrun-git
 ** /etc/systemd/system/xscreensaver.service
 [Unit]
 Description=Lock X session using xscreensaver
 Before=sleep.target
 
 [Service]
-User=jpkotta
 Type=oneshot
-Environment=DISPLAY=:0
-ExecStart=/usr/bin/xscreensaver-command -lock
+ExecStart=/usr/bin/xuserrun /usr/bin/xscreensaver-command -lock
 
 [Install]
 WantedBy=sleep.target
