@@ -78,7 +78,7 @@ XClock*foreground:              lavender
 *Xm*.shadowThickness: 1
 
 ! Browser to use for opening remote files.
-*wwwBrowser: ~/browser %s
+*wwwBrowser: ~/bin/browser %s
 
 ! Set these if you need to change what the FE uses for Primary (Command)
 ! and Secondary (Option) modifier keys.
@@ -115,10 +115,10 @@ URxvt.urlLauncher:          browser
 URxvt.matcher.rend.0:       Uline fg8
 
 ! tabbedex config
-URxvt.new-button: true
-URxvt.autohide: false
-URxvt.no-tabbedex-keys: true
-URxvt.title: true
+URxvt.tabbed.new-button: true
+URxvt.tabbed.autohide: false
+URxvt.tabbed.no-tabbedex-keys: true
+URxvt.tabbed.title: true
 URxvt.keysym.C-S-Left: perl:tabbedex:move_tab_left
 URxvt.keysym.C-S-Right: perl:tabbedex:move_tab_right
 URxvt.keysym.S-Left: perl:tabbedex:prev_tab
