@@ -54,10 +54,6 @@ fi
 # https://github.com/joelthelion/autojump
 [ -f /etc/profile.d/autojump.bash ] && . /etc/profile.d/autojump.bash
 
-# ubuntu wraps this around every command, and more often than not it's
-# just annoying
-unset command_not_found_handle
-
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
 set -b
@@ -71,6 +67,12 @@ umask 0022
 # allow core files to be dumped
 #ulimit -c hard
 ulimit -c 0
+
+# prevent rogue processes from using all the ram
+total_mem=$(grep MemTotal /proc/meminfo | tr -s ' ' | cut -d' ' -f 2)
+ulimit -d $total_mem
+#ulimit -m $total_mem
+#ulimit -l $total_mem
 
 # this stops C-s from freezing the terminal
 if [ "$TERM" != "dumb" ] ; then
@@ -86,6 +88,10 @@ export HOSTNAME
 # keychain keeps track of ssh-agents
 [ -f $HOME/.keychain/$HOSTNAME-sh ] \
     && . $HOME/.keychain/$HOSTNAME-sh
+
+# append to .bash_history instead of overwriting
+shopt -s histappend
+HISTFILESIZE=5000
 
 ########################################################################
 ### path variables
@@ -525,7 +531,7 @@ alias rmdir='rmdir -p'
 # rsync for updating usb drives
 alias rsync='rsync -auv'
 # use additional locate databases
-alias network_locate='LOCATE_PATH=$_LOCATE_PATH locate'
+alias locate_on_network='LOCATE_PATH=$_LOCATE_PATH locate'
 
 ####################################
 # less is more
