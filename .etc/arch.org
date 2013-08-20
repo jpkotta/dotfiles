@@ -9,6 +9,8 @@ reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 *** /etc/fstab
 *** /etc/modprobe.d/nobeep.conf
 blacklist pcspkr
+*** /etc/modprobe.d/loop.conf
+option loop max_part=15
 *** /etc/hostname
 *** /etc/locale.gen
 *** /etc/locale.conf
@@ -191,6 +193,7 @@ systemctl enable rpcbind.service
 ** /etc/fstab
 SERVER:/path/on/server /media/MOUNTPOINT nfs ro,soft,intr
 * nitrogen
+* notification-daemon
 * ntp
 systemctl enable ntpd.service
 * numlockx
@@ -244,11 +247,8 @@ pkgfile --update >/dev/null
 * pmount
 * pulseaudio
 gpasswd -a $USER audio
-** ~/.pulse/default.pa
-.include /etc/pulse/default.pa
 ** pavucontrol
 ** pulseaudio-alsa
-** pulseaudio-equalizer
 * pysolfc
 * python
 ** ipython
@@ -309,6 +309,7 @@ gpasswd -a $USER wheel
 * udiskie
 * virtualbox
 gpasswd -a $USER vboxusers
+chattr +C ~/.VirtualBox/ # improves performance on btrfs
 ** /etc/modules-load.d/virtualbox.conf
 vboxdrv
 vboxnetadp
