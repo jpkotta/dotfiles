@@ -93,6 +93,8 @@ export HOSTNAME
 shopt -s histappend
 HISTFILESIZE=5000
 
+export EMAIL="jpkotta@gmail.com"
+
 ########################################################################
 ### path variables
 
