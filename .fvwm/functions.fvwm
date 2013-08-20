@@ -68,11 +68,7 @@ AddToFunc StartConsole
 
 DestroyFunc StartXErrorViewer
 AddToFunc StartXErrorViewer
-+ I StartTerminal \
-    -T 'X Errors' -n 'X Errors' -e tail -s 3 -f $HOME/.X-log-`echo $$DISPLAY | \
-    sed -e 's/://g' -e 's/[.][0-9]*//g'`
-#+ I StartTerminal \
-#    -T 'X Errors' -n 'X Errors' -e tail -s 3 -f $HOME/.xsession-errors
++ I StartTerminal -T 'X Errors' -n 'X Errors' -e tail -s 3 -f $WM_LOGFILE
 
 DestroyFunc StartFahLogViewer
 AddToFunc StartFahLogViewer
