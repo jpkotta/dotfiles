@@ -151,11 +151,11 @@ AddToFunc HibernateSystem
 
 DestroyFunc RebootSystem
 AddToFunc RebootSystem
-+ I PipeRead '[ "`kdmctl shutdown reboot trynow`" = "ok" ] && echo Quit'
++ I Exec exec reboot
 
 DestroyFunc ShutDownSystem
 AddToFunc ShutDownSystem
-+ I PipeRead '[ "`kdmctl shutdown halt trynow`" = "ok" ] && echo Quit'
++ I Exec exec shutdown
 
 ################################################################################
 # WINDOWSHADE + CHANGE TITLE DIRECTION
