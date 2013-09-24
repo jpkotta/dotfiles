@@ -21,11 +21,6 @@ LANG=en_US.UTF-8
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 *** useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
 *** for g in adm games log optical power storage systemd-journal users uucp video ; do gpasswd -a $USER $g ; done
-*** /etc/dhcpcd.config
-# prevents check for IP addr conflict (that should be DHCP server's job)
-# can significantly speed up network config
-noarp
-noipv6rs
 *** /etc/udev/rules.d/lowbatt.rules
 SUBSYSTEM=="power supply", ATTR{status}=="Discharging", ATTR{capacity}=="2", RUN+="/usr/bin/systemctl suspend"
 ** systemd
@@ -33,8 +28,6 @@ systemctl enable cronie.service
 systemctl enable dhcpcd@.service
 *** /etc/systemd/journald.conf
 SystemMaxUse=100M # max journal size
-** broken packages
-*** gkrellweather
 * abcde
 ** atomicparsley
 * alsa-utils
@@ -128,8 +121,6 @@ ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm
 * inetutils
 * iotop
 * ispell
-* jre7-openjdk
-** icedtea-web-java7
 * k3b
 pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 * kdegraphics-okular
@@ -221,11 +212,6 @@ chgrp wheel /var/cache/pacaur/pkg
 chmod g+rwx /var/cache/pacaur/pkg
 ** /etc/makepkg.conf
 PKGDEST=/var/cache/pacaur/pkg/
-** ~/.config/pacaur/config
-editpkgbuild=false
-editinstall=false
-clean=false
-* pacman-contrib
 * pacserve
 systemctl enable pacserve.service
 ** /etc/pacman.conf/mirrorlist
@@ -316,7 +302,6 @@ vboxnetadp
 vboxnetflt
 ** virtualbox-ext-oracle
 ** virtualbox-guest-iso
-** virtualbox-host-modules
 * vlc
 * wcalc
 * wicd
