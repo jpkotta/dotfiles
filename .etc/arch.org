@@ -20,12 +20,18 @@ LANG=en_US.UTF-8
 *** /etc/cron.daily/download-updates
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 *** useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
-*** for g in adm games log optical power storage systemd-journal users uucp video ; do gpasswd -a $USER $g ; done
-*** /etc/udev/rules.d/lowbatt.rules
+*** for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $USER $g ; done
+*** /etc/udev/rules.d/99-lowbatt.rules
 SUBSYSTEM=="power supply", ATTR{status}=="Discharging", ATTR{capacity}=="2", RUN+="/usr/bin/systemctl suspend"
+*** /etc/udev/rules.d/60-iosched.rules
+# doped sand
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
+
+# spinning rust
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 ** systemd
 systemctl enable cronie.service
-systemctl enable dhcpcd@.service
+systemctl enable dhcpcd.service
 *** /etc/systemd/journald.conf
 SystemMaxUse=100M # max journal size
 * abcde
