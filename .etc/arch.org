@@ -51,6 +51,15 @@ done
 * base-devel
 * bash-completion
 /usr/share/bash-completion/bash_completion
+* bcache-tools-git
+make-bcache -B /dev/sdXN # backing
+echo /dev/sdXN > /sys/fs/bcache/register_quiet
+make-bcache -C /dev/sdY # cache
+echo /dev/sdY > /sys/fs/bcache/register
+echo <cache UUID> > /sys/block/bcacheN/bcache/attach
+** /etc/mkinitcpio.conf
+MODULES += bcache
+HOOKS += bcache
 * btrfs-progs
 ln -s /bin/true /sbin/fsck.btrfs
 * bumblebee
