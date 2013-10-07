@@ -10,7 +10,7 @@ reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 *** /etc/modprobe.d/nobeep.conf
 blacklist pcspkr
 *** /etc/modprobe.d/loop.conf
-option loop max_part=15
+options loop max_part=15
 *** /etc/hostname
 *** /etc/locale.gen
 *** /etc/locale.conf
@@ -38,9 +38,6 @@ SystemMaxUse=100M # max journal size
 ** atomicparsley
 * alsa-utils
 * android-sdk-platform-tools
-for i in adb fastboot ; do
-    ln -s /opt/android-sdk/platform-tools/$i /usr/local/bin/
-done
 * apg
 * ascii
 * aspell
@@ -64,13 +61,9 @@ HOOKS += bcache
 ln -s /bin/true /sbin/fsck.btrfs
 * bumblebee
 gpasswd -a $USER bumblebee
-systemctl enable bumblebeed
+systemctl enable bumblebeed.service
 ** nvidia
 ** bbswitch
-* cacheclean
-** /etc/cron.weekly/cacheclean
-#!/bin/sh
-/usr/bin/cacheclean -v 2
 * chromium
 * colordiff
 * compton-git
@@ -237,6 +230,10 @@ Server = http://localhost:15678/request/$repo/$arch
 * perl-rename
 * perl-term-readline-gnu
 * pidgin
+* pkgcacheclean
+** /etc/cron.weekly/pkgcacheclean
+#!/bin/sh
+/usr/bin/pkgcacheclean -v 2
 * pkgfile
 ** /etc/cron.monthly/pkgfile
 pkgfile --update >/dev/null 
