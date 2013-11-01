@@ -83,9 +83,9 @@ $if term=eterm-color
     "\e0d":    kill-word
 
     # <up>
-    "\e0B": history-search-forward
+    "\eOB": history-search-forward
     # <down>
-    "\e0A": history-search-backward
+    "\eOA": history-search-backward
     
     # <home>
     "\e[1~":    beginning-of-line
