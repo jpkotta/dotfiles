@@ -159,6 +159,7 @@ CONTROL_BRIGHTNESS=1
 # BRIGHTNESS_OUTPUT="/sys/class/backlight/intel_backlight/brightness"
 
 * libreoffice
+removed libreoffice-sdk
 ** libreoffice-en-US
 * lsof
 * luminancehdr
@@ -269,6 +270,7 @@ gpasswd -a $USER audio
 ** python2-scipy
 ** python2-pyserial
 ** python2-sqlalchemy
+* qbittorrent
 * rdesktop
 * reflector
 * rxvt-unicode
@@ -315,6 +317,7 @@ vboxnetflt
 ** virtualbox-ext-oracle
 ** virtualbox-guest-iso
 * vlc
+** libdvdcss
 * wcalc
 * wicd
 systemctl enable wicd.service
@@ -340,6 +343,7 @@ EndSection
 ** xorg-xrandr
 ** xorg-xrdb
 ** xorg-xwd
+* xorg-xbacklight
 * xorg-server
 * xorg-server-xephyr
 * xorg-xclock
