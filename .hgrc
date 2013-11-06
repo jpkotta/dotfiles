@@ -24,9 +24,11 @@ color =
 # use an external diff tool (diff by default)
 extdiff = 
 
-# mercurial queues
-# also enables the strip command
-mq =
+# edit history
+histedit = 
+
+# remove changesets from history
+strip =
 
 # use a pager with long outputs
 pager =
@@ -47,14 +49,13 @@ record =
 # allows custom URI schemes, like pd:// = ssh://hg@storagez/repos/
 schemes = 
 
+# temporarily stash changes without a commit
+shelve = 
+
 # use mercurial as a git client
 # hg clone https://bitbucket.org/durin42/hg-git ~/.hgext/hg-git
 # sudo pip install dulwich
 hgext.hggit = ~/.hgext/hg-git/hggit
-
-# temporarily stash changes without a commit
-# hg clone https://bitbucket.org/tksoh/hgshelve ~/.hgext/hgshelve
-hgext.hgshelve = ~/.hgext/hgshelve/hgshelve.py
 
 # use mercurial as a subversion client
 # http://bitbucket.org/durin42/hgsubversion/wiki/Home
@@ -71,9 +72,8 @@ suboutgoing = outgoing --subrepos
 subdiff = diff --subrepos
 
 # shelve extension
-shelve = shelve --all
-ls = unshelve -l
-ll = unshelve -i
+ls = shelve -l
+ll = shelve -l --stat
 
 # remove all untracked .orig files
 rmorig = purge --include=**.orig
@@ -99,7 +99,7 @@ pd = ssh://hg.packetdigital.com/hg/
 pdsvn = svn+ssh://svn.packetdigital.com/svn/
 
 [subpaths]
-#ssh://hg@storagez(\.packetdigital\.com)?/repos = ssh://hg/hg
+(.*)/hg@storagez(\.packetdigital\.com|)/repos/(.*) = \1/jpkotta@hg/hg/\3
 
 [merge-tools]
 emacs.binary = False
@@ -119,4 +119,3 @@ maxfilesize = 10000000
 
 # per-machine settings
 %include .hgrc.local
-

@@ -17,3 +17,8 @@ working.patch.*
 # tags files
 TAGS
 tags
+
+# other VCSs
+.git
+.bzr
+.svn
