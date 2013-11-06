@@ -1,86 +1,64 @@
-# jpkotta's .inputrc file
-# controls various look and feel type settings for interactive bash
-
 # Reload this file with C-x C-r
 
-# include the system-wide inputrc
-# if this is not included, a lot of keys won't work (in bash)
 $include /etc/inputrc
 
-# This variable can be set to either `on' or `off'. 
-# Setting it to `on' means that the text of the lines being edited will scroll
-# horizontally on a single screen line when they are longer than the width of
-# the screen, instead of wrapping onto a new screen line. By default, this
-# variable is set to `off'.
+########################################################################
+# Options
+
 set horizontal-scroll-mode off
-
-# who knows what this does
-# default is off
 set history-preserve-point on
-
-# sometimes, sound doesn't work, plus I like this better
 set bell-style visual
-
-# If set to `on', completed names which are symbolic links to directories have a
-# slash appended (subject to the value of mark-directories). The default is
-# `off'.
 set mark-symlinked-directories on
-
-# show completions immediately, don't wait for a second TAB
 set show-all-if-ambiguous on
-
-# ask for confirmation if the number of possible completions is above this
-set completion-query-items 500
+set show-all-if-unmodified on
+set completion-query-items 300
+set completion-ignore-case on
+set completion-prefix-display-length 2
 
 ########################################################################
-# key bindings
+# Key bindings
 
-# # insert a call to bc
-# # the end result is 'echo "<cursor>" | bc -l'
-# # M-m
-# "\M-m":     "echo \"\" | bc -l\C-b\C-b\C-b\C-b\C-b\C-b\C-b\C-b\C-b"
-
-# # type two quotes and position the cursor inside them
-# # M-"
-# "\M-\"":    "\"\"\C-b"
-# # M-'
-# "\M-\'":    "\'\'\C-b"
-
-# move along the line word by word
 # C-<left>
-"\eOd":   backward-word
+"\eOd": backward-word
 # C-<right>
-"\eOc":   forward-word
+"\eOc": forward-word
 
 # <prior> (page up)
 "\e[5~":
 # <next> (page down) 
-"\e[6~": 
+"\e[6~":
 
 # C-<backspace>
-"\C-H":     backward-kill-word
+"\C-H": backward-kill-word
 # C-<delete>
-"\e[3^":    kill-word
+"\e[3^": kill-word
 
-# non-incremental search of history based on the text between the prompt and the cursor
 # <up>
 "\e[B": history-search-forward
 # <down>
 "\e[A": history-search-backward
     
 # <home>
-"\e[7~":    beginning-of-line
+"\e[7~": beginning-of-line
 # <end>
-"\e[8~":    end-of-line
+"\e[8~": end-of-line
+
+# C-q
+"\C-q": menu-complete
+# C-w
+"\C-w": menu-complete-backward
+
+########################################################################
+# Terminal-specific stuff
 
 $if term=eterm-color
     # C-<left>
-    "\eOb":   backward-word
+    "\eOb": backward-word
     # C-<right>
-    "\eOf":   forward-word
+    "\eOf": forward-word
 
     # C-<delete>
-    "\e0d":    kill-word
+    "\e0d": kill-word
 
     # <up>
     "\eOB": history-search-forward
@@ -88,20 +66,14 @@ $if term=eterm-color
     "\eOA": history-search-backward
     
     # <home>
-    "\e[1~":    beginning-of-line
+    "\e[1~": beginning-of-line
     # <end>
-    "\e[4~":    end-of-line
+    "\e[4~": end-of-line
 $endif
 
 $if term=linux
-    # move along the line word by word
-    # C-<left>
-    "\e[D":   backward-word
-    # C-<right>
-    "\e[C":   forward-word
-
     # C-<backspace>
-    "\C-?":     backward-kill-word
+    "\C-?": backward-kill-word
     # C-<delete>
-    "\e[3~":    kill-word
+    "\e[3~": kill-word
 $endif

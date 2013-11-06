@@ -19,6 +19,12 @@ echo "Parameters to .xinitrc: ""$@"
 # cd to $HOME, so that all programs started from X start there
 cd
 
+# warm the color temperature at night
+xflux -z 58102 -k 4500 &
+
+# desktop notifications
+/usr/lib/notification-daemon-1.0/notification-daemon &
+
 # turn monitors off after 10 min
 xset dpms 0 0 600 &
 

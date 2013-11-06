@@ -31,28 +31,10 @@ if bash --version | grep -i bsd >&/dev/null; then
 fi
 
 ########################################################################
-### readline config
-
-function safe_bind()
-{
-    if [ $TERM != "dumb" ] ; then
-        bind "$@"
-    fi
-}
-
-########################################################################
 ### miscellaneous
 
-# bash_completion has an error, that causes it to fail if you source
-# it more than once, thus we make it idempotent
-if [ -z "$BASH_COMPLETION" ] ; then
-    [ -f /etc/bash_completion ] \
-        && . /etc/bash_completion
-fi
-
-# autojump is a complement for cd
-# https://github.com/joelthelion/autojump
-[ -f /etc/profile.d/autojump.bash ] && . /etc/profile.d/autojump.bash
+[ -f /usr/share/bash-completion/bash_completion ] \
+    && . /usr/share/bash-completion/bash_completion
 
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
@@ -66,16 +48,15 @@ umask 0022
 
 # allow core files to be dumped
 #ulimit -c hard
-ulimit -c 0
 
-# prevent rogue processes from using all the ram
+# Prevent rogue processes from using all the ram.  -v is the only
+# memory limit that actually works on Linux.  
 total_mem=$(grep MemTotal /proc/meminfo | tr -s ' ' | cut -d' ' -f 2)
-ulimit -d $total_mem
-#ulimit -m $total_mem
-#ulimit -l $total_mem
+#ulimit -v $((total_mem*3/4))
 
 # this stops C-s from freezing the terminal
-if [ "$TERM" != "dumb" ] ; then
+if [ "$TERM" != "dumb" ] && ! shopt -q login_shell ; then
+    # FIXME for some reason, this just started hanging during xinit
     stty -ixon
 fi
 
