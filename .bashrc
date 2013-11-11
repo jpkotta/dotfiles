@@ -586,6 +586,13 @@ alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -
 ########################################################################
 ### functions
 
+function mpumount()
+{
+    for i in $@ ; do
+        pumount $i
+    done
+}
+
 # rsync with delete and confirmation
 function synchronize()
 {
