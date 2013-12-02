@@ -19,6 +19,10 @@ LANG=en_US.UTF-8
 *** hwclock --systohc --utc
 *** /etc/cron.daily/download-updates
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
+*** /etc/cron.weekly/paccache
+#!/bin/sh
+/usr/bin/paccache --remove --keep 1 --verbose
+/usr/bin/paccache --remove --keep 1 --verbose --cachedir /var/cache/pacaur/pkg/
 *** useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
 *** for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $USER $g ; done
 *** /etc/udev/rules.d/99-lowbatt.rules
@@ -40,14 +44,12 @@ SystemMaxUse=100M # max journal size
 * android-sdk-platform-tools
 * apg
 * ascii
-* aspell
-** aspell-en
+* aspell-en
 * avr-gcc
 ** avr-libc
 ** avrdude
 * base-devel
 * bash-completion
-/usr/share/bash-completion/bash_completion
 * bcache-tools-git
 make-bcache -B /dev/sdXN # backing
 echo /dev/sdXN > /sys/fs/bcache/register_quiet
@@ -183,11 +185,8 @@ done
 
 # add LOCATE_PATH to your ~/.bashrc to have locate search these databases
 * mpd
-gpasswd -a mpd audio
 ** mpc
-* mutt
-* ncmpcpp
-* net-tools
+** ncmpcpp
 * nfs-utils
 systemctl enable rpcbind.service
 ** /etc/fstab
@@ -230,19 +229,9 @@ Server = http://localhost:15678/request/$repo/$arch
 * perl-ipc-run
 * perl-rename
 * perl-term-readline-gnu
-* pidgin
-* pkgcacheclean
-** /etc/cron.weekly/pkgcacheclean
-#!/bin/sh
-/usr/bin/pkgcacheclean -v 2
 * pkgfile
 ** /etc/cron.monthly/pkgfile
 pkgfile --update >/dev/null 
-* pkgtools
-* pm-utils
-** /etc/sudoers
-# give the power group the ability to suspend
-%power ALL = NOPASSWD: /usr/sbin/pm-suspend
 * pmount
 * pulseaudio
 gpasswd -a $USER audio
@@ -255,7 +244,7 @@ gpasswd -a $USER audio
 ** python-matplotlib
 ** python-numpy
 ** python-pylint
-** python-pymysql-git
+** python-pymysql
 ** python-pyserial
 ** python-scipy
 ** python-sqlalchemy
