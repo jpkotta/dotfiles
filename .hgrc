@@ -6,10 +6,6 @@ username = Jonathan Kotta <jpkotta@gmail.com>
 
 # use emacs as a merge tool, special command line options elsewhere
 merge = emacs
-# wrapper script
-#merge = emacs-merge
-# use meld as a merge tool
-#merge = meld
 
 # ignore file for all repositories
 ignore = ~/.hgignore.global
@@ -66,11 +62,6 @@ hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
 [alias]
 summ = summary --remote
 
-substatus = status --subrepos
-subincoming = incoming --subrepos
-suboutgoing = outgoing --subrepos
-subdiff = diff --subrepos
-
 # shelve extension
 ls = shelve -l
 ll = shelve -l --stat
@@ -78,8 +69,6 @@ ll = shelve -l --stat
 # remove all untracked .orig files
 rmorig = purge --include=**.orig
 rmrej = purge --include=**.rej
-
-REVERT = revert --no-backup
 
 glog = log -G
 vlog = log -G -v --pager=yes
@@ -105,10 +94,6 @@ pdsvn = svn+ssh://svn.packetdigital.com/svn/
 emacs.binary = False
 emacs.args = -q --eval "(require 'ediff)" --eval "(setq ediff-window-setup-function 'ediff-setup-windows-plain)" --eval "(add-hook 'ediff-quit-hook 'save-buffers-kill-emacs)" --eval "(ediff-merge-with-ancestor \""$local"\" \""$other"\" \""$base"\" nil \""$output"\")"
 emacs.check = prompt
-
-emacs-merge.binary = False
-emacs-merge.args = $local $base $other $output
-emacs-merge.check = prompt
 
 [tortoisehg]
 vdiff = meld
