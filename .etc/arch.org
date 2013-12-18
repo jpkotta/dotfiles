@@ -1,3 +1,5 @@
+* TODO
+** commit-patch
 * MISCELLANEOUS
 ** files
 *** /etc/pacman.conf
@@ -5,7 +7,7 @@ IgnorePkg += linux linux-headers
 ILoveCandy
 Color
 *** /etc/pacman.d/mirrorlist
-reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist
+reflector -a 1 --country "United States" --sort rate -n 5 --save /etc/pacman.d/mirrorlist
 *** /etc/fstab
 *** /etc/modprobe.d/nobeep.conf
 blacklist pcspkr
@@ -32,12 +34,14 @@ SUBSYSTEM=="power supply", ATTR{status}=="Discharging", ATTR{capacity}=="2", RUN
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
 
 # spinning rust
-ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="deadline"
 ** systemd
 systemctl enable cronie.service
 systemctl enable dhcpcd.service
 *** /etc/systemd/journald.conf
 SystemMaxUse=100M # max journal size
+*** /etc/sysctl.d/swappiness.conf
+vm.swappiness = 30
 * abcde
 ** atomicparsley
 * alsa-utils
@@ -61,6 +65,12 @@ MODULES += bcache
 HOOKS += bcache
 * btrfs-progs
 ln -s /bin/true /sbin/fsck.btrfs
+** /etc/cron.monthly/defrag
+filesystems=`mount | grep btrfs | grep -o "on .* type" | sed -e "s/^on //" -e "s/ type$//"`
+for fs in $filesystems ; do
+    find "$fs" -xdev \( -type f -o -type d \) \
+        -exec ionice -c 3 btrfs filesystem defrag -- '{}' +
+done
 * bumblebee
 gpasswd -a $USER bumblebee
 systemctl enable bumblebeed.service
@@ -75,11 +85,11 @@ gpasswd -a $USER sys
 systemctl enable cups.service
 lpadmin -d PRINTER_NAME
 used the C3070i/postscript driver
+** cups-filters
 ** cups-pdf
 ** foomatic-db
 ** foomatic-db-engine
 ** foomatic-db-nonfree
-** foomatic-filters
 * dclock
 * dictd
 * emacs-lucid
@@ -88,25 +98,9 @@ used the C3070i/postscript driver
 * firefox
 * flashplugin
 /etc/adobe/mms.cfg
-* foldingathome-smp
-useradd -m -g users -s /bin/sh folding
-mkdir /opt/fah-smp/folding
-chown folding:users /opt/fah-smp/folding
-cd /opt/fah-smp/folding ; sudo -u folding ../fah6 -configonly
-systemctl enable foldingathome-smp.service
-** /etc/systemd/system/foldingathome-smp.service
-[Unit]
-Description=Folding@home distributed computing client
-After=network.target
-
-[Service]
-User=folding
-Type=simple
-WorkingDirectory=/opt/fah-smp/folding
-ExecStart=/opt/fah-smp/fah6 -smp -verbosity 9 -forceasm
-
-[Install]
-WantedBy=multi-user.target
+* foldingathome-jpk
+/opt/fah/fah-config
+systemctl enable foldingathome.service
 * font-bh-ttf
 * font-mathematica
 * fortune-mod
@@ -134,6 +128,7 @@ ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm
 * k3b
 pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 * kdegraphics-okular
+xdg-mime default okularApplication_pdf.desktop application/pdf
 ** kpartsplugin
 * keepassx
 * laptop-mode-tools
@@ -163,6 +158,14 @@ CONTROL_BRIGHTNESS=1
 * libreoffice
 removed libreoffice-sdk
 ** libreoffice-en-US
+* localepurge
+** /etc/locale.nopurge
+** /etc/cron.monthly/localepurge
+#!/bin/sh
+
+/usr/bin/localepurge
+/usr/bin/localepurge-config
+/usr/bin/localepurge
 * lsof
 * luminancehdr
 * lyx
@@ -240,7 +243,9 @@ gpasswd -a $USER audio
 * pysolfc
 * python
 ** ipython
-** pymysql
+*** ipython-notebook
+python-jinja python-tornado python-pyzmq python-pygments
+** python-ipython-sql
 ** python-matplotlib
 ** python-numpy
 ** python-pylint
@@ -250,6 +255,9 @@ gpasswd -a $USER audio
 ** python-sqlalchemy
 * python2
 ** ipython2
+*** ipython2-notebook
+python2-jinja python2-tornado python2-pyzmq python2-pygments
+** python2-ipython-sql
 ** python2-daemon
 ** python2-matplotlib
 ** python2-mpd
@@ -326,6 +334,7 @@ Section "Device"
 EndSection
 ** /etc/X11/XvMCConfig
 /usr/lib/libIntelXvMC.so
+* xflux
 * xorg-apps
 ** xorg-xdpyinfo
 ** xorg-xmodmap
