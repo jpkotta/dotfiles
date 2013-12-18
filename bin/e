@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
 """
 This is a very simple command line calculator.  It reads in all
@@ -10,10 +10,12 @@ parentheses, because many shells interpret round parentheses if they
 are not quoted.
 """
 
-from __future__ import division, print_function
-from future_builtins import oct, hex
 import sys, numbers
-from cmath import *
+from cmath import * # pylint: disable=wildcard-import,unused-wildcard-import
+
+# if sys.version_info.major < 3:
+#     from __future__ import division, print_function
+#     from future_builtins import oct, hex
 
 def log2(x):
     return log(x, 2)
@@ -25,7 +27,7 @@ epsilon = sys.float_info.epsilon
 args = sys.argv[1:]
 
 if len(args) < 1:
-    expr = raw_input()
+    expr = input()
 else:
     expr = " ".join(args[:])
     expr = expr.replace("[", "(").replace("]", ")")
