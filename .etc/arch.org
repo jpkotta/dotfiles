@@ -320,6 +320,9 @@ vboxnetflt
 systemctl enable wicd.service
 * wine
 need multilib repo if on 64-bit
+** winetricks
+** wine_gecko
+** wine-mono
 * words
 * x11vnc
 * xclip
