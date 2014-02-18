@@ -88,7 +88,7 @@ pd = ssh://hg.packetdigital.com/hg/
 pdsvn = svn+ssh://svn.packetdigital.com/svn/
 
 [subpaths]
-(.*)/hg@storagez(\.packetdigital\.com|)/repos/(.*) = \1/jpkotta@hg/hg/\3
+(.*)/hg@storagez(\.packetdigital\.com|)/repos/(.*) = \1/hg/hg/\3
 
 [merge-tools]
 emacs.binary = False
