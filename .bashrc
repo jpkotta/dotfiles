@@ -38,7 +38,11 @@ fi
 
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
-set -b
+set -o notify
+
+# No history expansion.  I never use it and it causes ! to be treated
+# strangely.
+set +o histexpand
 
 # set the default file permissions
 # the default permissions are 777 for dirs, 666 for files
@@ -474,11 +478,12 @@ alias clc='clear'
 alias ln='/bin/ln -sni'
 
 # a kinder, safer rm
-if type trash-put >&/dev/null ; then
-    alias rm="trash-put"
-else
-    alias rm="rm -I"
-fi
+# if type trash-put >&/dev/null ; then
+#     alias rm="trash-put"
+# else
+#     alias rm="rm -I"
+# fi
+alias rm="rm -I"
 function rm-rf()
 {
     echo "Delete these files?"
