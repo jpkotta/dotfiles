@@ -1,15 +1,13 @@
-#!/usr/bin/env python
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
 
 import sys
 import os
 
 def print_help():
-    print "Usage: %s <directory>" % sys.argv[0]
-    print
-    print "Searches the entire directory tree below <directory> for files named"
-    print "'.gitignore', then converts the data in these files to a .hgignore"
-    print "file in <directory>."
+    print("Usage: %s <directory>\n\n" % sys.argv[0])
+    print("Searches the entire directory tree below <directory> for files named\n"
+          "'.gitignore', then converts the data in these files to a .hgignore\n"
+          "file in <directory>.")
     exit(1)    
 
 try:
