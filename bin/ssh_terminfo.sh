@@ -6,5 +6,5 @@ if [ -z "$1" ] ; then
     exit 1
 fi
 
-infocmp rxvt-unicode | ssh "$1" "mkdir -p .terminfo && cat > /tmp/ti && tic /tmp/ti"
-infocmp rxvt-unicode-256color | ssh "$1" "mkdir -p .terminfo && cat > /tmp/ti && tic /tmp/ti"
+ssh "$1" "mkdir -p .terminfo/r"
+scp /usr/share/terminfo/r/rxvt-unicode* "$1":.terminfo/r/
