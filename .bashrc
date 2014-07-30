@@ -520,6 +520,8 @@ alias rmdir='rmdir -p'
 alias rsync='rsync -auv'
 # use additional locate databases
 alias locate_on_network='LOCATE_PATH=$_LOCATE_PATH locate'
+# password generator
+alias apg="apg -M sNCL"
 
 ####################################
 # less is more
