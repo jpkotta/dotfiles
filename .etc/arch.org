@@ -1,9 +1,11 @@
+# -*- org-emphasis-alist: nil -*-
+
 * TODO
 ** commit-patch
 * MISCELLANEOUS
 ** files
 *** /etc/pacman.conf
-IgnorePkg += linux linux-headers
+IgnorePkg += linux
 ILoveCandy
 Color
 *** /etc/pacman.d/mirrorlist
@@ -68,8 +70,9 @@ ln -s /bin/true /sbin/fsck.btrfs
 ** /etc/cron.monthly/defrag
 filesystems=`mount | grep btrfs | grep -o "on .* type" | sed -e "s/^on //" -e "s/ type$//"`
 for fs in $filesystems ; do
+    btrfs filesystem defrag -- 
     find "$fs" -xdev \( -type f -o -type d \) \
-        -exec ionice -c 3 btrfs filesystem defrag -- '{}' +
+        -exec ionice -c idle btrfs filesystem defrag -- '{}' +
 done
 * bumblebee
 gpasswd -a $USER bumblebee
@@ -98,7 +101,7 @@ used the C3070i/postscript driver
 * firefox
 * flashplugin
 /etc/adobe/mms.cfg
-* foldingathome-jpk
+* foldingathome-noroot
 /opt/fah/fah-config
 systemctl enable foldingathome.service
 * font-bh-ttf
@@ -117,6 +120,7 @@ systemctl enable gpm.service
 * hdparm
 ** /etc/udev/rules.d/hdparm.rules
 ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm -B 254 /dev/$kernel"
+* howdoi
 * htop
 * hugin
 * iftop
@@ -223,10 +227,10 @@ chgrp wheel /var/cache/pacaur/pkg
 chmod g+rwx /var/cache/pacaur/pkg
 ** /etc/makepkg.conf
 PKGDEST=/var/cache/pacaur/pkg/
+MAKEFLAGS="j4"
 * pacserve
 systemctl enable pacserve.service
-** /etc/pacman.conf/mirrorlist
-Server = http://localhost:15678/request/$repo/$arch
+pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
 * patchutils
 * pbzip2
 * perl-ipc-run
