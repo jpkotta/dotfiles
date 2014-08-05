@@ -59,12 +59,17 @@ hgext.hggit = ~/.hgext/hg-git/hggit
 # recommends rebase extension
 hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
 
+# curses record
+# hg clone https://bitbucket.org/edgimar/crecord
+hgext.crecord = ~/.hgext/crecord/crecord
+
 [alias]
 summ = summary --remote
 
 # shelve extension
-ls = shelve -l
-ll = shelve -l --stat
+ls = shelve --list
+ll = shelve --list --stat
+lll = shelve --list --stat --patch
 
 # remove all untracked .orig files
 rmorig = purge --include=**.orig
@@ -76,8 +81,10 @@ vlog = log -G -v --pager=yes
 bm = bookmarks
 
 [diff]
-# use git's diff format, can handle binaries
-#git = True
+# use git's diff format
+git = True
+# but suppress binary diffs
+nobinary = True
 
 [trusted]
 # use sshfs -o idmap=user <remote> <mount-point> to map remote UID to your UID
