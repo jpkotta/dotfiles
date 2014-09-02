@@ -10,9 +10,6 @@ merge = emacs
 # ignore file for all repositories
 ignore = ~/.hgignore.global
 
-# do not automatically commit changes in subrepos
-commitsubrepos = False
-
 [extensions]
 # color output from some commands
 color = 
@@ -77,8 +74,6 @@ rmrej = purge --include=**.rej
 
 glog = log -G
 vlog = log -G -v --pager=yes
-
-bm = bookmarks
 
 [diff]
 # use git's diff format
