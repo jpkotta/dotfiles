@@ -10,14 +10,13 @@ selected_item_prefix = "$u"
 selected_item_suffix = "$/u"
 
 song_list_format = "{$7%a$9 - }{$6%t$9}{ ($7%b$9)}|{$8%f$9}$R{$3(%l)$9}"
-song_status_format = "{{%a - {\"%b{[%d]}\" - }}{%t}}|{%f}"
+song_status_format = "{{%a - {%b - }}{%t}}|{%f}"
 
-#user_interface = "alternative"
 playlist_display_mode = "columns"
 browser_display_mode = "columns"
 search_engine_display_mode = "columns"
 
 autocenter_mode = "yes"
 default_space_mode = "add"
-ask_before_clearing_main_playlist = "yes"
+ask_before_clearing_playlists = "yes"
 clock_display_seconds = "yes"
