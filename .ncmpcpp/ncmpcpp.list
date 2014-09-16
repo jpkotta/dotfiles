@@ -1,3 +1,0 @@
-# sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9058FBF6
-deb http://ppa.launchpad.net/aguignard/ppa/ubuntu jaunty main 
-deb-src http://ppa.launchpad.net/aguignard/ppa/ubuntu jaunty main 

@@ -11,22 +11,10 @@ audio_output {
 	type	"pulse"
 	name	"PulseAudio"
 }
-
-# audio_output {
-# 	type	"alsa"
-# 	name	"ALSA"
-# }
-        
-# audio_output {
-# 	type           "alsa"
-# 	name           "MPD"
-# 	device         "pulse"
-# 	mixer_control  "Master"
-# }
         
 audio_output {
     type    "fifo"
     name    "fifo"
-    path    "~/.mpd/fifo"
+    path    "/tmp/mpd.fifo"
     format  "44100:16:1"
 }
