@@ -66,14 +66,34 @@ summ = summary --remote
 # shelve extension
 ls = shelve --list
 ll = shelve --list --stat
-lll = shelve --list --stat --patch
+lll = shelve --list --stat --patch --pager=yes
 
 # remove all untracked .orig files
 rmorig = purge --include=**.orig
 rmrej = purge --include=**.rej
 
-glog = log -G
-vlog = log -G -v --pager=yes
+glog = log --graph
+vlog = log --graph --verbose --pager=yes
+
+# # replacement for MQ
+# # http://mercurial.selenic.com/wiki/MqDeprecationPlan
+# qapplied = log --rev 'draft() and ::.'
+# qdelete = histedit
+# qdiff = diff --rev .^
+# qfold = histedit
+# qgoto = update
+# qheader = log --rev . --template '{desc}\n'
+# qimport = import --partial
+# qnew = commit
+# qnext = log --rev 'children(.)'
+# qpop = update .^
+# qprev = log --rev .^
+# qpush = update --rev 'children(.)'
+# qqueue = bookmarks
+# qrefresh = commit --amend
+# qseries = log --rev 'draft()'
+# qtop = identify --bookmarks
+# qunapplied = log --rev 'draft() - ::.'
 
 [diff]
 # use git's diff format
