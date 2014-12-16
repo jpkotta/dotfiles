@@ -1,4 +1,4 @@
-# -*- org-emphasis-alist: nil -*-
+# -*- org-fontify-emphasized-text: nil -*-
 
 * TODO
 ** commit-patch
@@ -108,6 +108,7 @@ systemctl enable foldingathome.service
 * font-mathematica
 * fortune-mod
 * fvwm
+* gdmap
 * geeqie
 * gimp
 ** gimp-plugin-gmic
@@ -117,9 +118,12 @@ systemctl enable foldingathome.service
 * gpm
 systemctl enable gpm.service
 * gstreamer0.10-plugins
+* haveged
+systemctl enable haveged.service
 * hdparm
 ** /etc/udev/rules.d/hdparm.rules
 ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm -B 254 /dev/$kernel"
+* hgview
 * howdoi
 * htop
 * hugin
@@ -128,7 +132,6 @@ ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm
 ** imagemagick-doc
 * inetutils
 * iotop
-* ispell
 * k3b
 pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 * kdegraphics-okular
@@ -236,6 +239,7 @@ pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
 * perl-ipc-run
 * perl-rename
 * perl-term-readline-gnu
+* pkgbuild-introspection
 * pkgfile
 ** /etc/cron.monthly/pkgfile
 pkgfile --update >/dev/null 
@@ -306,6 +310,7 @@ gpasswd -a $USER wheel
 * ttf-liberation
 * ttf-mathtype
 * ttf-ms-fonts
+* ttf-symbola
 * ttf-vista-fonts
 * udiskie
 * virtualbox
