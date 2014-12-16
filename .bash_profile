@@ -8,7 +8,7 @@ fi
 
 # keychain manages ssh-agents
 type keychain >&/dev/null \
-    && keychain
+    && keychain --agents ssh
 
 # a fun message
 type fortune >&/dev/null \
