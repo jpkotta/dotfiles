@@ -287,9 +287,7 @@ if type $DIRCOLORS >&/dev/null ; then
     eval `$DIRCOLORS --sh $HOME/.dircolors`
 fi
 
-# grep color syntax is the same as for ls
-export GREP_OPTIONS='--color=auto'
-export GREP_COLOR='01;32' # bold green
+export GREP_COLORS="ms=01;32:mc=01;32:sl=:cx=:fn=35:ln=32:bn=32:se=36"
 
 function showcolors()
 {
@@ -422,6 +420,7 @@ alias psgaux='ps auxw | grep -vE "grep|psg" | grep -E'
 alias kill_emacs_server="emacsclient -e '(client-save-kill-emacs)'"
 
 # grep
+alias grep='grep --color=auto'
 # see also ack-grep
 alias srcgrp="grep -RE --include='*.[ch]' --include='*.cpp' -n"
 
