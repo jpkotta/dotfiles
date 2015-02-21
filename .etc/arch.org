@@ -48,6 +48,7 @@ vm.swappiness = 30
 ** atomicparsley
 * alsa-utils
 * android-sdk-platform-tools
+http://wiki.cyanogenmod.org/w/UDEV
 * apg
 * ascii
 * aspell-en
@@ -82,6 +83,13 @@ systemctl enable bumblebeed.service
 * chromium
 * colordiff
 * compton-git
+* connman
+systemctl enable connman.service
+connmanctl enable wifi
+connmanctl agent on
+connmanctl scan wifi
+connmanctl services
+connmanctl connect wifi_...
 * cups
 gpasswd -a $USER lp
 gpasswd -a $USER sys
@@ -138,30 +146,6 @@ pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 xdg-mime default okularApplication_pdf.desktop application/pdf
 ** kpartsplugin
 * keepassx
-* laptop-mode-tools
-systemctl enable laptop-mode.service
-** /etc/laptop-mode/conf.d/lcd-brightness.conf
-
-#
-# Should laptop mode tools control LCD brightness?
-#
-CONTROL_BRIGHTNESS=1
-
-
-#
-# Commands to execute to set the brightness on your LCD
-#
-# # feynman
-# BATT_BRIGHTNESS_COMMAND="echo 3"
-# LM_AC_BRIGHTNESS_COMMAND="echo 15"
-# NOLM_AC_BRIGHTNESS_COMMAND="echo 15"
-# BRIGHTNESS_OUTPUT="/sys/devices/platform/eeepc/backlight/eeepc/brightness"
-# # mandelbrot
-# BATT_BRIGHTNESS_COMMAND="echo 1000"
-# LM_AC_BRIGHTNESS_COMMAND="echo 4437"
-# NOLM_AC_BRIGHTNESS_COMMAND="echo 4437"
-# BRIGHTNESS_OUTPUT="/sys/class/backlight/intel_backlight/brightness"
-
 * libreoffice
 removed libreoffice-sdk
 ** libreoffice-en-US
@@ -301,7 +285,13 @@ gpasswd -a $USER wheel
 ** /etc/sudoers
 %wheel ALL=(ALL) ALL
 * texlive-most
+* tlp
+systemctl enable tlp.service
 * tmux
+* tpacpi-bat-git
+FIXME: pull request pending
+systemctl enable tpacpi.service
+** acpi_call-git-dkms
 * trash-cli
 * tree
 * tremulous
