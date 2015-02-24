@@ -125,8 +125,6 @@ pathappend /usr/local/include C_INCLUDE_PATH
 pathappend /usr/local/include CPLUS_INCLUDE_PATH
 pathappend /usr/local/lib LIBRARY_PATH
 pathappend /usr/lib/pkgconfig PKG_CONFIG_PATH
-pathappend /usr/local/lib/python2.6/site-packages PYTHONPATH
-pathappend /usr/lib/python2.6/site-packages PYTHONPATH
 
 ########################################################################
 ### application defaults
