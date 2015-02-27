@@ -80,6 +80,7 @@ gpasswd -a $USER bumblebee
 systemctl enable bumblebeed.service
 ** nvidia
 ** bbswitch
+* burp
 * chromium
 * colordiff
 * compton-git
