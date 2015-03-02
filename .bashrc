@@ -35,6 +35,8 @@ fi
 
 [ -f /usr/share/bash-completion/bash_completion ] \
     && . /usr/share/bash-completion/bash_completion
+[ -f /etc/bash_completion ] \
+    && . /etc/bash_completion
 
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
