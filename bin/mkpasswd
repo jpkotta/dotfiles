@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from sys import stderr
 from math import log10, floor
 from itertools import islice
 from collections import Counter
 import argparse
-from re import match
+import re
 import os
 from random import shuffle
 
@@ -65,8 +65,8 @@ words = []
 word_counts = Counter()
 
 def build_word_list():
-    global words
-    global word_counts
+    global words # pylint: disable=global-statement
+    global word_counts # pylint: disable=global-statement
 
     _words = []
     
