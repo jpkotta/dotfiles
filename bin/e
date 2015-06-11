@@ -31,9 +31,12 @@ epsilon = sys.float_info.epsilon
 
 env = math.__dict__
 env.update(cmath.__dict__)
-env = {k:v for k,v in env.items() if not k.startswith("__")}
+for k in [k for k in env if k.startswith("__")]:
+    env.pop(k)
 env["eps"] = epsilon
 env["log2"] = log2
+env["inf"] = float("inf")
+env["nan"] = float("nan")
 
 res = eval(expr, env)
 # throw away small imaginary parts, they're probably just due to imprecision
