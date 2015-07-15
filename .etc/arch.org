@@ -200,7 +200,6 @@ systemctl enable sshd.service
 X11Forwarding yes
 ** keychain
 ** sshfs
-* opera
 * p7zip
 * pacaur
 cd /tmp
@@ -233,6 +232,7 @@ pkgfile --update >/dev/null
 gpasswd -a $USER audio
 ** pavucontrol
 ** pulseaudio-alsa
+** pulseaudio-equalizer
 * pysolfc
 * python
 ** ipython

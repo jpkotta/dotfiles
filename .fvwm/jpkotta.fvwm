@@ -14,9 +14,6 @@
 # should be compiled with png support, i.e. ./configure --with-png
 # readline is also nice: --with-readline
 
-# used to launch Opera:
-#   aoss - alsa wrapper for oss applications
-
 # used by the FvwmEventSound module:
 #   artsplay - a sound player
 #   OR
@@ -38,7 +35,6 @@
 #   update-menus - debian menu utility, in the menu package
 
 # easily changed via a single function:
-#   Opera - web browser with an excellent UI and standards compliance
 #   urxvt - very customizable terminal emulator
 #   Emacs - the one true editor
 #   Thunar - file manager from XFCE

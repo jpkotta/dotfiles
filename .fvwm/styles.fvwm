@@ -61,13 +61,6 @@ Style "GQview full screen" NoTitle, !Borders, StaysOnTop
 Style "Find duplicates - GQview" StaysOnTop
 Style gqview PositionPlacement Center
 
-DestroyFunc OnMapOpera
-AddToFunc OnMapOpera
-+ I All (Opera, CurrentPage, AnyScreen, !Shaded, !Iconic) Maximize True
-
-Style opera PositionPlacement Center, IgnoreRestack, \
-    InitialMapCommand OnMapOpera
-
 # scroll wheel doesn't work in mathematica (doesn't work in windows version either)
 Mouse (XMathematica) 4 W N --
 Mouse (XMathematica) 5 W N --
@@ -98,6 +91,10 @@ Style Firefox SkipMapping, FPOverrideGrabFocus, \
 Style google-chrome SkipMapping, FPOverrideGrabFocus, \
 	!UsePPosition, !UseTransientPPosition, \
 	!FPGrabFocus, !FPGrabFocusTransient, !FPFocusByProgram
+
+Style Chromium SkipMapping, FPOverrideGrabFocus, \
+	!UsePPosition, !UseTransientPPosition, \
+	!FPGrabFocus, !FPGrabFocusTransient, !FPFocusByProgram, StickyAcrossDesks
 
 # GNUPlot
 # sometimes, you just need to plot a ton of things

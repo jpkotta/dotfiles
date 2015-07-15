@@ -8,23 +8,21 @@
 # FUNCTIONS TO LAUNCH APPS
 ################################################################################
 
-# opens a new opera session if no operas are open
-# otherwise it will open a new opera, in the same session
-# if you do Exec exec, it starts a new session everytime
-DestroyFunc StartOpera
-AddToFunc StartOpera
-+ I None (opera) Exec export XLIB_SKIP_ARGB_VISUALS=1 ; opera $0
-+ I TestRc (!Match) Exec opera -newwindow $0
-
 DestroyFunc StartFirefox
 AddToFunc StartFirefox
 + I Any (Firefox) Nop #Exec exec firefox -new-tab about:blank
 + I TestRc (!Match) Exec exec firefox
 + I All (Firefox) Raise
 
+DestroyFunc StartChromium
+AddToFunc StartChromium
++ I Any (Chromium) Nop
++ I TestRc (!Match) Exec exec chromium
++ I All (Chromium) Raise
+
 DestroyFunc StartBrowser
 AddToFunc StartBrowser
-+ I StartFirefox $0
++ I StartChromium $0
 
 DestroyFunc StartPySol
 AddToFunc StartPySol
