@@ -40,10 +40,6 @@
 #   Thunar - file manager from XFCE
 #   GQview - image viewer
 
-# screen size is assumed to be given in the environment variable SCREEN_RES
-#   currently supported sizes are 1280x960 and 1024x768
-
-
 # OVERALL IDEAS / PHILOSOPHY / EXPLANATIONS
 #
 # The main reason why I use FVWM: I like to fiddle, experiment, play, etc.  And I

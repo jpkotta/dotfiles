@@ -15,10 +15,6 @@ InfoStoreAdd image_dir "$[FVWM_USERDIR]/data/icons"
 InfoStoreAdd sound_dir "$[FVWM_USERDIR]/data/sounds"
 InfoStoreAdd script_dir "$[FVWM_USERDIR]/scripts"
 
-SetEnv SCREEN_RES $[vp.width]x$[vp.height]
-SetEnv SCREEN_RES_X $[vp.width]
-SetEnv SCREEN_RES_Y $[vp.height]
-
 # The default image path is:
 #         /usr/include/X11/bitmaps:/usr/include/X11/pixmaps
 # a plus in the path definition expands to the current value of the path
