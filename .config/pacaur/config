@@ -1,4 +1,4 @@
 editpkgbuild=false
 editinstall=false
 clean=false
-sudoloop=True
+sudoloop=true
