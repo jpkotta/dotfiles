@@ -6,18 +6,22 @@
 # Never start a program from here that will output text.  It screws up
 # things like ssh.  Put those in ~/.bash_profile instead.
 
+# Scripts (but not interactive shells) should use strict mode:
+#   set -o errexit -o nounset -o pipefail
+#   IFS=$'\n\t'
+
 ########################################################################
 ### things that must be initialized early
 
 # for profiling
 function tic()
 {
-    start_time=`date +%s%N`
+    start_time=$(date +%s%N)
 }
 function toc()
 {
     local stop_time
-    stop_time=`date +%s%N`
+    stop_time=$(date +%s%N)
     if [ -n "$1" ] ; then
         echo $1
     fi
@@ -25,18 +29,25 @@ function toc()
 }
 
 # try to make this portable to BSD systems
-is_GNU=1
+is_GNU=true
 if bash --version | grep -i bsd >&/dev/null; then
-    is_GNU=0
+    is_GNU=false
 fi
+
+function is_command() {
+    type $1 >&/dev/null
+}
 
 ########################################################################
 ### miscellaneous
 
-[ -f /usr/share/bash-completion/bash_completion ] \
-    && . /usr/share/bash-completion/bash_completion
-[ -f /etc/bash_completion ] \
-    && . /etc/bash_completion
+function set_up_completion() {
+    local i
+    for i in /usr/share/bash-completion/bash_completion /etc/bash_completion ; do
+        [ -f $i ] && . $i
+    done
+}
+set_up_completion
 
 # this causes output from background processes to be output right away,
 # rather than waiting for the next primary prompt
@@ -56,9 +67,12 @@ umask 0022
 #ulimit -c hard
 
 # Prevent rogue processes from using all the ram.  -v is the only
-# memory limit that actually works on Linux.  
-total_mem=$(grep MemTotal /proc/meminfo | tr -s ' ' | cut -d' ' -f 2)
-#ulimit -v $((total_mem*3/4))
+# memory limit that actually works on Linux.
+function set_up_mem_limit() {
+    local total_mem=$(grep MemTotal /proc/meminfo | tr -s ' ' | cut -d' ' -f 2)
+    ulimit -v $((total_mem*3/4))
+}
+#set_up_mem_limit
 
 # this stops C-s from freezing the terminal
 if [ "$TERM" != "dumb" ] && ! shopt -q login_shell ; then
@@ -87,8 +101,7 @@ export EMAIL="jpkotta@gmail.com"
 
 # these functions allow us to set the PATH idempotently
 
-function pathremove ()
-{
+function pathremove () {
     local IFS=':' NEWPATH DIR PATHVARIABLE=${2:-PATH}
     for DIR in ${!PATHVARIABLE} ; do
         if [ "$DIR" != "$1" ] ; then
@@ -98,15 +111,13 @@ function pathremove ()
     export $PATHVARIABLE="$NEWPATH"
 }
 
-function pathprepend () 
-{
+function pathprepend () {
     pathremove $1 $2
     local PATHVARIABLE=${2:-PATH}
     export $PATHVARIABLE="$1${!PATHVARIABLE:+:${!PATHVARIABLE}}"
 }
 
-function pathappend ()
-{
+function pathappend () {
     pathremove $1 $2
     local PATHVARIABLE=${2:-PATH}
     export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
@@ -138,48 +149,54 @@ export DE=kde # workaround for xdg-open
 ########################################################################
 ### prompt
 
-# color escape codes
-normal="\[\e[0m\]"
-nobg="m\]"
-blackbg=";40m\]"
-redbg=";41m\]"
-greenbg=";42m\]"
-brownbg=";43m\]"
-bluebg=";44m\]"
-magentabg=";45m\]"
-cyanbg=";46m\]"
-greybg=";47m\]"
-black="\[\e[0;30$nobg"
-redfaint="\[\e[0;31$nobg"
-greenfaint="\[\e[0;32$nobg"
-brownfaint="\[\e[0;33$nobg"
-bluefaint="\[\e[0;34$nobg"
-magentafaint="\[\e[0;35$nobg"
-cyanfaint="\[\e[0;36$nobg"
-greyfaint="\[\e[0;37$nobg"
-grey="\[\e[1;30$nobg"
-red="\[\e[1;31$nobg"
-green="\[\e[1;32$nobg"
-yellow="\[\e[1;33$nobg"
-blue="\[\e[1;34$nobg"
-magenta="\[\e[1;35$nobg"
-cyan="\[\e[1;36$nobg"
-white="\[\e[1;37$nobg"
-bold="\[\e[1$nobg"
+function set_up_prompt() {
+    if [[ "$TERM" == '' ]] ; then
+        PS1='[\u@\h][\w](\j)\n\$ '
+        return
+    fi
 
-# prompt pieces
-prompt_open="$blue[$normal"
-prompt_close="$blue]$normal"
-prompt_close_open="$prompt_close$prompt_open"
-prompt_username="$cyan\u$normal"
-[ $UID = 0 ] && prompt_username="$red\u$normal"
-prompt_at="$blue@$normal"
-prompt_hostname="$cyan\h$normal"
-prompt_jobs="$cyan\j$normal"
-prompt_time="$cyan\t$normal"
-prompt_pwd="$magenta\w$normal"
-prompt_cmd_num="$blue\#$normal"
-prompt_err_stat="\
+    # color escape codes
+    local normal="\[\e[0m\]"
+    local nobg="m\]"
+    local blackbg=";40m\]"
+    local redbg=";41m\]"
+    local greenbg=";42m\]"
+    local brownbg=";43m\]"
+    local bluebg=";44m\]"
+    local magentabg=";45m\]"
+    local cyanbg=";46m\]"
+    local greybg=";47m\]"
+    local black="\[\e[0;30$nobg"
+    local redfaint="\[\e[0;31$nobg"
+    local greenfaint="\[\e[0;32$nobg"
+    local brownfaint="\[\e[0;33$nobg"
+    local bluefaint="\[\e[0;34$nobg"
+    local magentafaint="\[\e[0;35$nobg"
+    local cyanfaint="\[\e[0;36$nobg"
+    local greyfaint="\[\e[0;37$nobg"
+    local grey="\[\e[1;30$nobg"
+    local red="\[\e[1;31$nobg"
+    local green="\[\e[1;32$nobg"
+    local yellow="\[\e[1;33$nobg"
+    local blue="\[\e[1;34$nobg"
+    local magenta="\[\e[1;35$nobg"
+    local cyan="\[\e[1;36$nobg"
+    local white="\[\e[1;37$nobg"
+    local bold="\[\e[1$nobg"
+
+    # prompt pieces
+    local op="$blue[$normal"
+    local cl="$blue]$normal"
+    local clop="$blue][$normal"
+    local username="$cyan\u$normal"
+    [ $UID = 0 ] && username="$red\u$normal"
+    local at="$blue@$normal"
+    local hostname="$cyan\h$normal"
+    local jobs="$cyan\j$normal"
+    local time="$cyan\t$normal"
+    local pwd="$magenta\w$normal"
+    local cmd_num="$blue\#$normal"
+    local err_stat="\
 \`__lasterr=\$?; \
 if [ \$__lasterr = 0 ] ; then \
 echo -ne '$cyan' ; \
@@ -187,36 +204,20 @@ else echo -ne '$red' ; \
 fi ; \
 echo \$__lasterr ; \
 exit $__lasterr\`$normal"
-# prompt_err_stat="$cyan\`echo \$?\`$normal"
-prompt_prompt="$blue\\\$$normal"
-prompt_dpy="$cyan\$DISPLAY$normal"
+    # local err_stat="$cyan\`echo \$?\`$normal"
+    local prompt="$blue\\\$$normal"
+    local dpy="$cyan\$DISPLAY$normal"
 
-PLAIN_PROMPT='[\u@\h][\w](\j)\n\$ '
-FANCY_PROMPT="\
-$prompt_open$prompt_time$prompt_close_open\
-$prompt_username$prompt_at$prompt_hostname$prompt_close_open\
-$prompt_pwd$prompt_close_open\
-$prompt_jobs$prompt_close_open\
-$prompt_err_stat$prompt_close_open\
-$prompt_dpy$prompt_close\
-\n$prompt_prompt "
-
-export PS1=$FANCY_PROMPT
-if [[ $TERM == '' ]] ; then
-    export PS1=$PLAIN_PROMPT
-fi
-
-unset prompt_open prompt_close prompt_close_open prompt_username \
-    prompt_at prompt_hostname prompt_jobs prompt_time prompt_pwd \
-    prompt_cmd_num prompt_err_stat prompt_prompt prompt_dpy
+    PS1="$op$time$clop$username$at$hostname$clop$pwd$clop$jobs$clop$err_stat$clop$dpy$cl\n$prompt "
+}
+set_up_prompt
 
 # this sets the title of the terminal window:
 # 'user@host: /present/working/directory/ [ previous_command args ]'
 # see the Eterm technical docs, "Set X Terminal Parameters"
 # 'ESC ] 0 ; string BEL' sets icon name and title to string
 # seems to not work when there is a space before \007
-function set_terminal_title()
-{
+function set_terminal_title() {
     echo -ne "\033]0;$1\007"
 }
 
@@ -225,72 +226,35 @@ if [[ "$TERM" == 'rxvt-unicode' ]] ; then
     TERM=rxvt
 fi
 
-if [[ "$TERM" =~ "rxvt" \
-    || "$TERM" =~ "xterm" \
-    || "$TERM" =~ "screen" ]] ; then
+if [[ "$TERM" =~ "rxvt" || "$TERM" =~ "xterm" || "$TERM" =~ "screen" ]] ; then
     PROMPT_COMMAND='set_terminal_title "[${USER}@${HOSTNAME}][${PWD/$HOME/~}] "'
 else
     PROMPT_COMMAND=
-fi
-
-if [[ "$TERM" = "screen" ]] ; then
-    DYNAMIC_TITLE="\[\033k\w\033\134\]"
-
-    function set_dynamic_screen_title ()
-    {
-        if [ "$1" -ne 0 ] ; then 
-            PS1=$DYNAMIC_TITLE$FANCY_PROMPT
-        else
-            PS1=$FANCY_PROMPT
-        fi
-    }
-
-    set_dynamic_screen_title 1
-fi
-
-########################################################################
-### miscellaneous environment variables
-
-# optimizations
-#CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse'
-# more dangerous flags
-#CFLAGS='-march=pentium4 -O2 -mmmx -msse -msse2 -malign-double -mfpmath=sse,387'
-
-# some programs' startup scipts need to know the screen res
-if xdpyinfo >& /dev/null ; then
-    export DPY_RES=`xdpyinfo | grep dimensions | awk '{ print $2 }'`
-    dpy_res_x=`echo $DPY_RES | sed s/x.*//`
-    dpy_res_y=`echo $DPY_RES | sed s/.*x//`
-    if [ $dpy_res_x -ge $(( $dpy_res_y*2 )) ] ; then
-        # assume that if the x res is that much bigger, we have dual screen
-        scr_res_x=$(($dpy_res_x / 2))
-    else
-        scr_res_x=$dpy_res_x
-    fi
-    export SCR_RES=${scr_res_x}x${dpy_res_y}
-    unset scr_res_x scr_res_y dpy_res_x dpy_res_y
 fi
 
 ########################################################################
 ### colors
 
 # set up colors for ls
-if [ $is_GNU = 0 ] ; then
-    DIRCOLORS=gdircolors
-else
-    DIRCOLORS=dircolors
-fi
-if type $DIRCOLORS >&/dev/null ; then
-    if [ ! -e $HOME/.dircolors ] ; then
-        $DIRCOLORS --print-database > $HOME/.dircolors
+function set_up_dircolors() {
+    local dircolors=dircolors
+    if ! $is_GNU ; then
+        dircolors=gdircolors
     fi
-    eval `$DIRCOLORS --sh $HOME/.dircolors`
-fi
+
+    if is_command $dircolors ; then
+        if [ ! -e $HOME/.dircolors ] ; then
+            $dircolors --print-database > $HOME/.dircolors
+        fi
+        
+        eval $($dircolors --sh $HOME/.dircolors)
+    fi
+}
+set_up_dircolors
 
 export GREP_COLORS="ms=01;32:mc=01;32:sl=:cx=:fn=35:ln=32:bn=32:se=36"
 
-function showcolors()
-{
+function showcolors() {
     local esc="\033[" fore line1 line2
     echo -e "\t  40\t   41\t   42\t    43\t      44       45\t46\t 47"
     for fore in 30 31 32 33 34 35 36 37; do
@@ -324,8 +288,7 @@ function showcolors()
 
 # super stealth background launch
 # disconnects from launching shell, keeps running until killed
-function daemon
-{
+function daemon {
     (exec "$@" >&/dev/null &)
 }
 
@@ -341,25 +304,27 @@ alias T="daemon terminal"
 # browser
 alias B="daemon browser"
 
-if ! type realpath >&/dev/null ; then
+function session() {
+    if [ -z "$1" ] ; then
+        echo "Usage: $FUNCNAME session-name [command]"
+        return
+    fi
+    local socket=$1
+    shift
+    if [ -z "$1" ] ; then
+        dtach -A /tmp/$socket -z bash
+    else
+        dtach -A /tmp/$socket -z "$@"
+    fi
+}
+
+alias S="session"
+
+if ! is_command realpath ; then
     alias realpath='readlink -f'
 fi
 
-if [ $TERM != "dumb" ] ; then
-    BASHRC=`realpath $BASH_SOURCE`
-    # source this file
-    alias jpk="source $BASHRC"
-    # edit this file
-    alias aka='$EDITOR $BASHRC'
-fi
-
-# handy notes file
-alias note='$EDITOR $HOME/doc/notes.txt'
-
-# common typo, easier to type
-alias cd..='cd ..'
-function cd_up()
-{
+function cd_up() {
     # do 'cd ..' N times
     local x i d
     if [ -z "$1" ] ; then 
@@ -368,7 +333,7 @@ function cd_up()
     x=$(($1 * ($1 > 0))) # positive or zero
 
     d=""
-    for i in `seq 1 $x` ; do
+    for i in $(seq 1 $x) ; do
         d=$d"../"
     done
     cd $d
@@ -378,12 +343,10 @@ alias ...='cd_up 2'
 alias ....='cd_up 3'
 alias .....='cd_up 4'
 alias ......='cd_up 5'
-# go to the previous pwd
-alias prev='cd -'
-# cd to the "work directory"
-alias cdw="cd $HOME/w"
-# cd to the source directory
-alias cds="cd $HOME/src"
+alias cd..='cd ..'
+alias prev='cd -' # go to the previous pwd
+alias cdw="cd $HOME/w" # cd to the "work directory"
+alias cds="cd $HOME/src" # cd to the source directory
 # mkdir and cd to it
 function cdmk() { mkdir -p "$1" ; cd "$1" ; }
 
@@ -411,8 +374,8 @@ function cd() {
 # ps[kK] should be modified to use pkill/pgrep
 alias psg="ps -e -o pid,ppid,user,%cpu,%mem,start_time,cmd \
 | grep -vE 'grep|ps[gkK]' | grep -E"
-function psk() { kill `psg "$@" | awk '{print $1}'` ; }
-function psK() { kill -KILL `psg "$@" | awk '{print $1}'` ; }
+function psk() { kill $(psg "$@" | awk '{print $1}') ; }
+function psK() { kill -KILL $(psg "$@" | awk '{print $1}') ; }
 # like psg, but shows different info
 alias psgaux='ps auxw | grep -vE "grep|psg" | grep -E'
 
@@ -426,65 +389,46 @@ alias srcgrp="grep -RE --include='*.[ch]' --include='*.cpp' -n"
 
 # ls aliases
 # workaround for BSD
-if [ $is_GNU = 0 ] ; then
-    LS=gls
-else
-    LS=ls
-fi
-
-if $LS -vF --color=auto >&/dev/null ; then
-    alias ls="$LS -vF --color=auto"
-else
-    alias ls="$LS -F"
-fi
-alias l='ls'
-# long listing
-alias ll='ls -l'
-# list all files
-alias la='ls -A'
-# list only hidden files
-alias lh='ls -A -I "[^.]*"'
-# long listing, sort by mod date
-alias lt='ls -lt'
-# long list of all files
-alias lla='ls -lA'
-# display only directories
-function lsdir()
-{
-    local i
-    for i in "$@" ; do
-    if [ -d "$i" ] ; then
-        (
-        cd "$i"
-        ls --color=auto -v -d */
-        )
+function set_up_ls_aliases() {
+    local ls_prog=ls
+    if ! $is_GNU ; then
+        ls_prog=gls
     fi
-    done
-}
-alias lsd='lsdir'
-# display 'canonical' name (guaranteed to be unique and not a symlink)
-alias lc='realpath'
-# display canonical name of an executable in the path
-function le()
-{
-    realpath `which $1`
-}
 
-# clear the screen, Ctrl-L also works
-alias cls='clear'
-alias clc='clear'
-# use symlinks only, treat links to dirs as normal files, interactive
-alias ln='/bin/ln -sni'
+    if $ls_prog -vF --color=auto >&/dev/null ; then
+        alias ls="$ls_prog -vF --color=auto"
+    else
+        alias ls="$ls_prog -F"
+    fi
+    
+    alias l='ls' # simple
+    alias ll='ls -l' # long listing
+    alias la='ls -A' # list all files
+
+    alias lh='ls -A -I "[^.]*"' # list only hidden files
+    alias lt='ls -lt' # long listing, sort by mod date
+    alias lla='ls -lA' # long list of all files
+
+    # display 'canonical' name (guaranteed to be unique and not a symlink)
+    alias lc='realpath'
+    
+    # display canonical name of an executable in the path
+    function le() {
+        realpath $(which $1)
+    }
+}
+set_up_ls_aliases
+
+alias ln='/bin/ln -ni' # treat links to dirs as normal files, interactive
 
 # a kinder, safer rm
-# if type trash-put >&/dev/null ; then
+# if is_command trash-put ; then
 #     alias rm="trash-put"
 # else
 #     alias rm="rm -I"
 # fi
 alias rm="rm -I"
-function rm-rf()
-{
+function rm-rf() {
     echo "Delete these files?"
     ls -dFv --color=auto "$@"
     PS3="Please enter a number: "
@@ -503,24 +447,17 @@ function rm-rf()
 }
 # deletes backup files
 alias rmbck='/bin/rm -f ./*.bck ./.*.bck ./*?~ ./.*?~'
-# remove all data from file, or create an empty file
-alias empty='/bin/cp /dev/null'
-# safer mv
+
 alias mv='mv -i'
-# swiss army chainsaw of file naming
-alias ren="perl-rename"
-# safer cp
+alias ren="perl-rename" # swiss army chainsaw of file naming
 alias cp='cp -i'
-# creates parent dirs if they do not exist
 alias mkdir='mkdir -p'
-# deletes empty directory tree
 alias rmdir='rmdir -p'
-# rsync for updating usb drives
-alias rsync='rsync -auv'
+
 # use additional locate databases
 alias locate_on_network='LOCATE_PATH=$_LOCATE_PATH locate'
-# password generator
-alias apg="apg -M sNCL"
+
+alias apg="apg -M sNCL" # password generator
 
 ####################################
 # less is more
@@ -528,15 +465,14 @@ alias apg="apg -M sNCL"
 export LESS="--LONG-PROMPT --RAW-CONTROL-CHARS"
 
 # configure less to page just about anything in a rational way
-if type lessfile >&/dev/null ; then
+if is_command lessfile ; then
     eval $(lessfile)
 fi
 
-# _v_iewer
-function v()
-{
+# viewer
+function v() {
     if [ -d "$1" ] ; then
-        if type tree >&/dev/null ; then
+        if is_command tree ; then
             tree -C "$@" | less -r --LONG-PROMPT
         else
             ls -R --color=always | less -r --LONG-PROMPT
@@ -549,29 +485,28 @@ function v()
 # this is another way to open just about any file the right way
 alias open="daemon xdg-open"
 
-# sdiff the way it was at IBM
 alias sdiff='/usr/bin/sdiff --expand-tabs --ignore-all-space --strip-trailing-cr --width=160'
-function dif()
-{
-    if type colordiff >&/dev/null ; then
+function dif() {
+    if is_command colordiff ; then
         colordiff -u "$@"
     else
         diff -u "$@"
     fi
 }
+
 # displays global disk usage by partition, excluding supermounted devices
 alias df='df -h -x supermount'
 # displays disk usage by directory, in human readable format
 alias du='du -h'
 # du on files and dirs in pwd, sorted by size
 alias dusrt="du --max-depth=1 --all --one-file-system 2>/dev/null | sort -h"
+
 # display the processes that are using the most CPU time and memory
 alias hogc="ps -e -o %cpu,pid,ppid,user,cmd | sort -nr | head"
 alias hogm="ps -e -o %mem,pid,ppid,user,cmd | sort -nr | head"
-# ping the way it was at IBM, but better
-# -c 5 means send five packets, time out after 5 sec
-# -A means adapt interval so as to be fast as possible with only one packet in transit at a time
+
 alias ping='ping -c 5 -A'
+
 # screenshot
 alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
 # image viewer
@@ -592,16 +527,15 @@ alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -
 ########################################################################
 ### functions
 
-function mpumount()
-{
+function mpumount() {
+    local i
     for i in $@ ; do
         pumount $i
     done
 }
 
 # rsync with delete and confirmation
-function synchronize()
-{
+function synchronize() {
     local PS3 cmd name
     name="synchronize"
     PS3="Pick a number: "
@@ -625,22 +559,11 @@ function synchronize()
     done
 }
 
-# creates a dated tarball
-function tarball()
-{
-    local name
-    name=$1
-    shift
-    tar zcf $name-`date +%Y%m%d`.tar.gz "$@"
-}
-
-function spell()
-{
+function spell() {
     local word resp
 
-    if ! type ispell >/dev/null ; then
+    if ! is_command ispell ; then
         echo "This requires ispell."
-        echo "Install it with 'sudo aptitude install ispell'"
         return 1
     fi
     
@@ -693,14 +616,12 @@ function spell()
     fi
 }
 
-function define()
-{
+function define() {
     # dict is in the dict package
     dict $@ | less
 }
 
-function wiki()
-{
+function wiki() {
     if [ -z "$1" ] ; then
         echo "Usage: $0 article name"
         echo "Print the beginning of Wikipedia article."
@@ -712,13 +633,15 @@ function wiki()
 ########################################################################
 ### source other rc files
 
-if [ -e $HOME/.bashrc.local ] ; then
-    source $HOME/.bashrc.local
-fi
+function source_local_bash_files() {
+    [ -e $HOME/.bashrc.local ] && \
+        source $HOME/.bashrc.local
 
-for i in $HOME/.bash.d/* ; do
-    if [ -r "$i" ] ; then
-        source "$i"
-    fi
-done
-unset i
+    local i
+    for i in $HOME/.bash.d/* ; do
+        if [ -r "$i" ] ; then
+            source "$i"
+        fi
+    done
+}
+source_local_bash_files
