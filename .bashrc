@@ -527,6 +527,14 @@ alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -
 ########################################################################
 ### functions
 
+function gitaur() {
+    # Don't forget to `ssh-add ~/.ssh/id_aur`.
+    read -p "Cloning '$1' into /tmp."
+    cd /tmp/
+    git clone ssh://aur@aur.archlinux.org/$1.git
+    [ -d $1 ] && cd $1
+}
+
 function mpumount() {
     local i
     for i in $@ ; do
