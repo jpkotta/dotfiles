@@ -13,21 +13,6 @@
 ########################################################################
 ### things that must be initialized early
 
-# for profiling
-function tic()
-{
-    start_time=$(date +%s%N)
-}
-function toc()
-{
-    local stop_time
-    stop_time=$(date +%s%N)
-    if [ -n "$1" ] ; then
-        echo $1
-    fi
-    echo "Elapsed time is $(( ($stop_time - $start_time)/1000000 )) ms."
-}
-
 # try to make this portable to BSD systems
 is_GNU=true
 if bash --version | grep -i bsd >&/dev/null; then
@@ -631,7 +616,7 @@ function define() {
 
 function wiki() {
     if [ -z "$1" ] ; then
-        echo "Usage: $0 article name"
+        echo "Usage: $FUNCNAME article name"
         echo "Print the beginning of Wikipedia article."
         return
     fi
