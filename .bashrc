@@ -529,13 +529,12 @@ function mpumount() {
 
 # rsync with delete and confirmation
 function synchronize() {
-    local PS3 cmd name
-    name="synchronize"
+    local PS3 cmd
     PS3="Pick a number: "
-    cmd="rsync --archive --update --verbose --delete --protect-args"
+    cmd="rsync --archive --update --verbose --delete --protect-args --one-file-system"
 
     if [ -z "$2" ] ; then
-        echo "Usage: $name <source> <destination>"
+        echo "Usage: $FUNCNAME <source> <destination>"
         echo "Uses rsync to synchronize destination with source."
         echo "Shows you what will happen before doing anything."
         return 1
