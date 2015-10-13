@@ -2,6 +2,13 @@
 
 * TODO
 ** commit-patch
+*** patchutils
+*** perl-ipc-run
+** xuserrun-git
+** android-sdk-platform-tools
+** compton-git
+** cups config
+** howdoi
 * MISCELLANEOUS
 ** files
 *** /etc/pacman.conf
@@ -22,6 +29,7 @@ LANG=en_US.UTF-8
 *** ln -s /usr/share/zoneinfo/CST6CDT /etc/localtime
 *** hwclock --systohc --utc
 *** /etc/cron.daily/download-updates
+#!/bin/sh
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 *** /etc/cron.weekly/paccache
 #!/bin/sh
@@ -42,7 +50,7 @@ systemctl enable cronie.service
 systemctl enable dhcpcd.service
 *** /etc/systemd/journald.conf
 SystemMaxUse=100M # max journal size
-*** /etc/sysctl.d/swappiness.conf
+** /etc/sysctl.d/swappiness.conf
 vm.swappiness = 30
 * abcde
 ** atomicparsley
@@ -84,13 +92,6 @@ systemctl enable bumblebeed.service
 * chromium
 * colordiff
 * compton-git
-* connman
-systemctl enable connman.service
-connmanctl enable wifi
-connmanctl agent on
-connmanctl scan wifi
-connmanctl services
-connmanctl connect wifi_...
 * cups
 gpasswd -a $USER lp
 gpasswd -a $USER sys
@@ -132,14 +133,11 @@ systemctl enable haveged.service
 * hdparm
 ** /etc/udev/rules.d/hdparm.rules
 ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm -B 254 /dev/$kernel"
-* hgview
-* howdoi
 * htop
 * hugin
 * iftop
 * imagemagick
 ** imagemagick-doc
-* inetutils
 * iotop
 * k3b
 pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
@@ -147,8 +145,7 @@ pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 xdg-mime default okularApplication_pdf.desktop application/pdf
 ** kpartsplugin
 * keepassx
-* libreoffice
-removed libreoffice-sdk
+* libreoffice-still
 ** libreoffice-en-US
 * localepurge
 ** /etc/locale.nopurge
@@ -218,9 +215,7 @@ MAKEFLAGS="j4"
 * pacserve
 systemctl enable pacserve.service
 pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
-* patchutils
 * pbzip2
-* perl-ipc-run
 * perl-rename
 * perl-term-readline-gnu
 * pkgbuild-introspection
@@ -278,7 +273,7 @@ username=USERNAME
 password=PASSWORD
 ** /etc/fstab
 //SERVER/SHARE    /media/MOUNTPOINT      cifs    uid=USER,gid=GROUP,credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,file_mode=0644,dir_mode=0755 0 0
-* spideroak
+* spideroak-one
 * strace
 * subversion
 * sudo
@@ -351,7 +346,7 @@ EndSection
 * xorg-xinit 
 * xscreensaver
 ** xuserrun-git
-** /etc/systemd/system/xscreensaver.service
+*** /etc/systemd/system/xscreensaver.service
 [Unit]
 Description=Lock X session using xscreensaver
 Before=sleep.target
