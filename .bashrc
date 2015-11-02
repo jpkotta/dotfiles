@@ -502,7 +502,7 @@ alias kp="keepassx $HOME/.keepassx/keepass.kdb"
 # xine media player
 alias xine="daemon xine --enqueue"
 # remote desktop
-alias rdp="rdesktop -x lan -K -g $SCR_RES"
+alias rdp="rdesktop -x lan -K -g 1280x1024"
 # fusermount
 alias fumount='fusermount -u -z'
 

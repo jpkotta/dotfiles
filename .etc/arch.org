@@ -125,6 +125,7 @@ systemctl enable foldingathome.service
 * git
 * gkrellm
 ** gkrellweather
+* global
 * gpm
 systemctl enable gpm.service
 * gstreamer0.10-plugins
@@ -299,6 +300,7 @@ systemctl enable tpacpi.service
 * ttf-symbola
 * ttf-vista-fonts
 * udiskie
+* units
 * virtualbox
 gpasswd -a $USER vboxusers
 chattr +C ~/.VirtualBox/ # improves performance on btrfs
