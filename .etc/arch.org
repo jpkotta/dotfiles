@@ -1,14 +1,6 @@
 # -*- org-fontify-emphasized-text: nil -*-
 
 * TODO
-** commit-patch
-*** patchutils
-*** perl-ipc-run
-** xuserrun-git
-** android-sdk-platform-tools
-** compton-git
-** cups config
-** howdoi
 * MISCELLANEOUS
 ** files
 *** /etc/pacman.conf
@@ -55,8 +47,9 @@ vm.swappiness = 30
 * abcde
 ** atomicparsley
 * alsa-utils
-* android-sdk-platform-tools
-http://wiki.cyanogenmod.org/w/UDEV
+* android-tools
+** android-udev
+gpasswd -a $USER adbusers
 * apg
 * ascii
 * aspell-en
@@ -91,13 +84,15 @@ systemctl enable bumblebeed.service
 * burp
 * chromium
 * colordiff
+* commit-patch
 * compton-git
 * cups
 gpasswd -a $USER lp
 gpasswd -a $USER sys
 systemctl enable cups.service
 lpadmin -d PRINTER_NAME
-used the C3070i/postscript driver
+http://localhost:631
+used the C3170i/postscript driver
 ** cups-filters
 ** cups-pdf
 ** foomatic-db
@@ -180,6 +175,7 @@ done
 * mpd
 ** mpc
 ** ncmpcpp
+* namcap
 * nfs-utils
 systemctl enable rpcbind.service
 ** /etc/fstab
