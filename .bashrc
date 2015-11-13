@@ -514,7 +514,7 @@ alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -
 
 function gitaur() {
     # Don't forget to `ssh-add ~/.ssh/id_aur`.
-    read -p "Cloning '$1' into /tmp."
+    read -p "Cloning '$1' into /tmp. (press enter)"
     cd /tmp/
     git clone ssh://aur@aur.archlinux.org/$1.git
     [ -d $1 ] && cd $1
