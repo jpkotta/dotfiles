@@ -2,24 +2,29 @@
 
 * TODO
 * MISCELLANEOUS
-** files
+** pacman
 *** /etc/pacman.conf
 IgnorePkg += linux
 ILoveCandy
 Color
 *** /etc/pacman.d/mirrorlist
 reflector -a 1 --country "United States" --sort rate -n 5 --save /etc/pacman.d/mirrorlist
-*** /etc/fstab
+** modules
 *** /etc/modprobe.d/nobeep.conf
 blacklist pcspkr
 *** /etc/modprobe.d/loop.conf
 options loop max_part=15
+** misc config
+*** /etc/fstab
 *** /etc/hostname
 *** /etc/locale.gen
 *** /etc/locale.conf
 LANG=en_US.UTF-8
 *** ln -s /usr/share/zoneinfo/CST6CDT /etc/localtime
 *** hwclock --systohc --utc
+*** /etc/sysctl.d/swappiness.conf
+vm.swappiness = 30
+** cron
 *** /etc/cron.daily/download-updates
 #!/bin/sh
 pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
@@ -27,8 +32,10 @@ pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 #!/bin/sh
 /usr/bin/paccache --remove --keep 1 --verbose
 /usr/bin/paccache --remove --keep 1 --verbose --cachedir /var/cache/pacaur/pkg/
+** users
 *** useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
 *** for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $USER $g ; done
+** udev
 *** /etc/udev/rules.d/99-lowbatt.rules
 SUBSYSTEM=="power supply", ATTR{status}=="Discharging", ATTR{capacity}=="2", RUN+="/usr/bin/systemctl suspend"
 *** /etc/udev/rules.d/60-iosched.rules
@@ -42,8 +49,6 @@ systemctl enable cronie.service
 systemctl enable dhcpcd.service
 *** /etc/systemd/journald.conf
 SystemMaxUse=100M # max journal size
-** /etc/sysctl.d/swappiness.conf
-vm.swappiness = 30
 * abcde
 ** atomicparsley
 * alsa-utils
@@ -81,8 +86,9 @@ gpasswd -a $USER bumblebee
 systemctl enable bumblebeed.service
 ** nvidia
 ** bbswitch
-* burp
 * chromium
+** chromium-pepper-flash
+** chromium-widevine
 * colordiff
 * commit-patch
 * compton-git
@@ -104,8 +110,6 @@ used the C3170i/postscript driver
 * etc-update
 * figlet
 * firefox
-* flashplugin
-/etc/adobe/mms.cfg
 * foldingathome-noroot
 /opt/fah/fah-config
 systemctl enable foldingathome.service
@@ -209,12 +213,15 @@ chmod g+rwx /var/cache/pacaur/pkg
 ** /etc/makepkg.conf
 PKGDEST=/var/cache/pacaur/pkg/
 MAKEFLAGS="j4"
+** One or more PGP signatures could not be verified!
+gpg --recv-keys KEY_ID
 * pacserve
 systemctl enable pacserve.service
 pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
 * pbzip2
 * perl-rename
 * perl-term-readline-gnu
+* pigz
 * pkgbuild-introspection
 * pkgfile
 ** /etc/cron.monthly/pkgfile
@@ -287,7 +294,6 @@ systemctl enable tpacpi.service
 ** acpi_call-git-dkms
 * trash-cli
 * tree
-* tremulous
 * ttf-dejavu
 * ttf-indic-otf
 * ttf-liberation
@@ -355,4 +361,3 @@ ExecStart=/usr/bin/xuserrun /usr/bin/xscreensaver-command -lock
 
 [Install]
 WantedBy=sleep.target
-
