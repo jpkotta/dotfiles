@@ -17,6 +17,9 @@ working.patch.*
 # tags files
 TAGS
 tags
+GTAGS
+GRTAGS
+GPATH
 
 # other VCSs
 .git
