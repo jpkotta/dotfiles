@@ -54,7 +54,7 @@ hgext.hggit = ~/.hgext/hg-git/hggit
 # http://bitbucket.org/durin42/hgsubversion/wiki/Home
 # requires python-subversion
 # recommends rebase extension
-hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
+#hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
 
 # curses record
 # hg clone https://bitbucket.org/edgimar/crecord

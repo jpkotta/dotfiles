@@ -1,2 +1,5 @@
 def_key "x"
     pause
+
+def_key "space"
+    select_item

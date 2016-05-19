@@ -554,8 +554,12 @@ function synchronize() {
 function spell() {
     local word resp
 
-    if ! is_command ispell ; then
-        echo "This requires ispell."
+    is_command aspell && cmd=aspell
+    if [ -z "$cmd" ] ; then
+        is_command ispell && cmd=ispell
+    fi
+    if [ -z "$cmd" ] ; then
+        echo "This requires aspell or ispell."
         return 1
     fi
     
@@ -576,7 +580,7 @@ function spell() {
             # Guess: ? <original> 0 <offset>: <guess>, <guess>, ...
             # None:  # <original> <offset>
             
-            resp=$(echo $word | ispell -a -m -B | grep -v "^[@*+-]")
+            resp=$(echo $word | $cmd -a -m -B | grep -v "^[@*+-]")
             if [ -z "$resp" ] ; then
                 # example:
                 # $ echo spell | ispell -a -m -B

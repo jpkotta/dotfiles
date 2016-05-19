@@ -269,6 +269,55 @@ systemctl enable nmbd.service
 systemctl enable winbindd.service
 sudo pdbedit -a -u $USER
 ** /etc/smb.conf
+* schroot
+** gnupg1
+** debootstrap
+mkdir -p /var/chroot/ubuntu
+debootstrap --arch amd64 trusty /var/chroot/ubuntu http://us.archive.ubuntu.com/ubuntu/
+cp -a /etc/schroot/arch32/ /etc/schroot/ubuntu/
+** /etc/schroot/chroot.d/ubuntu.conf
+[ubuntu]
+description=Trusty
+type=directory
+directory=/var/chroot/ubuntu
+users=jpkotta
+groups=users
+root-users=jpkotta
+profile=ubuntu
+aliases=trusty
+** /etc/schroot/ubuntu/config
+# Filesystems to mount inside the chroot.
+FSTAB="/etc/schroot/ubuntu/mount"
+# Files to copy from the host system into the chroot.
+COPYFILES="/etc/schroot/ubuntu/copyfiles"
+# System databases to copy into the chroot
+NSSDATABASES="/etc/schroot/ubuntu/nssdatabases"
+** /etc/schroot/ubuntu/copyfiles
+/etc/group
+/etc/hosts
+/etc/passwd
+/etc/resolv.conf
+/etc/localtime
+/etc/locale.gen
+/etc/sudoers
+** /etc/schroot/ubuntu/mount
+# <file system>	<mount point>	<type>	<options>	<dump>	<pass>
+proc		/proc		proc	defaults	0	0
+/dev		/dev		none	rw,bind		0	0
+/dev/pts	/dev/pts	none	rw,bind		0	0
+tmpfs		/dev/shm	tmpfs	defaults	0	0
+/sys		/sys		none	rw,bind		0	0
+/tmp		/tmp		none	rw,bind		0	0
+/home		/home		none	rw,bind		0	0
+** /etc/schroot/ubuntu/nssdatabases
+# <database name>
+passwd
+shadow
+group
+** inside the chroot
+# list of groups: cat /etc/group /var/chroot/ubuntu/etc/group | cut -d: -f1 | sort -u
+groupadd crontab
+groupadd staff
 * slim
 systemctl enable slim.service
 * smbclient
