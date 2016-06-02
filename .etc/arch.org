@@ -49,6 +49,22 @@ systemctl enable cronie.service
 systemctl enable dhcpcd.service
 *** /etc/systemd/journald.conf
 SystemMaxUse=100M # max journal size
+** systemd-networkd
+systemctl enable systemd-networkd.service
+systemctl enable systemd-resolved.service
+systemctl disable dhcpcd.service
+*** /etc/systemd/network/ethernet.network
+[Match]
+Name=enp4s0
+
+[Network]
+DHCP=ipv4
+*** /etc/systemd/network/usb-edison.network
+[Match]
+Name=enp0s29f7u6u4c2
+
+[Network]
+Address=192.168.2.2/24
 * abcde
 ** atomicparsley
 * alsa-utils
