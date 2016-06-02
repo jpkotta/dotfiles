@@ -48,7 +48,8 @@ Style Desktop* !Borders, NoIcon, NoTitle, \
 Style DesktopTerminal*  TitleAtRight, SloppyFocus, FPLeaveToUnfocus, Layer 6, \
                         StartsOnScreen $[infostore.right_screen]
 
-Style DesktopButtons*   NeverFocus, TitleAtLeft, Layer 6
+Style DesktopButtons*   NeverFocus, TitleAtLeft, Layer 6, \
+    StartsOnScreen $[infostore.left_screen]
 Style DesktopButtonsMediaPlayer TitleAtTop
 
 # DesktopMiniPager must be on top so it's always visible
