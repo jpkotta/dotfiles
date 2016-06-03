@@ -67,6 +67,12 @@ def main_loop():
             songs = c.find("album", album)
 
             c.clear()
+
+            # check for duplicate album names (e.g. "Greatest Hits")
+            if len([i for i in songs if i['track'] in ("01", "1")]) > 1:
+                artist = choice(list({i['artist'] for i in songs}))
+                songs = [i for i in songs if i['artist'] == artist]
+                
             for song in songs:
                 c.add(song["file"])
             playlist_finished = False
