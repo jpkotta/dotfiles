@@ -91,6 +91,7 @@ def main_loop():
 def main():
     pid_file = "/tmp/%s-ralbumd.pid" % os.environ["USER"]
     debug = False
+    daemonize = True
 
     if "kill" in sys.argv[1:]:
         kill_old(pid_file)
@@ -99,12 +100,17 @@ def main():
     if "debug" in sys.argv[1:]:
         debug = True
 
-    with DaemonContext(
-            pidfile=PIDLockFile(pid_file),
-            detach_process=(None if not debug else False),
-            stdout=(None if not debug else sys.stdout),
-            stderr=(None if not debug else sys.stderr),
-            ):
+    if "nodaemon" in sys.argv[1:]:
+        daemonize = False
+
+    if daemonize:
+        with DaemonContext(
+                pidfile=PIDLockFile(pid_file),
+                detach_process=(None if not debug else False),
+                stdout=(None if not debug else sys.stdout),
+                stderr=(None if not debug else sys.stderr)):
+            main_loop()
+    else:
         main_loop()
 
 ########################################################################

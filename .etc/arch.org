@@ -193,6 +193,8 @@ done
 
 # add LOCATE_PATH to your ~/.bashrc to have locate search these databases
 * mpd
+systemctl --user enable mpd.service
+systemctl --user enable ralbumd.service
 ** mpc
 ** ncmpcpp
 * namcap
@@ -261,14 +263,13 @@ python-jinja python-tornado python-pyzmq python-pygments
 ** python-pyserial
 ** python-scipy
 ** python-sqlalchemy
+** python-mpd2
 * python2
 ** ipython2
 *** ipython2-notebook
 python2-jinja python2-tornado python2-pyzmq python2-pygments
 ** python2-ipython-sql
-** python2-daemon
 ** python2-matplotlib
-** python2-mpd
 ** python2-numpy
 ** python2-pylint
 ** python2-pymysql

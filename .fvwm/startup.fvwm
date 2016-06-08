@@ -27,14 +27,7 @@ AddToFunc InitFunction
 # which is weird because it creates it
 + I Exec exec rm -f $[FVWM_USERDIR]/.fvwm-menu-directory.dir
 + I StartScreensaver
-#+ I Exec artswrapper -s 1 ; sleep 3 ; artsdsp esd -nobeeps -as 1
-#+ I Exec exec gnome-panel
-#+ I Exec exec gnome-settings-daemon
 + I Test (EnvIsSet USE_COMPOSITE) RestartCompositor
-#+ I Exec exec $[infostore.script_dir]/rotate_wallpaper
-#+ I Exec exec pidgin
-+ I Exec pulseaudio --check || pulseaudio -D && pulseaudio-equalizer enable
-+ I Exec if ! ps -ef | grep -v grep | grep mpd | grep -q $USER ; then mpd ; sleep 1 ; ralbumd kill ; ralbumd ; fi
 + I SshAdd
 
 ################################################################################
