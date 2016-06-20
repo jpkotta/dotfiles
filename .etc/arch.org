@@ -220,7 +220,7 @@ X11Forwarding yes
 * pacaur
 cd /tmp
 for i in cower pacaur ; do
-    curl -O https://aur.archlinux.org/packages/${i:0:2}/$i/$i.tar.gz
+    curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/$i.tar.gz
     tar xf $i.tar.gz
     (cd $i ; makepkg -si)
 done
@@ -254,7 +254,7 @@ gpasswd -a $USER audio
 * python
 ** ipython
 *** ipython-notebook
-python-jinja python-tornado python-pyzmq python-pygments
+python-jinja python-tornado python-pyzmq python-pygments qt5-svg
 ** python-ipython-sql
 ** python-matplotlib
 ** python-numpy
@@ -267,7 +267,7 @@ python-jinja python-tornado python-pyzmq python-pygments
 * python2
 ** ipython2
 *** ipython2-notebook
-python2-jinja python2-tornado python2-pyzmq python2-pygments
+python2-jinja python2-tornado python2-pyzmq python2-pygments qt5-svg
 ** python2-ipython-sql
 ** python2-matplotlib
 ** python2-numpy
