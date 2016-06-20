@@ -134,6 +134,24 @@ export DE=kde # workaround for xdg-open
 ########################################################################
 ### prompt
 
+function _join_str() {
+    local IFS="$1";
+    shift
+    echo "$*"
+}
+
+function _prompt_pwd() {
+    local p a
+    p=${PWD/#$HOME/\~} # replace $HOME with ~
+    IFS='/' read -r -a a <<< $p # array split on '/'
+    n=3
+    if [ ${#a[@]} -ge $n ] ; then
+        _join_str / ${a[@]: -$n:$n}
+    else
+        echo $p
+    fi
+}
+
 function set_up_prompt() {
     if [[ "$TERM" == '' ]] ; then
         PS1='[\u@\h][\w](\j)\n\$ '
@@ -179,7 +197,7 @@ function set_up_prompt() {
     local hostname="$cyan\h$normal"
     local jobs="$cyan\j$normal"
     local time="$cyan\t$normal"
-    local pwd="$magenta\w$normal"
+    local pwd="$magenta\$(_prompt_pwd)$normal"
     local cmd_num="$blue\#$normal"
     local err_stat="\
 \`__lasterr=\$?; \
