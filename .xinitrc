@@ -45,9 +45,6 @@ numlockx on
 # start automounter
 udiskie &
 
-# start rxvt-unicode daemon
-urxvtd -q -o -f
-
 # load any machine-specific settings
 if [ -e "$HOME/.xinitrc.local" ] ; then
     echo

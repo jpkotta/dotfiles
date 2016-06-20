@@ -261,7 +261,7 @@ MenuStyle small_menu_style VerticalItemSpacing 1 2, VerticalTitleSpacing 1 2
 # MISCELLANEOUS SETTINGS
 ################################################################################
 
-InfoStoreAdd terminal_prog urxvtc
+InfoStoreAdd terminal_prog urxvt
 
 Test (EnvIsSet USE_NETBOOK) Style * TitleAtLeft
 
