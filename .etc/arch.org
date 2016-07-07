@@ -1,5 +1,3 @@
-# -*- org-fontify-emphasized-text: nil -*-
-
 * TODO
 * MISCELLANEOUS
 ** pacman
