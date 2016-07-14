@@ -340,7 +340,7 @@ systemctl enable slim.service
 username=USERNAME
 password=PASSWORD
 ** /etc/fstab
-//SERVER/SHARE    /media/MOUNTPOINT      cifs    uid=USER,gid=GROUP,credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,file_mode=0644,dir_mode=0755 0 0
+//SERVER/SHARE /media/MOUNTPOINT cifs x-systemd.automount,x-systemd.idle-timeout=1min,rw,uid=USER,gid=GROUP,credentials=/etc/samba/private/SERVER.cred,iocharset=utf8,file_mode=0644,dir_mode=0755 0 0
 * spideroak-one
 * strace
 * subversion
