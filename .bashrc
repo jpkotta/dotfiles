@@ -194,7 +194,7 @@ exit $__lasterr\`$normal"
     local prompt="$blue\\\$$normal"
     local dpy="${cyan}D\$DISPLAY$normal"
 
-    PS1="$op$time$clop$username$at$hostname$clop$pwd$clop$jobs$clop$err_stat$clop$dpy$cl\n$prompt "
+    PS1="$op$time$clop$username$at$hostname$clop$pwd$clop$jobs$clop$err_stat$cl\n$prompt "
 }
 set_up_prompt
 
