@@ -134,25 +134,9 @@ export DE=kde # workaround for xdg-open
 ########################################################################
 ### prompt
 
-function _join_str() {
-    local IFS="$1";
-    shift
-    echo "$*"
-}
-
-function _prompt_pwd() {
-    local p a
-    p=${PWD/#$HOME/\~} # replace $HOME with ~
-    IFS='/' read -r -a a <<< $p # array split on '/'
-    n=3
-    if [ ${#a[@]} -ge $n ] ; then
-        _join_str / ${a[@]: -$n:$n}
-    else
-        echo $p
-    fi
-}
-
 function set_up_prompt() {
+    PROMPT_DIRTRIM=3
+    
     if [[ "$TERM" == '' ]] ; then
         PS1='[\u@\h][\w](\j)\n\$ '
         return
@@ -195,9 +179,9 @@ function set_up_prompt() {
     [ $UID = 0 ] && username="$red\u$normal"
     local at="$blue@$normal"
     local hostname="$cyan\h$normal"
-    local jobs="$cyan\j$normal"
+    local jobs="${cyan}J\j$normal"
     local time="$cyan\t$normal"
-    local pwd="$magenta\$(_prompt_pwd)$normal"
+    local pwd="$magenta\w$normal"
     local cmd_num="$blue\#$normal"
     local err_stat="\
 \`__lasterr=\$?; \
@@ -205,11 +189,10 @@ if [ \$__lasterr = 0 ] ; then \
 echo -ne '$cyan' ; \
 else echo -ne '$red' ; \
 fi ; \
-echo \$__lasterr ; \
+echo E\$__lasterr ; \
 exit $__lasterr\`$normal"
-    # local err_stat="$cyan\`echo \$?\`$normal"
     local prompt="$blue\\\$$normal"
-    local dpy="$cyan\$DISPLAY$normal"
+    local dpy="${cyan}D\$DISPLAY$normal"
 
     PS1="$op$time$clop$username$at$hostname$clop$pwd$clop$jobs$clop$err_stat$clop$dpy$cl\n$prompt "
 }
