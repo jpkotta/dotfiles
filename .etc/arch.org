@@ -161,14 +161,6 @@ xdg-mime default okularApplication_pdf.desktop application/pdf
 * keepassx
 * libreoffice-still
 ** libreoffice-en-US
-* localepurge
-** /etc/locale.nopurge
-** /etc/cron.monthly/localepurge
-#!/bin/sh
-
-/usr/bin/localepurge
-/usr/bin/localepurge-config
-/usr/bin/localepurge
 * lsof
 * luminancehdr
 * lyx
@@ -283,7 +275,7 @@ systemctl enable smbd.service
 systemctl enable nmbd.service
 systemctl enable winbindd.service
 sudo pdbedit -a -u $USER
-** /etc/smb.conf
+** /etc/samba/smb.conf
 * schroot
 ** gnupg1
 ** debootstrap
@@ -349,6 +341,10 @@ gpasswd -a $USER wheel
 ** /etc/sudoers
 %wheel ALL=(ALL) ALL
 * texlive-most
+* tftp-hpa
+gpasswd -a $USER ftp
+chgrp ftp /srv/tftp/
+chmod g+rwx /srv/tftp/
 * tlp
 systemctl enable tlp.service
 * tmux
