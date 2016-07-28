@@ -14,15 +14,21 @@ AddToFunc StartFirefox
 + I TestRc (!Match) Exec exec firefox
 + I All (Firefox) Raise
 
+DestroyFunc StartChrome
+AddToFunc StartChrome
++ I Any (google-chrome*) Nop
++ I TestRc (!Match) Exec exec google-chrome-beta
++ I All (google-chrome*) Raise
+
 DestroyFunc StartChromium
 AddToFunc StartChromium
-+ I Any (Chromium) Nop
++ I Any (chromium) Nop
 + I TestRc (!Match) Exec exec chromium
-+ I All (Chromium) Raise
++ I All (chromium) Raise
 
 DestroyFunc StartBrowser
 AddToFunc StartBrowser
-+ I StartChromium $0
++ I StartChrome $0
 
 DestroyFunc StartPySol
 AddToFunc StartPySol
