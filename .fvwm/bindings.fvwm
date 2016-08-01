@@ -122,7 +122,7 @@ Key     Down    A       4       PrevWindow
 Key     Up      A       4       NextWindow
 Key     Down    A       4S      FocusPrevWindow
 Key     Up      A       4S      FocusNextWindow
-Key     Tab     A       M       WindowList Root c c SelectOnRelease Alt_L NoLayer, CurrentDesk, CurrentAtEnd
+Key     Tab     A       M       WindowList (CurrentDesk, CurrentPage, AnyScreen) Root c c SelectOnRelease Alt_L NoLayer, CurrentAtEnd
 Key     Tab     A       4       WindowList Root c c SelectOnRelease Super_L NoLayer, CurrentAtEnd
 
 ########################################
