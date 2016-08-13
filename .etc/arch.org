@@ -2,7 +2,7 @@
 * MISCELLANEOUS
 ** pacman
 *** /etc/pacman.conf
-IgnorePkg += linux
+IgnorePkg += linux linux-zen
 ILoveCandy
 Color
 *** /etc/pacman.d/mirrorlist
@@ -91,7 +91,7 @@ ln -s /bin/true /sbin/fsck.btrfs
 ** /etc/cron.monthly/defrag
 filesystems=`mount | grep btrfs | grep -o "on .* type" | sed -e "s/^on //" -e "s/ type$//"`
 for fs in $filesystems ; do
-    btrfs filesystem defrag -- 
+    btrfs filesystem defrag --
     find "$fs" -xdev \( -type f -o -type d \) \
         -exec ionice -c idle btrfs filesystem defrag -- '{}' +
 done
@@ -220,7 +220,8 @@ chgrp wheel /var/cache/pacaur/pkg
 chmod g+rwx /var/cache/pacaur/pkg
 ** /etc/makepkg.conf
 PKGDEST=/var/cache/pacaur/pkg/
-MAKEFLAGS="j4"
+MAKEFLAGS="j$(nproc)"
+COMPRESSXZ=(xz -c -z --threads=0 -)
 ** One or more PGP signatures could not be verified!
 gpg --recv-keys KEY_ID
 * pacserve
@@ -233,7 +234,7 @@ pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
 * pkgbuild-introspection
 * pkgfile
 ** /etc/cron.monthly/pkgfile
-pkgfile --update >/dev/null 
+pkgfile --update >/dev/null
 * pmount
 * pulseaudio
 gpasswd -a $USER audio
@@ -407,7 +408,7 @@ EndSection
 * xorg-server
 * xorg-server-xephyr
 * xorg-xclock
-* xorg-xinit 
+* xorg-xinit
 * xscreensaver
 ** xuserrun-git
 *** /etc/systemd/system/xscreensaver.service
