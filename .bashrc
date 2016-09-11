@@ -136,7 +136,7 @@ export DE=kde # workaround for xdg-open
 
 function set_up_prompt() {
     PROMPT_DIRTRIM=3
-    
+
     if [[ "$TERM" == '' ]] ; then
         PS1='[\u@\h][\w](\j)\n\$ '
         return
@@ -232,7 +232,7 @@ function set_up_dircolors() {
         if [ ! -e $HOME/.dircolors ] ; then
             $dircolors --print-database > $HOME/.dircolors
         fi
-        
+
         eval $($dircolors --sh $HOME/.dircolors)
     fi
 }
@@ -313,7 +313,7 @@ fi
 function cd_up() {
     # do 'cd ..' N times
     local x i d
-    if [ -z "$1" ] ; then 
+    if [ -z "$1" ] ; then
         return
     fi
     x=$(($1 * ($1 > 0))) # positive or zero
@@ -338,8 +338,8 @@ function cdmk() { mkdir -p "$1" ; cd "$1" ; }
 
 # move around dirstack more easily
 function cd() {
-    local num_dirs 
-    
+    local num_dirs
+
     if [ -z "$1" ] ; then
         if [ "$PWD" != "$HOME" ] ; then
             builtin pushd "$HOME" >/dev/null
@@ -386,7 +386,7 @@ function set_up_ls_aliases() {
     else
         alias ls="$ls_prog -F"
     fi
-    
+
     alias l='ls' # simple
     alias ll='ls -l' # long listing
     alias la='ls -A' # list all files
@@ -397,7 +397,7 @@ function set_up_ls_aliases() {
 
     # display 'canonical' name (guaranteed to be unique and not a symlink)
     alias lc='realpath'
-    
+
     # display canonical name of an executable in the path
     function le() {
         realpath $(which $1)
@@ -513,12 +513,9 @@ alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -
 ########################################################################
 ### functions
 
-function gitaur() {
-    # Don't forget to `ssh-add ~/.ssh/id_aur`.
-    read -p "Cloning '$1' into /tmp. (press enter)"
-    cd /tmp/
-    git clone ssh://aur@aur.archlinux.org/$1.git
-    [ -d $1 ] && cd $1
+function gitaur_remote() {
+    local name=$(basename $(git rev-parse --show-toplevel))
+    git remote add ssh "ssh://aur@aur.archlinux.org/${name}"
 }
 
 function mpumount() {
@@ -563,7 +560,7 @@ function spell() {
         echo "This requires aspell or ispell."
         return 1
     fi
-    
+
     if [ -z "$1" ]; then
         echo "Usage: spell word1 [ word2 ... ]"
         return 1
@@ -580,7 +577,7 @@ function spell() {
             # Miss:  & <original> <count> <offset>: <miss>, <miss>, ..., <guess>, ...
             # Guess: ? <original> 0 <offset>: <guess>, <guess>, ...
             # None:  # <original> <offset>
-            
+
             resp=$(echo $word | $cmd -a -m -B | grep -v "^[@*+-]")
             if [ -z "$resp" ] ; then
                 # example:
@@ -600,7 +597,7 @@ function spell() {
                 # & spel 7 0: Opel, spec, sped, spell, spelt, spew, spiel
                 #
                 # example with no suggestions:
-                # $ echo asdf | ispell -a -m -B                                              
+                # $ echo asdf | ispell -a -m -B
                 # @(#) International Ispell Version 3.1.20 10/10/95
                 # # asdf 0
                 resp=$(echo $resp | grep '^&' | sed -e 's/&.*://')
