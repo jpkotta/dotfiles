@@ -20,8 +20,6 @@ options loop max_part=15
 LANG=en_US.UTF-8
 *** ln -s /usr/share/zoneinfo/CST6CDT /etc/localtime
 *** hwclock --systohc --utc
-*** /etc/sysctl.d/swappiness.conf
-vm.swappiness = 30
 ** cron
 *** /etc/cron.daily/download-updates
 #!/bin/sh
@@ -341,6 +339,14 @@ password=PASSWORD
 gpasswd -a $USER wheel
 ** /etc/sudoers
 %wheel ALL=(ALL) ALL
+* systemd-swap
+# make sure there is a swap partition/file
+systemctl enable systemctl-swap.service
+** /etc/systemd-swap.conf
+zswap[enabled]=1
+** /etc/sysctl.d/swappiness.conf
+vm.swappiness = 30
+vm.overcommit_memory = 1
 * texlive-most
 * tftp-hpa
 gpasswd -a $USER ftp
