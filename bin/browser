@@ -1,3 +1,5 @@
 #!/bin/sh
-firefox -new-tab "$*"
-#opera -newwindow "$*"
+
+for i in google-chrome-beta google-chrome-stable firefox ; do
+    type "$i" >&/dev/null && exec "$i" "$*"
+done
