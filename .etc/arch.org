@@ -29,17 +29,11 @@ pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 /usr/bin/paccache --remove --keep 1 --verbose
 /usr/bin/paccache --remove --keep 1 --verbose --cachedir /var/cache/pacaur/pkg/
 ** users
-*** useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
-*** for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $USER $g ; done
+useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
+for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $USER $g ; done
 ** udev
 *** /etc/udev/rules.d/99-lowbatt.rules
 SUBSYSTEM=="power supply", ATTR{status}=="Discharging", ATTR{capacity}=="2", RUN+="/usr/bin/systemctl suspend"
-*** /etc/udev/rules.d/60-iosched.rules
-# doped sand
-ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
-
-# spinning rust
-ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="deadline"
 ** systemd
 systemctl enable cronie.service
 systemctl enable dhcpcd.service
