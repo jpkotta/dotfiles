@@ -56,7 +56,7 @@ def kill_old(pid_file):
 
 def main_loop():
     c = connect()
-    
+
     delay = 1
     playlist_finished = False
     while True:
@@ -72,12 +72,17 @@ def main_loop():
             if len([i for i in songs if i['track'] in ("01", "1")]) > 1:
                 artist = choice(list({i['artist'] for i in songs}))
                 songs = [i for i in songs if i['artist'] == artist]
-                
+
             for song in songs:
                 c.add(song["file"])
             playlist_finished = False
 
             c.play()
+
+        if "error" in status:
+            print("Error: %s" % status["error"])
+            playlist_finished = True
+            continue
 
         if ("song" in status
             and int(status["playlistlength"]) - 1 == int(status["song"])):
