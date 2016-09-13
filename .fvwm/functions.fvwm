@@ -60,7 +60,7 @@ AddToFunc StartFileManager
 DestroyFunc StartImageViewer
 AddToFunc StartImageViewer
 + I Test (X geeqie) Exec exec geeqie $0
-+ I TestRc (NoMatch) Exec exec gqview $0 
++ I TestRc (NoMatch) Exec exec gqview $0
 
 DestroyFunc StartImageEditor
 AddToFunc StartImageEditor
@@ -115,11 +115,11 @@ AddToFunc ToggleScreensaver
          echo Menu ScreensaverOnMsg ; \
     fi'
 
-        
+
 ################################################################################
 # QUIT FUNCTIONS
 ################################################################################
-        
+
 # $0 = menu entry text
 # $1 = function
 DestroyFunc ConfirmMenuFunc
@@ -173,7 +173,7 @@ AddToFunc ResizeRaiseShadeDirection
 + M Raise
 + C Raise
 + D shade$0
- 
+
 DestroyFunc DefaultTitlePos
 AddToFunc DefaultTitlePos
 + I Test (EnvIsSet USE_NETBOOK) WindowStyle TitleAtLeft
@@ -184,19 +184,19 @@ AddToFunc shadeN
 + I WindowShade N
 + I ThisWindow (shaded) WindowStyle TitleAtTop
 + I ThisWindow (!shaded) DefaultTitlePos
- 
+
 DestroyFunc shadeS
 AddToFunc shadeS
 + I WindowShade S
 + I ThisWindow (shaded) WindowStyle TitleAtBottom
 + I ThisWindow (!shaded) DefaultTitlePos
- 
+
 DestroyFunc shadeW
 AddToFunc shadeW
 + I WindowShade W
 + I ThisWindow (shaded) WindowStyle TitleAtLeft
 + I ThisWindow (!shaded) DefaultTitlePos
- 
+
 DestroyFunc shadeE
 AddToFunc shadeE
 + I WindowShade E
@@ -223,8 +223,8 @@ AddToFunc WindowListFunc
 + I WarpToWindow 50 50
 
 # NextWindow cycles thru the windows of the current page in window list order
-# PrevWindow cycles thru in reverse, but since the window list is sorted by 
-#   the order in which the windows were focused, it has the effect of toggling 
+# PrevWindow cycles thru in reverse, but since the window list is sorted by
+#   the order in which the windows were focused, it has the effect of toggling
 #   between the current window and the previous window
 # NoWindow command is needed otherwise windows are focused in a strange order - not sure why
 DestroyFunc FocusNextWindow
@@ -347,8 +347,8 @@ AddToFunc MoveAndGotoPage
 # warp to middle of window and then move, so the pointer never goes off the
 # screen before the window does, causing a page flip
 DestroyFunc WarpAndMove
-AddToFunc WarpAndMove 
-+ I WarpToWindow 50 50 
+AddToFunc WarpAndMove
++ I WarpToWindow 50 50
 + I Schedule 10 Move
 
 # Warp to the bottom-right corner and resize
@@ -365,7 +365,7 @@ AddToFunc ResizeWarpNW
 
 # these are bound to title bar clicks
 DestroyFunc DeiconifyFocusAndRaise
-AddToFunc DeiconifyFocusAndRaise 
+AddToFunc DeiconifyFocusAndRaise
 + I Iconify off
 + I Focus
 + I Raise
@@ -565,7 +565,7 @@ AddToFunc MountKeyDrive
 DestroyFunc ShowHideDesktop
 AddToFunc ShowHideDesktop
 # faster with this off
-+ I KillModule FvwmAnimate 
++ I KillModule FvwmAnimate
 + I Schedule 500 Module FvwmAnimate
 + I All (CurrentPage, !Iconic, !CirculateHit, !CirculateHitIcon, !CirculateHitShaded, AnyScreen) \
     Iconify on
@@ -575,7 +575,7 @@ AddToFunc ShowHideDesktop
 DestroyFunc ShowDesktop
 AddToFunc ShowDesktop
 # faster with this off
-+ I KillModule FvwmAnimate 
++ I KillModule FvwmAnimate
 + I Schedule 500 Module FvwmAnimate
 + I All (CurrentPage, Iconic, !CirculateHit, !CirculateHitIcon, !CirculateHitShaded, AnyScreen) \
     Iconify off
@@ -583,7 +583,7 @@ AddToFunc ShowDesktop
 DestroyFunc HideDesktop
 AddToFunc HideDesktop
 # faster with this off
-+ I KillModule FvwmAnimate 
++ I KillModule FvwmAnimate
 + I Schedule 500 Module FvwmAnimate
 + I All (CurrentPage, !Iconic, !CirculateHit, !CirculateHitIcon, !CirculateHitShaded, AnyScreen) \
     Iconify on
@@ -605,7 +605,7 @@ AddToFunc MultiClose
 # zooms a window using xmag, then swallows the xmag window with FvwmScroll
 # the original window should be untouched
 DestroyFunc ZoomWindow
-AddToFunc ZoomWindow 
+AddToFunc ZoomWindow
 + I Exec exec xmag -source $[w.width]x$[w.height]+$[w.x]+$[w.y] -mag 2
 + I Wait xmag
 + I Next (xmag) Module FvwmScroll
