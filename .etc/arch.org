@@ -261,6 +261,8 @@ python2-jinja python2-tornado python2-pyzmq python2-pygments qt5-svg
 ** python2-sqlalchemy
 * qbittorrent
 * rdesktop
+* redshift-minimal
+systemctl --user enable redshift.service
 * reflector
 * rxvt-unicode
 * samba
@@ -397,7 +399,6 @@ Section "Device"
 EndSection
 ** /etc/X11/XvMCConfig
 /usr/lib/libIntelXvMC.so
-* xflux
 * xorg-apps
 ** xorg-xdpyinfo
 ** xorg-xmodmap
