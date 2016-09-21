@@ -1,6 +1,8 @@
 # See /usr/share/doc/ncmpcpp/config
 
-mpd_music_dir = "/home/jpkotta/music"
+ncmpcpp_directory = "~/.config/ncmpcpp"
+
+mpd_music_dir = "~/music"
 
 visualizer_type = "spectrum"
 
@@ -14,6 +16,5 @@ selected_item_prefix = "$u"
 selected_item_suffix = "$/u"
 
 autocenter_mode = "yes"
-default_space_mode = "add"
 ask_before_clearing_playlists = "yes"
 clock_display_seconds = "yes"
