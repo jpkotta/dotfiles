@@ -1,6 +1,6 @@
 [Unit]
 Description=Random Album Daemon
-Wants=mpd.service
+Requires=mpd.service
 After=mpd.service
 
 [Service]
