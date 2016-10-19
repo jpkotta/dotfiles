@@ -1,6 +1,6 @@
 ################################################################################
 #
-# ICON STYLES  
+# ICON STYLES
 #
 ################################################################################
 
@@ -28,11 +28,11 @@ Style XClipboard        MiniIcon mini.clipboard.xpm, Icon toolbox.xpm
 Style *color*           MiniIcon mini.colors.xpm, Icon resize
 
 # Applications
-#Style lyx               MiniIcon mini.edit.xpm   
-#Style thot              MiniIcon mini.edit.xpm   
-#Style ghostview         MiniIcon mini.gv.xpm     
-#Style gv                MiniIcon mini.gv.xpm     
-#Style xdvi              MiniIcon mini.zoom.xpm   
+#Style lyx               MiniIcon mini.edit.xpm
+#Style thot              MiniIcon mini.edit.xpm
+#Style ghostview         MiniIcon mini.gv.xpm
+#Style gv                MiniIcon mini.gv.xpm
+#Style xdvi              MiniIcon mini.zoom.xpm
 Style acroread          MiniIcon mini.pdf.xpm
 Style xpdf              MiniIcon mini.pdf.xpm
 #Style plan              MiniIcon mini.calandar.xpm
@@ -191,7 +191,7 @@ Style "gEdit"           MiniIcon mini.edit.xpm,     Icon lemacs.xpm
 Style "gedit"           MiniIcon mini.edit.xpm,     Icon lemacs.xpm
 Style "gfontsel"        MiniIcon mini.font.xpm
 Style "ghex"            MiniIcon mini.hex.xpm,      Icon page.xpm
-Style "gless"           MiniIcon mini.file.xpm,      Icon page.xpm
+Style "gless"           MiniIcon mini.file.xpm,     Icon page.xpm
 Style "gmix"            MiniIcon mini.sound.xpm
 Style "gmailman"        MiniIcon mini.mail.xpm,     Icon mail2.xpm
 Style "gmc"             MiniIcon mini.filemgr.xpm,  Icon Xfm.xpm
@@ -238,7 +238,7 @@ Style "Imlib*"          MiniIcon mini.hammer.xpm
 
 
 ################################################################################
-# MY ICONS  
+# MY ICONS
 ################################################################################
 
 Style opera         MiniIcon mini.opera.png,        Icon opera.png
@@ -253,10 +253,10 @@ Style pySol         MiniIcon mini.pysol.png,        Icon pysol.png
 Style gvim          MiniIcon mini.gvim.png,         Icon gvim.png
 Style Gvim          MiniIcon mini.gvim.png,         Icon gvim.png
 Style vim           MiniIcon mini.gvim.png,         Icon gvim.png
-Style AcroRead      MiniIcon mini.pdf.xpm 
+Style AcroRead      MiniIcon mini.pdf.xpm
 Style XMathematica  MiniIcon mini.mathematica.png,  Icon mathematica.png
 Style xine          MiniIcon mini.xine.png,         Icon xine.png
 Style Emacs         MiniIcon mini.emacs.png,        Icon emacs.png
 Style emacs         MiniIcon mini.emacs.png,        Icon emacs.png
 
-#Style  MiniIcon , Icon 
+#Style  MiniIcon , Icon
