@@ -41,7 +41,7 @@ if [ -n "$times" ] ; then
     sec=$(echo "$time_total" | awk '{print $2}' | sed s/^0//)
     if [ -z "$sec" ] ; then sec=0 ; fi
     sec_total=$(( $min*60 + $sec ))
-    
+
     if [ "$sec_total" -ge 4 ] ; then
 	$mpc_quiet seek $(( $sec_total - 3 )) > /dev/null
     fi

@@ -16,30 +16,30 @@ function get_images()
 {   # cedar rapids
     #image_url_base="http://image.weather.com/looper/archive/us_dsm_closeradar_large_usen/"
     #image_url_suffix="L.jpg?1122250838670"
-    
+
     # fargo
     image_url_base="http://image.weather.com/looper/archive/us_bis_closeradar_large_usen/"
     image_url_suffix="L.jpg"
 
-    for i in {1,2,3,4,5} ; do 
+    for i in {1,2,3,4,5} ; do
         /usr/bin/wget ${image_url_base}${i}${image_url_suffix} >&/dev/null
     done
-    
+
     /usr/bin/rename $image_url_suffix "" * >&/dev/null
 }
 
 # parse options
 while [[ -n "$@" ]] ; do
-    case $1 in 
-        (-name)     
+    case $1 in
+        (-name)
             shift
             if [[ -z "$1" ]] ; then
                 echo "Missing name" 1>&2
                 exit 1
             fi
-            xv_win_name=$1 
+            xv_win_name=$1
             ;;
-        (-reload)   
+        (-reload)
             shift
             if [[ -z "$1" ]] ; then
                 echo "Missing reload time" 1>&2
@@ -48,9 +48,9 @@ while [[ -n "$@" ]] ; do
                 echo "Reload time must be a number" 1>&2
                 exit 1
             fi
-            reload_time=$1 
+            reload_time=$1
             ;;
-        (-delay)    
+        (-delay)
             shift
             if [[ -z "$1" ]] ; then
                 echo "Missing reload time" 1>&2
@@ -73,9 +73,9 @@ while [[ -n "$@" ]] ; do
             fi
             geometry=$1
             ;;
-        (*)         
+        (*)
             echo Bad Option $1 1>&2
-            exit 1 
+            exit 1
             ;;
     esac
     shift

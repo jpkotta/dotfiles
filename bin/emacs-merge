@@ -41,7 +41,7 @@ if $EMACS $EMACS_OPTIONS \
     --eval "(setq ediff-window-setup-function 'ediff-setup-windows-plain)" \
     --eval "(add-hook 'ediff-quit-hook 'save-buffers-kill-emacs)" \
     --eval "(ediff-merge-with-ancestor \"$LOCAL\" \"$OTHER\" \"$BASE\" nil \"$OUTPUT\")"
-    then       
+    then
     ExitOK
 fi
 

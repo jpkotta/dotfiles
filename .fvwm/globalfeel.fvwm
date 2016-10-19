@@ -66,9 +66,9 @@ AddToFunc AddUniqueId
 + I PipeRead 'echo SetEnv $0 $(( $[$0] + 1 ))'
 
 
-# COLORSETS 
+# COLORSETS
 # easy way to uniquely number colorsets
-#   fvwm allocates enough memory for all colorsets between 0 and N, 
+#   fvwm allocates enough memory for all colorsets between 0 and N,
 #   where N is the highest number used to name a colorset
 #   using this function guarantees that the lowest possible number is used
 # note that FvwmForm uses colorset 0 for its widgets
@@ -103,7 +103,7 @@ AddToFunc AddState
 #   clear mod3
 #   add mod1 = Mode_switch
 #
-#Mathematica has trouble when mod2 is on.  
+#Mathematica has trouble when mod2 is on.
 #It goes into "global select mode" or something like that.
 #basically, you can't enter any input
 #in mandrake, Num_Lock is automatically mapped to mod2.
@@ -130,7 +130,7 @@ Style * EdgeMoveDelay 300
 Style * EdgeMoveResistance 50 25
 EdgeScroll 0 0
 # a very interesting thing about edges: they're technically the root window
-# this means there is always a thin strip of root window around the edges, 
+# this means there is always a thin strip of root window around the edges,
 # so you can access root window bindings even with a maximized window
 EdgeThickness 1
 

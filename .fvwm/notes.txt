@@ -35,4 +35,4 @@ bugs to report
     iconman manpage has a typo
     buttons geometry is order-dependent in config file
     StickAcrossPages is broken, doesn't act like StickyAcrossPages style
-    
+

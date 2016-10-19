@@ -39,7 +39,7 @@ def main():
                     type=int, default=DEFAULT_NUM_PASSWDS,
                     help=("Number of passwords to generate (default = %d)"
                           % DEFAULT_NUM_PASSWDS))
-    
+
     args = ap.parse_args()
 
     if (args.min_len < 1 or args.max_len < args.min_len or args.num_words < 1
@@ -48,7 +48,7 @@ def main():
         exit(1)
 
     build_word_list()
-        
+
     for _ in range(args.num_passwds):
         passwd = gen_pw(args.min_len, args.max_len, args.num_words)
         print(passwd)
@@ -69,7 +69,7 @@ def build_word_list():
     global word_counts # pylint: disable=global-statement
 
     _words = []
-    
+
     try:
         with open(CACHE_FILE, "r") as f:
             for line in f:
@@ -93,12 +93,12 @@ def build_word_list():
             print("Could not open %s for reading." % dict_file,
                   file=stderr)
             exit(1)
-            
+
     shuffle(_words)
     word_counts = Counter(len(w) for w in _words)
     words = iter(_words)
 
 if __name__ == '__main__':
     main()
-    
-                
+
+

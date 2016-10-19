@@ -12,13 +12,13 @@ ignore = ~/.hgignore.global
 
 [extensions]
 # color output from some commands
-color = 
+color =
 
 # use an external diff tool (diff by default)
-extdiff = 
+extdiff =
 
 # edit history
-histedit = 
+histedit =
 
 # remove changesets from history
 strip =
@@ -27,23 +27,23 @@ strip =
 pager =
 
 # show a progress bar for certain operations that take a long time
-progress = 
+progress =
 
 # remove untracked files
-purge = 
+purge =
 
 # move changesets to a different (named or unnamed) branch, merging if
 # necessary
-rebase = 
+rebase =
 
 # simple extension to commit by diff hunk
-record = 
+record =
 
 # allows custom URI schemes, like pd:// = ssh://hg@storagez/repos/
-schemes = 
+schemes =
 
 # temporarily stash changes without a commit
-shelve = 
+shelve =
 
 # use mercurial as a git client
 # hg clone https://bitbucket.org/durin42/hg-git ~/.hgext/hg-git
@@ -133,7 +133,7 @@ wip = (parents(not public()) or not public() or . or head()) and (not obsolete()
 wip = '{label("log.branch", ifeq(branch, "default", "", branch))} {label("changeset.{phase}", rev)} {label("grep.user", author|user)}{label("log.tag", if(tags," {tags}"))} {bookmarks % "{ifeq(bookmark, currentbookmark, label('log.activebookmark', bookmark), label('log.bookmark', bookmark))} "}\n{label(ifcontains(rev, revset('parents()'), 'desc.here'),desc|firstline)}'
 
 [color]
-log.branch = cyan 
+log.branch = cyan
 log.summary = yellow
 log.description = yellow
 log.bookmark = green

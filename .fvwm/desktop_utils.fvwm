@@ -101,16 +101,16 @@ RestoreEdgeCommands
 DestroyFunc EnterWindowHandler
 AddToFunc EnterWindowHandler
 #+ I Echo EnterWindowHandler: w.name = $[w.name], w.iconname = $[w.iconname], w.class = $[w.class], w.resource = $[w.resource]
-#+ I WindowId $0 (Desktop*) HideDesktopUtils 
+#+ I WindowId $0 (Desktop*) HideDesktopUtils
 + I Nop
 
 # $0 should be $[w.id]
-# WindowId acts as a very fast prefilter 
+# WindowId acts as a very fast prefilter
 # because the Hide* functions have All searches that don't scale when there are many windows
 DestroyFunc LeaveWindowHandler
 AddToFunc LeaveWindowHandler
 #+ I Echo LeaveWindowHandler: w.name = $[w.name], w.iconname = $[w.iconname], w.class = $[w.class], w.resource = $[w.resource]
-+ I WindowId $0 (Desktop*) HideDesktopUtils 
++ I WindowId $0 (Desktop*) HideDesktopUtils
 + I Nop
 
 DestroyFunc HideDesktopUtilsFilter
@@ -144,7 +144,7 @@ AddToFunc ShowDesktopTerminal
 + I All (DesktopTerminal*) WindowStyle SloppyFocus
 
 DestroyFunc HideDesktopTerminal
-AddToFunc HideDesktopTerminal 
+AddToFunc HideDesktopTerminal
 + I All (DesktopTerminal*) WindowStyle NeverFocus
 + I All (DesktopTerminal*) WindowShade True E
 + I All (DesktopTerminal*) Lower
@@ -430,8 +430,8 @@ AddToFunc StartDesktopTerminals
 KillModule FvwmButtons DesktopButtons
 KillModule FvwmButtons DesktopButtonsMediaPlayer
 KillModule FvwmPager DesktopPager
-KillModule FvwmPager DesktopMiniPager 
-KillModule FvwmAuto 
+KillModule FvwmPager DesktopMiniPager
+KillModule FvwmAuto
 
 
 Module FvwmButtons DesktopButtons

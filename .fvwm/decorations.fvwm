@@ -34,7 +34,7 @@ BusyCursor DynamicMenu True
 # BORDER, TITLE, AND BUTTON STYLES
 ################################################################################
 
-# Text and background color for the title bar and the border of the inactive window 
+# Text and background color for the title bar and the border of the inactive window
 # (also used by icon title, and "hilight" and "shadow" colors).
 # Focused window has the same color text, borders, etc.
 # focused windows have different titlebars, that's the only visual difference
@@ -52,14 +52,14 @@ Style * BorderWidth 0, HandleWidth 4, Handles, FvwmBorder
 
 #Colorset $[ACTIVE_TITLE_COLORSET] HGradient 64 blue2 black
 # my theme of choice in win xp has titles like this (magenta to blue)
-Colorset $[ACTIVE_TITLE_COLORSET]   HGradient 64 #800080 #3989AF 
+Colorset $[ACTIVE_TITLE_COLORSET]   HGradient 64 #800080 #3989AF
 ColorSet $[INACTIVE_TITLE_COLORSET] HGradient 64 grey51 black
 
 BorderStyle Colorset $[DEFAULT_COLORSET] -- !HiddenHandles !NoInset
 
 TitleStyle Active Colorset $[ACTIVE_TITLE_COLORSET] -- Flat
 TitleStyle Inactive Colorset $[INACTIVE_TITLE_COLORSET] -- Flat
-TitleStyle LeftJustified 
+TitleStyle LeftJustified
 TitleStyle Height 21
 
 #ButtonStyle all Active (Solid blue2 -- Flat)
@@ -87,10 +87,10 @@ Style * IconTitleColorset $[ICON_TITLE_COLORSET], HilightIconTitleColorset $[ICO
 Colorset $[MENU_COLORSET]           fg black, bg white, fgsh grey75, sh grey25, hi white, DGradient 64 grey90 grey70
 # unfortunately, this can't have gradients and such
 Colorset $[MENU_HILIGHT_COLORSET]   fg red, bg lavender, fgsh grey75
-  
-MenuStyle * MenuColorset $[MENU_COLORSET]                                    
-MenuStyle * HilightBack, ActiveFore, ActiveColorset $[MENU_HILIGHT_COLORSET] 
-MenuStyle * GreyedColorset $[MENU_HILIGHT_COLORSET]      
+
+MenuStyle * MenuColorset $[MENU_COLORSET]
+MenuStyle * HilightBack, ActiveFore, ActiveColorset $[MENU_HILIGHT_COLORSET]
+MenuStyle * GreyedColorset $[MENU_HILIGHT_COLORSET]
 MenuStyle * BorderWidth 1
 MenuStyle * Animation
 

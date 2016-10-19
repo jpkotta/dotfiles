@@ -13,7 +13,7 @@
 # STYLES
 ################################################################################
 
-# there is a horrible bug that locks up the X server and FVWM 
+# there is a horrible bug that locks up the X server and FVWM
 # when both xcompmgr and icon titles are enabled
 #Style * !IconTitle
 

@@ -26,7 +26,7 @@ proc check_for_following {type} {
 		puts "autoexpect: [uplevel set flag] requires following $type"
 		exit 1
 	}
-}	
+}
 
 while {[llength $argv]>0} {
 	set flag [lindex $argv 0]
@@ -97,7 +97,7 @@ proc input_null {} {
 		if {$echoing} {
 			expcmd "$procbuf"
 			sendcmd "$lastkey"
-		}			
+		}
 	}
 	cmd "send -null"
 	set userbuf ""
@@ -241,7 +241,7 @@ proc quote {} {
 	expect_user -re .
 	send -- $expect_out(buffer)
 }
-	
+
 
 if {[catch {set fd [open $filename w]} msg]} {
 	puts $msg

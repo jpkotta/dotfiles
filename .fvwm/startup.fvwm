@@ -8,9 +8,9 @@
 # NOTES
 ################################################################################
 
-# most of the startup code is with the configuration code, 
+# most of the startup code is with the configuration code,
 # e.g. startup code for modules is in modules.fvwm with the module configurations
-# this is so you can change a configuration and just Read the file to make 
+# this is so you can change a configuration and just Read the file to make
 # it take effect instead of restarting
 
 # note that this destroys the StartFunction and InitFunction

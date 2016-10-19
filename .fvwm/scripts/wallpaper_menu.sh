@@ -26,7 +26,7 @@ fi
 # kick off the converter
 for (( i = 0 ; i < concurrency ; i++ )) ; do
     # kick off a background converter
-    # the >&/dev/null redirect is very important, 
+    # the >&/dev/null redirect is very important,
     # as PipeRead will wait for output without it
     (exec $FVWM_USERDIR/scripts/wallpaper_convert.sh -mod $concurrency -plus $i $dir >&/dev/null) &
 done

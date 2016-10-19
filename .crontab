@@ -3,7 +3,7 @@
 
 # dump crontab contents to ~/.crontab for version control purposes
 0 4 * * * crontab -l > $HOME/.crontab
-        
+
 # sync SpiderOak every 30 minutes
 */30 * * * * SpiderOak --batchmode --redirect=/dev/null
 

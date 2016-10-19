@@ -8,7 +8,7 @@
 # NOTES
 ################################################################################
 
-# this code will remember the current page of a desk and 
+# this code will remember the current page of a desk and
 # flip back to that page if you leave the desk and come back
 
 # updated for nested variable expansion (needs fvwm >= 2.5.15)
@@ -65,7 +65,7 @@ AddToFunc GotoDeskAndRecallPage
 ################################################################################
 
 DestroyModuleConfig FvwmEventRecallPage: *
-*FvwmEventRecallPage: Cmd 
+*FvwmEventRecallPage: Cmd
 *FvwmEventRecallPage: new_desk       RememberPage
 *FvwmEventRecallPage: new_page       RememberPage
 
@@ -82,7 +82,7 @@ DestroyModuleConfig FvwmEventRecallPage: *
 #Key     4       A       4       GotoDeskAndRecallPage 0 3
 
 DestroyMenu "Goto"
-AddToMenu   "Goto" 
+AddToMenu   "Goto"
 + "Go to ..."                           Title
 + 'Page 0 0 [&Q] %mini.move1.xpm%'      GotoPage 0 0
 + 'Page 1 0 [&W] %mini.move1.xpm%'      GotoPage 1 0

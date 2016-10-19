@@ -4,7 +4,7 @@
 # Please credit me if you use parts of it.
 
 # CHANGE LOG ###########################################################################################################
-# 
+#
 # rename_seq
 #   this script will take all files in a directory and rename them to a sequence of consecutive integers
 #   the files will be in the same ascii order as before
@@ -16,7 +16,7 @@
 
 if ($#ARGV == -1 || $ARGV[0] eq '-h')
 {
-    my $usage = 
+    my $usage =
 "Usage: $0 <files...>
 Renames files to a sequence of consecutive integers, with an appended underscore.
 Filenames will remain in the same ASCII order as before.
@@ -110,7 +110,7 @@ else
 {   print STDOUT "Leaving names unchanged.\n";
     exit(1);
 }
-   
+
 exit(0);
 
 
@@ -119,9 +119,9 @@ exit(0);
 ########################################################################################################################
 # description
 # input:
-#       
+#
 # output:
-#       
+#
 ########################################################################################################################
 
 #        10        20        30        40        50        60        70        80        90        100       110

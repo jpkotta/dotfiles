@@ -15,10 +15,10 @@
 # this file assumes that there is a root window mouse binding to the function
 #   RootWindowBinding.  it adds a double click action.
 
-# Scroll mode is the default fvwm edge behavior                     
-# When the pointer hits an edge, it will scroll into the next page  
-# When in scroll mode, and click will go back to non-scroll mode    
-# There should be a better way to reactivate the edge commands      
+# Scroll mode is the default fvwm edge behavior
+# When the pointer hits an edge, it will scroll into the next page
+# When in scroll mode, and click will go back to non-scroll mode
+# There should be a better way to reactivate the edge commands
 
 
 ################################################################################
@@ -41,11 +41,11 @@ AddToFunc RootWindowBinding
 # arg1: % of screen to scroll down
 # negative args reverse sense
 DestroyFunc AnimatedScroll
-AddToFunc AnimatedScroll 
+AddToFunc AnimatedScroll
 + I PipeRead '\
     for i in `seq 1 $[infostore.animated_scroll_steps]` ; do \
         echo Scroll $(( $0 / $[infostore.animated_scroll_steps] )) $(( $1 / $[infostore.animated_scroll_steps] )) ; \
-    done' 
+    done'
 
 DestroyFunc StartScrollMode
 AddToFunc StartScrollMode
@@ -63,7 +63,7 @@ AddToFunc StartScrollMode
 + I EdgeLeaveCommand South   Nop
 + I EdgeLeaveCommand East    Nop
 + I EdgeLeaveCommand West    Nop
- 
+
 DestroyFunc StopScrollMode
 AddToFunc StopScrollMode
 + I Mouse 0 A A -

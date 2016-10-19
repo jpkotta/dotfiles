@@ -2,7 +2,7 @@
 
 if ($#ARGV < 0 || $ARGV[0] =~ m/-h|--help|-help/)
 {
-    my $usage = 
+    my $usage =
 "Usage: $0 <file1> <file2> ...
 Converts DOS newlines (CRLF) to Unix newlines (LF)";
 

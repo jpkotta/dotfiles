@@ -12,11 +12,11 @@ nvclock -f -F 100
 # pulseaudio --kill
 # sleep 1
 
-if [ -z $DISPLAY ] ; then 
+if [ -z $DISPLAY ] ; then
     startx $trem -- :1 -config xorg.conf.single
-else 
+else
     echo "Starting windowed Tremulous"
-    $trem +set r_fullScreen 0 
+    $trem +set r_fullScreen 0
 fi
 
 # unpause pulseaudio

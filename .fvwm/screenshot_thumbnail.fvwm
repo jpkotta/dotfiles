@@ -93,7 +93,7 @@ AddToFunc ShowScreenShotMenu
 + I Menu ScreenShotMenu
 
 
-# this function calles itself every periodic_thumbnail_delay seconds 
+# this function calles itself every periodic_thumbnail_delay seconds
 #   and calls the screenshot function
 # needs 2.5.17
 DestroyFunc PeriodicThumbnail

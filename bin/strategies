@@ -17,8 +17,8 @@ Description:
     four of the printed cards, including all corrections. But it also
     includes any strategies that were deleted from that edition but
     found in previous printings. So it is something of a meta-version.
-    I have additionally made some minor typographic changes.	
-    (c) 1975, 1978, and 1979 Brian Eno/Peter Schmidt 
+    I have additionally made some minor typographic changes.
+    (c) 1975, 1978, and 1979 Brian Eno/Peter Schmidt
 
     The entries in the list "diary" are additional strategies taken
     from "A Year With Swollen Appendices: The Diary of Brian Eno".
@@ -42,13 +42,13 @@ Program Copyright:
     (c) 2005 Robin Parmar <robin.escalation@ACM.org>.
 
 License:
-    This program is free software; you can redistribute it and/or modify it 
-    under the terms of the GNU General Public License version 2 as 
+    This program is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License version 2 as
     published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License 
+    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
     at http://www.gnu.org/copyleft/gpl.html for more details.
 """
 
@@ -235,7 +235,7 @@ class ObliqueStrategies:
         "When is it for? Who is it for?",
         "Who would make this really successful?"
     ]
-    
+
     robin = [
         "A shadow is cast upon the wall.",
         "A sketch is good enough for now.",
@@ -317,7 +317,7 @@ class ObliqueStrategies:
                 self.texts += getattr(self, d)
 
     def GetCard(self):
-        # return a random entry from our list   
+        # return a random entry from our list
         return random.choice(self.texts)
 
     def PrintCard(self):

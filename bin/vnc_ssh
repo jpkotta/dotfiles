@@ -13,7 +13,7 @@ if [ -z "$disp" ] ; then
     disp=:0
 fi
 
-# ssh "$login" "x11vnc -localhost -display '$disp' -scale 4/5 -bg" 
+# ssh "$login" "x11vnc -localhost -display '$disp' -scale 4/5 -bg"
 # vncviewer -via "$login" localhost"$disp"
 
 ssh -f -L 5900:localhost:5900 "$login" \

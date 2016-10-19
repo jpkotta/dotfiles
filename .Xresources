@@ -27,7 +27,7 @@ nedit*XmMenuShell*XmTearOffButton*ShadowThickness:  2
 nedit*text.background:          white
 ! periwinkle
 nedit*text.selectBackground:    #D0D0FF
-! deep blue 
+! deep blue
 !nedit*text.selectBackground:    #6000FF
 nedit*text.lineNumForeground:   #A0A0D0
 
@@ -90,7 +90,7 @@ XClock*foreground:              lavender
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! urxvt settings
-!transparency: -tr -tint white -sh 50 
+!transparency: -tr -tint white -sh 50
 URxvt.geometry:             80x25
 !URxvt.fading:               25
 !URxvt.background:           black
@@ -137,14 +137,14 @@ URxvt.perl-lib:    /home/jpkotta/.urxvt-perl
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! mrxvt settings
-!transparency: -tr -tint white -sh 50 
+!transparency: -tr -tint white -sh 50
 mrxvt.geometry:         80x25
 mrxvt.fading:           25
 mrxvt.background:       black
 mrxvt.foreground:       white
 !mrxvt.colorBD:          green
 mrxvt.cursorColor:      yellow
-                        
+
 mrxvt.visualBell:       1
 mrxvt.scrollTtyOutputInhibit:    1
 mrxvt.scrollTtyKeypress: 1
@@ -171,14 +171,14 @@ mrxvt.font:             9x15
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! mrxvt settings
-!transparency: -tr -tint white -sh 50 
+!transparency: -tr -tint white -sh 50
 XTerm.geometry:         80x25
 XTerm.fading:           25
 XTerm.background:       black
 XTerm.foreground:       white
 !XTerm.colorBD:          green
 XTerm.cursorColor:      yellow
-                        
+
 XTerm.visualBell:       1
 XTerm.scrollTtyOutputInhibit:    1
 XTerm.scrollTtyKeypress: 1

@@ -20,7 +20,7 @@
 #   esdplay - a sound player
 
 # used by DesktopButtons module:
-#   xclock - analog clock 
+#   xclock - analog clock
 #   dclock - digital clock
 #   python - interpreted programming language used by some of these programs
 #   PySol - solitaire card game written in python (requires python)
@@ -46,7 +46,7 @@
 # like to do things myself.
 #
 # Background
-#  
+#
 #  Before FVWM I had used KDE, IceWM, and to a limited extent, Enlightenment and
 #  MWM.  My favorite was IceWM, simply because it was easy to configure and
 #  fast.  FVWM is relatively hard to  configure, or at least there is a steep
@@ -63,46 +63,46 @@
 #  there.   The way in which I generally work is to have one window taking up
 #  most of the screen, and be able easily switch between windows, pages, and
 #  desktops.
-#  
+#
 # Clever Ideas
-# 
+#
 #  Some of my favorite ideas that were original in the sense that I didn't see
 #  them anywhere else first, though I did eventually see most in other places,
 #  are as follows.
 #
-#  Zielinski says to use the root window for bindings since it is large and 
+#  Zielinski says to use the root window for bindings since it is large and
 #  available.  But what about windows that take up the whole screen?  My
 #  solution is to have pan edges (which I have found no where except FVWM) and
 #  use those as a root window when the root window isn't visible.  The edge of
 #  the screen is exceedingly large in the sense that you don't have to be
 #  precise in going to the edge with the pointer.
-#  
+#
 #  I used to have no title bar buttons, which is not original, but needs to be
 #  available more often, in my opinion.  I now have a Close button on the right
 #  and a window ops menu on the left.  One thing that is original is my
 #  mouse wheel resize function, which resizes a window when the mouse wheel is
 #  rolled while the pointer is on the title bar.  It's very efficient and
 #  fun.  With xcompmgr or compton, I can do the same with translucency too.
-#  
+#
 #  PickAgain is a generalized Pick.   One can select as many windows as
 #  necessary and click the root window or hit Esc to stop.  It's a bit buggy
 #  as it won't work on FvwmIdent or Close properly, but is very handy for
 #  moving groups of windows.
-#  
+#
 #  Scroll mode temporarily enables edge scrolling.  Windows can always be
 #  moved across page boundaries, but it's not desirable, in my opinion, to
 #  have edge scrolling on most of the time.  It is, however, the most
 #  efficient way to switch pages with a mouse.  Therefore I have bound scroll
 #  mode to a double click of the root window.  Scroll mode turns off when any
 #  mouse button is clicked.
-#  
+#
 #  Using the scroll wheel on the root window focuses and raises the
 #  next/previous window.  This makes it exceedingly easy to switch between two
-#  windows on the same page (using previous).  
-#  
+#  windows on the same page (using previous).
+#
 #  A thumbnail window list adds a bit of eye candy and utility.  What better
 #  way to find the window you're looking for than to see a menu of all windows
-#  in miniature?  
+#  in miniature?
 #
 #  Since I started using Emacs, I've been enamored with bindings to multiple
 #  keypresses.  The FVWM FAQ has a question on this topic.  I have menus bound to
@@ -187,11 +187,11 @@ Test (EnvIsSet USE_COMPOSITE) Read compositor.fvwm
 Read desktop_utils.fvwm
 
 # this is a collection of functions and modules that force fvwm to return to the previous page of a desktop,
-# e.g. you are working in page 2 of desktop 1, and switch to page 3 desktop 2.  
+# e.g. you are working in page 2 of desktop 1, and switch to page 3 desktop 2.
 # if you return to desktop 1, you will be warped to page 2
 Read remember_pages.fvwm
 
-# remembers which window has focus on each page, 
+# remembers which window has focus on each page,
 # and flips focus to the appropriate window on page and desk changes
 Read remember_focus.fvwm
 

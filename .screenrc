@@ -8,7 +8,7 @@
 # C-4
 #defescape ^\^\
 #escape ^\^\
-        
+
 # C-3
 defescape ^[^[
 escape ^[^[

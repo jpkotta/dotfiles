@@ -66,7 +66,7 @@ Mouse   5       T       N       Resize br w-5c w-5c
 
 ########################################
 # SIDES AND FRAME
-# default binding on the frame: 
+# default binding on the frame:
 #   button 1,2 click:   raise
 #   button 1,2 double:  lower
 #   button 1 drag:      resize
@@ -74,10 +74,10 @@ Mouse   5       T       N       Resize br w-5c w-5c
 #   button 3:           nop
 
 # window shade in the direction of the side if doubleclicked
-Mouse   1       -       A       ResizeRaiseShadeDirection N  
-Mouse   1       [       A       ResizeRaiseShadeDirection W  
-Mouse   1       ]       A       ResizeRaiseShadeDirection E  
-Mouse   1       _       A       ResizeRaiseShadeDirection S  
+Mouse   1       -       A       ResizeRaiseShadeDirection N
+Mouse   1       [       A       ResizeRaiseShadeDirection W
+Mouse   1       ]       A       ResizeRaiseShadeDirection E
+Mouse   1       _       A       ResizeRaiseShadeDirection S
 
 ########################################
 # CLIENT AREA
@@ -94,7 +94,7 @@ Mouse   4       SWTF   4       DecTranslucency
 Mouse   5       SWTF   4       IncTranslucency
 
 ########################################
-# ANY CONTEXT 
+# ANY CONTEXT
 #Mouse   1       A       4C      GotoDesk -1 0 $[infostore.last_desktop]
 #Mouse   2       A       4C      All (CurrentPage, AnyScreen) Iconify On
 #Mouse   3       A       4C      GotoDesk +1 0 $[infostore.last_desktop]
@@ -113,7 +113,7 @@ Key     Right   A       4       CyclePages up
 
 Key     D       A       4       Menu Goto root c c
 Key     M       A       4       GeneralMove
-Key     N       A       4       Menu WindowMove root c c 
+Key     N       A       4       Menu WindowMove root c c
 Key     G       A       4       Menu GroupMove root c c
 
 ########################################
@@ -126,7 +126,7 @@ Key     Tab     A       M       WindowList (CurrentDesk, CurrentPage, AnyScreen)
 Key     Tab     A       4       WindowList Root c c SelectOnRelease Super_L NoLayer, CurrentAtEnd
 
 ########################################
-# WINDOW ACTIONS 
+# WINDOW ACTIONS
 # essentially the same as icewm
 Key     F1      A       4       Raise
 Key     F2      A       4       Stick
@@ -191,7 +191,7 @@ Key	Menu	A	S	ShowDesktop
 
 DestroyFunc SetUpMediaKeys
 AddToFunc SetUpMediaKeys
-+ I Key XF86AudioMute         A N Exec $[infostore.script_dir]/mixer.sh toggle 
++ I Key XF86AudioMute         A N Exec $[infostore.script_dir]/mixer.sh toggle
 + I Key XF86AudioRaiseVolume  A N Exec pactl set-sink-volume 0 -- +5%
 + I Key XF86AudioLowerVolume  A N Exec pactl set-sink-volume 0 -- -5%
 + I Key XF86AudioPlay         A N MediaPlayerPlayPause

@@ -8,7 +8,7 @@ def print_help():
     print("Searches the entire directory tree below <directory> for files named\n"
           "'.gitignore', then converts the data in these files to a .hgignore\n"
           "file in <directory>.")
-    exit(1)    
+    exit(1)
 
 try:
     if sys.argv[1] in ["-h", "--help", "-H"]:
@@ -65,9 +65,9 @@ for dirpath,dirnames,filenames in os.walk(topdir):
                     # with out it git ignores more files than
                     # mercurial
                     line = os.path.join(reldirpath, line.replace("*", "**"))
-                    
+
                 out.write(line + "\n")
 
             out.write("\n")
-        
-out.close()        
+
+out.close()

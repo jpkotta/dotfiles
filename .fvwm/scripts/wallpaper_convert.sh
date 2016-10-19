@@ -7,7 +7,7 @@ recreate=0
 # this is actually a grep regex
 extensions="jpg|jpeg|png|gif|tif|tga"
 
-while true ; do 
+while true ; do
     if [[ "$1" == "-mod" ]] ; then
         mod="$2";
         shift 2;

@@ -25,7 +25,7 @@ set completion-prefix-display-length 2
 
 # <prior> (page up)
 "\e[5~":
-# <next> (page down) 
+# <next> (page down)
 "\e[6~":
 
 # C-<backspace>
@@ -37,7 +37,7 @@ set completion-prefix-display-length 2
 "\e[B": history-search-forward
 # <down>
 "\e[A": history-search-backward
-    
+
 # <home>
 "\e[7~": beginning-of-line
 # <end>
@@ -64,7 +64,7 @@ $if term=eterm-color
     "\eOB": history-search-forward
     # <down>
     "\eOA": history-search-backward
-    
+
     # <home>
     "\e[1~": beginning-of-line
     # <end>

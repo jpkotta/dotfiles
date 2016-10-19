@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# deletes directories from a directory tree 
+# deletes directories from a directory tree
 #   until the disk usage of the tree is below a specified threshold
 
 # directory to operate on
-if [[ -d "$0" ]] ; then 
+if [[ -d "$0" ]] ; then
     dir="$0"
 else
     dir=$FVWM_USERDIR/cache/wallpaper_thumbs
@@ -18,7 +18,7 @@ if [[ `du -s -b $dir | cut -f 1` -le $threshold ]] ; then
     exit 0
 fi
 
-# the admitted crude method is to delete directories that have been untouched 
+# the admitted crude method is to delete directories that have been untouched
 # for 2^($start) days, then 2^($start - 1) days, and so on until we get to 1
 start=5
 for i in `seq $start -1 0` ; do

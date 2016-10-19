@@ -51,7 +51,7 @@ else
     dir=$4
 fi
 
-get_tag() 
+get_tag()
 {
     if [ $from == flac ] ; then
         metaflac --show-tag=$1 "$i" | sed "s/$1=//"

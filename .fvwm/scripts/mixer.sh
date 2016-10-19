@@ -22,7 +22,7 @@ function update
     fi
     amixer cset $switch_id $switch_val >& /dev/null
     amixer cset $volume_id $volume_val,$volume_val >& /dev/null
-    
+
     if [[ -n "$feedback_cmd" ]] ; then
         $feedback_cmd
     fi
@@ -45,7 +45,7 @@ elif [[ "$1" == "toggle" ]] ; then
         switch_val='on'
     fi
 else
-    if [[ $quite == 0 ]] ; then 
+    if [[ $quite == 0 ]] ; then
         echo "Usage: $0 {incr|decr|mute|unmute|toggle}"
     fi
     exit 1

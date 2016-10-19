@@ -10,7 +10,7 @@
 
 DestroyFunc PlaySound
 AddToFunc PlaySound
-#+ I Exec exec aplay $* >/dev/null 2>/dev/null 
+#+ I Exec exec aplay $* >/dev/null 2>/dev/null
 + I Nop
 
 # play sounds for various events
