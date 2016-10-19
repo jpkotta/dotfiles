@@ -36,9 +36,6 @@ purge =
 # necessary
 rebase =
 
-# simple extension to commit by diff hunk
-record =
-
 # allows custom URI schemes, like pd:// = ssh://hg@storagez/repos/
 schemes =
 
