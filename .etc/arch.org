@@ -340,9 +340,6 @@ gpasswd -a $USER wheel
 systemctl enable systemctl-swap.service
 ** /etc/systemd-swap.conf
 zswap[enabled]=1
-** /etc/sysctl.d/swappiness.conf
-vm.swappiness = 30
-vm.overcommit_memory = 1
 * texlive-most
 * tftp-hpa
 gpasswd -a $USER ftp
