@@ -20,6 +20,9 @@ options loop max_part=15
 LANG=en_US.UTF-8
 *** ln -s /usr/share/zoneinfo/CST6CDT /etc/localtime
 *** hwclock --systohc --utc
+*** /etc/nsswitch.conf
+# [!UNAVAIL=return] fubars local DNS
+hosts: files mymachines resolve dns myhostname
 ** cron
 *** /etc/cron.daily/download-updates
 #!/bin/sh
@@ -43,6 +46,7 @@ SystemMaxUse=100M # max journal size
 systemctl enable systemd-networkd.service
 systemctl enable systemd-resolved.service
 systemctl disable dhcpcd.service
+ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 *** /etc/systemd/network/ethernet.network
 [Match]
 Name=enp4s0
@@ -51,10 +55,17 @@ Name=enp4s0
 DHCP=ipv4
 *** /etc/systemd/network/usb-edison.network
 [Match]
-Name=enp0s29f7u6u4c2
+Name=ethusb0
 
 [Network]
 Address=192.168.2.2/24
+*** /etc/systemd/network/10-usb-edison.link
+[Match]
+MACAddress=72:e8:af:2f:a8:d6
+
+[Link]
+Description=Edison USB Ethernet Adapter
+Name=ethusb0
 * abcde
 ** atomicparsley
 * alsa-utils
