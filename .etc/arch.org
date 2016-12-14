@@ -349,8 +349,8 @@ gpasswd -a $USER wheel
 * systemd-swap
 # make sure there is a swap partition/file
 systemctl enable systemctl-swap.service
-** /etc/systemd-swap.conf
-zswap[enabled]=1
+** /etc/systemd/swap.conf
+zswap_enabled=1
 * texlive-most
 * tftp-hpa
 gpasswd -a $USER ftp
