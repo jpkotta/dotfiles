@@ -142,6 +142,7 @@ systemctl enable foldingathome.service
 * gkrellm
 ** gkrellweather
 * global
+* go
 * gpm
 systemctl enable gpm.service
 * gstreamer0.10-plugins
@@ -156,6 +157,7 @@ ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm
 * imagemagick
 ** imagemagick-doc
 * iotop
+* jupyter-notebook
 * k3b
 pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 * kdegraphics-okular
