@@ -4,9 +4,6 @@
 # username to use for commits
 username = Jonathan Kotta <jpkotta@gmail.com>
 
-# use emacs as a merge tool, special command line options elsewhere
-merge = emacs
-
 # ignore file for all repositories
 ignore = ~/.hgignore.global
 
@@ -108,11 +105,6 @@ pdsvn = svn+ssh://svn.packetdigital.com/svn/
 
 [subpaths]
 (.*)/hg@storagez(\.packetdigital\.com|)/repos/(.*) = \1/hg/hg/\3
-
-[merge-tools]
-emacs.binary = False
-emacs.args = -q --eval "(require 'ediff)" --eval "(setq ediff-window-setup-function 'ediff-setup-windows-plain)" --eval "(add-hook 'ediff-quit-hook 'save-buffers-kill-emacs)" --eval "(ediff-merge-with-ancestor \""$local"\" \""$other"\" \""$base"\" nil \""$output"\")"
-emacs.check = prompt
 
 [tortoisehg]
 vdiff = meld
