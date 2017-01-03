@@ -20,6 +20,7 @@ options loop max_part=15
 LANG=en_US.UTF-8
 *** ln -s /usr/share/zoneinfo/CST6CDT /etc/localtime
 *** hwclock --systohc --utc
+*** timedatectl set-ntp true
 *** /etc/nsswitch.conf
 # [!UNAVAIL=return] fubars local DNS
 hosts: files mymachines resolve dns myhostname
@@ -203,8 +204,6 @@ systemctl enable rpcbind.service
 SERVER:/path/on/server /media/MOUNTPOINT nfs ro,soft,intr
 * nitrogen
 * notification-daemon
-* ntp
-systemctl enable ntpd.service
 * numlockx
 * nvidia
 ** nvclock
