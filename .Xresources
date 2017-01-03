@@ -132,9 +132,6 @@ URxvt.keysym.S-Up: perl:tabbedex:rename_tab
 ! default
 URxvt.font:             xft:DejaVu Sans Mono:pixelsize=12
 
-! perl-lib path, must be absolute, apparently
-URxvt.perl-lib:    /home/jpkotta/.urxvt-perl
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! mrxvt settings
 !transparency: -tr -tint white -sh 50
