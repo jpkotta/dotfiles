@@ -7,6 +7,9 @@ username = Jonathan Kotta <jpkotta@gmail.com>
 # ignore file for all repositories
 ignore = ~/.hgignore.global
 
+# crecord instead of record
+interface = curses
+
 [extensions]
 # color output from some commands
 color =
@@ -49,10 +52,6 @@ hgext.hggit = ~/.hgext/hg-git/hggit
 # requires python-subversion
 # recommends rebase extension
 hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
-
-# curses record
-# hg clone https://bitbucket.org/edgimar/crecord
-hgext.crecord = ~/.hgext/crecord/crecord
 
 [alias]
 summ = summary --remote
