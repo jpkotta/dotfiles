@@ -129,7 +129,6 @@ pathappend /usr/lib/pkgconfig PKG_CONFIG_PATH
 
 export EDITOR="$HOME/bin/editor"
 export PAGER="less"
-export DE=kde # workaround for xdg-open
 
 ########################################################################
 ### prompt
