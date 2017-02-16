@@ -31,7 +31,7 @@ pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
 *** /etc/cron.weekly/paccache
 #!/bin/sh
 /usr/bin/paccache --remove --keep 1 --verbose
-/usr/bin/paccache --remove --keep 1 --verbose --cachedir /var/cache/pacaur/pkg/
+/usr/bin/paccache --remove --keep 1 --verbose --cachedir /var/cache/pacman/aur/
 ** users
 useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
 for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $USER $g ; done
@@ -223,11 +223,9 @@ for i in cower pacaur ; do
     (cd $i ; makepkg -si)
 done
 
-mkdir -p /var/cache/pacaur/pkg
-chgrp wheel /var/cache/pacaur/pkg
-chmod g+rwx /var/cache/pacaur/pkg
+(cd /var/cache/pacman ; mkdir -p aur ; chgrp wheel aur ; chmod g+rwx aur)
 ** /etc/makepkg.conf
-PKGDEST=/var/cache/pacaur/pkg/
+PKGDEST=/var/cache/pacman/aur/
 MAKEFLAGS="j$(nproc)"
 COMPRESSXZ=(xz -c -z --threads=0 -)
 ** One or more PGP signatures could not be verified!
