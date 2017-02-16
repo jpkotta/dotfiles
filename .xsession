@@ -1,1 +1,1 @@
-/home/jpkotta/.xinitrc
+.xinitrc
