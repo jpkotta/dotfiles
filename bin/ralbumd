@@ -2,57 +2,24 @@
 # -*- coding:utf-8 -*-
 
 import time
-import os
-import sys
-from signal import SIGTERM
-from socket import error as SocketError
 from random import choice
 
-from mpd import MPDClient, CommandError
-from daemon import DaemonContext
-from lockfile.pidlockfile import PIDLockFile
+from mpd import MPDClient
 
 ########################################################################
 
 def connect():
     host = "localhost"
     port = 6600
-    passwd = None
 
     c = MPDClient()
     try:
         c.connect(host=host, port=port)
-    except SocketError:
+    except ConnectionRefusedError as e:
+        print(e)
         exit(1)
-
-    if passwd is not None:
-        try:
-            c.password(passwd)
-        except CommandError:
-            exit(1)
 
     return c
-
-def kill_old(pid_file):
-    try:
-        with open(pid_file, "r") as f:
-            pid = int(f.readline())
-        os.kill(pid, SIGTERM)
-        try:
-            os.unlink(pid_file)
-        except IOError:
-            pass
-
-    except IOError as inst:
-        print("Could not open %s for reading: %s" %
-              (pid_file, inst),
-              file=sys.stderr)
-        exit(1)
-
-    except ValueError as inst:
-        print("Invalid pid file: %s" % inst,
-              file=sys.stderr)
-        exit(1)
 
 def main_loop():
     c = connect()
@@ -60,6 +27,7 @@ def main_loop():
     delay = 1
     playlist_finished = False
     while True:
+        # pylint: disable=no-member
         status = c.status()
 
         if playlist_finished and status["state"] == "stop":
@@ -94,29 +62,7 @@ def main_loop():
         time.sleep(delay)
 
 def main():
-    pid_file = "/tmp/%s-ralbumd.pid" % os.environ["USER"]
-    debug = False
-    daemonize = True
-
-    if "kill" in sys.argv[1:]:
-        kill_old(pid_file)
-        exit(0)
-
-    if "debug" in sys.argv[1:]:
-        debug = True
-
-    if "nodaemon" in sys.argv[1:]:
-        daemonize = False
-
-    if daemonize:
-        with DaemonContext(
-                pidfile=PIDLockFile(pid_file),
-                detach_process=(None if not debug else False),
-                stdout=(None if not debug else sys.stdout),
-                stderr=(None if not debug else sys.stderr)):
-            main_loop()
-    else:
-        main_loop()
+    main_loop()
 
 ########################################################################
 
