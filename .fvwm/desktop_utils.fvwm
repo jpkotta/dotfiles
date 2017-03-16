@@ -449,4 +449,3 @@ AddToFunc OnMapDesktopPager
 Style DesktopPager InitialMapCommand OnMapDesktopPager
 Style DesktopTerminal* InitialMapCommand HideDesktopTerminal
 Style DesktopButtons* InitialMapCommand HideDesktopButtons
-

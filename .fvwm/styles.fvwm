@@ -35,9 +35,6 @@ Style Postit       NoHandles,                  WindowListSkip
 # gnome panel & icons
 Style panel        Sticky, NoTitle, WindowListSkip, CirculateSkip
 Style desktop_icon CirculateSkip, WindowListSkip,  NoTitle
-# Animation is broken in gnome panel 1.4 with GNOMEUseHints.
-# GNOMEIgnoreHints also disables panel moving itself from layer to layer.
-Style panel        GNOMEIgnoreHints
 # xsm panel
 Style xsm          Sticky, NoTitle, WindowListSkip, CirculateSkip
 
@@ -82,7 +79,7 @@ Style "RadarMap <unregistered>" \
     CirculateSkip, WindowListSkip, StartsOnDesk 0, \
     FixedSize, FixedPosition, NoIcon, !Iconifiable
 
-Style gnome-panel   StaysOnBottom, GNOMEIgnoreHints
+Style gnome-panel   StaysOnBottom
 
 Style Firefox SkipMapping, FPOverrideGrabFocus, \
 	!UsePPosition, !UseTransientPPosition, \
@@ -94,7 +91,7 @@ Style google-chrome SkipMapping, FPOverrideGrabFocus, \
 
 Style Chromium SkipMapping, FPOverrideGrabFocus, \
 	!UsePPosition, !UseTransientPPosition, \
-	!FPGrabFocus, !FPGrabFocusTransient, !FPFocusByProgram, StickyAcrossDesks
+	!FPGrabFocus, !FPGrabFocusTransient, !FPFocusByProgram
 
 # GNUPlot
 # sometimes, you just need to plot a ton of things
