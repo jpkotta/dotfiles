@@ -447,7 +447,7 @@ alias apg="apg -M sNCL" # password generator
 ####################################
 # less is more
 
-export LESS="--LONG-PROMPT --RAW-CONTROL-CHARS"
+export LESS="--LONG-PROMPT --RAW-CONTROL-CHARS --clear-screen"
 
 # configure less to page just about anything in a rational way
 if is_command lessfile ; then
