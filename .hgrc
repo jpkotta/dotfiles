@@ -12,7 +12,7 @@ interface = curses
 
 [commands]
 # relative paths in hg status
-status.relative = 1
+status.relative = True
 
 [extensions]
 # use an external diff tool (diff by default)
@@ -68,26 +68,6 @@ rmrej = purge --include=**.rej
 glog = log --graph
 vlog = log --graph --verbose --pager=yes
 
-# # replacement for MQ
-# # http://mercurial.selenic.com/wiki/MqDeprecationPlan
-# qapplied = log --rev 'draft() and ::.'
-# qdelete = histedit
-# qdiff = diff --rev .^
-# qfold = histedit
-# qgoto = update
-# qheader = log --rev . --template '{desc}\n'
-# qimport = import --partial
-# qnew = commit
-# qnext = log --rev 'children(.)'
-# qpop = update .^
-# qprev = log --rev .^
-# qpush = update --rev 'children(.)'
-# qqueue = bookmarks
-# qrefresh = commit --amend
-# qseries = log --rev 'draft()'
-# qtop = identify --bookmarks
-# qunapplied = log --rev 'draft() - ::.'
-
 [diff]
 # use git's diff format
 git = True
@@ -111,6 +91,9 @@ hgtkfork = True
 
 [hgview]
 maxfilesize = 10000000
+
+[merge-tools]
+vimdiff.disabled = True
 
 # per-machine settings
 %include .hgrc.local
