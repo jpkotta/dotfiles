@@ -1,3 +1,2 @@
 .hgext/hg-git = https://bitbucket.org/durin42/hg-git
 .hgext/hgsubversion = https://bitbucket.org/durin42/hgsubversion
-.hgext/crecord = https://bitbucket.org/edgimar/crecord
