@@ -35,7 +35,7 @@ schemes =
 shelve =
 
 # human readable status
-show = 
+show =
 
 # remove changesets from history
 strip =
@@ -90,4 +90,4 @@ maxfilesize = 10000000
 vimdiff.disabled = True
 
 # per-machine settings
-%include .hgext/hgrc.local
+%include .hgext/local.hgrc
