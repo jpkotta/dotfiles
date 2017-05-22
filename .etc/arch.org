@@ -69,10 +69,6 @@ Description=Edison USB Ethernet Adapter
 Name=ethusb0
 * abcde
 ** atomicparsley
-* abs
-** /etc/cron.weekly/abs-sync
-#!/bin/sh
-abs
 * alsa-utils
 * android-tools
 ** android-udev
