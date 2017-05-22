@@ -40,17 +40,6 @@ show =
 # remove changesets from history
 strip =
 
-# use mercurial as a git client
-# hg clone https://bitbucket.org/durin42/hg-git ~/.hgext/hg-git
-# sudo pip install dulwich
-hgext.hggit = ~/.hgext/hg-git/hggit
-
-# use mercurial as a subversion client
-# http://bitbucket.org/durin42/hgsubversion/wiki/Home
-# requires python-subversion
-# recommends rebase extension
-hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
-
 [alias]
 summ = summary --remote
 
@@ -68,11 +57,16 @@ rmrej = purge --include=**.rej
 glog = log --graph
 vlog = log --graph --verbose --pager=yes
 
+amend = commit --amend --exclude=**
+
 [diff]
 # use git's diff format
 git = True
 # but suppress binary diffs
 nobinary = True
+
+[pager]
+ignore = paths, status
 
 [trusted]
 # use sshfs -o idmap=user <remote> <mount-point> to map remote UID to your UID
@@ -96,4 +90,4 @@ maxfilesize = 10000000
 vimdiff.disabled = True
 
 # per-machine settings
-%include .hgrc.local
+%include .hgext/hgrc.local
