@@ -11,7 +11,7 @@ function set_proxy_vars() {
     export NO_PROXY=$no_proxy
     export ALL_PROXY=$all_proxy
 
-    if [ -x oe-git-proxy ] ; then
+    if type oe-git-proxy >&/dev/null ; then
         export GIT_PROXY_COMMAND=oe-git-proxy
     fi
 }
