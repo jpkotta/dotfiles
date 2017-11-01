@@ -81,6 +81,8 @@ HISTFILESIZE=5000
 
 export EMAIL="jpkotta@gmail.com"
 
+export MAKEFLAGS="-j$(nproc)"
+
 ########################################################################
 ### path variables
 
@@ -497,7 +499,7 @@ alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
 # image viewer
 alias gq="geeqie"
 # password database
-alias kp="keepassx $HOME/.keepassx/keepass.kdb"
+alias kp="keepassxc $HOME/.keepassx/Passwords.kdbx"
 
 # xine media player
 alias xine="daemon xine --enqueue"
