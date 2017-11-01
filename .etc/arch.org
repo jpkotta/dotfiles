@@ -39,14 +39,14 @@ for g in adm games log optical power storage systemd-journal users uucp video wh
 *** /etc/udev/rules.d/99-lowbatt.rules
 SUBSYSTEM=="power supply", ATTR{status}=="Discharging", ATTR{capacity}=="2", RUN+="/usr/bin/systemctl suspend"
 ** systemd
-systemctl enable cronie.service
-systemctl enable dhcpcd.service
+systemctl enable --now cronie.service
+systemctl enable --now dhcpcd.service
 *** /etc/systemd/journald.conf
 SystemMaxUse=100M # max journal size
 ** systemd-networkd
-systemctl enable systemd-networkd.service
-systemctl enable systemd-resolved.service
-systemctl disable dhcpcd.service
+systemctl enable --now systemd-networkd.service
+systemctl enable --now systemd-resolved.service
+systemctl disable --now dhcpcd.service
 ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 *** /etc/systemd/network/ethernet.network
 [Match]
@@ -101,7 +101,7 @@ for fs in $filesystems ; do
 done
 * bumblebee
 gpasswd -a $USER bumblebee
-systemctl enable bumblebeed.service
+systemctl enable --now bumblebeed.service
 ** nvidia
 ** bbswitch
 * chromium
@@ -113,7 +113,7 @@ systemctl enable bumblebeed.service
 * cups
 gpasswd -a $USER lp
 gpasswd -a $USER sys
-systemctl enable cups.service
+systemctl enable --now cups.service
 lpadmin -d PRINTER_NAME
 http://localhost:631
 used the C3170i/postscript driver
@@ -122,6 +122,7 @@ used the C3170i/postscript driver
 ** foomatic-db
 ** foomatic-db-engine
 ** foomatic-db-nonfree
+** gtk3-print-backends
 * dclock
 * dictd
 * emacs-lucid
@@ -130,7 +131,7 @@ used the C3170i/postscript driver
 * firefox
 * foldingathome-noroot
 /opt/fah/fah-config
-systemctl enable foldingathome.service
+systemctl enable --now foldingathome.service
 * font-bh-ttf
 * font-mathematica
 * fortune-mod
@@ -145,10 +146,10 @@ systemctl enable foldingathome.service
 * global
 * go
 * gpm
-systemctl enable gpm.service
+systemctl enable --now gpm.service
 * gstreamer0.10-plugins
 * haveged
-systemctl enable haveged.service
+systemctl enable --now haveged.service
 * hdparm
 ** /etc/udev/rules.d/hdparm.rules
 ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm -B 254 /dev/$kernel"
@@ -164,7 +165,7 @@ pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 * kdegraphics-okular
 xdg-mime default okularApplication_pdf.desktop application/pdf
 ** kpartsplugin
-* keepassx
+* keepassxc
 * libreoffice-still
 ** libreoffice-en-US
 * lsof
@@ -189,8 +190,8 @@ done
 
 # add LOCATE_PATH to your ~/.bashrc to have locate search these databases
 * mpd
-systemctl --user enable mpd.service
-systemctl --user enable ralbumd.service
+systemctl --user enable --now mpd.service
+systemctl --user enable --now ralbumd.service
 ** mpc
 ** ncmpcpp
 * namcap
@@ -208,7 +209,7 @@ systemctl --user enable --now numlockx.service
 ** nvclock
 ** nvidia-utils
 * openssh
-systemctl enable sshd.service
+systemctl enable --now sshd.service
 ** /etc/ssh/sshd_config
 X11Forwarding yes
 ** keychain
@@ -230,7 +231,7 @@ COMPRESSXZ=(xz -c -z --threads=0 -)
 ** One or more PGP signatures could not be verified!
 gpg --recv-keys KEY_ID
 * pacserve
-systemctl enable pacserve.service
+systemctl enable --now pacserve.service
 pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
 * pbzip2
 * perl-rename
@@ -279,9 +280,9 @@ systemctl --user enable --now redshift.service
 * reflector
 * rxvt-unicode
 * samba
-systemctl enable smbd.service
-systemctl enable nmbd.service
-systemctl enable winbindd.service
+systemctl enable --now smbd.service
+systemctl enable --now nmbd.service
+systemctl enable --now winbindd.service
 sudo pdbedit -a -u $USER
 ** /etc/samba/smb.conf
 * schroot
@@ -334,7 +335,7 @@ group
 groupadd crontab
 groupadd staff
 * slim
-systemctl enable slim.service
+systemctl enable --now slim.service
 * smbclient
 ** /etc/samba/private/SERVER.cred
 username=USERNAME
@@ -350,7 +351,7 @@ gpasswd -a $USER wheel
 %wheel ALL=(ALL) ALL
 * systemd-swap
 # make sure there is a swap partition/file
-systemctl enable systemctl-swap.service
+systemctl enable --now systemctl-swap.service
 ** /etc/systemd/swap.conf
 zswap_enabled=1
 * texlive-most
@@ -359,7 +360,7 @@ gpasswd -a $USER ftp
 chgrp ftp /srv/tftp/
 chmod g+rwx /srv/tftp/
 * tlp
-systemctl enable tlp.service
+systemctl enable --now tlp.service
 * tmux
 * tpacpi-bat-git
 FIXME: pull request pending
@@ -390,7 +391,7 @@ vboxnetflt
 ** libdvdcss
 * wcalc
 * wicd
-systemctl enable wicd.service
+systemctl enable --now wicd.service
 * wine
 need multilib repo if on 64-bit
 ** winetricks
