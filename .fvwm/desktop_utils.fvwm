@@ -328,7 +328,7 @@ DestroyFunc StartMediaPlayer
 AddToFunc StartMediaPlayer
 + I StartTerminal -geometry $[infostore.media_player_geometry] \
     -title DesktopMediaPlayer -name DesktopMediaPlayer \
-    +sb -fade 0 -fn "xft:DejaVu Sans Mono:pixelsize=11" -e sh -c "sleep 1 ; exec ncmpcpp"
+    +sb -fade 0 -fn "xft:DejaVu Sans Mono:pixelsize=10" -e sh -c "sleep 1 ; exec ncmpcpp"
 
 ################################################################################
 # DesktopPager
