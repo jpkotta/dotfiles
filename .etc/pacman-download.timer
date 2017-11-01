@@ -1,0 +1,10 @@
+[Unit]
+Description=Download packages
+
+[Timer]
+Persistent=false
+OnCalendar=daily
+Unit=pacman-download.service
+
+[Install]
+WantedBy=default.target

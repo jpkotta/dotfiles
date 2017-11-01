@@ -1,0 +1,8 @@
+[Unit]
+Description=Clean the package cache
+RefuseManualStop=true
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/paccache --remove --keep 1 --verbose
+ExecStart=/usr/bin/paccache --remove --keep 1 --verbose --cachedir /var/cache/pacman/aur

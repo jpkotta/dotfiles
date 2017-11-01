@@ -24,14 +24,6 @@ LANG=en_US.UTF-8
 *** /etc/nsswitch.conf
 # [!UNAVAIL=return] fubars local DNS
 hosts: files mymachines resolve dns myhostname
-** cron
-*** /etc/cron.daily/download-updates
-#!/bin/sh
-pacman --sync --refresh --sysupgrade --downloadonly --noconfirm >/dev/null
-*** /etc/cron.weekly/paccache
-#!/bin/sh
-/usr/bin/paccache --remove --keep 1 --verbose
-/usr/bin/paccache --remove --keep 1 --verbose --cachedir /var/cache/pacman/aur/
 ** users
 useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
 for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $USER $g ; done
@@ -239,8 +231,7 @@ pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
 * pigz
 * pkgbuild-introspection
 * pkgfile
-** /etc/cron.monthly/pkgfile
-pkgfile --update >/dev/null
+systemctl enable --now pkgfile-update.timer
 * pmount
 * pulseaudio
 gpasswd -a $USER audio
