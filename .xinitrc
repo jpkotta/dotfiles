@@ -1,10 +1,37 @@
 #!/bin/bash
 
-echo
-echo "Start system xinitrc"
-[ -e /etc/skel/.xinitrc ] && source /etc/skel/.xinitrc
-echo "Finish system xinitrc"
-echo
+userresources=$HOME/.Xresources
+usermodmap=$HOME/.Xmodmap
+sysresources=/etc/X11/xinit/.Xresources
+sysmodmap=/etc/X11/xinit/.Xmodmap
+
+# merge in defaults and keymaps
+
+if [ -f $sysresources ]; then
+    xrdb -merge $sysresources
+fi
+
+if [ -f $sysmodmap ]; then
+    xmodmap $sysmodmap
+fi
+
+if [ -f "$userresources" ]; then
+    xrdb -merge "$userresources"
+fi
+
+if [ -f "$usermodmap" ]; then
+    xmodmap "$usermodmap"
+fi
+
+# start some nice programs
+
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+ for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+  [ -x "$f" ] && . "$f"
+ done
+ unset f
+fi
+
 echo "Start bash_profile"
 [ -e $HOME/.bash_profile ] && source $HOME/.bash_profile
 echo "Finish bash_profile"
@@ -19,41 +46,15 @@ echo "Parameters to .xinitrc: ""$@"
 # cd to $HOME, so that all programs started from X start there
 cd
 
-# desktop notifications
-/usr/lib/notification-daemon-1.0/notification-daemon &
-
-# turn monitors off after 10 min
-xset dpms 0 0 600 &
-
-# set the wallpaper
-# do this first because it can take a while
-nitrogen --restore &
-
-# make caps lock useful
-xmodmap -e "remove lock = Caps_Lock"
-xmodmap -e "keysym Caps_Lock = BackSpace"
-
-# make sure my X resources are updated
-[ -e "$HOME/.Xresources" ] && xrdb -load $HOME/.Xresources
-
-# turn on numlock
-numlockx on
-
-# start automounter
-udiskie &
-
 # load any machine-specific settings
-if [ -e "$HOME/.xinitrc.local" ] ; then
-    echo
-    echo "Start machine-specific .xinitrc"
-    . $HOME/.xinitrc.local
-    echo "Finish machine-specific .xinitrc"
-    echo
+xinitrc_local=$HOME/.xinitrc.local
+if [ -f $xinitrc_local ] ; then
+    source $xinitrc_local
 fi
 
 # set a default if unset
 WM_COMMAND=${WM_COMMAND:=fvwm}
-export WM_LOGFILE=$HOME/.window-manager-$DISPLAY.log
+export WM_LOGFILE=$HOME/.cache/window-manager-$DISPLAY.log
 [ -e "$WM_LOGFILE" ] && mv -f $WM_LOGFILE ${WM_LOGFILE}.old
 
 echo "Starting window manager: $WM_COMMAND"

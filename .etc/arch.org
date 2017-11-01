@@ -199,8 +199,11 @@ systemctl enable rpcbind.service
 ** /etc/fstab
 SERVER:/path/on/server /media/MOUNTPOINT nfs ro,soft,intr
 * nitrogen
+systemctl --user enable --now nitrogen.service
 * notification-daemon
+systemctl --user enable --now notification-daemon.service
 * numlockx
+systemctl --user enable --now numlockx.service
 * nvidia
 ** nvclock
 ** nvidia-utils
@@ -272,7 +275,7 @@ python2-jinja python2-tornado python2-pyzmq python2-pygments qt5-svg
 * qbittorrent
 * rdesktop
 * redshift-minimal
-systemctl --user enable redshift.service
+systemctl --user enable --now redshift.service
 * reflector
 * rxvt-unicode
 * samba
@@ -372,6 +375,7 @@ systemctl enable tpacpi.service
 * ttf-symbola
 * ttf-vista-fonts
 * udiskie
+systemctl --user enable --now udiskie.service
 * units
 * virtualbox
 gpasswd -a $USER vboxusers
@@ -418,15 +422,6 @@ EndSection
 * xorg-xclock
 * xorg-xinit
 * xscreensaver
-** xuserrun-git
-*** /etc/systemd/system/xscreensaver.service
-[Unit]
-Description=Lock X session using xscreensaver
-Before=sleep.target
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/xuserrun /usr/bin/xscreensaver-command -lock
-
-[Install]
-WantedBy=sleep.target
+systemctl --user enable --now xscreensaver.service
+systemctl --user enable --now dpms.service
+** xss-lock-git
