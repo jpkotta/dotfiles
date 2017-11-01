@@ -188,9 +188,19 @@ systemctl --user enable --now ralbumd.service
 ** ncmpcpp
 * namcap
 * nfs-utils
-systemctl enable rpcbind.service
-** /etc/fstab
+** client
+systemctl enable --now rpcbind.servic
+*** /etc/fstab
 SERVER:/path/on/server /media/MOUNTPOINT nfs ro,soft,intr
+** server
+mkdir /srv/nfs
+mkdir /srv/nfs/yukon
+chgrp users /srv/nfs/yukon
+chmod g+rwx /srv/nfs/yukon
+systemctl enable --now nfs-server.service
+*** /etc/exports.d/yukon.exports
+/srv/nfs/yukon 192.168.168.0/24(rw,async,no_subtree_check,no_root_squash)
+/srv/nfs/yukon 10.0.0.0/16(rw,async,no_subtree_check,no_root_squash)
 * nitrogen
 systemctl --user enable --now nitrogen.service
 * notification-daemon
