@@ -46,6 +46,10 @@ Name=enp4s0
 
 [Network]
 DHCP=ipv4
+Address=192.168.168.20/24
+
+[DHCP]
+UseDomains=true
 *** /etc/systemd/network/usb-edison.network
 [Match]
 Name=ethusb0
@@ -286,55 +290,6 @@ systemctl enable --now nmbd.service
 systemctl enable --now winbindd.service
 sudo pdbedit -a -u $USER
 ** /etc/samba/smb.conf
-* schroot
-** gnupg1
-** debootstrap
-mkdir -p /var/chroot/ubuntu
-debootstrap --arch amd64 trusty /var/chroot/ubuntu http://us.archive.ubuntu.com/ubuntu/
-cp -a /etc/schroot/arch32/ /etc/schroot/ubuntu/
-** /etc/schroot/chroot.d/ubuntu.conf
-[ubuntu]
-description=Trusty
-type=directory
-directory=/var/chroot/ubuntu
-users=jpkotta
-groups=users
-root-users=jpkotta
-profile=ubuntu
-aliases=trusty
-** /etc/schroot/ubuntu/config
-# Filesystems to mount inside the chroot.
-FSTAB="/etc/schroot/ubuntu/mount"
-# Files to copy from the host system into the chroot.
-COPYFILES="/etc/schroot/ubuntu/copyfiles"
-# System databases to copy into the chroot
-NSSDATABASES="/etc/schroot/ubuntu/nssdatabases"
-** /etc/schroot/ubuntu/copyfiles
-/etc/group
-/etc/hosts
-/etc/passwd
-/etc/resolv.conf
-/etc/localtime
-/etc/locale.gen
-/etc/sudoers
-** /etc/schroot/ubuntu/mount
-# <file system>	<mount point>	<type>	<options>	<dump>	<pass>
-proc		/proc		proc	defaults	0	0
-/dev		/dev		none	rw,bind		0	0
-/dev/pts	/dev/pts	none	rw,bind		0	0
-tmpfs		/dev/shm	tmpfs	defaults	0	0
-/sys		/sys		none	rw,bind		0	0
-/tmp		/tmp		none	rw,bind		0	0
-/home		/home		none	rw,bind		0	0
-** /etc/schroot/ubuntu/nssdatabases
-# <database name>
-passwd
-shadow
-group
-** inside the chroot
-# list of groups: cat /etc/group /var/chroot/ubuntu/etc/group | cut -d: -f1 | sort -u
-groupadd crontab
-groupadd staff
 * slim
 systemctl enable --now slim.service
 * smbclient
@@ -350,6 +305,72 @@ password=PASSWORD
 gpasswd -a $USER wheel
 ** /etc/sudoers
 %wheel ALL=(ALL) ALL
+* systemd-nspawn
+** dependencies
+deboostrap
+gnupg1
+ubuntu-keyring
+** container creation
+mach_name=noether
+mach_user=jpkotta
+# note: at a minimum, you need --include=dbus
+# for networking (--network-veth), you want systemd-networkd
+# ubuntu-server pulls in some of this stuff
+debootstrap --include=ubuntu-server,build-essential,dbus --components=main,restricted,universe,multiverse xenial /var/lib/machines/$mach_name http://us.archive.ubuntu.com/ubuntu
+systemd-nspawn -M $mach_name passwd
+systemd-nspawn -M $mach_name /bin/systemctl enable dbus
+systemd-nspawn -M $mach_name /bin/systemctl enable systemd-networkd
+systemctl enable --now machines.target
+systemctl enable --now systemd-nspawn@$mach_name.service
+*** /etc/systemd/nspawn/$mach_name.nspawn
+[Files]
+Bind=/home
+Bind=/tmp/.X11-unix
+Bind=/dev/bus/usb
+*** /etc/systemd/system/systemd-nspawn@noether.service.d/override.conf
+[Service]
+DeviceAllow=char-usb_device rwm
+** container start
+# only use -n if you have dbus and systemd-networkd in the container
+systemd-nspawn -nUM $mach_name
+machinectl shell $mach_user@$mach_name /bin/bash
+*** /etc/polkit-1/rules.d/99-machinectl.rules
+/* -*- mode: js -*- */
+/* Allow users in wheel group to run `machinectl shell` without authentication */
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.machine1.shell" &&
+        subject.user == "jpkotta") {
+        //subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+    }
+});
+** container config
+useradd -m -g users -s /bin/bash $mach_user
+passwd $mach_user
+gpasswd -a $mach_user sudo
+echo $(hostname)-$mach_name > /etc/hostname
+# also add hostname to /etc/hosts
+locale-gen en_US.UTF-8 && dpkg-reconfigure locales # just hit OK
+** convenience packages for container
+command-not-found
+keychain
+man-db
+nano
+rxvt-unicode-256color
+** yocto packages for container
+chrpath
+diffstat
+openssh-client # ssh-add and ssh-agent
+openssh-server
+openbsd-netcat
+socat
+texinfo # makeinfo
+wget
+** see also
+*** [[http://blog.oddbit.com/2016/02/07/systemd-nspawn-for-fun-and-well-mostly-f/][Run ARM binaries in a systemd-nspawn container with QEMU]]
+pacaur -S qemu-arm-static
+systemctl restart systemd-binfmt.service
+sudo systemd-nspawn -q -M minibian --bind /usr/bin/qemu-arm-static /bin/bash
 * systemd-swap
 # make sure there is a swap partition/file
 systemctl enable --now systemctl-swap.service
