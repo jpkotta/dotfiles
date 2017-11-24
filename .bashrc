@@ -514,6 +514,17 @@ alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -
 ########################################################################
 ### functions
 
+function nspawn_sh() {
+    local login=${1}
+    local host user
+    if [ -z "${1}" ] ; then
+        host=$(machinectl | grep systemd-nspawn | grep -oP "^[_[:alnum:]]+")
+        user=${USER}
+        login=${user}@${host}
+    fi
+    machinectl shell ${login} /bin/bash
+}
+
 function gitaur_remote() {
     local name=$(basename $(git rev-parse --show-toplevel))
     git remote add ssh "ssh://aur@aur.archlinux.org/${name}"
