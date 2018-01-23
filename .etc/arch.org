@@ -118,7 +118,7 @@ used the C3170i/postscript driver
 ** foomatic-db
 ** foomatic-db-engine
 ** foomatic-db-nonfree
-** gtk3-print-backends
+** gtk3
 * dclock
 * dictd
 * emacs-lucid
@@ -323,6 +323,11 @@ systemd-nspawn -M $mach_name /bin/systemctl enable systemd-networkd
 systemctl enable --now machines.target
 systemctl enable --now systemd-nspawn@$mach_name.service
 *** /etc/systemd/nspawn/$mach_name.nspawn
+[Exec]
+# if CONFIG_USER_NS=y in the kernel
+# see docs for --bind and -U in systemd-nspawn
+PrivateUsers=0
+
 [Files]
 Bind=/home
 Bind=/tmp/.X11-unix
@@ -348,7 +353,7 @@ polkit.addRule(function(action, subject) {
 useradd -m -g users -s /bin/bash $mach_user
 passwd $mach_user
 gpasswd -a $mach_user sudo
-echo $(hostname)-$mach_name > /etc/hostname
+hostnamectl set-hostname $mach_name
 # also add hostname to /etc/hosts
 locale-gen en_US.UTF-8 && dpkg-reconfigure locales # just hit OK
 ** convenience packages for container
