@@ -82,6 +82,7 @@ HISTFILESIZE=5000
 export EMAIL="jpkotta@gmail.com"
 
 export MAKEFLAGS="-j$(nproc)"
+export MENUCONFIG_COLOR=blackbg
 
 ########################################################################
 ### path variables
@@ -373,6 +374,10 @@ alias kill_emacs_server="emacsclient -e '(client-save-kill-emacs)'"
 alias grep='grep --color=auto'
 # see also ack-grep
 alias srcgrp="grep -RE --include='*.[ch]' --include='*.cpp' -n"
+
+# hexdump
+alias hd="hexdump -C"
+alias hd32='hexdump -e '\''"%08_ax  " 4/4 " %08x"'\'' -e '\''"  |" 16/1 "%_p" "|\n"'\'' -e '\''"%08_Ax\n"'\'''
 
 # ls aliases
 # workaround for BSD
