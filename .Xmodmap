@@ -1,2 +1,2 @@
 remove lock = Caps_Lock
-#keysym Caps_Lock = BackSpace
+keysym Caps_Lock =

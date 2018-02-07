@@ -46,6 +46,13 @@ echo "Parameters to .xinitrc: ""$@"
 # cd to $HOME, so that all programs started from X start there
 cd
 
+# these could be started with systemd, but it's really flaky
+(exec /usr/lib/notification-daemon-1.0/notification-daemon &)
+(exec xset dpms 0 0 600 &)
+(exec nitrogen --restore &)
+(exec numlockx on &)
+(exec xscreensaver -no-splash &)
+
 # load any machine-specific settings
 xinitrc_local=$HOME/.xinitrc.local
 if [ -f $xinitrc_local ] ; then
