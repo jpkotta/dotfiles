@@ -326,7 +326,7 @@ systemctl enable --now systemd-nspawn@$mach_name.service
 [Exec]
 # if CONFIG_USER_NS=y in the kernel
 # see docs for --bind and -U in systemd-nspawn
-PrivateUsers=0
+PrivateUsers=off
 
 [Files]
 Bind=/home
