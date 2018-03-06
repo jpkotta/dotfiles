@@ -84,6 +84,9 @@ export EMAIL="jpkotta@gmail.com"
 export MAKEFLAGS="-j$(nproc)"
 export MENUCONFIG_COLOR=blackbg
 
+# scrollwheel in gtk apps
+export GDK_CORE_DEVICE_EVENTS=1
+
 ########################################################################
 ### path variables
 
