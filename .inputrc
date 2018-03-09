@@ -51,7 +51,7 @@ set completion-prefix-display-length 2
 ########################################################################
 # Terminal-specific stuff
 
-$if term=eterm-color
+$if term=eterm
     # C-<left>
     "\eOb": backward-word
     # C-<right>
