@@ -98,8 +98,8 @@ done
 * bumblebee
 gpasswd -a $USER bumblebee
 systemctl enable --now bumblebeed.service
-** nvidia
-** bbswitch
+** nvidia-dkms
+** bbswitch-dkms
 * chromium
 ** chromium-pepper-flash
 ** chromium-widevine
@@ -414,6 +414,7 @@ vboxnetadp
 vboxnetflt
 ** virtualbox-ext-oracle
 ** virtualbox-guest-iso
+** virtualbox-host-dkms
 * vlc
 ** libdvdcss
 * wcalc
