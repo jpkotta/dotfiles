@@ -223,9 +223,17 @@ X11Forwarding yes
 ** keychain
 ** sshfs
 * p7zip
-* pacaur
+* pacman-contrib
+* pacserve
+systemctl enable --now pacserve.service
+pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
+* pbzip2
+* perl-rename
+* perl-term-readline-gnu
+* pigz
+* pikaur
 cd /tmp
-for i in cower pacaur ; do
+for i in pikaur ; do
     curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/$i.tar.gz
     tar xf $i.tar.gz
     (cd $i ; makepkg -si)
@@ -238,13 +246,6 @@ MAKEFLAGS="j$(nproc)"
 COMPRESSXZ=(xz -c -z --threads=0 -)
 ** One or more PGP signatures could not be verified!
 gpg --recv-keys KEY_ID
-* pacserve
-systemctl enable --now pacserve.service
-pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
-* pbzip2
-* perl-rename
-* perl-term-readline-gnu
-* pigz
 * pkgbuild-introspection
 * pkgfile
 systemctl enable --now pkgfile-update.timer
