@@ -203,8 +203,10 @@ chgrp users /srv/nfs/yukon
 chmod g+rwx /srv/nfs/yukon
 systemctl enable --now nfs-server.service
 *** /etc/exports.d/yukon.exports
-/srv/nfs/yukon 192.168.168.0/24(rw,async,no_subtree_check,no_root_squash)
-/srv/nfs/yukon 10.0.0.0/16(rw,async,no_subtree_check,no_root_squash)
+/srv/nfs/yukon *(rw,async,no_subtree_check,no_root_squash)
+*** /etc/nfs.conf
+[nfsd]
+udp=y # for u-boot
 * nitrogen
 systemctl --user enable --now nitrogen.service
 * notification-daemon
@@ -311,14 +313,13 @@ deboostrap
 gnupg1
 ubuntu-keyring
 ** container creation
-mach_name=noether
+mach_name=cauchy
 mach_user=jpkotta
 # note: at a minimum, you need --include=dbus
 # for networking (--network-veth), you want systemd-networkd
 # ubuntu-server pulls in some of this stuff
-debootstrap --include=ubuntu-server,build-essential,dbus --components=main,restricted,universe,multiverse xenial /var/lib/machines/$mach_name http://us.archive.ubuntu.com/ubuntu
+debootstrap --include=ubuntu-server,build-essential,dbus --components=main,restricted,universe,multiverse bionic /var/lib/machines/$mach_name http://us.archive.ubuntu.com/ubuntu
 systemd-nspawn -M $mach_name passwd
-systemd-nspawn -M $mach_name /bin/systemctl enable dbus
 systemd-nspawn -M $mach_name /bin/systemctl enable systemd-networkd
 systemctl enable --now machines.target
 systemctl enable --now systemd-nspawn@$mach_name.service
@@ -326,13 +327,14 @@ systemctl enable --now systemd-nspawn@$mach_name.service
 [Exec]
 # if CONFIG_USER_NS=y in the kernel
 # see docs for --bind and -U in systemd-nspawn
+# starting the machine without this will probably mess up the permissions
 PrivateUsers=off
 
 [Files]
 Bind=/home
-Bind=/tmp/.X11-unix
+BindReadOnly=/tmp/.X11-unix
 Bind=/dev/bus/usb
-*** /etc/systemd/system/systemd-nspawn@noether.service.d/override.conf
+*** /etc/systemd/system/systemd-nspawn@$mach_name.service.d/override.conf
 [Service]
 DeviceAllow=char-usb_device rwm
 ** container start
@@ -354,23 +356,29 @@ useradd -m -g users -s /bin/bash $mach_user
 passwd $mach_user
 gpasswd -a $mach_user sudo
 hostnamectl set-hostname $mach_name
-# also add hostname to /etc/hosts
-locale-gen en_US.UTF-8 && dpkg-reconfigure locales # just hit OK
+locale-gen en_US.UTF-8 # just hit OK
+dpkg-reconfigure locales # select en_US.UTF-8
 ** convenience packages for container
+bash-completion
 command-not-found
 keychain
 man-db
 nano
 rxvt-unicode-256color
+tree
 ** yocto packages for container
-chrpath
-diffstat
+# also install the packages from the yocto manual
+bc
+bison
+device-tree-compiler
+flex
+gcc-arm-linux-gnueabi
+libncurses5-dev
+netcat-openbsd
 openssh-client # ssh-add and ssh-agent
 openssh-server
-openbsd-netcat
-socat
-texinfo # makeinfo
-wget
+** klondike packages for container
+python-sphinx
 ** see also
 *** [[http://blog.oddbit.com/2016/02/07/systemd-nspawn-for-fun-and-well-mostly-f/][Run ARM binaries in a systemd-nspawn container with QEMU]]
 pacaur -S qemu-arm-static
