@@ -72,6 +72,9 @@ export IGNOREEOF=1
 export HOSTNAME
 
 # keychain keeps track of ssh-agents
+if is_command keychain ; then
+    keychain --quiet --quick || true
+fi
 [ -f $HOME/.keychain/$HOSTNAME-sh ] \
     && . $HOME/.keychain/$HOSTNAME-sh
 

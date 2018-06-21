@@ -48,7 +48,7 @@ cd
 
 # these could be started with systemd, but it's really flaky
 (exec /usr/lib/notification-daemon-1.0/notification-daemon &)
-(exec xset dpms 0 0 600 &)
+#(exec xset dpms 0 0 600 &)
 (exec nitrogen --restore &)
 (exec numlockx on &)
 (exec xscreensaver -no-splash &)
