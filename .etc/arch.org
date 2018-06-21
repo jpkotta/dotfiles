@@ -18,12 +18,14 @@ options loop max_part=15
 *** /etc/locale.gen
 *** /etc/locale.conf
 LANG=en_US.UTF-8
+*** /etc/pam.d/system-auth
+auth      optional  pam_faildelay.so delay=500000
+auth      required  pam_unix.so     try_first_pass nullok nodelay
 *** ln -s /usr/share/zoneinfo/CST6CDT /etc/localtime
 *** hwclock --systohc --utc
 *** timedatectl set-ntp true
 *** /etc/nsswitch.conf
-# [!UNAVAIL=return] fubars local DNS
-hosts: files mymachines resolve dns myhostname
+# s/[!UNAVAIL=return]/[!NOTFOUND=return]/
 ** users
 useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
 for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $USER $g ; done
@@ -134,6 +136,7 @@ systemctl enable --now foldingathome.service
 * fvwm
 * gdmap
 * geeqie
+** fbida
 * gimp
 ** gimp-plugin-gmic
 * git
