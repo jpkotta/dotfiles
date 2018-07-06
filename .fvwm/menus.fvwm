@@ -370,7 +370,7 @@ AddToMenu "WindowOps"
 + "(Un)Max&tall (F6)    %mini.maximize-vert1.xpm%"  PickAgain Maximize   0 100
 + "(Un)&Fullscreen (F11)%mini.maximize.xpm%"        PickAgain FullScreenToggle
 + "(Un)Maximum Maximi&ze%mini.maximize1.xpm%"       PickAgain MaximumMaximize
-+ "(Un)&Shade (F12)     %mini.shade1.xpm%"          PickAgain WindowShade
+#+ "(Un)&Shade (F12)     %mini.shade1.xpm%"          PickAgain WindowShade
 + "(Un)DeskStic&k (F2)  %mini.stick1.xpm%"          PickAgain StickAcrossPages
 + "(Un)PageStick        %mini.stick1.xpm%"          PickAgain StickAcrossDesks
 + "(Un)Stick            %mini.stick1.xpm%"          PickAgain Stick
@@ -416,7 +416,7 @@ AddToMenu "WindowOpsSmall"
 + "&Group Move%mini.move1.xpm%"                 Popup GroupMove
 + "" Nop
 + "(Un)S&tick%mini.stick1.xpm%"                 Stick
-+ "(Un)&Shade%mini.shade1.xpm%"                 WindowShade
+#+ "(Un)&Shade%mini.shade1.xpm%"                 WindowShade
 + "(Un)&Fullscreen (F11)%mini.maximize.xpm%"    FullScreenToggle
 + "(Un)M&aximize%mini.maximize1.xpm%"           Maximize 100 100
 + "(De)&Iconify%mini.iconify1.xpm%"             Iconify

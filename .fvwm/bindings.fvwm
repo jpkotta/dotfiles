@@ -73,11 +73,11 @@ Mouse   5       T       N       Resize br w-5c w-5c
 #   button 2 drag:      move
 #   button 3:           nop
 
-# window shade in the direction of the side if doubleclicked
-Mouse   1       -       A       ResizeRaiseShadeDirection N
-Mouse   1       [       A       ResizeRaiseShadeDirection W
-Mouse   1       ]       A       ResizeRaiseShadeDirection E
-Mouse   1       _       A       ResizeRaiseShadeDirection S
+# # window shade in the direction of the side if doubleclicked
+# Mouse   1       -       A       ResizeRaiseShadeDirection N
+# Mouse   1       [       A       ResizeRaiseShadeDirection W
+# Mouse   1       ]       A       ResizeRaiseShadeDirection E
+# Mouse   1       _       A       ResizeRaiseShadeDirection S
 
 ########################################
 # CLIENT AREA
@@ -139,7 +139,7 @@ Key     F8      A       4       Resize
 Key     F9      A       4       Iconify
 Key     F10     A       4       Maximize
 Key     F11     A       4       FullScreenToggle
-Key     F12     A       4       WindowShade
+#Key     F12     A       4       WindowShade
 
 # move windows between pages
 Key     Left    A       4S      MoveAndGotoPage down
