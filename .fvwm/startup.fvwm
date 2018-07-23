@@ -27,7 +27,7 @@ AddToFunc InitFunction
 # which is weird because it creates it
 + I Exec exec rm -f $[FVWM_USERDIR]/.fvwm-menu-directory.dir
 + I Test (EnvIsSet USE_COMPOSITE) RestartCompositor
-+ I SshAdd
+#+ I SshAdd
 
 ################################################################################
 # ALL STARTUPS
