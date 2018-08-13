@@ -5,10 +5,10 @@ username = Jonathan Kotta <jpkotta@packetdigital.com>
 # use mercurial as a git client
 # hg clone https://bitbucket.org/durin42/hg-git ~/.hgext/hg-git
 # sudo pip install dulwich
-hgext.hggit = ~/.hgext/hg-git/hggit
+#hgext.hggit = ~/.config/hg/hg-git/hggit
 
 # use mercurial as a subversion client
 # http://bitbucket.org/durin42/hgsubversion/wiki/Home
 # requires python-subversion
 # recommends rebase extension
-hgext.hgsubversion = ~/.hgext/hgsubversion/hgsubversion
+hgext.hgsubversion = ~/.config/hg/hgsubversion/hgsubversion

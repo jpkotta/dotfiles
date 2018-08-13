@@ -5,7 +5,7 @@
 username = Jonathan Kotta <jpkotta@gmail.com>
 
 # ignore file for all repositories
-ignore = ~/.hgignore.global
+ignore = ~/.config/hg/hgignore
 
 # crecord instead of record
 interface = curses
@@ -90,4 +90,4 @@ maxfilesize = 10000000
 vimdiff.disabled = True
 
 # per-machine settings
-%include .hgext/local.hgrc
+%include local.hgrc
