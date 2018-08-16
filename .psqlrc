@@ -1,0 +1,15 @@
+\set QUIET 1
+\pset null '∅'
+
+\set PROMPT1 '[%n@%m][%/]\n%R%# '
+\set PROMPT2 '%R%# '
+
+\timing on
+
+\x on
+
+\set VERBOSITY verbose
+\set HISTFILE ~/.cache/psql/history- :DBNAME
+\set HISTCONTROL ignoredups
+
+\unset QUIET
