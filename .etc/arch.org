@@ -26,6 +26,9 @@ auth      required  pam_unix.so     try_first_pass nullok nodelay
 *** timedatectl set-ntp true
 *** /etc/nsswitch.conf
 # s/[!UNAVAIL=return]/[!NOTFOUND=return]/
+*** /etc/sysctl.d/99-sysctl.conf
+vm.swappiness = 60
+kernel.sysrq = 1
 ** users
 useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
 for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $USER $g ; done
@@ -146,7 +149,6 @@ systemctl enable --now foldingathome.service
 * go
 * gpm
 systemctl enable --now gpm.service
-* gstreamer0.10-plugins
 * haveged
 systemctl enable --now haveged.service
 * hdparm
@@ -263,7 +265,6 @@ gpasswd -a $USER audio
 ** ipython
 *** ipython-notebook
 python-jinja python-tornado python-pyzmq python-pygments qt5-svg
-** python-ipython-sql
 ** python-matplotlib
 ** python-numpy
 ** python-pylint
@@ -276,7 +277,6 @@ python-jinja python-tornado python-pyzmq python-pygments qt5-svg
 ** ipython2
 *** ipython2-notebook
 python2-jinja python2-tornado python2-pyzmq python2-pygments qt5-svg
-** python2-ipython-sql
 ** python2-matplotlib
 ** python2-numpy
 ** python2-pylint
@@ -309,11 +309,15 @@ password=PASSWORD
 * subversion
 * sudo
 gpasswd -a $USER wheel
-** /etc/sudoers
+** /etc/sudoers.d/wheel
+## Uncomment to allow members of group wheel to execute any command
 %wheel ALL=(ALL) ALL
+
+## Same thing without a password
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/mount.cifs, /usr/bin/umount
 * systemd-nspawn
 ** dependencies
-deboostrap
+debootstrap
 gnupg1
 ubuntu-keyring
 ** container creation
