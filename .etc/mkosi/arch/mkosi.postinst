@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -o xtrace
+set -o errexit -o nounset -o pipefail -o errtrace
+IFS=$'\n\t'
+
+user=jpkotta
+useradd -m -g users -s /bin/bash $user
+echo $user:asdf | chpasswd $user
+gpasswd -a $user wheel
+echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
+
+reflector -a 1 --country "United States" --sort rate -n 5 --save /etc/pacman.d/mirrorlist \
+    || sed -i "s/^#//" /etc/pacman.d/mirrorlist
+
+cd /tmp
+for i in pikaur ; do
+    curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/$i.tar.gz
+    sudo -u $user tar xf $i.tar.gz
+    (cd $i ; sudo -u $user makepkg)
+    pacman -U ${i}/${i}-*.pkg.tar.xz --noconfirm
+done

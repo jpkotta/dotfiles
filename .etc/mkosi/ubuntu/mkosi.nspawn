@@ -1,0 +1,12 @@
+[Exec]
+# if CONFIG_USER_NS=y in the kernel
+# see docs for --bind and -U in systemd-nspawn
+# starting the machine without this will probably mess up the permissions
+PrivateUsers=off
+
+[Files]
+Bind=/home
+Bind=/media
+BindReadOnly=/tmp/.X11-unix
+Bind=/srv
+Bind=/dev/bus/usb

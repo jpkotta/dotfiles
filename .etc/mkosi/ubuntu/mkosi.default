@@ -1,0 +1,60 @@
+[Distribution]
+Distribution=ubuntu
+Release=artful
+Repositories=main,restricted,universe,multiverse
+
+[Output]
+Format=directory
+Output=/var/lib/machines/hilbert
+
+[Packages]
+Cache=/tmp/mkosi.cache
+WithNetwork=true
+Packages=
+# essential
+    iproute2
+    less
+    file
+    locales
+# convenience
+    bash-completion
+    command-not-found
+    keychain
+    man-db
+    nano
+    rxvt-unicode-256color
+    sudo
+    tree
+# yocto
+    gawk
+    wget
+    git-core
+    diffstat
+    unzip
+    texinfo
+    gcc-7-multilib
+    build-essential
+    chrpath
+    socat
+    cpio
+    python
+    python3
+    python3-pip
+    python3-pexpect
+    xz-utils
+    debianutils
+    iputils-ping
+    bc
+    bison
+    device-tree-compiler
+    flex
+    gcc-arm-linux-gnueabi
+    libncurses5-dev
+    netcat-openbsd
+    openssh-client
+    openssh-server
+# klondike
+    python-sphinx
+
+[Validation]
+Password=packet

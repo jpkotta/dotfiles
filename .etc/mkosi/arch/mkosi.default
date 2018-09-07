@@ -1,0 +1,21 @@
+[Distribution]
+Distribution=arch
+
+[Output]
+Format=directory
+Output=/var/lib/machines/archtest
+Hostname=archtest
+
+[Packages]
+Cache=/tmp/mkosi.cache
+WithNetwork=true
+Packages=
+    base-devel
+    sudo
+    reflector
+    pyalpm
+    git
+    rxvt-unicode-terminfo
+
+[Validation]
+Password=root

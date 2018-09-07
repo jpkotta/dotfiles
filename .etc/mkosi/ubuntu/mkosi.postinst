@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -o xtrace
+set -o errexit -o nounset -o pipefail -o errtrace
+IFS=$'\n\t'
+
+/bin/systemctl enable systemd-networkd
+
+# needed for yocto
+loc=en_US.UTF-8
+locale-gen $loc
+update-locale LC_ALL=$loc LANG=$loc
+
+user=jpkotta
+passwd=asdf
+useradd -m -g users -s /bin/bash $user
+echo $user:$passwd | chpasswd $user
+gpasswd -a $user sudo
