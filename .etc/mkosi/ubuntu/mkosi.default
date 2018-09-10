@@ -5,7 +5,7 @@ Repositories=main,restricted,universe,multiverse
 
 [Output]
 Format=directory
-Output=/var/lib/machines/hilbert
+Output=/var/lib/machines/noether
 
 [Packages]
 Cache=/tmp/mkosi.cache

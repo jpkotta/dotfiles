@@ -2,7 +2,6 @@
 * MISCELLANEOUS
 ** pacman
 *** /etc/pacman.conf
-IgnorePkg += linux linux-zen
 ILoveCandy
 Color
 *** /etc/pacman.d/mirrorlist
@@ -30,8 +29,8 @@ auth      required  pam_unix.so     try_first_pass nullok nodelay
 vm.swappiness = 60
 kernel.sysrq = 1
 ** users
-useradd -m -g users -s /bin/bash $USER ; chfn $USER ; passwd $USER
-for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $USER $g ; done
+useradd -m -g users -s /bin/bash $user ; chfn $user ; passwd $user
+for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $user $g ; done
 ** udev
 *** /etc/udev/rules.d/99-lowbatt.rules
 SUBSYSTEM=="power supply", ATTR{status}=="Discharging", ATTR{capacity}=="2", RUN+="/usr/bin/systemctl suspend"
@@ -45,16 +44,16 @@ systemctl enable --now systemd-networkd.service
 systemctl enable --now systemd-resolved.service
 systemctl disable --now dhcpcd.service
 ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+*** /etc/systemd/resolved.conf
+[Resolve]
+Domains=packetdigital.com dhcp.packetdigital.com
 *** /etc/systemd/network/ethernet.network
 [Match]
-Name=enp4s0
+Name=en*
 
 [Network]
 DHCP=ipv4
 Address=192.168.168.20/24
-
-[DHCP]
-UseDomains=true
 *** /etc/systemd/network/usb-edison.network
 [Match]
 Name=ethusb0
@@ -73,7 +72,7 @@ Name=ethusb0
 * alsa-utils
 * android-tools
 ** android-udev
-gpasswd -a $USER adbusers
+gpasswd -a $user adbusers
 * apg
 * ascii
 * aspell-en
@@ -101,7 +100,7 @@ for fs in $filesystems ; do
         -exec ionice -c idle btrfs filesystem defrag -- '{}' +
 done
 * bumblebee
-gpasswd -a $USER bumblebee
+gpasswd -a $user bumblebee
 systemctl enable --now bumblebeed.service
 ** nvidia-dkms
 ** bbswitch-dkms
@@ -112,9 +111,9 @@ systemctl enable --now bumblebeed.service
 * commit-patch
 * compton-git
 * cups
-gpasswd -a $USER lp
-gpasswd -a $USER sys
-systemctl enable --now cups.service
+gpasswd -a $user lp
+gpasswd -a $user sys
+systemctl enable --now cups-browsed.service
 lpadmin -d PRINTER_NAME
 http://localhost:631
 used the C3170i/postscript driver
@@ -159,16 +158,14 @@ ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm
 * iftop
 * imagemagick
 ** imagemagick-doc
+* intel-ucode
+grub-mkconfig -o /boot/grub/grub.cfg
 * iotop
 * jupyter-notebook
 * k3b
 pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
-* kdegraphics-okular
-xdg-mime default okularApplication_pdf.desktop application/pdf
-** kpartsplugin
 * keepassxc
 * libreoffice-still
-** libreoffice-en-US
 * lsof
 * luminancehdr
 * lyx
@@ -198,7 +195,7 @@ systemctl --user enable --now ralbumd.service
 * namcap
 * nfs-utils
 ** client
-systemctl enable --now rpcbind.servic
+systemctl enable --now rpcbind.service
 *** /etc/fstab
 SERVER:/path/on/server /media/MOUNTPOINT nfs ro,soft,intr
 ** server
@@ -221,6 +218,8 @@ systemctl --user enable --now numlockx.service
 * nvidia
 ** nvclock
 ** nvidia-utils
+* okular
+xdg-mime default okularApplication_pdf.desktop application/pdf
 * openssh
 systemctl enable --now sshd.service
 ** /etc/ssh/sshd_config
@@ -256,7 +255,7 @@ gpg --recv-keys KEY_ID
 systemctl enable --now pkgfile-update.timer
 * pmount
 * pulseaudio
-gpasswd -a $USER audio
+gpasswd -a $user audio
 ** pavucontrol
 ** pulseaudio-alsa
 ** pulseaudio-equalizer
@@ -294,7 +293,7 @@ systemctl --user enable --now redshift.service
 systemctl enable --now smbd.service
 systemctl enable --now nmbd.service
 systemctl enable --now winbindd.service
-sudo pdbedit -a -u $USER
+sudo pdbedit -a -u $user
 ** /etc/samba/smb.conf
 * slim
 systemctl enable --now slim.service
@@ -308,7 +307,7 @@ password=PASSWORD
 * strace
 * subversion
 * sudo
-gpasswd -a $USER wheel
+gpasswd -a $user wheel
 ** /etc/sudoers.d/wheel
 ## Uncomment to allow members of group wheel to execute any command
 %wheel ALL=(ALL) ALL
@@ -319,6 +318,7 @@ gpasswd -a $USER wheel
 ** dependencies
 debootstrap
 gnupg1
+mkosi
 ubuntu-keyring
 ** container creation
 mkosi -f
@@ -353,7 +353,7 @@ systemctl enable --now systemctl-swap.service
 zswap_enabled=1
 * texlive-most
 * tftp-hpa
-gpasswd -a $USER ftp
+gpasswd -a $user ftp
 chgrp ftp /srv/tftp/
 chmod g+rwx /srv/tftp/
 * tlp
@@ -370,13 +370,13 @@ systemctl enable tpacpi.service
 * ttf-liberation
 * ttf-mathtype
 * ttf-ms-fonts
+* ttf-noto
 * ttf-symbola
-* ttf-vista-fonts
 * udiskie
 systemctl --user enable --now udiskie.service
 * units
 * virtualbox
-gpasswd -a $USER vboxusers
+gpasswd -a $user vboxusers
 chattr +C ~/.VirtualBox/ # improves performance on btrfs
 ** /etc/modules-load.d/virtualbox.conf
 vboxdrv
