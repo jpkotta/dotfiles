@@ -50,6 +50,32 @@ Name=en*
 [Network]
 DHCP=ipv4
 Address=192.168.168.20/24
+
+VLAN=botlink
+
+[DHCP]
+UseDomains=true
+UseHostname=false
+SendHostname=true
+*** /etc/systemd/network/vl-botlink.netdev
+[NetDev]
+Name=botlink
+Kind=vlan
+Description="Botlink VLAN"
+
+[VLAN]
+Id=4
+*** /etc/systemd/network/vl-botlink.network
+[Match]
+Name=botlink
+
+[Network]
+Description="Botlink LAN"
+DHCP=yes
+
+[DHCP]
+UseRoutes=false
+UseDNS=false
 *** /etc/systemd/network/usb-edison.network
 [Match]
 Name=ethusb0
