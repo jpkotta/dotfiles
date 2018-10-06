@@ -20,31 +20,27 @@ LANG=en_US.UTF-8
 *** /etc/pam.d/system-auth
 auth      optional  pam_faildelay.so delay=500000
 auth      required  pam_unix.so     try_first_pass nullok nodelay
-*** ln -s /usr/share/zoneinfo/CST6CDT /etc/localtime
 *** hwclock --systohc --utc
 *** timedatectl set-ntp true
-*** /etc/nsswitch.conf
-# s/[!UNAVAIL=return]/[!NOTFOUND=return]/
+*** timedatectl set-timezone America/Chicago
 *** /etc/sysctl.d/99-sysctl.conf
 vm.swappiness = 60
 kernel.sysrq = 1
 ** users
 useradd -m -g users -s /bin/bash $user ; chfn $user ; passwd $user
-for g in adm games log optical power storage systemd-journal users uucp video wheel ; do gpasswd -a $user $g ; done
+for g in adm games log systemd-journal users uucp wheel ; do gpasswd -a $user $g ; done
 ** udev
 *** /etc/udev/rules.d/99-lowbatt.rules
 SUBSYSTEM=="power supply", ATTR{status}=="Discharging", ATTR{capacity}=="2", RUN+="/usr/bin/systemctl suspend"
 ** systemd
-systemctl enable --now cronie.service
-systemctl enable --now dhcpcd.service
 *** /etc/systemd/journald.conf
 SystemMaxUse=100M # max journal size
 ** systemd-networkd
+systemctl disable --now dhcpcd.service
 systemctl enable --now systemd-networkd.service
 systemctl enable --now systemd-resolved.service
-systemctl disable --now dhcpcd.service
-ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
-*** /etc/systemd/resolved.conf
+ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+*** /etc/systemd/resolved.conf.d/packet.conf
 [Resolve]
 Domains=packetdigital.com dhcp.packetdigital.com
 *** /etc/systemd/network/ethernet.network
