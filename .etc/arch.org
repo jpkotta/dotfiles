@@ -89,6 +89,15 @@ MACAddress=72:e8:af:2f:a8:d6
 [Link]
 Description=Edison USB Ethernet Adapter
 Name=ethusb0
+** bfq
+grub-mkconfig -o /boot/grub/grub.cfg
+*** /etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT="quiet scsi_mod.use_blk_mq=1"
+*** /etc/udev/rules.d/60-iosched.rules
+# set scheduler for non-rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*|nvme[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+# set scheduler for rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
 * abcde
 ** atomicparsley
 * alsa-utils
@@ -147,6 +156,10 @@ used the C3170i/postscript driver
 ** gtk3
 * dclock
 * dictd
+* docker
+systemctl enable --now docker.service
+gpasswd -a $user docker
+* dtach
 * emacs-lucid
 * etc-update
 * figlet
@@ -154,6 +167,8 @@ used the C3170i/postscript driver
 * foldingathome-noroot
 /opt/fah/fah-config
 systemctl enable --now foldingathome.service
+** /etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT="vsyscall=emulate"
 * font-bh-ttf
 * font-mathematica
 * fortune-mod
@@ -168,6 +183,8 @@ systemctl enable --now foldingathome.service
 ** gkrellweather
 * global
 * go
+** go-tools
+** go-langserver-git
 * gpm
 systemctl enable --now gpm.service
 * haveged
@@ -188,6 +205,12 @@ grub-mkconfig -o /boot/grub/grub.cfg
 pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 * keepassxc
 * libreoffice-still
+* linux
+** linux-docs
+** linux-headers
+* linux-zen
+** linux-zen-docs
+** linux-zen-headers
 * lsof
 * luminancehdr
 * lyx
@@ -222,12 +245,12 @@ systemctl enable --now rpcbind.service
 SERVER:/path/on/server /media/MOUNTPOINT nfs ro,soft,intr
 ** server
 mkdir /srv/nfs
-mkdir /srv/nfs/yukon
-chgrp users /srv/nfs/yukon
-chmod g+rwx /srv/nfs/yukon
+mkdir /srv/nfs/$export
+chgrp users /srv/nfs/$export
+chmod g+rwx /srv/nfs/$export
 systemctl enable --now nfs-server.service
-*** /etc/exports.d/yukon.exports
-/srv/nfs/yukon *(rw,async,no_subtree_check,no_root_squash)
+*** /etc/exports.d/$export.exports
+/srv/nfs/$export *(rw,async,no_subtree_check,no_root_squash)
 *** /etc/nfs.conf
 [nfsd]
 udp=y # for u-boot
@@ -266,10 +289,7 @@ for i in pikaur ; do
 done
 
 (cd /var/cache/pacman ; mkdir -p aur ; chgrp wheel aur ; chmod g+rwx aur)
-** /etc/makepkg.conf
-PKGDEST=/var/cache/pacman/aur/
-MAKEFLAGS="j$(nproc)"
-COMPRESSXZ=(xz -c -z --threads=0 -)
+** asp
 ** One or more PGP signatures could not be verified!
 gpg --recv-keys KEY_ID
 * pkgbuild-introspection
@@ -310,13 +330,20 @@ python2-jinja python2-tornado python2-pyzmq python2-pygments qt5-svg
 * redshift-minimal
 systemctl --user enable --now redshift.service
 * reflector
+* ripgrep
+* rsync
 * rxvt-unicode
 * samba
-systemctl enable --now smbd.service
-systemctl enable --now nmbd.service
+systemctl enable --now smb.service
+systemctl enable --now nmb.service
 systemctl enable --now winbindd.service
 sudo pdbedit -a -u $user
 ** /etc/samba/smb.conf
+[$share]
+	valid users = $user,$user2
+	read only = No
+	create mask = 0644
+	path = /home/$user/$share/
 * slim
 systemctl enable --now slim.service
 * smbclient
@@ -338,6 +365,8 @@ gpasswd -a $user wheel
 %wheel ALL=(ALL) NOPASSWD: /usr/bin/mount.cifs, /usr/bin/umount
 * systemd-nspawn
 ** dependencies
+arch-install-scripts
+debian-archive-keyring
 debootstrap
 gnupg1
 mkosi
@@ -380,7 +409,6 @@ chgrp ftp /srv/tftp/
 chmod g+rwx /srv/tftp/
 * tlp
 systemctl enable --now tlp.service
-* tmux
 * tpacpi-bat-git
 FIXME: pull request pending
 systemctl enable tpacpi.service
@@ -446,3 +474,4 @@ EndSection
 systemctl --user enable --now xscreensaver.service
 systemctl --user enable --now dpms.service
 ** xss-lock-git
+* xterm
