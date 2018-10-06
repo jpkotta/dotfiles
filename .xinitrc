@@ -61,6 +61,7 @@ fi
 
 # set a default if unset
 WM_COMMAND=${WM_COMMAND:=fvwm}
+#WM_COMMAND=awesome
 export WM_LOGFILE=$HOME/.cache/window-manager-$DISPLAY.log
 [ -e "$WM_LOGFILE" ] && mv -f $WM_LOGFILE ${WM_LOGFILE}.old
 

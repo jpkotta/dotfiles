@@ -528,9 +528,13 @@ alias vncremote="vncviewer -encoding 'tight copyrect corre hextile' -quality 8 -
 function nspawn_sh() {
     local login=${1}
     local host user
-    if [ -z "${1}" ] ; then
+    if [ -z "$login" ] ; then
         host=$(machinectl | grep systemd-nspawn | grep -oP "^[_[:alnum:]]+")
-        user=${USER}
+        user=$USER
+        login=${user}@${host}
+    elif [[ "$login" != *@* ]] ; then
+        host=$login
+        user=$USER
         login=${user}@${host}
     fi
     machinectl shell ${login} /bin/bash

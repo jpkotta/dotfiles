@@ -28,7 +28,7 @@ AddToFunc StartChromium
 
 DestroyFunc StartBrowser
 AddToFunc StartBrowser
-+ I Exec $HOME/bin/browser $*
++ I Exec exec $HOME/bin/browser $*
 
 DestroyFunc StartPySol
 AddToFunc StartPySol

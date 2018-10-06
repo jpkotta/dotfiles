@@ -55,6 +55,9 @@ Packages=
     openssh-server
 # klondike
     python-sphinx
+    enchant
+# other
+    lzop
 
 [Validation]
 Password=packet
