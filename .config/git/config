@@ -1,0 +1,9 @@
+[user]
+	name = Jonathan Kotta
+	email = jpkotta@gmail.com
+[push]
+	default = simple
+[color]
+	ui = auto
+[core]
+	hooksPath = $HOME/.config/git/hooks

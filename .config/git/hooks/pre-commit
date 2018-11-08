@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ -z "$(git config --get --local user.email)" ] ; then
+
+    remote=$(git remote get-url origin)
+
+    case "$remote" in
+        *github.deere.com*)
+            email=KottaJonathan@JohnDeere.com
+            ;;
+        *github.com[/:]botlink*)
+            email=jpkotta@packetdigital.com
+            ;;
+        *gitlab.com/botlink*)
+            email=jpkotta@packetdigital.com
+            ;;
+        *)
+            email=jpkotta@gmail.com
+            ;;
+    esac
+
+    git config --local user.email $email
+fi
