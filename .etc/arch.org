@@ -142,9 +142,10 @@ systemctl enable --now bumblebeed.service
 * commit-patch
 * compton-git
 * cups
-gpasswd -a $user lp
-gpasswd -a $user sys
+gpasswd -a $USER sys # admin
+gpasswd -a $USER lp # print
 systemctl enable --now cups-browsed.service
+systemctl enable --now org.cups.cupsd.service
 lpadmin -d PRINTER_NAME
 http://localhost:631
 used the C3170i/postscript driver
