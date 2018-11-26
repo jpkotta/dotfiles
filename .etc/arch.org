@@ -112,7 +112,7 @@ gpasswd -a $user adbusers
 ** avrdude
 * base-devel
 * bash-completion
-* bcache-tools-git
+* bcache-tools
 make-bcache -B /dev/sdXN # backing
 echo /dev/sdXN > /sys/fs/bcache/register_quiet
 make-bcache -C /dev/sdY # cache
@@ -297,6 +297,10 @@ gpg --recv-keys KEY_ID
 * pkgfile
 systemctl enable --now pkgfile-update.timer
 * pmount
+* profile-sync-daemon
+psd
+psd p
+systemctl --user enable --now psd
 * pulseaudio
 gpasswd -a $user audio
 ** pavucontrol
@@ -358,12 +362,13 @@ password=PASSWORD
 * subversion
 * sudo
 gpasswd -a $user wheel
-** /etc/sudoers.d/wheel
+** /etc/sudoers.d/00-wheel
 ## Uncomment to allow members of group wheel to execute any command
 %wheel ALL=(ALL) ALL
 
 ## Same thing without a password
 %wheel ALL=(ALL) NOPASSWD: /usr/bin/mount.cifs, /usr/bin/umount
+# end with a newline, otherwise there's a syntax error
 * systemd-nspawn
 ** dependencies
 arch-install-scripts
@@ -410,10 +415,11 @@ chgrp ftp /srv/tftp/
 chmod g+rwx /srv/tftp/
 * tlp
 systemctl enable --now tlp.service
-* tpacpi-bat-git
-FIXME: pull request pending
-systemctl enable tpacpi.service
-** acpi_call-git-dkms
+** acpi_call-dkms
+** tp_smapi-dkms
+** /etc/default/tlp
+START_CHARGE_THRESH_BAT0=75
+STOP_CHARGE_THRESH_BAT0=80
 * trash-cli
 * tree
 * ttf-dejavu
