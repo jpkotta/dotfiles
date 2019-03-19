@@ -3,8 +3,8 @@ Description=Download packages
 
 [Timer]
 Persistent=false
+OnBootSec=15min
 OnCalendar=daily
-Unit=pacman-download.service
 
 [Install]
 WantedBy=default.target

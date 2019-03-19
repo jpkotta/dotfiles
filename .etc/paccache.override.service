@@ -1,0 +1,2 @@
+[Service]
+ExecStart=/usr/bin/paccache -r -c /var/cache/pacman/aur
