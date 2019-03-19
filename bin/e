@@ -46,13 +46,14 @@ env["log2"] = log2
 env["binom"] = binom
 env["inf"] = float("inf")
 env["nan"] = float("nan")
+env["phi"] = (math.sqrt(5)+1)/2
 
 def main(expr):
     res = eval(expr, env)
     # throw away small imaginary parts, they're probably just due to imprecision
     if (isinstance(res, numbers.Number)
         and res != 0
-        and abs(res.imag)/abs(res) < 10*epsilon):
+        and abs(res.imag) < 10*epsilon*abs(res)):
         res = res.real
 
     return res
@@ -62,7 +63,10 @@ if __name__ == '__main__':
 
     if len(args) < 1:
         while True:
-            expr = input("e> ")
+            try:
+                expr = input("e> ")
+            except (EOFError, KeyboardInterrupt):
+                sys.exit(0)
             if len(expr) == 0:
                 break
             print(main(expr))
