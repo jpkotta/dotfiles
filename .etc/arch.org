@@ -110,6 +110,8 @@ gpasswd -a $user adbusers
 * avr-gcc
 ** avr-libc
 ** avrdude
+* awesome
+** rlwrap
 * base-devel
 * bash-completion
 * bcache-tools
@@ -170,6 +172,10 @@ gpasswd -a $user docker
 systemctl enable --now foldingathome.service
 ** /etc/default/grub
 GRUB_CMDLINE_LINUX_DEFAULT="vsyscall=emulate"
+** cuda
+(match with driver version, see https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html)
+** opencl-nvidia
+(match with driver version)
 * font-bh-ttf
 * font-mathematica
 * fortune-mod
@@ -301,6 +307,8 @@ systemctl enable --now pkgfile-update.timer
 psd
 psd p
 systemctl --user enable --now psd
+** /etc/sudoers.d/01-psd
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper
 * pulseaudio
 gpasswd -a $user audio
 ** pavucontrol
@@ -384,7 +392,9 @@ systemctl enable --now machines.target
 systemctl enable --now systemd-nspawn@$mach_name.service
 *** /etc/systemd/system/systemd-nspawn@$mach_name.service.d/override.conf
 [Service]
+# see /proc/devices
 DeviceAllow=char-usb_device rwm
+DeviceAllow=char-ttyUSB rwm
 ** container start
 machinectl start $mach_name
 machinectl shell $mach_user@$mach_name /bin/bash
@@ -400,9 +410,12 @@ polkit.addRule(function(action, subject) {
 });
 ** see also
 *** [[http://blog.oddbit.com/2016/02/07/systemd-nspawn-for-fun-and-well-mostly-f/][Run ARM binaries in a systemd-nspawn container with QEMU]]
-pacaur -S qemu-arm-static
+pikaur -S qemu-arm-static
 systemctl restart systemd-binfmt.service
 sudo systemd-nspawn -q -M minibian --bind /usr/bin/qemu-arm-static /bin/bash
+** X11
+host$ xhost +local:
+container$ export DISPLAY=:0
 * systemd-swap
 # make sure there is a swap partition/file
 systemctl enable --now systemctl-swap.service
