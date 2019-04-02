@@ -239,6 +239,9 @@ for share in nfs engineering hardware ; do
 done
 
 # add LOCATE_PATH to your ~/.bashrc to have locate search these databases
+** /etc/updatedb.conf
+add .emacs.d/var to PRUNENAMES
+remove /media from PRUNEPATHS
 * mpd
 systemctl --user enable --now mpd.service
 systemctl --user enable --now ralbumd.service
