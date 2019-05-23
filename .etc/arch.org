@@ -310,6 +310,11 @@ systemctl enable --now pkgfile-update.timer
 psd
 psd p
 systemctl --user enable --now psd
+** if the system crashed, psd didn't shut down cleanly and will be out of sync
+killall google-chrome
+systemctl --user stop psd
+mv ~/.config/google-chrome ~/.config/google-chrome-bad
+cp -a ~/.config/google-chrome-backup-crashrecovery-$DATE-$TIME ~/.config/google-chrome
 ** /etc/sudoers.d/01-psd
 %wheel ALL=(ALL) NOPASSWD: /usr/bin/psd-overlay-helper
 * pulseaudio
