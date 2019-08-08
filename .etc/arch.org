@@ -176,6 +176,17 @@ GRUB_CMDLINE_LINUX_DEFAULT="vsyscall=emulate"
 (match with driver version, see https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html)
 ** opencl-nvidia
 (match with driver version)
+** /etc/systemd/system/foldingathome.timer
+[Unit]
+Description=Restart folding@home client
+
+[Timer]
+Persistent=false
+OnCalendar=daily
+Unit=foldingathome.service
+
+[Install]
+WantedBy=default.target
 * font-bh-ttf
 * font-mathematica
 * fortune-mod
