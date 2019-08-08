@@ -266,8 +266,6 @@ systemctl enable --now nfs-server.service
 udp=y # for u-boot
 * nitrogen
 systemctl --user enable --now nitrogen.service
-* notification-daemon
-systemctl --user enable --now notification-daemon.service
 * numlockx
 systemctl --user enable --now numlockx.service
 * nvidia
@@ -487,6 +485,8 @@ Section "Device"
 EndSection
 ** /etc/X11/XvMCConfig
 /usr/lib/libIntelXvMC.so
+* xfce4-notifyd
+systemctl --user enable --now xfce4-notifyd.service
 * xorg-apps
 ** xorg-xdpyinfo
 ** xorg-xmodmap
