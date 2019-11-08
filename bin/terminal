@@ -1,2 +1,2 @@
 #!/bin/sh
-urxvtcd -pe tabbedex "$@"
+urxvt -pe tabbedex "$@"
