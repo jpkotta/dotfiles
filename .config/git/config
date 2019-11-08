@@ -7,3 +7,5 @@
 	ui = auto
 [core]
 	hooksPath = $HOME/.config/git/hooks
+[checkout]
+	defaultRemote = origin
