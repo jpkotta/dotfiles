@@ -277,6 +277,7 @@ systemctl enable --now nfs-server.service
 udp=y # for u-boot
 * nitrogen
 systemctl --user enable --now nitrogen.service
+* noto-fonts-all
 * numlockx
 systemctl --user enable --now numlockx.service
 * nvidia
@@ -457,7 +458,6 @@ STOP_CHARGE_THRESH_BAT0=80
 * ttf-liberation
 * ttf-mathtype
 * ttf-ms-fonts
-* ttf-noto
 * ttf-symbola
 * udiskie
 systemctl --user enable --now udiskie.service
