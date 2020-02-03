@@ -258,6 +258,10 @@ remove /media from PRUNEPATHS
 * mpd
 systemctl --user enable --now mpd.service
 systemctl --user enable --now ralbumd.service
+** /etc/security/limits.d/realtime.conf
+# https://github.com/systemd/systemd/issues/4851
+@users - rtprio 99
+#@users - memlock unlimited
 ** mpc
 ** ncmpcpp
 * namcap
