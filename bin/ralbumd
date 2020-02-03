@@ -27,6 +27,8 @@ def main_loop():
     delay = 1
     playlist_finished = False
     while True:
+        time.sleep(delay)
+
         # pylint: disable=no-member
         status = c.status()
 
@@ -59,10 +61,11 @@ def main_loop():
             if (total - elapsed) <= 2*delay:
                 playlist_finished = True
 
-        time.sleep(delay)
-
 def main():
-    main_loop()
+    try:
+        main_loop()
+    except KeyboardInterrupt:
+        pass
 
 ########################################################################
 

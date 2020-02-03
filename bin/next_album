@@ -1,29 +1,27 @@
 #!/bin/bash
 
-mpc="mpc"
-mpc_quiet="$mpc --no-status"
+#set -o xtrace
+set -o errexit -o nounset -o pipefail -o errtrace
+IFS=$'\n\t'
 
-if ! which $mpc >/dev/null ; then
+if ! which mpc >/dev/null ; then
     echo "mpc not installed"
     exit 1
 fi
 
 # add a song if the playlist is empty
-if [ -z "$($mpc playlist)" ] ; then
-    $mpc_quiet add "$($mpc listall | head -n 1)"
+if [ -z "$(mpc playlist)" ] ; then
+    mpc -q add "$(mpc listall | shuf -n 1)"
 fi
 
-$mpc_quiet play && $mpc_quiet crop || exit >/dev/null
-times=$($mpc status | grep "\[playing\]" | awk '{ print $3 }' | sed "s#/# #")
-if [ -n "$times" ] ; then
-    time_total=$(echo "$times" | awk '{print $2}' | sed "s/:/ /")
-    min=$(echo "$time_total" | awk '{print $1}' | sed s/^0//)
-    if [ -z "$min" ] ; then min=0 ; fi
-    sec=$(echo "$time_total" | awk '{print $2}' | sed s/^0//)
-    if [ -z "$sec" ] ; then sec=0 ; fi
+mpc -q play && mpc -q crop || exit >/dev/null
+time_total=($(mpc current --format "%time%" | sed "s/:/\t/"))
+if [ -n "$time_total" ] ; then
+    min=$(echo ${time_total[0]} | sed "s/^0//")
+    sec=$(echo ${time_total[1]} | sed "s/^0//")
     sec_total=$(( $min*60 + $sec ))
 
-    if [ "$sec_total" -ge 4 ] ; then
-	$mpc_quiet seek $(( $sec_total - 3 )) > /dev/null
+    if [ "$sec_total" -ge 2 ] ; then
+	    mpc -q seek $(( $sec_total - 1 )) > /dev/null
     fi
 fi
