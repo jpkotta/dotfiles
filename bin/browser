@@ -1,5 +1,11 @@
 #!/bin/sh
 
-for i in google-chrome-beta google-chrome-stable firefox ; do
-    type "$i" >&/dev/null && exec "$i" "$*"
+browsers=(
+    firefox
+    google-chrome-beta
+    google-chrome-stable
+)
+
+for i in ${browsers[@]}; do
+    type "$i" >&/dev/null && exec "$i" "$@"
 done

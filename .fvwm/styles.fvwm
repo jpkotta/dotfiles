@@ -81,9 +81,10 @@ Style "RadarMap <unregistered>" \
 
 Style gnome-panel   StaysOnBottom
 
-Style Firefox SkipMapping, FPOverrideGrabFocus, \
+Style firefox SkipMapping, FPOverrideGrabFocus, \
 	!UsePPosition, !UseTransientPPosition, \
-	!FPGrabFocus, !FPGrabFocusTransient, StickyAcrossDesks
+	!FPGrabFocus, !FPGrabFocusTransient, StickyAcrossDesks, \
+    !Title, !Borders
 
 Style google-chrome SkipMapping, FPOverrideGrabFocus, \
 	!UsePPosition, !UseTransientPPosition, \
