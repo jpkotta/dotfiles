@@ -212,6 +212,8 @@ systemctl enable --now haveged.service
 ACTION=="add", KERNEL=="sd[az]", ATTR{queue/rotational}=="1", RUN+="/sbin/hdparm -B 254 /dev/$kernel"
 * htop
 * hugin
+* i8kutils
+i8kfan 1 1 # make the fans run a bit faster on shannon
 * iftop
 * imagemagick
 ** imagemagick-doc
