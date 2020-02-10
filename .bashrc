@@ -282,6 +282,17 @@ function daemon {
 
 alias d=daemon
 
+function dtach-shell {
+    if [ -z "$1" ] ; then
+        echo "Usage: $FUNCNAME socket-name"
+        return
+    fi
+    dtach -a "$1" \
+        || dtach -A "$1" -z bash
+}
+
+alias dsh=dtach-shell
+
 # default editor
 alias E="daemon $EDITOR"
 alias EE="$EDITOR"
