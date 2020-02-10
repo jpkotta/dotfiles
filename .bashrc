@@ -127,12 +127,6 @@ for d in $HOME/usr/local/bin $HOME/bin ; do
 done
 unset d
 
-#pathappend /usr/local/lib LD_LIBRARY_PATH
-pathappend /usr/local/include C_INCLUDE_PATH
-pathappend /usr/local/include CPLUS_INCLUDE_PATH
-pathappend /usr/local/lib LIBRARY_PATH
-pathappend /usr/lib/pkgconfig PKG_CONFIG_PATH
-
 ########################################################################
 ### application defaults
 
