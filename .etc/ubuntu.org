@@ -1,0 +1,13 @@
+* MISCELLANEOUS
+** gpasswd -a $USER dialout docker
+* docker.io
+* openssh-server
+* build-essential
+* git
+* mercurial
+* emacs :snap:
+* ripgrep :snap:
+* gnome-session-flashback
+* global
+* python3-serial
+* ipython3
