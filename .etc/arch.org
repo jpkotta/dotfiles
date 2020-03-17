@@ -480,6 +480,8 @@ vboxnetflt
 ** virtualbox-host-dkms
 * vlc
 ** libdvdcss
+** libmicrodns
+** protobuf
 * wcalc
 * wicd
 systemctl enable --now wicd.service
