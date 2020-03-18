@@ -220,6 +220,15 @@ i8kfan 1 1 # make the fans run a bit faster on shannon
 * intel-ucode
 grub-mkconfig -o /boot/grub/grub.cfg
 * iotop
+* iwd
+systemctl --enable iwd.service
+iwctl
+iwctl device list
+iwctl station $dev scan
+iwctl station $dev get-networks
+iwctl --passphrase "$passphrase" station $dev connect "$ssid"
+systemctl --enable systemd-networkd
+systemctl --enable systemd-resolved
 * jupyter-notebook
 * k3b
 pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
