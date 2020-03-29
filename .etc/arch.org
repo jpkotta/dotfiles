@@ -463,7 +463,7 @@ chmod g+rwx /srv/tftp/
 systemctl enable --now tlp.service
 ** acpi_call-dkms
 ** tp_smapi-dkms
-** /etc/default/tlp
+** /etc/tlp.d/01-battery.conf
 START_CHARGE_THRESH_BAT0=75
 STOP_CHARGE_THRESH_BAT0=80
 * trash-cli
