@@ -390,8 +390,6 @@ sudo pdbedit -a -u $user
 	read only = No
 	create mask = 0644
 	path = /home/$user/$share/
-* slim
-systemctl enable --now slim.service
 * smbclient
 ** /etc/samba/private/SERVER.cred
 username=USERNAME
@@ -521,10 +519,17 @@ systemctl --user enable --now xfce4-notifyd.service
 ** xorg-xrandr
 ** xorg-xrdb
 ** xorg-xwd
-* xorg-xbacklight
 * xorg-server
 * xorg-server-xephyr
+* xorg-xbacklight
 * xorg-xclock
+* xorg-xdm
+** xdm-archlinux
+systemctl enable --now xdm-archlinux.service
+** /etc/X11/xdm/archlinux/Xresources
+*background: #101010
+** /etc/X11/xdm/archlinux/Xsetup
+xsetroot -solid "#101010" -cursor_name left_ptr
 * xorg-xinit
 * xscreensaver
 systemctl --user enable --now xscreensaver.service
