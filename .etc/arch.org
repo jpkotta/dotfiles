@@ -485,6 +485,9 @@ vboxnetflt
 ** virtualbox-ext-oracle
 ** virtualbox-guest-iso
 ** virtualbox-host-dkms
+** windows VM
+# copy the mobo UUID
+vboxmanage modifyvm "vmname" --hardwareuuid $(sudo dmidecode -s system-uuid)
 * vlc
 ** libdvdcss
 ** libmicrodns
