@@ -457,6 +457,25 @@ alias locate_on_network='LOCATE_PATH=$_LOCATE_PATH locate'
 
 alias apg="apg -M sNCL" # password generator
 
+function serial() {
+    local dev=${1}
+    local baudrate=${2:-115200}
+    local fail=true
+    for mt in miniterm miniterm.py miniterm2.py ; do
+        if type $mt >&/dev/null ; then
+            fail=false
+            break
+        fi
+    done
+
+    if $fail ; then
+        echo Please install miniterm
+        return -1
+    fi
+
+    $mt --raw --eol LF $dev $baudrate
+}
+
 ####################################
 # less is more
 
