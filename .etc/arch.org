@@ -298,6 +298,7 @@ systemctl --user enable --now numlockx.service
 * nvidia
 ** nvclock
 ** nvidia-utils
+** libva-vdpau-driver
 * okular
 xdg-mime default okularApplication_pdf.desktop application/pdf
 * openssh
@@ -490,6 +491,7 @@ vboxnetflt
 vboxmanage modifyvm "vmname" --hardwareuuid $(sudo dmidecode -s system-uuid)
 * vlc
 ** libdvdcss
+** libdvdnav
 ** libmicrodns
 ** protobuf
 * wcalc
