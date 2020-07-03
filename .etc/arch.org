@@ -33,8 +33,12 @@ for g in adm games log systemd-journal users uucp wheel ; do gpasswd -a $user $g
 *** /etc/udev/rules.d/99-lowbatt.rules
 SUBSYSTEM=="power supply", ATTR{status}=="Discharging", ATTR{capacity}=="2", RUN+="/usr/bin/systemctl suspend"
 ** systemd
-*** /etc/systemd/journald.conf
+*** /etc/systemd/journald.conf.d/jpk.conf
 SystemMaxUse=100M # max journal size
+*** /etc/systemd/sleep.conf
+# suspend instead of hibernate
+HibernateState=mem
+HybridSleepMode=suspend platform
 ** systemd-networkd
 systemctl disable --now dhcpcd.service
 systemctl enable --now systemd-networkd.service
