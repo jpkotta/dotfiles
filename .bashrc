@@ -476,6 +476,8 @@ function serial() {
     $mt --raw --eol LF $dev $baudrate
 }
 
+alias trem="optirun tremulous || tremulous"
+
 ####################################
 # less is more
 
