@@ -21,7 +21,8 @@ if [ -n "$time_total" ] ; then
     sec=$(echo ${time_total[1]} | sed "s/^0//")
     sec_total=$(( $min*60 + $sec ))
 
-    if [ "$sec_total" -ge 2 ] ; then
-	    mpc -q seek $(( $sec_total - 1 )) > /dev/null
+    extra=2 # gets stuck sometimes if less
+    if [ "$sec_total" -gt $extra ] ; then
+	    mpc -q seek $(( $sec_total - $extra )) > /dev/null
     fi
 fi

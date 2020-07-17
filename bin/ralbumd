@@ -34,6 +34,8 @@ def main_loop():
 
         if playlist_finished and status["state"] == "stop":
             album = choice(c.list("album"))
+            if isinstance(album, dict):
+                album = album["album"]
             songs = c.find("album", album)
 
             c.clear()
