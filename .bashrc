@@ -531,7 +531,7 @@ alias screenshot="xwd -root -silent | convert xwd:- png:$HOME/screenshot.png"
 # image viewer
 alias gq="geeqie"
 # password database
-alias kp="keepassxc $HOME/.keepassx/Passwords.kdbx"
+alias kp="QT_AUTO_SCREEN_SCALE_FACTOR=0 keepassxc $HOME/.keepassx/Passwords.kdbx"
 
 # xine media player
 alias xine="daemon xine --enqueue"
