@@ -1,13 +1,31 @@
 * MISCELLANEOUS
-** gpasswd -a $USER dialout docker
-* docker.io
-* openssh-server
 * build-essential
+* docker.io
+** gpasswd -a $USER docker
+* emacs
+** snap
+snap install --classic emacs26
+** build
+sudo nano /etc/apt/sources.list # enable apt sources
+sudo apt build-dep emacs25-lucid
+sudo apt install checkinstall
+wget https://ftp.gnu.org/pub/gnu/emacs/emacs-26.3.tar.gz
+tar xf emacs-26.3.tar.gz
+cd emacs-26.3
+./configure --with-x-toolkit=lucid --with-xft --without-gconf --without-gsettings --with-modules
+make -j$(nproc)
+sudo make checkinstall
 * git
-* mercurial
-* emacs :snap:
-* ripgrep :snap:
-* gnome-session-flashback
 * global
-* python3-serial
+* gnome-session-flashback
 * ipython3
+* keychain
+* mercurial
+* openssh-server
+* python3-serial
+** gpasswd -a $USER dialout
+* ripgrep
+** snap
+snap install --classic ripgrep
+** wget https://github.com/BurntSushi/ripgrep/releases/download/12.1.0/ripgrep_12.1.0_amd64.deb
+sudo dpkg -i ripgrep_12.1.0_amd64.deb
