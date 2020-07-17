@@ -104,6 +104,7 @@ ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*|nvme[0-9]*", ATTR{queue/rota
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
 * abcde
 ** atomicparsley
+** fdkaac
 * alsa-utils
 * android-tools
 ** android-udev
@@ -313,6 +314,10 @@ X11Forwarding yes
 ** sshfs
 * p7zip
 * pacman-contrib
+systemctl enable paccache.timer
+** /etc/systemd/system/paccache.service.d/override.conf
+[Service]
+ExecStart=/usr/bin/paccache -r -c /var/cache/pacman/aur
 * pacserve
 systemctl enable --now pacserve.service
 pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
@@ -377,12 +382,14 @@ python2-jinja python2-tornado python2-pyzmq python2-pygments qt5-svg
 ** python2-pyserial
 ** python2-sqlalchemy
 * qbittorrent
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
 * rdesktop
 * redshift-minimal
 systemctl --user enable --now redshift.service
 * reflector
 * ripgrep
 * rsync
+** clone `rsync -avhPHAXx src dst`
 * rxvt-unicode
 * samba
 systemctl enable --now smb.service
