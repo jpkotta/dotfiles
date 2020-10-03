@@ -4,4 +4,4 @@ RefuseManualStop=true
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/pacman --sync --refresh --sysupgrade --downloadonly --noconfirm
+ExecStart=/usr/bin/checkupdates -d
