@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+
+import errno
+import os
+import argparse
+
+ap = argparse.ArgumentParser(description="Print error codes and descriptions.")
+
+inverse_errorcode = {v:k for k,v in sorted(errno.errorcode.items())}
+
+def validate_arg(string):
+    try:
+        value = abs(int(string))
+        if value in errno.errorcode:
+            return value
+        else:
+            raise argparse.ArgumentTypeError(
+                f"{string} is out of range")
+    except ValueError:
+        pass
+
+    value = string.upper()
+    if value in errno.errorcode.values():
+        return value
+
+    raise argparse.ArgumentTypeError(
+        f"{string} is not an integer or error symbol")
+
+ap.add_argument("number_or_symbol", type=validate_arg,
+                help="Integer error code or symbol like 'EPERM'")
+args = ap.parse_args()
+
+if args.number_or_symbol in inverse_errorcode:
+    ec = inverse_errorcode[args.number_or_symbol]
+else:
+    ec = args.number_or_symbol
+sym = errno.errorcode[ec]
+msg = os.strerror(ec)
+
+print(f"{ec} {sym} ({msg})")
