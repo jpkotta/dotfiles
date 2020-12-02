@@ -125,6 +125,9 @@ Style Pidgin Sticky, !FPGrabFocus, !FPFocusByProgram
 Style Tremulous* !Title, !Borders, StartsOnScreen $[infostore.left_screen]
 Style OpenArena !Title, !Borders, StartsOnScreen $[infostore.left_screen]
 Style doomsday* !Title, !Borders, StartsOnScreen $[infostore.left_screen]
+Style "Cities: Skylines" !Title, !Borders, StartsOnScreen $[infostore.left_screen]
+Style "Unvanquished" !Title, !Borders, StartsOnScreen $[infostore.left_screen]
+Style "Tabletop Simulator" !Title, !Borders, StartsOnScreen $[infostore.left_screen]
 
 Style rdesktop !Title, !Borders, PositionPlacement
 
