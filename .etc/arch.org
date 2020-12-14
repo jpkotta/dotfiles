@@ -20,10 +20,12 @@ LANG=en_US.UTF-8
 *** /etc/pam.d/system-auth
 auth      optional  pam_faildelay.so delay=500000
 auth      required  pam_unix.so     try_first_pass nullok nodelay
+*** /etc/security/faillock
+deny = 0
 *** hwclock --systohc --utc
 *** timedatectl set-ntp true
 *** timedatectl set-timezone America/Chicago
-*** /etc/sysctl.d/99-sysctl.conf
+*** /etc/sysctl.d/99-jpkotta.conf
 vm.swappiness = 60
 kernel.sysrq = 1
 ** users
@@ -111,6 +113,8 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue
 ** xf86-video-amdgpu
 ** libva-mesa-driver
 ** mesa-vdpau
+* amd-ucode
+grub-mkconfig -o /boot/grub/grub.cfg
 * android-tools
 ** android-udev
 gpasswd -a $user adbusers
