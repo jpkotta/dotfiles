@@ -54,11 +54,11 @@ function set_up_mem_limit() {
 }
 #set_up_mem_limit
 
-# this stops C-s from freezing the terminal
-if [ "$TERM" != "dumb" ] && ! shopt -q login_shell ; then
-    # FIXME for some reason, this just started hanging during xinit
-    stty -ixon
-fi
+# # this stops C-s from freezing the terminal
+# if [ "$TERM" != "dumb" ] && ! shopt -q login_shell ; then
+#     # FIXME for some reason, this just started hanging during xinit
+#     stty -ixon
+# fi
 
 # prevent C-d from immediately logging out
 export IGNOREEOF=1
