@@ -473,7 +473,11 @@ function serial() {
         return -1
     fi
 
-    $mt --raw --eol LF $dev $baudrate
+    for i in $(seq 30); do
+        $mt --raw --eol LF $dev $baudrate && break
+        sleep 1
+        echo "Retrying..."
+    done
 }
 
 alias trem="optirun tremulous || tremulous"

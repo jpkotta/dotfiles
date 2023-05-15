@@ -96,7 +96,6 @@ MACAddress=72:e8:af:2f:a8:d6
 Description=Edison USB Ethernet Adapter
 Name=ethusb0
 ** bfq
-grub-mkconfig -o /boot/grub/grub.cfg
 *** /etc/default/grub
 GRUB_CMDLINE_LINUX_DEFAULT="quiet scsi_mod.use_blk_mq=1"
 *** /etc/udev/rules.d/60-iosched.rules
@@ -114,7 +113,7 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue
 ** libva-mesa-driver
 ** mesa-vdpau
 * amd-ucode
-grub-mkconfig -o /boot/grub/grub.cfg
+update grub config
 * android-tools
 ** android-udev
 gpasswd -a $user adbusers
@@ -219,6 +218,9 @@ WantedBy=default.target
 ** go-langserver-git
 * gpm
 systemctl enable --now gpm.service
+* grub
+grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
 * haveged
 systemctl enable --now haveged.service
 * hdparm
@@ -232,7 +234,7 @@ i8kfan 1 1 # make the fans run a bit faster on shannon
 * imagemagick
 ** imagemagick-doc
 * intel-ucode
-grub-mkconfig -o /boot/grub/grub.cfg
+update grub config
 * iotop
 * iwd
 systemctl --enable iwd.service
@@ -251,6 +253,8 @@ pacman -S --needed dvd+rw-tools vcdimager transcode emovix cdrdao cdparanoia
 * linux
 ** linux-docs
 ** linux-headers
+** kernel-modules-hook
+systemctl enable linux-modules-cleanup
 * linux-zen
 ** linux-zen-docs
 ** linux-zen-headers
