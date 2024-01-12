@@ -210,6 +210,7 @@ WantedBy=default.target
 * gimp
 ** gimp-plugin-gmic
 * git
+git config --global url."git@github.com:botlink/".insteadOf "https://github.com/botlink/"
 * gkrellm
 ** gkrellweather
 * global
@@ -325,6 +326,23 @@ systemctl enable --now sshd.service
 X11Forwarding yes
 ** keychain
 ** sshfs
+* openvpn
+** openvpn-update-systemd-resolved
+** /etc/openvpn/client/user-pass
+$username
+$optional_password
+** /etc/openvpn/client/packetdigital.conf
+# get it from https://portal.packetdigital.com/openvpn_configs.html
+# add these lines:
+auth-user-pass /etc/openvpn/client/user-pass
+script-security 2
+up /usr/bin/update-systemd-resolved
+up-restart
+down /usr/bin/update-systemd-resolved
+down-pre
+** chown openvpn /etc/openvpn/client/*
+** chmod 600 /etc/openvpn/client/*
+** systemctl start openvpn-client@packetdigital
 * p7zip
 * pacman-contrib
 systemctl enable paccache.timer
@@ -343,7 +361,7 @@ cd /tmp
 for i in pikaur ; do
     curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/$i.tar.gz
     tar xf $i.tar.gz
-    (cd $i ; makepkg -si)
+    (cd $i ; makepkg -sif)
 done
 
 (cd /var/cache/pacman ; mkdir -p aur ; chgrp wheel aur ; chmod g+rwx aur)
