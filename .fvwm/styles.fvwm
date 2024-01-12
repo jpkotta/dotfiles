@@ -128,6 +128,7 @@ Style doomsday* !Title, !Borders, StartsOnScreen $[infostore.left_screen]
 Style "Cities: Skylines" !Title, !Borders, StartsOnScreen $[infostore.left_screen]
 Style "Unvanquished" !Title, !Borders, StartsOnScreen $[infostore.left_screen]
 Style "Tabletop Simulator" !Title, !Borders, StartsOnScreen $[infostore.left_screen]
+Style "Hyperbolica" !Title, !Borders, StartsOnScreen $[infostore.left_screen]
 
 Style rdesktop !Title, !Borders, PositionPlacement
 
