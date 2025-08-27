@@ -184,8 +184,11 @@ Key     Delete  A       CM      Menu FvwmQuitMenu root c c
 # this is surprisingly easier to type than Super-F4
 Key     F4      A       M       Close
 
-Key     Menu    A       N       HideDesktop
-Key	Menu	A	S	ShowDesktop
+# FIXME
+# if firefox is on both monitors and gets iconified on both, it can
+# crash fvwm when uniconifying
+# Key     Menu    A       N       HideDesktop
+# Key	Menu	A	S	ShowDesktop
 
 # for extra special keys
 
