@@ -45,9 +45,9 @@ nedit*XmList.background:        white
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! Emacs
-Emacs.ToolBar: 0
-Emacs.Background: black
-Emacs.Foreground: white
+! Emacs.ToolBar: 0
+! Emacs.Background: white
+! Emacs.Foreground: black
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! xclock settings
