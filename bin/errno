@@ -9,6 +9,10 @@ ap = argparse.ArgumentParser(description="Print error codes and descriptions.")
 inverse_errorcode = {v:k for k,v in sorted(errno.errorcode.items())}
 
 def validate_arg(string):
+    string = string.upper()
+    if string == "LIST":
+        return Ellipsis
+
     try:
         value = abs(int(string))
         if value in errno.errorcode:
@@ -19,17 +23,25 @@ def validate_arg(string):
     except ValueError:
         pass
 
-    value = string.upper()
-    if value in errno.errorcode.values():
-        return value
+    if not string.startswith('E'):
+        string = 'E' + string
+    if string in errno.errorcode.values():
+        return string
 
     raise argparse.ArgumentTypeError(
         f"{string} is not an integer or error symbol")
 
-ap.add_argument("number_or_symbol", type=validate_arg,
-                help="Integer error code or symbol like 'EPERM'")
+ap.add_argument(
+    "number_or_symbol", type=validate_arg,
+    help="Integer error code or symbol like 'EPERM' or 'list' to list all.",
+)
+
 args = ap.parse_args()
 
+if args.number_or_symbol == Ellipsis:
+    for k in sorted(errno.errorcode):
+        print(f"{k}\t{errno.errorcode[k]}")
+    exit(0)
 if args.number_or_symbol in inverse_errorcode:
     ec = inverse_errorcode[args.number_or_symbol]
 else:
