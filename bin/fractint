@@ -11,6 +11,10 @@ if [[ -z "$SCREEN_RES" ]] ; then
 fi
 
 prog_dir="$HOME/fractint/src/cur"
+prog=$prog_dir/xfractint
+if [ ! -x $prog_dir/xfractint ] ; then
+    prog=$(which xfractint)
+fi
 working_dir="$HOME/fractint"
 
 cd $working_dir
@@ -22,4 +26,4 @@ fi
 
 # regular mode
 exec urxvt -geometry 80x25 -n Fractint \
-    -e $prog_dir/xfractint -geometry $SCREEN_RES+0+0 "$@" &
+    -e $prog -geometry $SCREEN_RES+0+0 "$@" &
