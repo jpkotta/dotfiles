@@ -242,7 +242,7 @@ Test (x xclock) \
 Test (x dclock) \
     *DesktopButtons: (8x4, Frame 0, Swallow (NoClose, SwallowNew, UseOld) \
     "DesktopDClock" "Exec exec dclock -name DesktopDClock -fg lavender -bg black -led_off grey15 -miltime -seconds -noblink -fade -date '%a %b %d, %Y' \
-    -font '-adobe-new century schoolbook-medium-i-normal-*-14-*-*-*-*-*-*-*' -geometry 128x64+1500+1500")
+     -geometry 128x64+1500+1500")
 
 # possible calendar replacement
 #urxvt -fn 6x13 +sb -geometry 22x9 -e sh -c "cal ; sleep 1h; done"
