@@ -117,7 +117,7 @@ for d in /sbin /usr/sbin /usr/local/bin /usr/local/sbin \
     /usr/X11R6/bin /usr/games /usr/local/games /usr/share/games/bin ; do
     pathappend $d PATH
 done
-for d in $HOME/usr/local/bin $HOME/bin ; do
+for d in $HOME/.local/bin $HOME/bin $HOME/.cargo/bin $HOME/go/bin ; do
     pathprepend $d PATH
 done
 unset d
