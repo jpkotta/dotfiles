@@ -18,8 +18,17 @@ options loop max_part=15
 *** /etc/locale.conf
 LANG=en_US.UTF-8
 *** /etc/pam.d/system-auth
-auth      optional  pam_faildelay.so delay=500000
-auth      required  pam_unix.so     try_first_pass nullok nodelay
+# add nodelay to pam_faillock.so and pam_unix.so lines
+# add pam_faildelay.so to set a different delay (microsec)
+#auth       required                    pam_faillock.so      preauth
+auth       required                    pam_faillock.so      preauth nodelay
+auth       optional                    pam_faildelay.so     delay=250000
+...
+#auth       [success=1 default=bad]     pam_unix.so          try_first_pass nullok
+auth       [success=1 default=bad]     pam_unix.so          try_first_pass nullok nodelay
+...
+#auth       [default=die]               pam_faillock.so      authfail
+auth       [default=die]               pam_faillock.so      authfail nodelay
 *** /etc/security/faillock
 deny = 0
 *** hwclock --systohc --utc
@@ -28,6 +37,10 @@ deny = 0
 *** /etc/sysctl.d/99-jpkotta.conf
 vm.swappiness = 60
 kernel.sysrq = 1
+*** /etc/systemd/system/rtkit-daemon.service.d/override.conf
+# stop log spam from rtkit
+[Service]
+LogLevelMax = warning
 ** users
 useradd -m -g users -s /bin/bash $user ; chfn $user ; passwd $user
 for g in adm games log systemd-journal users uucp wheel ; do gpasswd -a $user $g ; done
@@ -103,6 +116,7 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet scsi_mod.use_blk_mq=1"
 ACTION=="add|change", KERNEL=="sd[a-z]|mmcblk[0-9]*|nvme[0-9]*", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
 # set scheduler for rotating disks
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+* 7zip
 * abcde
 ** atomicparsley
 ** fdkaac
@@ -176,6 +190,7 @@ used the C3170i/postscript driver
 systemctl enable --now docker.service
 gpasswd -a $user docker
 * dtach
+* dunst
 * emacs-lucid
 * etc-update
 * figlet
@@ -293,6 +308,9 @@ systemctl --user enable --now ralbumd.service
 ** mpc
 ** ncmpcpp
 * namcap
+* netextender
+chmod u+s /usr/bin/pppd
+netExtender -u jonathan.kotta -d packetdigital.com vpn.packetdigital.com:4433
 * nfs-utils
 ** client
 systemctl enable --now rpcbind.service
@@ -326,6 +344,10 @@ systemctl enable --now sshd.service
 X11Forwarding yes
 ** keychain
 ** sshfs
+** sshguard
+systemctl enable --now sshguard.service
+*** /etc/sshguard.conf
+BACKEND="/usr/lib/sshguard/sshg-fw-nft-sets"
 * openvpn
 ** openvpn-update-systemd-resolved
 ** /etc/openvpn/client/user-pass
@@ -343,7 +365,6 @@ down-pre
 ** chown openvpn /etc/openvpn/client/*
 ** chmod 600 /etc/openvpn/client/*
 ** systemctl start openvpn-client@packetdigital
-* p7zip
 * pacman-contrib
 systemctl enable paccache.timer
 ** /etc/systemd/system/paccache.service.d/override.conf
@@ -357,14 +378,7 @@ pacman.conf-insert_pacserve | sudo tee /etc/pacman.conf
 * perl-term-readline-gnu
 * pigz
 * pikaur
-cd /tmp
-for i in pikaur ; do
-    curl -O https://aur.archlinux.org/cgit/aur.git/snapshot/$i.tar.gz
-    tar xf $i.tar.gz
-    (cd $i ; makepkg -sif)
-done
-
-(cd /var/cache/pacman ; mkdir -p aur ; chgrp wheel aur ; chmod g+rwx aur)
+see ~/bin/update-pikaur.sh
 ** asp
 ** One or more PGP signatures could not be verified!
 gpg --recv-keys KEY_ID
@@ -427,7 +441,7 @@ systemctl --user enable --now redshift.service
 systemctl enable --now smb.service
 systemctl enable --now nmb.service
 systemctl enable --now winbindd.service
-sudo pdbedit -a -u $user
+pdbedit -a -u $user
 ** /etc/samba/smb.conf
 [$share]
 	valid users = $user,$user2
@@ -452,6 +466,9 @@ gpasswd -a $user wheel
 ## Same thing without a password
 %wheel ALL=(ALL) NOPASSWD: /usr/bin/mount.cifs, /usr/bin/umount
 # end with a newline, otherwise there's a syntax error
+** /etc/sudoers.d/00-defaults
+# session timeout (minutes)
+Defaults timestamp_timeout=30
 * systemd-nspawn
 ** dependencies
 arch-install-scripts
@@ -559,8 +576,6 @@ Section "Device"
 EndSection
 ** /etc/X11/XvMCConfig
 /usr/lib/libIntelXvMC.so
-* xfce4-notifyd
-systemctl --user enable --now xfce4-notifyd.service
 * xorg-apps
 ** xorg-xdpyinfo
 ** xorg-xmodmap
