@@ -1,17 +1,24 @@
 * MISCELLANEOUS
+* aspell
+* astral-uv
+snap install --classic astral-uv
 * build-essential
+* clang-format
+* cmake
+* diffutils
 * docker.io
 ** gpasswd -a $USER docker
 * emacs
 ** snap
-snap install --classic emacs26
+snap install --classic emacs
 ** build
 sudo nano /etc/apt/sources.list # enable apt sources
-sudo apt build-dep emacs25-lucid
+sudo apt build-dep emacs-lucid
 sudo apt install checkinstall
-wget https://ftp.gnu.org/pub/gnu/emacs/emacs-26.3.tar.gz
-tar xf emacs-26.3.tar.gz
-cd emacs-26.3
+version=30.2
+wget https://ftp.gnu.org/pub/gnu/emacs/emacs-${version}.tar.gz
+tar xf emacs-${version}.tar.gz
+cd emacs-${version}
 ./configure --with-x-toolkit=lucid --with-xft --without-gconf --without-gsettings --with-modules
 make -j$(nproc)
 sudo make checkinstall
@@ -19,13 +26,18 @@ sudo make checkinstall
 * global
 * gnome-session-flashback
 * ipython3
+* jq
 * keychain
-* mercurial
+* libvterm-dev
+* linux-tools-generic
+for wsl stuff
+* notify-send
+** libnotify-bin
 * openssh-server
+* pre-commit
+* python3
+** python-is-python3
 * python3-serial
 ** gpasswd -a $USER dialout
 * ripgrep
-** snap
-snap install --classic ripgrep
-** wget https://github.com/BurntSushi/ripgrep/releases/download/12.1.0/ripgrep_12.1.0_amd64.deb
-sudo dpkg -i ripgrep_12.1.0_amd64.deb
+* ubuntu-wsl
