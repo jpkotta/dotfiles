@@ -191,6 +191,8 @@ systemctl enable --now docker.service
 gpasswd -a $user docker
 * dtach
 * dunst
+ln -s /usr/share/dbus-1/services/org.knopwob.dunst.service ~/.local/share/dbus-1/services/org.knopwob.dunst.service
+** libnotify
 * emacs-lucid
 * etc-update
 * figlet
