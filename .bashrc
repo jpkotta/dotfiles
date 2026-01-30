@@ -79,7 +79,7 @@ HISTFILESIZE=5000
 
 export EMAIL="jpkotta@gmail.com"
 
-export MAKEFLAGS="-j$(nproc)"
+#export MAKEFLAGS="-j$(nproc)"
 export MENUCONFIG_COLOR=blackbg
 
 # scrollwheel in gtk apps
