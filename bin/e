@@ -40,6 +40,12 @@ def bfh(x, offset, length=1):
     return hex(bf(x, offset, length))
 env["bfh"] = bfh
 
+def to_frac(x, max_denom=100):
+    """Find the closest fraction to x, with a limit on the denominator."""
+    import fractions
+    return fractions.Fraction(x).limit_denominator(max_denom)
+env["to_frac"] = to_frac
+
 # the smallest number such that 1+eps != 1
 # (this is approximate)
 epsilon = sys.float_info.epsilon
@@ -50,16 +56,23 @@ env["nan"] = float("nan")
 env["phi"] = (math.sqrt(5)+1)/2
 env["euler_gamma"] = 0.5772156649015329
 
-env["help"] = "\n".join(sorted(env.keys())) # this should be last
+#env["help"] = ""
+env["help_list"] = "\n".join(sorted(env.keys())) # this should be last
 
 def main(expr):
-    res = eval(expr, env)
+    try:
+        res = eval(expr, env)
+    except NameError as e:
+        res = e.name
     # throw away small imaginary parts, they're probably just due to imprecision
     # maybe use math.isclose(res.imag, 0, abs_tol=10*epsilon)?
     if (isinstance(res, numbers.Number)
         and res != 0
         and abs(res.imag) < 10*epsilon*abs(res)):
         res = res.real
+
+    elif callable(res):
+        res = res.__doc__
 
     return res
 
